@@ -1,4 +1,4 @@
-/* 让背景 */
+/* 让背景充满屏幕*/
 html,
 body {
     width: 100%;
@@ -7,4 +7,279 @@ body {
 
 body {
     background-color: #E3FCDD;
+}
+
+.center_container {
+    margin: 0 auto;
+    width: 1600px;
+    /* 用内容撑开高度 */
+    /* height: 100%; */
+    background-color: #FAFFF2;
+}
+
+.header_container {
+    width: calc(100% - 40px);
+    padding: 20px;
+    height: 136px;
+    background-color: #B3ECCA;
+    /* 左下和右下边框变成圆角 */
+    border-radius: 0 0 20px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header_container .logo_container {
+    width: 340px;
+    height: 100px;
+    /* background-color: skyblue; */
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.header_container .logo_container .logo_box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.header_container .logo_container .logo_box img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 5px 5px 10px 3px rgba(0, 0, 0, 0.1);
+}
+
+.header_container .logo_container .title_box h1 {
+    font-size: 32px;
+    font-weight: bold;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+}
+
+.header_container .menu_box {
+    /* width: 1100px; 让内容撑开*/
+    height: 100px;
+    background-color: #6CB288;
+    border-radius: 20px;
+    box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+
+}
+
+.header_container .menu_box .menu_button {
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    padding: 15px 25px;
+    margin: 0 20px;
+    cursor: pointer;
+    background-color: #057a34;
+    border-radius: 20px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    transition: all 0.5s;
+}
+
+.header_container .menu_box .menu_button:hover {
+    background-color: rgba(5, 122, 52, 0.5);
+    transform: scale(1.05);
+    box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, 0.1);
+}
+
+.content_container {
+    width: calc(100% - 40px);
+    /* 保证内容不溢出 */
+    /* height: 1130px;  */
+    /* 由内容自动撑起 */
+    padding: 40px 20px;
+}
+
+.content_container .introduction_box,
+.content_container .databases_box,
+.content_container .news_box {
+    width: calc(100% - 40px);
+    padding: 20px;
+    /* 将背景色设置为从C0DDE4 向 F6EDD3 的 从左到右的渐变色*/
+    background: linear-gradient(to right, #C0DDE4, #F6EDD3);
+    border-radius: 20px;
+    box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
+}
+
+.content_container .introduction_box {
+    height: 350px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.content_container .introduction_box .text_box {
+    margin-right: 30px;
+    /* background-color: skyblue; */
+}
+
+.content_container .introduction_box .text_box .introduction_title {
+    font-size: 32px;
+    font-weight: bold;
+    line-height: 2;
+}
+
+.content_container .introduction_box .text_box .introduction_text {
+    font-size: 23px;
+    line-height: 1.5;
+}
+
+.content_container .introduction_box .text_box .citation_text {
+    font-size: 23px;
+    font-weight: bold;
+}
+
+.content_container .introduction_box .image_box img {
+    width: 350px;
+    height: 350px;
+    border-radius: 20px;
+    object-fit: cover;
+}
+
+
+.content_container .databases_box {
+    height: 450px;
+    margin: 40px 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.content_container .databases_box .database_container {
+    width: 440px;
+    height: 450px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+    transition: all 0.5s;
+}
+
+.content_container .databases_box .database_container img {
+    width: 420px;
+    height: 330px;
+    margin: 10px;
+    border-radius: 20px;
+    object-fit: cover;
+    transition: all 0.5s;
+}
+
+.content_container .databases_box .database_container h1 {
+    font-size: 23px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 100px;
+}
+
+.content_container .databases_box .database_container:hover {
+    background-color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
+    transform: scale(1.03);
+    cursor: pointer;
+}
+
+.content_container .databases_box .database_container:hover img {
+    box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
+    transform: scale(1.04);
+}
+
+.content_container .news_box {
+    height: 200px;
+    display: flex;
+
+
+}
+
+.content_container .news_box h1 {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.content_container .news_box ul {
+    font-size: 23px;
+    font-weight: bold;
+    line-height: 1.5;
+    margin-left: 30px;
+    padding: 10px 0;
+    overflow: auto;
+}
+
+
+.footer_container {
+    width: 100%;
+    height: 200px;
+    background-color: #00411A;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+.footer_container .container {
+    width: 100%;
+    height: 130px;
+    /* background-color: skyblue; */
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.footer_container .container .logo_container {
+    width: 340px;
+    height: 100px;
+    /* background-color: skyblue; */
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.footer_container .container .logo_container .logo_box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer_container .container .logo_container .logo_box img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.footer_container .container .logo_container .title_box h1 {
+    font-size: 32px;
+    font-weight: bold;
+    color: white;
+}
+
+.footer_container .container .logo_box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer_container .container .logo_box img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.footer_container .container ul {
+    font-size: 18px;
+    line-height: 1.5;
+    color: white;
+}
+
+
+.footer_container .copyright {
+    font-size: 15px;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    line-height: 30px;
 }
