@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GT42</title>
+    <!-- 设置网站logo -->
+    <link rel="icon" href="../img/sugarcane-logo.jpeg" type="image/x-icon">
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/index.css">
+    <script src="../js/echarts.js"></script>
+    <script src="../js/vintage.js"></script>
+    <style>
+        .content_container {
+            width: calc(100% - 40px);
+            /* 保证内容不溢出 */
+            height: 1130px;
+            /* 由内容自动撑起 */
+            padding: 40px 20px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="center_container">
+
+        <div class="header_container">
+            <div class="logo_container">
+                <div class="logo_box">
+                    <img src="../img/sugarcane-logo.jpeg" alt="logo">
+                </div>
+                <div class="title_box">
+                    <h1>Project Title</h1>
+                </div>
+            </div>
+            <div class="menu_box">
+                <div class="menu_button" onclick="location.href='./index.html'">Home</div>
+                <div class="menu_button" onclick="location.href='./FullLenTrans.html'">Full Length Transcriptome</div>
+                <div class="menu_button" onclick="location.href='./eFP.html'">Gene Expansion Profile</div>
+                <div class="menu_button" onclick="location.href='./network.html'">Co-expression Network</div>
+            </div>
+        </div>
+
+        <div class="content_container">
+            <div id="main" style="width: 600px;height:400px;">
+                <script type="text/javascript">
+                    // 基于准备好的dom，初始化echarts实例
+                    var myChart = echarts.init(document.getElementById('main'), 'vintage');
+
+                    // 指定图表的配置项和数据
+                    var option = {
+                        title: {
+                            text: 'ECharts 入门示例'
+                        },
+                        tooltip: {},
+                        legend: {
+                            data: ['销量']
+                        },
+                        xAxis: {
+                            data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子']
+                        },
+                        yAxis: {},
+                        series: [
+                            {
+                                name: '销量',
+                                type: 'bar',
+                                data: [5, 20, 36, 10, 10, 20]
+                            }
+                        ]
+                    };
+
+                    // 使用刚指定的配置项和数据显示图表。
+                    myChart.setOption(option);
+                </script>
+            </div>
+
+        </div>
+
+        <div class="footer_container">
+            <div class="container">
+                <div class="logo_container">
+                    <div class="logo_box">
+                        <img src="../img/sugarcane-logo.jpeg" alt="logo">
+                    </div>
+                    <div class="title_box">
+                        <h1>Project Title</h1>
+                    </div>
+                </div>
+                <div class="logo_box">
+                    <img src="../img/HZAU.png" alt="logo">
+                </div>
+                <div class="logo_box">
+                    <img src="../img/GuoZhong.png" alt="logo">
+                </div>
+                <div class="logo_box">
+                    <img src="../img/sky_logo.png" alt="logo">
+                </div>
+                <div class="logo_box">
+                    <img src="../img/GXU_logo.png" alt="logo">
+                </div>
+                <ul>
+                    <li>Home</li>
+                    <li>About</li>
+                    <li>Downloads</li>
+                </ul>
+                <ul>
+                    <li>Documents</li>
+                    <li>Help</li>
+                    <li>Tools</li>
+                </ul>
+                <ul>
+                    <li>Contact</li>
+                    <li>llchen@gxu.edu.cn</li>
+                    <li>1740569155@qq.com</li>
+                </ul>
+                <img src="../img/flows.png" alt="flows">
+            </div>
+
+            <h1 class="copyright">Developed by the Chen LL’s Lab at GuangXi University and Xie WB’s Lab at HuaZhong
+                Agricultural University</h1>
+            <h1 class="copyright">Copyright © 2020-2030 All rights reserved</h1>
+        </div>
+
+    </div>
+
+
+</body>
+
+</html>
