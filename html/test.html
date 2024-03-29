@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>第一个 ECharts 实例</title>
+    <script src="https://cdn.staticfile.net/jquery/2.2.4/jquery.min.js"></script>
+    <!-- 引入 echarts.js -->
+    <script src="https://cdn.staticfile.net/echarts/4.3.0/echarts.min.js"></script>
+    <style>
+        .container {
+            width: 100%;
+            height: 100%;
+            background-color: #f60;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main" style="width: 1500px;height:1500px;"></div>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        // var myChart = echarts.init(document.getElementById('main'));
+        // option = {
+        //     xAxis: [{ gridIndex: 0 }, { gridIndex: 1 }], // 两个x轴，第一个绘制exon，第二个绘制intron
+
+        //     yAxis: [ // 两个y轴，类型为category，让柱子横向排列
+        //         {
+        //             gridIndex: 0,
+        //             type: 'category',
+        //             data: ['A', 'B', 'C', 'D', 'E']
+        //         },
+        //         {
+        //             gridIndex: 1,
+        //             type: 'category',
+        //             data: ['A', 'B', 'C', 'D', 'E']
+        //         }
+        //     ],
+        //     grid: [{ top: '55%' }, { top: '55%' }], // 这里定义了两个网格，第一个网格距离底部55%，第二个网格距离顶部55%
+
+        //     series: [
+        //         {
+        //             data: [10, 22, 28, 43, 49],
+        //             type: 'bar',
+        //             stack: 'x'
+
+        //         },
+
+        //         {
+        //             data: [
+        //                 { value: 10, itemStyle: { color: 'white' } }, 22, 28, 43, 49],
+        //             type: 'bar',
+        //             stack: 'x'
+
+        //         },
+        //         {
+        //             data: [10, 22, 28, 43, 49],
+        //             type: 'bar',
+        //             stack: 'x'
+
+        //         },
+        //         {
+        //             data: [10, 22, 28, 43, 49],
+        //             type: 'bar',
+        //             stack: 'y',
+        //             xAxisIndex: 1, yAxisIndex: 1,
+        //             barWidth: '2%'
+
+        //         },
+        //         {
+        //             data: [10, 22, 28, 43, 49],
+        //             type: 'bar',
+        //             stack: 'y',
+        //             xAxisIndex: 1, yAxisIndex: 1
+
+        //         },
+        //         {
+        //             data: [10, 22, 28, 43, 49],
+        //             type: 'bar',
+        //             stack: 'y',
+        //             xAxisIndex: 1, yAxisIndex: 1
+
+        //         }
+
+        //     ]
+        // };
+
+        // myChart.setOption(option)
+
+
+        var chartDom = document.getElementById('main');
+        var myChart = echarts.init(chartDom);
+        var option;
+
+
+        var data = [];
+        var dataCount = 10;
+        var startTime = +new Date();
+        var categories = ['categoryA', 'categoryB', 'categoryC'];
+        var types = [
+            { name: 'JS Heap', color: '#7b9ce1' },
+            { name: 'Documents', color: '#bd6d6c' },
+            { name: 'Nodes', color: '#75d874' },
+            { name: 'Listeners', color: '#e0bc78' },
+            { name: 'GPU Memory', color: '#dc77dc' },
+            { name: 'GPU', color: '#72b362' }
+        ];
+        // Generate mock data
+        categories.forEach(function (category, index) {
+            var baseTime = startTime;
+            for (var i = 0; i < dataCount; i++) {
+                var typeItem = types[Math.round(Math.random() * (types.length - 1))];
+                var duration = Math.round(Math.random() * 10000);
+                data.push({
+                    name: typeItem.name,
+                    value: [index, baseTime, (baseTime += duration), duration],
+                    itemStyle: {
+                        normal: {
+                            color: typeItem.color
+                        }
+                    }
+                });
+                baseTime += Math.round(Math.random() * 2000);
+            }
+        });
+        function renderItem(params, api) {
+
+            var categoryIndex = api.value(0);
+            var start = api.coord([api.value(1), categoryIndex]); // x, y
+            var end = api.coord([api.value(2), categoryIndex]);
+
+            // 这里证明height可以根据categoryIndex来调整
+            if (categoryIndex == 0) {
+                var height = api.size([0, 1])[1] * 0.1;
+            } else {
+                var height = api.size([0, 1])[1] * 0.6;
+            }
+
+            var rectShape = echarts.graphic.clipRectByRect(
+                {
+                    x: start[0],
+                    y: start[1] - height / 2,
+                    width: end[0] - start[0],
+                    height: height
+                },
+                {
+                    x: params.coordSys.x,
+                    y: params.coordSys.y,
+                    width: params.coordSys.width,
+                    height: params.coordSys.height
+                }
+            );
+            return (
+                rectShape && {
+                    type: 'rect',
+                    transition: ['shape'],
+                    shape: rectShape,
+                    style: api.style()
+                }
+            );
+        }
+
+        // 这里证明可以同时应用两个renderItem方法
+        function renderItem2(params, api) {
+            var categoryIndex = api.value(0);
+            var start = api.coord([api.value(1), categoryIndex]);
+            var end = api.coord([api.value(2), categoryIndex]);
+            var height = api.size([0, 1])[1] * 0.2;
+            var rectShape = echarts.graphic.clipRectByRect(
+                {
+                    x: start[0],
+                    y: start[1] - height / 2,
+                    width: end[0] - start[0],
+                    height: height
+                },
+                {
+                    x: params.coordSys.x,
+                    y: params.coordSys.y,
+                    width: params.coordSys.width,
+                    height: params.coordSys.height
+                }
+            );
+            return (
+                rectShape && {
+                    type: 'rect',
+                    transition: ['shape'],
+                    shape: rectShape,
+                    style: api.style()
+                }
+            );
+        }
+
+
+        option = {
+            tooltip: {
+                formatter: function (params) {
+                    return params.marker + params.name + ': ' + params.value[3] + ' ms';
+                }
+            },
+            title: {
+                text: 'Profile',
+                left: 'center'
+            },
+            dataZoom: [
+                {
+                    type: 'slider',
+                    filterMode: 'weakFilter',
+                    showDataShadow: false,
+                    top: 400,
+                    labelFormatter: ''
+                },
+                {
+                    type: 'inside',
+                    filterMode: 'weakFilter'
+                }
+            ],
+            grid: {
+                height: 300
+            },
+            xAxis: {
+                min: startTime,
+                scale: true,
+                axisLabel: {
+                    formatter: function (val) {
+                        return Math.max(0, val - startTime) + ' ms';
+                    }
+                }
+            },
+            yAxis: {
+                data: categories
+            },
+            series: [
+                {
+                    type: 'custom',
+                    renderItem: renderItem,
+                    itemStyle: {
+                        opacity: 0.8
+                    },
+                    encode: {
+                        x: [1, 2],
+                        y: 0
+                    },
+                    data: data
+                },
+                { // 这里证明可以同时使用内置绘图方法，并且使用同一数据集
+                    type: 'scatter',
+                    itemStyle: {
+                        color: '#333'
+                    },
+                    encode: {
+                        x: 1,
+                        y: 0
+                    },
+                    data: data
+                }
+                // {
+                //     type: 'custom',
+                //     renderItem: renderItem2,
+                //     itemStyle: {
+                //         opacity: 0.9
+                //     },
+                //     encode: {
+                //         x: [1, 2],
+                //         y: 0
+                //     },
+                //     data: data
+                // }
+            ]
+        };
+
+        option && myChart.setOption(option);
+
+    </script>
+</body>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>第一个 ECharts 实例</title>
+    <script src="https://cdn.staticfile.net/jquery/2.2.4/jquery.min.js"></script>
+    <!-- 引入 echarts.js -->
+    <!-- <script src="https://cdn.staticfile.net/echarts/4.3.0/echarts.min.js"></script> -->
+    <script src="../js/echarts.js"></script>
+    <style>
+        .container {
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main" style="width: 1500px;height:1500px;"></div>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var chartDom = document.getElementById('main');
+        var myChart = echarts.init(chartDom);
+        var option;
+
+
+        var data = [
+            { name: 'trans1', value: [0, false, 0, '100', 100], itemStyle: { color: '#7b9ce1', borderRadius: 5 } },
+            { name: 'trans2', value: [1, false, 0, 20, 20], itemStyle: { normal: { color: '#bd6d6c' } } },
+            { name: 'gap', value: [1, true, 20, 80, 60], itemStyle: { normal: { color: '#000' } } },
+            { name: 'trans2', value: [1, false, 80, 90, 10], itemStyle: { normal: { color: '#bd6d6c' } } },
+            { name: 'trans3', value: [2, false, 0, 80, 80], itemStyle: { normal: { color: '#75d874' } } },
+            { name: 'gap', value: [2, true, 80, 90, 10], itemStyle: { normal: { color: '#000' } } },
+            { name: 'trans3', value: [2, false, 90, 100, 10], itemStyle: { normal: { color: '#75d874' } } },
+        ];
+
+        // for (let i = 0; i < 9; i++) {
+        //     let baseValue = 120 * (i + 1);
+        //     data.push(
+        //         { name: 'trans1', value: [0, false, baseValue, baseValue + 100, 100], itemStyle: { normal: { color: '#7b9ce1' } } },
+        //         { name: 'trans2', value: [1, false, baseValue, baseValue + 20, 20], itemStyle: { normal: { color: '#bd6d6c' } } },
+        //         { name: 'gap', value: [1, true, baseValue + 20, baseValue + 80, 60], itemStyle: { normal: { color: '#000' } } },
+        //         { name: 'trans2', value: [1, false, baseValue + 80, baseValue + 90, 10], itemStyle: { normal: { color: '#bd6d6c' } } },
+        //         { name: 'trans3', value: [2, false, baseValue, baseValue + 80, 80], itemStyle: { normal: { color: '#75d874' } } },
+        //         { name: 'gap', value: [2, true, baseValue + 80, baseValue + 90, 10], itemStyle: { normal: { color: '#000' } } },
+        //         { name: 'trans3', value: [2, false, baseValue + 90, baseValue + 100, 10], itemStyle: { normal: { color: '#75d874' } } }
+        //     );
+        // }
+        var dataCount = 10;
+        var startbp = 0;
+        var categories = ['trans1', 'trans2', 'trans3'];
+        var types = [
+            { name: 'trans1', color: '#7b9ce1' },
+            { name: 'trans2', color: '#bd6d6c' },
+            { name: 'trans3', color: '#75d874' },
+            { name: 'gap', color: '#000' }
+        ];
+        // Generate mock data
+        // categories.forEach(function (category, index) {
+        //     var baseTime = startTime;
+        //     for (var i = 0; i < dataCount; i++) {
+        //         var typeItem = types[Math.round(Math.random() * (types.length - 1))];
+        //         var duration = Math.round(Math.random() * 10000);
+        //         data.push({
+        //             name: typeItem.name,
+        //             value: [index, baseTime, (baseTime += duration), duration],
+        //             itemStyle: {
+        //                 normal: {
+        //                     color: typeItem.color
+        //                 }
+        //             }
+        //         });
+        //         baseTime += Math.round(Math.random() * 2000);
+        //     }
+        // });
+
+
+        function renderItem(params, api) {
+
+            var categoryIndex = api.value(0);
+            var boxType = api.value(1);
+            var start = api.coord([api.value(2), categoryIndex]); // x, y
+            var end = api.coord([api.value(3), categoryIndex]);
+
+            if (boxType == true) {
+                var height = api.size([0, 1])[1] * 0.1;
+            } else {
+                var height = api.size([0, 1])[1] * 0.6;
+            }
+
+            var rectShape = echarts.graphic.clipRectByRect(
+                {
+                    x: start[0],
+                    y: start[1] - height / 2,
+                    width: end[0] - start[0],
+                    height: height
+                },
+                {
+                    x: params.coordSys.x,
+                    y: params.coordSys.y,
+                    width: params.coordSys.width,
+                    height: params.coordSys.height
+                }
+            );
+            return (
+                rectShape && {
+                    type: 'rect',
+                    transition: ['shape'],
+                    shape: rectShape,
+                    style: api.style()
+                }
+            );
+        }
+
+
+        option = {
+            tooltip: {
+                formatter: function (params) {
+                    // console.log(params);
+                    // 设置不同图形的提示信息，不知道为什么不能在series里面单独设置
+                    if (params.seriesType == 'scatter') {
+                        return params.marker + 'SNP Site: ' + params.value[1] + ' ';
+                    }
+                    return params.marker + params.name + ': ' + params.value[4] + ' bp';
+                }
+            },
+            title: {
+                text: 'Profile',
+                left: 'center'
+            },
+            dataZoom: [
+                {
+                    type: 'slider',
+                    filterMode: 'weakFilter',
+                    showDataShadow: true,
+                    top: 400,
+                    labelFormatter: ''
+                },
+                {
+                    type: 'inside',
+                    filterMode: 'weakFilter'
+                }
+            ],
+            grid: {
+                height: 300
+            },
+            xAxis: {
+                min: startbp,
+                scale: true,
+                axisLabel: {
+                    formatter: function (val) {
+                        return Math.max(0, val - startbp) + ' bp';
+                    }
+                }
+            },
+            yAxis: {
+                data: categories
+            },
+            series: [
+                {
+                    type: 'custom',
+                    renderItem: renderItem,
+                    itemStyle: {
+                        opacity: 0.8,
+
+                    },
+                    encode: {
+                        x: [2, 3],
+                        y: 0
+
+
+                    },
+                    data: data
+                },
+                {
+                    type: 'scatter',
+                    itemStyle: {
+                        color: function (value) {
+                            if (value.value[0] == 1) {
+                                return "rgba(255, 48, 48, 1)";
+                            }
+                            return "rgba(0, 0, 0, 1)";
+                        }
+                    }
+                    ,
+                    symbol:
+                        function (value) {
+                            if (value[0] == 1) {
+                                return "rect";
+                            }
+                            return "circle";
+                        },
+                    encode: {
+                        x: 1,
+                        y: 0
+
+                    },
+                    data: [
+                        [0, 10],
+                        [0, 30],
+                        [0, 60],
+                        [1, 10],
+                        [1, 15],
+                        [1, 90],
+                        [2, 20],
+                        [2, 60],
+                        [2, 90]
+                    ]
+
+                }
+            ]
+        };
+
+        option && myChart.setOption(option);
+
+    </script>
+</body>

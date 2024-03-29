@@ -43,7 +43,7 @@
         </div>
 
         <div class="content_container">
-            <div id="main" style="width: 600px;height:400px;">
+            <div id="main" style="width: 100%;height:400px;">
                 <script type="text/javascript">
                     // 基于准备好的dom，初始化echarts实例
                     var myChart = echarts.init(document.getElementById('main'), 'light');
@@ -58,7 +58,24 @@
                             data: ['销量']
                         },
                         xAxis: {
-                            data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子']
+                            data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子'],
+                            axisLine: {
+                                symbol: ['none', 'arrow'],
+                                lineStyle: {
+                                    color: 'purple',
+                                    width: 2,
+                                    type: 'dashed'
+                                }
+                            },
+                            axisTick: {
+                                length: 10,
+                                alignWithLabel: true,
+                                lineStyle: {
+                                    color: 'purple',
+                                    width: 2,
+                                    type: 'dashed'
+                                }
+                            },
                         },
                         yAxis: {},
                         series: [
@@ -66,6 +83,11 @@
                                 name: '销量',
                                 type: 'bar',
                                 data: [5, 20, 36, 10, 10, 20]
+                            },
+                            {
+                                name: '销量2',
+                                type: 'bar',
+                                data: [50, 200, 360, 10, 10, 20]
                             }
                         ],
                         emphasis: {
@@ -81,6 +103,134 @@
 
                     // 使用刚指定的配置项和数据显示图表。
                     myChart.setOption(option);
+                </script>
+            </div>
+            <div id="main2" style="width: 100%;height:400px;">
+                <script type="text/javascript">
+                    // 基于准备好的dom，初始化echarts实例
+                    var myChart2 = echarts.init(document.getElementById('main2'), 'light');
+                    var sizeValue = '65%';
+                    var symbolSize = 7.5;
+                    // 指定图表的配置项和数据
+                    var option = {
+                        title: {
+                            text: 'ECharts 入门示例'
+                        },
+                        tooltip: {},
+                        legend: {
+                            data: ['销量']
+                        },
+                        dataset: {
+                            dimensions: ['product', '2012', '2013', '2014', '2015', '2016', '2017'],
+                            source: [
+
+                                ['Milk Tea', 86.5, 92.1, 85.7, 83.1, 73.4, 55.1],
+                                ['Matcha Latte', 41.1, 30.4, 65.1, 53.3, 83.8, 98.7],
+                                ['Cheese Cocoa', 24.1, 67.2, 79.5, 86.4, 65.2, 82.5],
+                                ['Walnut Brownie', 55.2, 67.1, 69.2, 72.4, 53.9, 39.1]
+                            ]
+                        },
+                        grid: [
+                            { right: sizeValue, bottom: sizeValue },
+                            { left: sizeValue, bottom: sizeValue },
+                            { right: sizeValue, top: sizeValue },
+                            { left: sizeValue, top: sizeValue }
+                        ],
+                        xAxis: [
+                            {
+                                type: 'category',
+                                gridIndex: 0,
+                                name: 'Income',
+                                axisLabel: { rotate: 50, interval: 0 }
+                            },
+                            {
+                                type: 'category',
+                                gridIndex: 1,
+                                name: 'Country',
+                                boundaryGap: false,
+                                axisLabel: { rotate: 50, interval: 0 }
+                            },
+                            {
+                                type: 'category',
+                                gridIndex: 2,
+                                name: 'Income',
+                                axisLabel: { rotate: 50, interval: 0 }
+                            },
+                            {
+                                type: 'category',
+                                gridIndex: 3,
+                                name: 'Life Expectancy',
+                                axisLabel: { rotate: 50, interval: 0 }
+                            }
+                        ],
+                        yAxis: [
+                            { type: 'value', gridIndex: 0, name: 'Life Expectancy' },
+                            { type: 'value', gridIndex: 1, name: 'Income' },
+                            { type: 'value', gridIndex: 2, name: 'Population' },
+                            { type: 'value', gridIndex: 3, name: 'Population' }
+                        ],
+                        series: [
+                            {
+                                label: {
+                                    formatter: 'aaa{@2012}bbb'
+                                },
+                                type: 'scatter',
+                                symbolSize: symbolSize,
+                                xAxisIndex: 0,
+                                yAxisIndex: 0,
+                                encode: {
+                                    x: 'product',
+                                    y: '2012',
+                                    tooltip: [0, 4]
+                                }
+                            },
+                            {
+                                type: 'scatter',
+                                symbolSize: symbolSize,
+                                xAxisIndex: 1,
+                                yAxisIndex: 1,
+                                encode: {
+                                    x: 'product',
+                                    y: '2013',
+                                    tooltip: [0, 1, 2, 3, 4]
+                                }
+                            },
+                            {
+                                type: 'scatter',
+                                symbolSize: symbolSize,
+                                xAxisIndex: 2,
+                                yAxisIndex: 2,
+                                encode: {
+                                    x: 'product',
+                                    y: '2014',
+                                    tooltip: [0, 1, 2, 3, 4]
+                                }
+                            },
+                            {
+                                type: 'scatter',
+                                symbolSize: symbolSize,
+                                xAxisIndex: 3,
+                                yAxisIndex: 3,
+                                encode: {
+                                    x: 'product',
+                                    y: '2015',
+                                    tooltip: [0, 1, 2, 3, 4]
+                                }
+                            }
+                        ],
+                        emphasis: {
+                            itemStyle: {
+                                color: 'purple'
+                            },
+                            label: {
+                                show: true,
+                                color: 'purple'
+                            }
+                        }
+                    };
+
+                    // 使用刚指定的配置项和数据显示图表。
+                    myChart2.setOption(option);
                 </script>
             </div>
 

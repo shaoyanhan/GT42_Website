@@ -21,7 +21,9 @@ body {
     width: calc(100% - 40px);
     padding: 20px;
     height: 136px;
-    background-color: #B3ECCA;
+    /* background-color: #B3ECCA; */
+    /* 实现了背景图片的透明度设置，使得背景图片在被半透明背景覆盖的同时，保留了一定的透明度效果 */
+    background-image: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), url(../img/sugarcane.jpg);
     /* 左下和右下边框变成圆角 */
     border-radius: 0 0 20px 20px;
     display: flex;
