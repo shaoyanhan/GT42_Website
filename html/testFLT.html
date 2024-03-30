@@ -12,7 +12,7 @@
         .container {
             width: 100%;
             height: 100%;
-            background-color: #000;
+            background-color: #c6fbee;
         }
     </style>
 </head>
@@ -23,39 +23,42 @@
     <script type="text/javascript">
         // 基于准备好的dom，初始化echarts实例
         var chartDom = document.getElementById('main');
-        var myChart = echarts.init(chartDom);
+        var myChart = echarts.init(chartDom, null, { renderer: 'canvas' });
         var option;
 
 
         var data = [
-            { name: 'trans1', value: [0, false, 0, '100', 100], itemStyle: { color: '#7b9ce1', borderRadius: 5 } },
-            { name: 'trans2', value: [1, false, 0, 20, 20], itemStyle: { normal: { color: '#bd6d6c' } } },
+            { name: 'hap1', value: [0, false, 0, 100, 100], itemStyle: { color: '#7b9ce1', borderRadius: 5 } },
+            { name: 'hap2', value: [1, false, 0, 20, 20], itemStyle: { normal: { color: '#bd6d6c' } } },
             { name: 'gap', value: [1, true, 20, 80, 60], itemStyle: { normal: { color: '#000' } } },
-            { name: 'trans2', value: [1, false, 80, 90, 10], itemStyle: { normal: { color: '#bd6d6c' } } },
-            { name: 'trans3', value: [2, false, 0, 80, 80], itemStyle: { normal: { color: '#75d874' } } },
+            { name: 'hap2', value: [1, false, 80, 90, 10], itemStyle: { normal: { color: '#bd6d6c' } } },
+            { name: 'hap3', value: [2, false, 0, 80, 80], itemStyle: { normal: { color: '#75d874' } } },
             { name: 'gap', value: [2, true, 80, 90, 10], itemStyle: { normal: { color: '#000' } } },
-            { name: 'trans3', value: [2, false, 90, 100, 10], itemStyle: { normal: { color: '#75d874' } } },
+            { name: 'hap3', value: [2, false, 90, 100, 10], itemStyle: { normal: { color: '#75d874' } } },
+            { name: 'mosaic', value: [3, false, 0, 110, 110], itemStyle: { normal: { color: '#c6fbee' } } },
         ];
 
-        // for (let i = 0; i < 9; i++) {
-        //     let baseValue = 120 * (i + 1);
+        // for (let i = 0; i < 50; i++) {
+        //     let baseValue = 110 * (i + 1);
         //     data.push(
-        //         { name: 'trans1', value: [0, false, baseValue, baseValue + 100, 100], itemStyle: { normal: { color: '#7b9ce1' } } },
-        //         { name: 'trans2', value: [1, false, baseValue, baseValue + 20, 20], itemStyle: { normal: { color: '#bd6d6c' } } },
+        //         { name: 'hap1', value: [0, false, baseValue, baseValue + 100, 100], itemStyle: { normal: { color: '#7b9ce1' } } },
+        //         { name: 'hap2', value: [1, false, baseValue, baseValue + 20, 20], itemStyle: { normal: { color: '#bd6d6c' } } },
         //         { name: 'gap', value: [1, true, baseValue + 20, baseValue + 80, 60], itemStyle: { normal: { color: '#000' } } },
-        //         { name: 'trans2', value: [1, false, baseValue + 80, baseValue + 90, 10], itemStyle: { normal: { color: '#bd6d6c' } } },
-        //         { name: 'trans3', value: [2, false, baseValue, baseValue + 80, 80], itemStyle: { normal: { color: '#75d874' } } },
+        //         { name: 'hap2', value: [1, false, baseValue + 80, baseValue + 90, 10], itemStyle: { normal: { color: '#bd6d6c' } } },
+        //         { name: 'hap3', value: [2, false, baseValue, baseValue + 80, 80], itemStyle: { normal: { color: '#75d874' } } },
         //         { name: 'gap', value: [2, true, baseValue + 80, baseValue + 90, 10], itemStyle: { normal: { color: '#000' } } },
-        //         { name: 'trans3', value: [2, false, baseValue + 90, baseValue + 100, 10], itemStyle: { normal: { color: '#75d874' } } }
+        //         { name: 'hap3', value: [2, false, baseValue + 90, baseValue + 100, 10], itemStyle: { normal: { color: '#75d874' } } },
+        //         { name: 'mosaic', value: [3, false, baseValue, baseValue + 110, 110], itemStyle: { normal: { color: '#c6fbee' } } },
         //     );
         // }
         var dataCount = 10;
         var startbp = 0;
-        var categories = ['trans1', 'trans2', 'trans3'];
+        var categories = ['hap1', 'hap2', 'hap3', 'mosaic'];
         var types = [
-            { name: 'trans1', color: '#7b9ce1' },
-            { name: 'trans2', color: '#bd6d6c' },
-            { name: 'trans3', color: '#75d874' },
+            { name: 'hap1', color: '#7b9ce1' },
+            { name: 'hap2', color: '#bd6d6c' },
+            { name: 'hap3', color: '#75d874' },
+            { name: 'mosaic', color: '#c6fbee' },
             { name: 'gap', color: '#000' }
         ];
         // Generate mock data
@@ -118,6 +121,7 @@
 
         option = {
             tooltip: {
+
                 formatter: function (params) {
                     // console.log(params);
                     // 设置不同图形的提示信息，不知道为什么不能在series里面单独设置
@@ -131,36 +135,90 @@
                 text: 'Profile',
                 left: 'center'
             },
+            legend: {
+                data: [
+                    {
+                        name: 'haplotype',
+                    },
+                    {
+                        name: 'SNP Site',
+                        backgroundColor: '#ccc'
+                    }
+                ],
+                left: 'left'
+            },
             dataZoom: [
                 {
+                    id: 'dataZoomX',
+                    xAxisIndex: [0],
                     type: 'slider',
                     filterMode: 'weakFilter',
                     showDataShadow: true,
                     top: 400,
-                    labelFormatter: ''
+                    labelFormatter: function (value) {
+                        return Math.round(value) + 'bp';
+                    },
+                    height: 100,
+                    start: 0,
+                    end: 100,
+                    fillerColor: "rgba(36, 114, 218, 0.4)",
+                    borderRadius: 8,
+                    moveHandleSize: 20,
+                    showDetail: true
+
+                },
+                {
+                    id: 'dataZoomY',
+                    yAxisIndex: [0],
+                    type: 'slider',
+                    filterMode: 'weakFilter',
+                    showDataShadow: true,
+                    // right: 400,
+                    labelFormatter: '',
+                    width: 100,
+                    start: 0,
+                    end: 100
                 },
                 {
                     type: 'inside',
                     filterMode: 'weakFilter'
                 }
             ],
+            toolbox: {
+                feature: {
+                    dataZoom: { yAxisIndex: 'none' },
+                    dataView: { show: true, readOnly: false },
+                    restore: { show: true },
+                    saveAsImage: { show: true },
+                    // magicType: {
+                    //     type: ['line', 'bar', 'stack']
+                    // }
+
+                }
+            },
             grid: {
                 height: 300
             },
-            xAxis: {
+            xAxis:
+            {
                 min: startbp,
                 scale: true,
                 axisLabel: {
                     formatter: function (val) {
-                        return Math.max(0, val - startbp) + ' bp';
+                        return Math.round(Math.max(0, val - startbp)) + ' bp';
                     }
-                }
+                },
+                // axisPointer: {
+                //     show: true,
+                //     type: "line"
+                // }
             },
             yAxis: {
                 data: categories
             },
             series: [
                 {
+                    name: 'haplotype',
                     type: 'custom',
                     renderItem: renderItem,
                     itemStyle: {
@@ -169,20 +227,29 @@
                     },
                     encode: {
                         x: [2, 3],
-                        y: 0
+                        y: 0,
+                        // tooltip: {
+                        //     formatter: function (params) {
 
+                        //         return params[0].value[0] + ': ';
+                        //     }
+                        // }
 
                     },
                     data: data
                 },
                 {
+
+                    name: 'SNP Site',
                     type: 'scatter',
+
                     itemStyle: {
                         color: function (value) {
-                            if (value.value[0] == 1) {
-                                return "rgba(255, 48, 48, 1)";
-                            }
-                            return "rgba(0, 0, 0, 1)";
+                            // if (value.value[0] == 1) {
+                            //     return "rgba(255, 48, 48, 1)";
+                            // }
+                            // return "rgba(0, 0, 0, 1)";
+                            return value.value[2];
                         }
                     }
                     ,
@@ -195,26 +262,24 @@
                         },
                     encode: {
                         x: 1,
-                        y: 0
+                        y: 0,
 
                     },
                     data: [
-                        [0, 10],
-                        [0, 30],
-                        [0, 60],
-                        [1, 10],
-                        [1, 15],
-                        [1, 90],
-                        [2, 20],
-                        [2, 60],
-                        [2, 90]
-                    ]
+                        { value: [3, 10, "#FFA07A"], name: 'SNP1' },
+                        { value: [3, 30, "#20B2AA"], name: 'SNP2' },
+                        { value: [3, 60, "#7B68EE"], name: 'SNP3' },
 
+                    ]
                 }
             ]
         };
 
         option && myChart.setOption(option);
+        myChart.on('click', function (params) {
+            console.log(params);
+            alert(params.name + ' clicked');
+        });
 
     </script>
 </body>
