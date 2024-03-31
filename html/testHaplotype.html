@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>第一个 ECharts 实例</title>
+    <script src="https://cdn.staticfile.net/jquery/2.2.4/jquery.min.js"></script>
+    <!-- 引入 echarts.js -->
+    <!-- <script src="https://cdn.staticfile.net/echarts/4.3.0/echarts.min.js"></script> -->
+    <script src="../js/echarts.js"></script>
+    <style>
+        .container {
+            width: 100%;
+            height: 100%;
+            background-color: #c6fbee;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main" style="width: 1600px;height:3000px;"></div>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var chartDom = document.getElementById('main');
+        var myChart = echarts.init(chartDom, null, { renderer: 'canvas' });
+        var option;
+
+        var startbp = 0;
+        var haplotypeData = [
+            ["GT42G000001", "GT42G000001.SO.0", "mosaic", 5420, "ATCGATCG"],
+            ["GT42G000001", "GT42G000001.SO.1", "haplotype1", 5124, "ATCGATCG"],
+            ["GT42G000001", "GT42G000001.SO.2", "haplotype2", 4634, "ATCGATCG"],
+            ["GT42G000001", "GT42G000001.SO.3", "haplotype3", 4965, "ATCGATCG"]
+        ];
+        var SNPData = [
+            ["mosaic", 10, 'A/C'],
+            ["mosaic", 20, 'C/G'],
+            ["mosaic", 30, 'C/G'],
+            ["mosaic", 40, 'A/G'],
+            ["mosaic", 50, 'A/C'],
+        ];
+
+        // for (let i = 0; i < 50; i++) {
+        //     let baseValue = 110 * (i + 1);
+        //     data.push(
+        //         { name: 'hap1', value: [0, false, baseValue, baseValue + 100, 100], itemStyle: { normal: { color: '#7b9ce1' } } },
+        //         { name: 'hap2', value: [1, false, baseValue, baseValue + 20, 20], itemStyle: { normal: { color: '#bd6d6c' } } },
+        //         { name: 'gap', value: [1, true, baseValue + 20, baseValue + 80, 60], itemStyle: { normal: { color: '#000' } } },
+        //         { name: 'hap2', value: [1, false, baseValue + 80, baseValue + 90, 10], itemStyle: { normal: { color: '#bd6d6c' } } },
+        //         { name: 'hap3', value: [2, false, baseValue, baseValue + 80, 80], itemStyle: { normal: { color: '#75d874' } } },
+        //         { name: 'gap', value: [2, true, baseValue + 80, baseValue + 90, 10], itemStyle: { normal: { color: '#000' } } },
+        //         { name: 'hap3', value: [2, false, baseValue + 90, baseValue + 100, 10], itemStyle: { normal: { color: '#75d874' } } },
+        //         { name: 'mosaic', value: [3, false, baseValue, baseValue + 110, 110], itemStyle: { normal: { color: '#c6fbee' } } },
+        //     );
+        // }
+
+        // var categories = haplotypeData.map(function (item) { // haplotypeData 的第三列
+        //     return item[2];
+        // });
+        // var barLength = haplotypeData.map(function (item) { // haplotypeData 的第四列
+        //     return item[3];
+        // });
+
+        // using colorBy: "data"
+        // var types = [
+        //     { name: 'hap1', color: '#7b9ce1' },
+        //     { name: 'hap2', color: '#bd6d6c' },
+        //     { name: 'hap3', color: '#75d874' },
+        //     { name: 'mosaic', color: '#c6fbee' },
+        //     { name: 'gap', color: '#000' }
+        // ];
+        // Generate mock data
+        // categories.forEach(function (category, index) {
+        //     var baseTime = startTime;
+        //     for (var i = 0; i < dataCount; i++) {
+        //         var typeItem = types[Math.round(Math.random() * (types.length - 1))];
+        //         var duration = Math.round(Math.random() * 10000);
+        //         data.push({
+        //             name: typeItem.name,
+        //             value: [index, baseTime, (baseTime += duration), duration],
+        //             itemStyle: {
+        //                 normal: {
+        //                     color: typeItem.color
+        //                 }
+        //             }
+        //         });
+        //         baseTime += Math.round(Math.random() * 2000);
+        //     }
+        // });
+
+
+        // function renderItem(params, api) {
+
+        //     var categoryIndex = api.value(0);
+        //     var boxType = api.value(1);
+        //     var start = api.coord([api.value(2), categoryIndex]); // x, y
+        //     var end = api.coord([api.value(3), categoryIndex]);
+
+        //     if (boxType == true) {
+        //         var height = api.size([0, 1])[1] * 0.1;
+        //     } else {
+        //         var height = api.size([0, 1])[1] * 0.6;
+        //     }
+
+        //     var rectShape = echarts.graphic.clipRectByRect(
+        //         {
+        //             x: start[0],
+        //             y: start[1] - height / 2,
+        //             width: end[0] - start[0],
+        //             height: height
+        //         },
+        //         {
+        //             x: params.coordSys.x,
+        //             y: params.coordSys.y,
+        //             width: params.coordSys.width,
+        //             height: params.coordSys.height
+        //         }
+        //     );
+        //     return (
+        //         rectShape && {
+        //             type: 'rect',
+        //             transition: ['shape'],
+        //             shape: rectShape,
+        //             style: api.style()
+        //         }
+        //     );
+        // }
+
+
+        option = {
+
+            tooltip: {
+                // trigger: 'axis', // 设置之后与formatter冲突
+                // axisPointer: {
+                //     type: 'cross'
+                // },
+                formatter: function (params) {
+                    // console.log(params);
+                    // 设置不同图形的提示信息，不知道为什么不能在series里面单独设置
+                    if (params.seriesType == 'scatter') {
+                        return [
+                            params.marker + params.seriesName,
+                            'Mosaic ID: ' + params.value[0],
+                            'Site: ' + params.value[1] + ' bp',
+                            'Type: ' + params.value[2],
+                        ].join('<br>');
+                    }
+                    return [
+                        params.marker + params.name,
+                        'Mosaic ID: ' + params.value[0],
+                        'Gene ID: ' + params.value[1],
+                        'Gene Type: ' + params.value[2],
+                        'Gene Length: ' + params.value[3] + ' bp',
+                    ].join('<br>');
+                }
+            },
+            title: {
+                text: 'Profile',
+                left: 'center'
+            },
+            legend: { // 暂时实现不了详细颜色的对应，或许使用两个坐标系覆盖方式可以实现
+                data: [
+                    {
+                        name: 'haplotype',
+                        color: 'black'
+
+                    },
+                    {
+                        name: 'SNP Site',
+                        backgroundColor: '#ccc'
+                    }
+                ],
+                itemStyle: {
+                    color: "rgba(255, 255, 255, 1)",
+                    borderColor: "rgba(0, 0, 0, 1)",
+                    borderType: "solid",
+                    borderWidth: 2
+                },
+                left: 'left'
+            },
+            dataZoom: [
+                {
+                    id: 'dataZoomX',
+                    xAxisIndex: [0],
+                    type: 'slider',
+                    // filterMode: 'weakFilter',
+                    filterMode: 'none',
+                    showDataShadow: true,
+                    top: 650,
+                    labelFormatter: function (value) {
+                        return Math.round(value) + 'bp';
+                    },
+                    height: 100,
+                    start: 0,
+                    end: 100,
+                    fillerColor: "rgba(36, 114, 218, 0.4)",
+                    borderRadius: 8,
+                    moveHandleSize: 20,
+                    showDetail: true
+
+                },
+                {
+                    id: 'dataZoomY',
+                    yAxisIndex: [0],
+                    type: 'slider',
+                    filterMode: 'weakFilter',
+                    showDataShadow: true,
+                    right: 50,
+                    labelFormatter: '',
+                    width: 100,
+                    start: 0,
+                    end: 100,
+                    fillerColor: "rgba(36, 114, 218, 0.4)",
+                    borderRadius: 8,
+                    moveHandleSize: 20,
+                    showDetail: true
+                },
+                {
+                    type: 'inside',
+                    filterMode: 'none'
+                }
+            ],
+            toolbox: {
+                feature: {
+                    dataZoom: { yAxisIndex: 'none' },
+                    dataView: { show: true, readOnly: false },
+                    restore: { show: true },
+                    saveAsImage: { show: true },
+                    // magicType: {
+                    //     type: ['line', 'bar', 'stack']
+                    // }
+
+                }
+            },
+            grid: { // 设置坐标系的大小
+                height: 500,
+                width: 1200
+            },
+            xAxis:
+            {
+                min: startbp,
+                scale: true,
+                axisLabel: {
+                    formatter: function (val) {
+                        return Math.round(Math.max(0, val - startbp)) + ' bp';
+                    }
+                },
+                // axisPointer: { // 设置之后，鼠标移动到元素上，tooltip无法显示元素的信息，只会显示最近碰到的元素的信息
+                //     show: true,
+                //     type: "line"
+                // }
+                // data: barLength
+            },
+            yAxis: {
+                // data: categories
+                type: 'category',
+            },
+            series: [
+                {
+                    name: 'haplotype',
+                    type: 'bar',
+                    // renderItem: renderItem,
+                    // itemStyle: {
+                    //     opacity: 0.8,
+
+                    // },
+                    encode: {
+                        x: 3,
+                        y: 2,
+                        // tooltip: {
+                        //     formatter: function (params) {
+
+                        //         return params[0].value[0] + ': ';
+                        //     }
+                        // }
+
+                    },
+                    data: haplotypeData,
+                    colorBy: "data",
+                    itemStyle: {
+                        opacity: 0.9,
+                        borderRadius: 5
+
+                    },
+                },
+
+                {
+
+                    name: 'SNP Site', // 
+                    type: 'scatter',
+
+                    itemStyle: {
+                        color: function (value) {
+                            switch (value.value[2]) {
+                                case 'A/C':
+                                    return "rgba(255, 48, 48, 1)";
+                                case 'C/G':
+                                    return "rgba(48, 255, 48, 1)";
+                                case 'A/G':
+                                    return "rgba(48, 48, 255, 1)";
+                                default:
+                                    return "rgba(0, 0, 0, 1)";
+                            }
+                            // return value.value[2];
+                        }
+                    },
+                    // symbol:
+                    //     function (value) {
+                    //         if (value[0] == 1) {
+                    //             return "rect";
+                    //         }
+                    //         return "circle";
+                    //     },
+                    encode: {
+                        x: 1,
+                        y: 0,
+
+                    },
+                    data: SNPData
+                }
+            ]
+        };
+
+        option && myChart.setOption(option);
+        myChart.on('click', function (params) { // 
+            window.clickParams = params; // 在window对象上设置一个全局属性clickParams，用于在其他js文件中获取点击事件的参数
+            $.getScript("./testClickEvent.js", function () {
+                // 使用 window.clickParams 访问这个点击事件的参数
+            });
+        });
+
+    </script>
+</body>

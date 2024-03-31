@@ -28,14 +28,14 @@
 
 
         var data = [
-            { name: 'hap1', value: [0, false, 0, 100, 100], itemStyle: { color: '#7b9ce1', borderRadius: 5 } },
-            { name: 'hap2', value: [1, false, 0, 20, 20], itemStyle: { normal: { color: '#bd6d6c' } } },
-            { name: 'gap', value: [1, true, 20, 80, 60], itemStyle: { normal: { color: '#000' } } },
-            { name: 'hap2', value: [1, false, 80, 90, 10], itemStyle: { normal: { color: '#bd6d6c' } } },
-            { name: 'hap3', value: [2, false, 0, 80, 80], itemStyle: { normal: { color: '#75d874' } } },
-            { name: 'gap', value: [2, true, 80, 90, 10], itemStyle: { normal: { color: '#000' } } },
-            { name: 'hap3', value: [2, false, 90, 100, 10], itemStyle: { normal: { color: '#75d874' } } },
-            { name: 'mosaic', value: [3, false, 0, 110, 110], itemStyle: { normal: { color: '#c6fbee' } } },
+            { name: 'hap1', value: ['transcript1', false, 0, 100, 100], itemStyle: { color: '#7b9ce1', borderRadius: 5 } },
+            { name: 'hap2', value: ['transcript2', false, 0, 20, 20], itemStyle: { normal: { color: '#bd6d6c' } } },
+            { name: 'gap', value: ['transcript2', true, 20, 80, 60], itemStyle: { normal: { color: '#000' } } },
+            { name: 'hap2', value: ['transcript2', false, 80, 90, 10], itemStyle: { normal: { color: '#bd6d6c' } } },
+            { name: 'hap3', value: ['transcript3', false, 0, 80, 80], itemStyle: { normal: { color: '#75d874' } } },
+            { name: 'gap', value: ['transcript3', true, 80, 90, 10], itemStyle: { normal: { color: '#000' } } },
+            { name: 'hap3', value: ['transcript3', false, 90, 100, 10], itemStyle: { normal: { color: '#75d874' } } },
+            { name: 'mosaic', value: ['transcript4', false, 0, 110, 110], itemStyle: { normal: { color: '#c6fbee' } } },
         ];
 
         // for (let i = 0; i < 50; i++) {
@@ -135,18 +135,18 @@
                 text: 'Profile',
                 left: 'center'
             },
-            legend: {
-                data: [
-                    {
-                        name: 'haplotype',
-                    },
-                    {
-                        name: 'SNP Site',
-                        backgroundColor: '#ccc'
-                    }
-                ],
-                left: 'left'
-            },
+            // legend: {
+            //     data: [
+            //         {
+            //             name: 'haplotype',
+            //         },
+            //         {
+            //             name: 'SNP Site',
+            //             backgroundColor: '#ccc'
+            //         }
+            //     ],
+            //     left: 'left'
+            // },
             dataZoom: [
                 {
                     id: 'dataZoomX',
@@ -196,6 +196,7 @@
 
                 }
             },
+            // 最多 66 个转录本，平均值10-20个
             grid: {
                 height: 300
             },
@@ -214,7 +215,9 @@
                 // }
             },
             yAxis: {
-                data: categories
+                type: 'category',
+                inverse: true
+                // data: categories
             },
             series: [
                 {
@@ -237,40 +240,6 @@
 
                     },
                     data: data
-                },
-                {
-
-                    name: 'SNP Site',
-                    type: 'scatter',
-
-                    itemStyle: {
-                        color: function (value) {
-                            // if (value.value[0] == 1) {
-                            //     return "rgba(255, 48, 48, 1)";
-                            // }
-                            // return "rgba(0, 0, 0, 1)";
-                            return value.value[2];
-                        }
-                    }
-                    ,
-                    symbol:
-                        function (value) {
-                            if (value[0] == 1) {
-                                return "rect";
-                            }
-                            return "circle";
-                        },
-                    encode: {
-                        x: 1,
-                        y: 0,
-
-                    },
-                    data: [
-                        { value: [3, 10, "#FFA07A"], name: 'SNP1' },
-                        { value: [3, 30, "#20B2AA"], name: 'SNP2' },
-                        { value: [3, 60, "#7B68EE"], name: 'SNP3' },
-
-                    ]
                 }
             ]
         };
