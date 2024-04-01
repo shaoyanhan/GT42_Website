@@ -1,7 +1,7 @@
 
 // 基于准备好的dom，初始化echarts实例
 var chartDom = document.getElementById('drawHaplotype');
-var myChart = echarts.init(chartDom, null, { renderer: 'canvas' });
+var myChart = echarts.init(chartDom, null, { renderer: 'svg' });
 var option;
 
 var startbp = 0;
@@ -148,11 +148,11 @@ var haplotypeData = [
     // ["GT42G000001", "GT42G000001.SO.139", "haplotype139", 4965, "ATCGATCG"],
 ];
 var SNPData = [
-    ["mosaic", 10, 'A/C', "#050f2c"],
-    ["mosaic", 20, 'C/G', "#003666"],
-    ["mosaic", 30, 'C/G', "#00aeff"],
-    ["mosaic", 40, 'A/G', "#3369e7"],
-    ["mosaic", 50, 'A/C', "#8e43e7"],
+    ["mosaic", "GT42G000001", 10, 'A/C', "#050f2c"],
+    ["mosaic", "GT42G000001", 20, 'C/G', "#003666"],
+    ["mosaic", "GT42G000001", 30, 'C/G', "#00aeff"],
+    ["mosaic", "GT42G000001", 40, 'A/G', "#3369e7"],
+    ["mosaic", "GT42G000001", 50, 'A/C', "#8e43e7"],
 ];
 //050f2c, 003666, 00aeff, 3369e7, 8e43e7, b84592, ff4f81, ff6c5f, ffc168, 2dde98, 1cc7d0
 
@@ -256,9 +256,9 @@ option = {
             if (params.seriesType == 'scatter') {
                 return [
                     params.marker + params.seriesName,
-                    'Mosaic ID: ' + params.value[0],
-                    'Site: ' + params.value[1] + ' bp',
-                    'Type: ' + params.value[2],
+                    'Mosaic ID: ' + params.value[1],
+                    'Site: ' + params.value[2] + ' bp',
+                    'Type: ' + params.value[3],
                 ].join('<br>');
             }
             return [
@@ -373,6 +373,7 @@ option = {
     yAxis: {
         // data: categories
         type: 'category',
+        inverse: true,
     },
     series: [
         {
@@ -437,7 +438,7 @@ option = {
                     //     default:
                     //         return "rgba(0, 0, 0, 1)";
                     // }
-                    return value.value[3]; // 空间换时间，直接使用颜色值
+                    return value.value[4]; // 空间换时间，直接使用颜色值
                 }
             },
             symbolSize: 20,
@@ -449,7 +450,7 @@ option = {
             //         return "circle";
             //     },
             encode: {
-                x: 1,
+                x: 2,
                 y: 0,
 
             },
