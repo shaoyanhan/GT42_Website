@@ -156,6 +156,85 @@ var SNPData = [
 ];
 //050f2c, 003666, 00aeff, 3369e7, 8e43e7, b84592, ff4f81, ff6c5f, ffc168, 2dde98, 1cc7d0
 
+
+// var haplotypeData = [];
+// var SNPData = [];
+
+// // 将后端返回的数据转换为前端需要的数据格式
+// // 例如：
+// // [
+// //         {
+// //             "mosaicID": "GT42G000001",
+// //             "geneID": "GT42G000001.SO.0",
+// //             "geneType": "mosaic",
+// //             "length": 5420,
+// //             "Sequence": "ATCGATCG"
+// //         },
+// //         {
+// //             "mosaicID": "GT42G000001",
+// //             "geneID": "GT42G000001.SO.1",
+// //             "geneType": "haplotype1",
+// //             "length": 5420,
+// //             "Sequence": "ATCGATCG"
+// //         },
+// // ]
+// // 转换为
+// // [["GT42G000001", "GT42G000001.SO.0", "mosaic", 5420, "ATCGATCG"],
+// // ["GT42G000001", "GT42G000001.SO.1", "haplotype1", 5124, "ATCGATCG"]]
+// function transformData(data) {
+//     var transformedData = [];
+//     data.forEach(element => {
+//         var row = Object.values(element);  // 提取对象的所有值
+//         transformedData.push(row);  // 将值数组添加到结果数组中
+//     });
+//     return transformedData;
+// }
+
+
+// // 从后端获取绘制 haplotype 柱状图的数据，第二种写法，可以并行请求
+// // 定义一个通用的 AJAX 请求函数，返回一个 Promise 对象, 用于并行请求，
+// // 因为 haplotypeData 和 SNPData 存储于两个数据表中，但是需要同时获取
+// function ajaxPromise(url, data) {
+//     return new Promise((resolve, reject) => {
+//         $.ajax({
+//             url: url, data: data, type: 'GET', dataType: 'json',
+//             success: function (data) { resolve(data); },
+//             error: function (jqXHR, textStatus, errorThrown) { reject(textStatus + ' ' + errorThrown); }
+//         });
+//     });
+// }
+// function getHaplotypeDataAndDraw(searchKeyword) {
+//     // 并行执行两个 AJAX 请求    
+//     Promise.all([
+//         ajaxPromise('http://127.0.0.1:8080/searchDatabase/getHaplotypeTable/', { searchKeyword: searchKeyword }),
+//         ajaxPromise('http://127.0.0.1:8080/searchDatabase/getSNPTable/', { searchKeyword: searchKeyword })
+//     ])
+//         // 当两个请求都成功时，处理数据并更新图表 
+//         .then(([haplotypeData, SNPData]) => {
+//             const transformedHaplotypeData = transformData(haplotypeData);
+//             const transformedSNPData = transformData(SNPData);
+//             myChart.setOption({
+//                 series: [
+//                     {
+//                         name: 'haplotype',
+//                         data: transformedHaplotypeData
+//                     },
+//                     {
+//                         name: 'SNP Site',
+//                         data: transformedSNPData
+//                     }
+//                 ]
+//             });
+//         })
+//         .catch(error => {
+//             // 处理请求中出现的任何错误        
+//             console.error('There has been a problem with one of your ajax operations:', error);
+//         });
+// }
+
+// // 初始页面直接绘制 GT42G000001 的 haplotype
+// getHaplotypeDataAndDraw('GT42G000002');
+
 // for (let i = 0; i < 50; i++) {
 //     let baseValue = 110 * (i + 1);
 //     data.push(
@@ -407,7 +486,7 @@ option = {
 
         {
 
-            name: 'SNP Site', // 
+            name: 'SNP Site',
             type: 'scatter',
 
             itemStyle: {
@@ -438,7 +517,7 @@ option = {
                     //     default:
                     //         return "rgba(0, 0, 0, 1)";
                     // }
-                    return value.value[4]; // 空间换时间，直接使用颜色值
+                    return value.value[7]; // 空间换时间，直接使用颜色值
                 }
             },
             symbolSize: 20,
@@ -451,7 +530,7 @@ option = {
             //     },
             encode: {
                 x: 2,
-                y: 0,
+                y: 1,
 
             },
             data: SNPData
