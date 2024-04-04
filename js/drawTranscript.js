@@ -1,7 +1,7 @@
 
 // 基于准备好的dom，初始化echarts实例
 var chartDom = document.getElementById('drawTranscript');
-var myChart = echarts.init(chartDom, null, { renderer: 'svg' });
+var transcriptChart = echarts.init(chartDom, null, { renderer: 'svg' });
 var option;
 
 
@@ -19,7 +19,7 @@ var option;
 
 
 var data = [
-    { value: ['GT42G000001', 'GT42G000001.SO.1', 'GT42G000001.SO.1.0', 'haplotype', 1, 1, 140, 140, '1 - 140', 140], itemStyle: { color: 'black', borderRadius: 5 } },
+    { value: ['GT42G000001', 'GT42G000001.SO.1', 'GT42G000001.SO.1.0', 'haplotype', 1, 1, 140, 140, '1 - 140', 140], itemStyle: { color: 'black' } },
     ['GT42G000001', 'GT42G000001.SO.1', 'GT42G000001.SO.1.1', 'transcript1', 1, 1, 20, 20, '1 - 40', 40],
     ['GT42G000001', 'GT42G000001.SO.1', 'GT42G000001.SO.1.1', 'transcript1', 0, 20, 30, 10, '1 - 40', 40],
     ['GT42G000001', 'GT42G000001.SO.1', 'GT42G000001.SO.1.1', 'transcript1', 1, 30, 40, 10, '1 - 40', 40],
@@ -271,8 +271,8 @@ option = {
     ]
 };
 
-option && myChart.setOption(option);
-myChart.on('click', function (params) {
+option && transcriptChart.setOption(option);
+transcriptChart.on('click', function (params) {
     console.log(params);
     alert(params.name + ' clicked');
 });
