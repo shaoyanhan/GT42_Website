@@ -185,14 +185,8 @@ function getHaplotypeDataAndDraw(searchKeyword) {
                             return Math.round(Math.max(0, val - startbp)) + ' bp';
                         }
                     },
-                    // axisPointer: { // 设置之后，鼠标移动到元素上，tooltip无法显示元素的信息，只会显示最近碰到的元素的信息
-                    //     show: true,
-                    //     type: "line"
-                    // }
-                    // data: barLength
                 },
                 yAxis: {
-                    // data: categories
                     type: 'category',
                     inverse: true,
                 },
@@ -430,7 +424,7 @@ option = {
     // 目前设置为可以展示10个 haplotype 和1个 mosaic 的高度，已经测试过最多138个haplotype的情况, 大部分集中于10-20个
     grid: {
         height: 1000,
-        width: 1200
+        width: 1000
     },
     xAxis:
     {
