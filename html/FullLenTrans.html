@@ -15,7 +15,8 @@
     <!-- 用于转换JSON格式和并行请求的方法 -->
     <script src="../js/globalFunctions.js"></script>
     <style>
-        .content_container .haplotype_result_container {
+        .content_container .haplotype_result_container,
+        .content_container .transcript_result_container {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -23,7 +24,7 @@
 
         .content_container .haplotype_result_container .result_details_container {
             width: 400px;
-            height: 1300px;
+            height: 1000px;
             margin: 20px;
             background: linear-gradient(to right, #C0DDE4, #F6EDD3);
             border-radius: 10px;
@@ -54,17 +55,28 @@
             padding: 10px;
             text-align: left;
             /* 文本内容两端对齐 */
-            font-size: 20px;
+            font-size: 18px;
         }
 
         .content_container .haplotype_result_container .result_details_container .content_box .result_details .main_title {
-            font-size: 30px;
+            font-size: 20px;
             font-weight: bold;
             margin-bottom: 10px;
             display: block;
             background-color: #8bc2d0;
             text-align: center;
             border-radius: 5px;
+        }
+
+        .content_container .transcript_result_container .result_details_container {
+            width: 400px;
+            height: 1300px;
+            margin: 20px;
+            background: linear-gradient(to right, #C0DDE4, #F6EDD3);
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
         }
     </style>
 
@@ -123,7 +135,7 @@
 
             <div class="haplotype_result_container">
                 <!-- 容器的大小一定要包裹住 echart 的option配置中的 grid + dataZoomX 的大小 -->
-                <div id="drawHaplotype" style="width: 1400px;height: 1300px;">
+                <div id="drawHaplotype" style="width: 1100px;height: 1000px;">
                     <script type="text/javascript" src="../js/drawHaplotype.js"></script>
                 </div>
                 <div class="result_details_container">
@@ -147,64 +159,83 @@
                 </div>
             </div>
 
-            <div id="drawTranscript" style="width: 100%;height:1300px;">
-                <script type="text/javascript" src="../js/drawTranscript.js"></script>
+            <div class="transcript_result_container">
+                <div id="drawTranscript" style="width: 1100px;height:1300px;">
+                    <script type="text/javascript" src="../js/drawTranscript.js"></script>
+                </div>
+                <div class="result_details_container">
+                    <!-- 下面必须使用两个div嵌套才能实现内容溢出的时候不会覆盖圆角框和矩形框之间的底部间隔 -->
+                    <div class="content_box">
+                        <div class="result_details">
+                            <h1 class="main_title">Result Details</h1>
+                            <h1 class="sub_title">Gene</h1>
+                            <h1 class="sub_title">SNP</h1>
+                            <p>Gene Name: Gene Name</p>
+                            <p>Gene Length: 1000 bp</p>
+                            <p>Gene Description: Gene Description</p>
+                            <p>Gene Sequence: Gene Sequence</p>
+                            <p>Gene Annotation: Gene Annotation</p>
+                            <p>Gene Expression: Gene Expression</p>
+                            <p>Gene Function: Gene Function</p>
+                        </div>
+                    </div>
+                </div>
+
+
             </div>
 
-        </div>
-
-        <div class="footer_container">
-            <div class="container">
-                <div class="logo_container">
+            <div class="footer_container">
+                <div class="container">
+                    <div class="logo_container">
+                        <div class="logo_box">
+                            <img src="../img/sugarcane-logo.jpeg" alt="logo">
+                        </div>
+                        <div class="title_box">
+                            <h1>Project Title</h1>
+                        </div>
+                    </div>
                     <div class="logo_box">
-                        <img src="../img/sugarcane-logo.jpeg" alt="logo">
+                        <img src="../img/HZAU.png" alt="logo">
                     </div>
-                    <div class="title_box">
-                        <h1>Project Title</h1>
+                    <div class="logo_box">
+                        <img src="../img/GuoZhong.png" alt="logo">
+                    </div>
+                    <div class="logo_box">
+                        <img src="../img/sky_logo.png" alt="logo">
+                    </div>
+                    <div class="logo_box">
+                        <img src="../img/GXU_logo.png" alt="logo">
+                    </div>
+                    <ul>
+                        <li>Home</li>
+                        <li>About</li>
+                        <li>Downloads</li>
+                    </ul>
+                    <ul>
+                        <li>Documents</li>
+                        <li>Help</li>
+                        <li>Tools</li>
+                    </ul>
+                    <ul>
+                        <li>Contact</li>
+                        <li>llchen@gxu.edu.cn</li>
+                        <li>1740569155@qq.com</li>
+                    </ul>
+                    <div class="revolver_maps">
+                        <script type="text/javascript"
+                            src="//rf.revolvermaps.com/0/0/6.js?i=5mrx7fhr2hr&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80"
+                            async="async"></script>
                     </div>
                 </div>
-                <div class="logo_box">
-                    <img src="../img/HZAU.png" alt="logo">
-                </div>
-                <div class="logo_box">
-                    <img src="../img/GuoZhong.png" alt="logo">
-                </div>
-                <div class="logo_box">
-                    <img src="../img/sky_logo.png" alt="logo">
-                </div>
-                <div class="logo_box">
-                    <img src="../img/GXU_logo.png" alt="logo">
-                </div>
-                <ul>
-                    <li>Home</li>
-                    <li>About</li>
-                    <li>Downloads</li>
-                </ul>
-                <ul>
-                    <li>Documents</li>
-                    <li>Help</li>
-                    <li>Tools</li>
-                </ul>
-                <ul>
-                    <li>Contact</li>
-                    <li>llchen@gxu.edu.cn</li>
-                    <li>1740569155@qq.com</li>
-                </ul>
-                <div class="revolver_maps">
-                    <script type="text/javascript"
-                        src="//rf.revolvermaps.com/0/0/6.js?i=5mrx7fhr2hr&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80"
-                        async="async"></script>
-                </div>
+
+                <h1 class="copyright">Developed by the Chen LL’s Lab at GuangXi University and Xie WB’s Lab at HuaZhong
+                    Agricultural University</h1>
+                <h1 class="copyright">Copyright © 2020-2030 All rights reserved</h1>
             </div>
 
-            <h1 class="copyright">Developed by the Chen LL’s Lab at GuangXi University and Xie WB’s Lab at HuaZhong
-                Agricultural University</h1>
-            <h1 class="copyright">Copyright © 2020-2030 All rights reserved</h1>
         </div>
 
-    </div>
-
-    <script type="text/javascript" src="../js/searchBoxEvents_FLT.js"></script>
+        <script type="text/javascript" src="../js/searchBoxEvents_FLT.js"></script>
 
 </body>
 

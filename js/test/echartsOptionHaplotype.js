@@ -28,7 +28,7 @@ function getHaplotypeOption(haplotypeData, SNPData) {
                 ].join('<br>');
             },
             textStyle: {
-                fontSize: 25
+                fontSize: 18
             },
         },
         title: {
@@ -54,7 +54,7 @@ function getHaplotypeOption(haplotypeData, SNPData) {
                 borderWidth: 2
             },
             textStyle: {
-                fontSize: 20
+                fontSize: 18
             },
             left: 'left'
         },
@@ -70,7 +70,7 @@ function getHaplotypeOption(haplotypeData, SNPData) {
                     return Math.round(value) + 'bp';
                 },
                 textStyle: {
-                    fontSize: 20
+                    fontSize: 18
                 },
                 bottom: 50,
                 height: 100,
@@ -119,8 +119,8 @@ function getHaplotypeOption(haplotypeData, SNPData) {
         // 注意这里与 dataZoomX 高度以及外部div容器一起调整
         // 目前设置为可以展示10个 haplotype 和1个 mosaic 的高度，已经测试过最多138个haplotype的情况, 大部分集中于10-20个
         grid: {
-            height: 1000,
-            width: 1000
+            height: 720,
+            width: 800
         },
         xAxis:
         {
@@ -130,7 +130,7 @@ function getHaplotypeOption(haplotypeData, SNPData) {
                 formatter: function (val) {
                     return Math.round(Math.max(0, val - startbp)) + ' bp';
                 },
-                fontSize: 20
+                fontSize: 18
             },
 
             // axisPointer: { // 设置之后，鼠标移动到元素上，tooltip无法显示元素的信息，只会显示最近碰到的元素的信息
@@ -145,7 +145,7 @@ function getHaplotypeOption(haplotypeData, SNPData) {
             inverse: true,
             axisLabel: {
                 show: true,
-                fontSize: 20
+                fontSize: 18
             }
         },
         series: [

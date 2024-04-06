@@ -16,7 +16,7 @@
 
         .haplotype_result_container .result_details_container {
             width: 400px;
-            height: 1300px;
+            height: 1000px;
             margin: 20px;
             background: linear-gradient(to right, #C0DDE4, #F6EDD3);
             border-radius: 10px;
@@ -47,17 +47,26 @@
             padding: 10px;
             text-align: left;
             /* 文本内容两端对齐 */
-            font-size: 20px;
+            font-size: 18px;
         }
 
         .haplotype_result_container .result_details_container .content_box .result_details .main_title {
-            font-size: 30px;
+            font-size: 20px;
             font-weight: bold;
             margin-bottom: 10px;
             display: block;
             background-color: #8bc2d0;
             text-align: center;
             border-radius: 5px;
+        }
+
+        .footer_pagination_container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background: #f0f0f0;
+            border-radius: 0 0 10px 10px;
         }
     </style>
 </head>
@@ -69,7 +78,7 @@
 
     <div class="haplotype_result_container">
         <!-- 容器的大小一定要包裹住 echart 的option配置中的 grid + dataZoomX 的大小 -->
-        <div id="drawHaplotype" style="width: 1600px;height:1400px; color: #ff7e98;"></div>
+        <div id="drawHaplotype" style="width: 1100px;height:1000px; color: #ff7e98;"></div>
         <div class="result_details_container">
             <!-- 下面必须使用两个div嵌套才能实现内容溢出的时候不会覆盖圆角框和矩形框之间的底部间隔 -->
             <div class="content_box">
@@ -94,7 +103,7 @@
     <details open>
         <summary>Click to view the table</summary>
         <div class="table_container">
-            <table>
+            <table id="haplotype_table">
                 <thead>
                     <tr>
                         <th>mosaicID</th>
@@ -121,6 +130,14 @@
                     </tr>
                 </tbody>
             </table>
+        </div>
+        <div class="footer_pagination_container">
+            <span id="footer_notes">Showing ? to ? of ? entries</span>
+            <div id="pagination_container">
+                <a href="#">1</a>
+                <a href="#">2</a>
+                <a href="#">3</a>
+            </div>
         </div>
     </details>
 

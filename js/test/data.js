@@ -125,14 +125,7 @@ async function fetchAllData(type, searchKeyword) {
             apiPrefix.parameter.searchKeyword + searchKeyword;
         console.log(dataRequestUrl);
         const data = await fetchData(dataRequestUrl);
-
-        // 从映射中获取数据集对应的更新函数并调用它
-        const updateDataFunction = updateFunctions[type];
-        if (updateDataFunction) {
-            updateDataFunction(data);
-        } else {
-            console.error(`未知的数据类型: ${type}`);
-        }
+        return data;
     } catch (error) {
         console.error(`${type}数据加载失败:`, error);
     }
@@ -152,10 +145,19 @@ async function fetchPaginationData(type, searchKeyword, page = 1) {
     }
 }
 
+function updateData(type, data) {
+    // 从映射中获取数据集对应的更新函数并调用它
+    const updateDataFunction = updateFunctions[type];
+    if (updateDataFunction) {
+        updateDataFunction(data);
+    } else {
+        console.error(`未知的数据类型: ${type}`);
+    }
+}
+
 
 export {
-    updateHaplotypeData, updateSNPData, updateTranscriptData,
     getHaplotypeData, getSNPData, getTranscriptData,
     getHaplotypeDataArray, getSNPDataArray, getTranscriptDataArray,
-    fetchData, fetchAllData, fetchPaginationData
+    fetchData, fetchAllData, fetchPaginationData, updateData
 };

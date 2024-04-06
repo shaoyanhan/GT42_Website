@@ -1,6 +1,8 @@
 import { getHaplotypeOption } from "./echartsOptionHaplotype.js";
 import { getTranscriptOption } from "./echartsOptionTranscript.js";
-import { getHaplotypeData, getSNPData, getTranscriptData, getHaplotypeDataArray, getSNPDataArray, getTranscriptDataArray, fetchAllData } from "./data.js";
+import { getHaplotypeData, getSNPData, getTranscriptData, getHaplotypeDataArray, getSNPDataArray, getTranscriptDataArray, fetchAllData, fetchPaginationData, updateData } from "./data.js";
+import { updateTable, updateFooterNotes, updatePagination } from "./tablePagination.js";
+
 
 // 初始化ECharts实例
 export let haplotypeChart = echarts.init(document.getElementById('drawHaplotype'), null, { renderer: 'svg' });
@@ -38,22 +40,26 @@ function initialBarColorSync(haplotypeDataArray, transcriptDataArray, color) {
 // 页面初始化
 async function inital() {
     // 获取搜索框中的关键词
-    let searchKeyword = 'GT42G000001';
+    let searchKeywordMosaic = 'GT42G000001';
 
-    // 请求数据
-    await fetchAllData('haplotype', searchKeyword);
-    await fetchAllData('SNP', searchKeyword);
+    // 请求数据并保存
+    let haplotypeDataObject = await fetchAllData('haplotype', searchKeywordMosaic);
+    let SNPDataObject = await fetchAllData('SNP', searchKeywordMosaic);
+    console.log(haplotypeDataObject);
+    console.log(SNPDataObject);
+    updateData('haplotype', haplotypeDataObject);
+    updateData('SNP', SNPDataObject);
 
     // 先获取对象数组，取出geneID作为transcriptData的搜索关键词
-    let haplotypeDataObject = getHaplotypeData();
     console.log(haplotypeDataObject);
     // transcriptData的搜索关键词基于haplotypeData查询结果的geneID，
     // 因此需要确保先获取到了haplotypeData，再根据haplotypeData的geneID获取transcriptData
     if (haplotypeDataObject.length > 0) {
-        searchKeyword = haplotypeDataObject[1].geneID;
-        console.log(searchKeyword);
-        await fetchAllData('transcript', searchKeyword);
-        console.log(getTranscriptData());
+        let searchKeywordGene = haplotypeDataObject[1].geneID;
+        console.log(searchKeywordGene);
+        let transcriptDataObject = await fetchAllData('transcript', searchKeywordGene);
+        console.log(transcriptDataObject);
+        updateData('transcript', transcriptDataObject);
     }
 
     // 获取二维数组数据
@@ -69,6 +75,14 @@ async function inital() {
     // 绘制图像
     drawHaplotypeChart(changedHaplotypeDataArray, SNPDataArray);
     drawTranscriptChart(changedTranscriptDataArray);
+
+    let paginationDataObject = await fetchPaginationData('haplotypePagination', searchKeywordMosaic, 1);
+    console.log(paginationDataObject);
+    updateTable(paginationDataObject.data);
+    updateFooterNotes(paginationDataObject.num_pages, paginationDataObject.current_page, paginationDataObject.page_size, paginationDataObject.total_records);
+    updatePagination(paginationDataObject.num_pages, paginationDataObject.current_page);
+
+
 }
 
 // 确保文档加载完成后再执行初始化

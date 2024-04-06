@@ -138,7 +138,10 @@ option = {
                 'Transcript Range: ' + params.value[8] + ' bp',
                 'Transcript Length: ' + params.value[9] + ' bp',
             ].join('<br>');
-        }
+        },
+        textStyle: {
+            fontSize: 18
+        },
     },
     title: {
         text: 'Profile',
@@ -171,6 +174,9 @@ option = {
             height: 100,
             start: 0,
             end: 100,
+            textStyle: {
+                fontSize: 18
+            },
             fillerColor: "rgba(36, 114, 218, 0.4)",
             borderRadius: 8,
             moveHandleSize: 20,
@@ -213,7 +219,7 @@ option = {
     // 最多 66 个转录本，平均值10-20个
     grid: {
         height: 1000,
-        width: 1200
+        width: 800
     },
     xAxis:
     {
@@ -222,8 +228,10 @@ option = {
         axisLabel: {
             formatter: function (val) {
                 return Math.round(Math.max(0, val - startbp)) + ' bp';
-            }
+            },
+            fontSize: 18,
         },
+
         // axisPointer: {
         //     show: true,
         //     type: "line"
@@ -231,7 +239,11 @@ option = {
     },
     yAxis: {
         type: 'category',
-        inverse: true
+        inverse: true,
+        axisLabel: {
+            show: true,
+            fontSize: 18
+        }
         // data: categories
     },
     series: [
