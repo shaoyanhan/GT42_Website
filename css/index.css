@@ -277,6 +277,13 @@ body {
     color: white;
 }
 
+.footer_container .container .revolver_maps {
+    width: 200px;
+    height: 100%;
+    margin-bottom: 30px;
+    margin-left: 30px;
+}
+
 
 .footer_container .copyright {
     font-size: 15px;

@@ -48,6 +48,26 @@ let haplotypeData = [];
 let SNPData = [];
 let transcriptData = [];
 
+// 定义API请求的前缀
+let apiPrefix = {
+    IP: 'http://127.0.0.1:8080/',
+    app: 'searchDatabase/',
+    haplotype: 'getHaplotypeTable/',
+    SNP: 'getSNPTable/',
+    transcript: 'getTranscriptTable/',
+    haplotypePagination: 'getHaplotypeTableByPage/',
+    parameter: {
+        searchKeyword: 'searchKeyword=',
+        page: 'page=',
+    }
+}
+// 定义更新函数的映射关系, 从名称映射到函数
+const updateFunctions = {
+    haplotype: updateHaplotypeData,
+    SNP: updateSNPData,
+    transcript: updateTranscriptData,
+};
+
 // 更新数据，因为在ES6模块中，通过import导入的变量是只读的，不能被重新赋值。
 function updateHaplotypeData(newData) {
     haplotypeData = newData;
@@ -84,18 +104,58 @@ function getTranscriptDataArray() {
 
 
 
-// 数据请求
+// 数据请求, 相当于axios.get(url).then(response => response.data).catch(error => console.error('数据请求失败:', error));
 async function fetchData(url) {
-    const response = await fetch(url);
-    const data = await response.json();
-    return data;
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        return data;
+    }
+    catch (error) {
+        console.error('数据请求失败:', error);
+    }
 }
 
+
+
+// 请求全部数据
+async function fetchAllData(type, searchKeyword) {
+    try {
+        const dataRequestUrl = apiPrefix.IP + apiPrefix.app + apiPrefix[type] + '?' +
+            apiPrefix.parameter.searchKeyword + searchKeyword;
+        console.log(dataRequestUrl);
+        const data = await fetchData(dataRequestUrl);
+
+        // 从映射中获取数据集对应的更新函数并调用它
+        const updateDataFunction = updateFunctions[type];
+        if (updateDataFunction) {
+            updateDataFunction(data);
+        } else {
+            console.error(`未知的数据类型: ${type}`);
+        }
+    } catch (error) {
+        console.error(`${type}数据加载失败:`, error);
+    }
+}
+
+// 请求分页数据
+async function fetchPaginationData(type, searchKeyword, page = 1) {
+    try {
+        const dataRequestUrl = apiPrefix.IP + apiPrefix.app + apiPrefix[type] + '?' +
+            apiPrefix.parameter.searchKeyword + searchKeyword + '&' +
+            apiPrefix.parameter.page + page;
+        console.log(dataRequestUrl);
+        const data = await fetchData(dataRequestUrl);
+        return data;
+    } catch (error) {
+        console.error(`${type}数据加载失败:`, error);
+    }
+}
 
 
 export {
     updateHaplotypeData, updateSNPData, updateTranscriptData,
     getHaplotypeData, getSNPData, getTranscriptData,
     getHaplotypeDataArray, getSNPDataArray, getTranscriptDataArray,
-    fetchData
+    fetchData, fetchAllData, fetchPaginationData
 };

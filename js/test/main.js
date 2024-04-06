@@ -1,41 +1,10 @@
 import { getHaplotypeOption } from "./echartsOptionHaplotype.js";
 import { getTranscriptOption } from "./echartsOptionTranscript.js";
-import { updateHaplotypeData, updateSNPData, updateTranscriptData, getHaplotypeData, getSNPData, getTranscriptData, getHaplotypeDataArray, getSNPDataArray, getTranscriptDataArray, fetchData } from "./data.js";
+import { getHaplotypeData, getSNPData, getTranscriptData, getHaplotypeDataArray, getSNPDataArray, getTranscriptDataArray, fetchAllData } from "./data.js";
 
 // 初始化ECharts实例
 export let haplotypeChart = echarts.init(document.getElementById('drawHaplotype'), null, { renderer: 'svg' });
 export let transcriptChart = echarts.init(document.getElementById('drawTranscript'), null, { renderer: 'svg' });
-
-
-// 定义API请求的前缀
-let apiPrefix = {
-    haplotype: 'http://127.0.0.1:8080/searchDatabase/getHaplotypeTable/?searchKeyword=',
-    SNP: 'http://127.0.0.1:8080/searchDatabase/getSNPTable/?searchKeyword=',
-    transcript: 'http://127.0.0.1:8080/searchDatabase/getTranscriptTable/?searchKeyword=',
-}
-// 定义更新函数的映射关系, 从名称映射到函数
-const updateFunctions = {
-    haplotype: updateHaplotypeData,
-    SNP: updateSNPData,
-    transcript: updateTranscriptData,
-};
-// 请求数据
-async function requestData(type, searchKeyword) {
-    try {
-        const dataRequestUrl = apiPrefix[type] + searchKeyword;
-        console.log(dataRequestUrl);
-        const data = await fetchData(dataRequestUrl);
-        // 从映射中获取对应的更新函数并调用它
-        const updateDataFunction = updateFunctions[type];
-        if (updateDataFunction) {
-            updateDataFunction(data);
-        } else {
-            console.error(`未知的数据类型: ${type}`);
-        }
-    } catch (error) {
-        console.error(`${type}数据加载失败:`, error);
-    }
-}
 
 
 function drawHaplotypeChart(haplotypeData, SNPData) {
@@ -72,8 +41,8 @@ async function inital() {
     let searchKeyword = 'GT42G000001';
 
     // 请求数据
-    await requestData('haplotype', searchKeyword);
-    await requestData('SNP', searchKeyword);
+    await fetchAllData('haplotype', searchKeyword);
+    await fetchAllData('SNP', searchKeyword);
 
     // 先获取对象数组，取出geneID作为transcriptData的搜索关键词
     let haplotypeDataObject = getHaplotypeData();
@@ -83,7 +52,7 @@ async function inital() {
     if (haplotypeDataObject.length > 0) {
         searchKeyword = haplotypeDataObject[1].geneID;
         console.log(searchKeyword);
-        await requestData('transcript', searchKeyword);
+        await fetchAllData('transcript', searchKeyword);
         console.log(getTranscriptData());
     }
 
