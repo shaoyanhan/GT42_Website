@@ -1,22 +1,58 @@
-import { fetchPaginationData } from './data.js';
+import { fetchPaginationData, getData, updateData } from './data.js';
+import { showCustomAlert } from './others.js';
 
-function updateTable(data) {
-    const tableBody = document.getElementById('haplotype_table').getElementsByTagName('tbody')[0];
-    tableBody.innerHTML = '';  // 清空当前表格
+// 更新表格的函数映射
+let updateTableFunctions = {
+    haplotype_table_container: updateHaplotypeTable,
+};
+
+// 更新haplotype表格
+function updateHaplotypeTable(data, container) {
+    container.innerHTML = '';  // 清空当前表格
     data.forEach(row => {
         const tr = document.createElement('tr');
+        // 给核苷酸序列设置为点击复制按钮，附带自定义的data_属性，用于存储实际要复制的数据。
         tr.innerHTML = `<td>${row.mosaicID}</td>
                         <td>${row.geneID}</td>
                         <td>${row.geneType}</td>
                         <td>${row.length}</td>
-                        <td>${row.nucleotideSequence}</td>`;  // 根据你的数据模型调整
-        tableBody.appendChild(tr);
+                        <td><button class="copy_button" data_sequence="${row.nucleotideSequence}">Click to Copy</button></td>`;
+        container.appendChild(tr);
     });
 }
 
-function updateFooterNotes(numPages, currentPage, pageSize, totalRecords) {
+// 将data_sequence里的文本复制到剪贴板
+function copyTextToClipboard(text) {
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    document.body.appendChild(textarea);
+    textarea.select();
+    navigator.clipboard.writeText(text).then(() => {
+        // 可选：提醒用户已复制
+        // 成功复制文本后
+        showCustomAlert('Text copied to clipboard!');
+    }).catch(err => {
+        console.error('Error in copying text: ', err);
+    });
+    document.body.removeChild(textarea);
+}
+
+
+// 更新表格的通用函数
+function updateTable(data, container) {
+    const tableBody = container.querySelector('tbody');
+    const updateFunction = updateTableFunctions[container.className];
+    if (updateFunction) {
+        updateFunction(data, tableBody);
+    } else {   // 如果没有对应的更新函数，输出错误信息
+        console.error(`未知的表格类型: ${container.className}`);
+    }
+}
+
+// 更新表格底部的脚注信息
+function updateFooterNotes(numPages, currentPage, pageSize, totalRecords, container) {
     console.log(numPages, currentPage, pageSize);
-    const footerNotes = document.getElementById('footer_notes');
+    const footerNotes = container.querySelector('.footer_notes');
     footerNotes.innerHTML = '';  // 清空当前页码信息
 
     // 计算当前页的开始和结束记录号
@@ -29,9 +65,9 @@ function updateFooterNotes(numPages, currentPage, pageSize, totalRecords) {
     footerNotes.appendChild(noteSpan);
 }
 
-
-function updatePagination(numPages, currentPage) {
-    const paginationDiv = document.getElementById('pagination_container');
+// 更新分页导航
+function updatePagination(numPages, currentPage, container) {
+    const paginationDiv = container.querySelector('.pagination_container');
     paginationDiv.innerHTML = '';  // 清空当前分页导航
 
     // 添加Previous按钮
@@ -39,10 +75,6 @@ function updatePagination(numPages, currentPage) {
         const prevLink = document.createElement('a');
         prevLink.href = '#';
         prevLink.innerText = 'Previous';
-        prevLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            fetchPaginationData('haplotypePagination', 'GT42G000001', currentPage - 1);
-        });
         paginationDiv.appendChild(prevLink);
     }
 
@@ -62,18 +94,39 @@ function updatePagination(numPages, currentPage) {
         startPage = Math.max(numPages - 2, 1);
     }
 
-    // 生成页码链接
+    // 如果第一个页数标签不是1，在Previous按钮后添加第一页的页码，并随后添加省略号
+    if (startPage != 1) {
+        const firstPageLink = document.createElement('a');
+        firstPageLink.href = '#';
+        firstPageLink.innerText = 1;
+        paginationDiv.appendChild(firstPageLink);
+        if (startPage > 2) {
+            const ellipsis = document.createElement('span');
+            ellipsis.innerText = '...';
+            paginationDiv.appendChild(ellipsis);
+        }
+    }
+
+    // 生成3个主要页码链接
     for (let i = startPage; i <= endPage; i++) {
         const pageLink = document.createElement('a');
         pageLink.href = '#';
         pageLink.innerText = i;
         pageLink.className = currentPage === i ? 'active' : ''; // 之后利用css高亮当前页按钮
-
-        pageLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            fetchPaginationData('haplotypePagination', 'GT42G000001', i);
-        });
         paginationDiv.appendChild(pageLink);
+    }
+
+    // 如果最后一个页数标签不是最后一页，在最后一个页数标签前添加省略号，并添加最后一页的页码
+    if (endPage != numPages) {
+        if (endPage < numPages - 1) {
+            const ellipsis = document.createElement('span');
+            ellipsis.innerText = '...';
+            paginationDiv.appendChild(ellipsis);
+        }
+        const lastPageLink = document.createElement('a');
+        lastPageLink.href = '#';
+        lastPageLink.innerText = numPages;
+        paginationDiv.appendChild(lastPageLink);
     }
 
     // 添加Next按钮
@@ -81,12 +134,100 @@ function updatePagination(numPages, currentPage) {
         const nextLink = document.createElement('a');
         nextLink.href = '#';
         nextLink.innerText = 'Next';
-        nextLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            fetchPaginationData('haplotypePagination', 'GT42G000001', currentPage + 1);
-        });
         paginationDiv.appendChild(nextLink);
     }
 }
 
-export { updateTable, updateFooterNotes, updatePagination };
+// 更新整个表格容器
+function updateTableContainer(type, searchKeyword, page, container) {
+    fetchPaginationData(type, searchKeyword, page).then(newPaginationDataObject => {
+        updateData(type, newPaginationDataObject);
+        updateTable(newPaginationDataObject.data, container);
+        updateFooterNotes(newPaginationDataObject.numPages, newPaginationDataObject.currentPage, newPaginationDataObject.pageSize, newPaginationDataObject.totalRecords, container);
+        updatePagination(newPaginationDataObject.numPages, newPaginationDataObject.currentPage, container);
+    });
+}
+
+// 使用一个工厂函数来为每个分页组件生成事件处理器，以便能够处理特定的数据和容器。
+// dataType 只有在点击页码组件的时候才用到，因为获取旧的分页数据对象需要用到它
+function createPaginationClickHandler(container, dataType) {
+    return function (e) {
+        const target = e.target;
+        if (target.tagName === 'A') {
+            const pageText = target.innerText;
+            const oldPaginationDataObject = getData(dataType);
+            const { type, searchKeyword, currentPage } = oldPaginationDataObject; // 使用了 JavaScript 的解构赋值语法，它能够从oldPaginationDataObject对象中匹配出具有相同名称的键
+
+            let newPage;
+            if (pageText === 'Previous') {
+                newPage = currentPage - 1; // 后端已确保不会低于1
+            } else if (pageText === 'Next') {
+                newPage = currentPage + 1; // 后端已确保不会超出最大页数
+            } else {
+                newPage = parseInt(pageText);
+            }
+            updateTableContainer(type, searchKeyword, newPage, container);
+        }
+    };
+}
+
+// 使用一个工厂函数来创建一个点击复制按钮的事件处理器
+function createClickToCopyHandler() {
+    return function (e) {
+        if (e.target && e.target.classList.contains('copy_button')) {
+            const sequence = e.target.getAttribute('data_sequence');
+            copyTextToClipboard(sequence);
+        }
+    };
+}
+
+// function handlePaginationClick(e) {
+//     e.preventDefault();
+//     const target = e.target;
+//     console.log(target);
+//     if (target.tagName === 'A') {
+//         const page = target.innerText;
+//         const oldPaginationDataObject = getData('haplotypePagination');
+//         const type = oldPaginationDataObject.type;
+//         const searchKeyword = oldPaginationDataObject.searchKeyword;
+//         const currentPage = oldPaginationDataObject.currentPage;
+
+//         if (page === 'Previous') {
+//             // 逻辑处理
+//             fetchPaginationData(type, searchKeyword, currentPage - 1).then(newPaginationDataObject => {
+//                 updateData(type, newPaginationDataObject);
+//                 updateTable(newPaginationDataObject.data);
+//                 updateFooterNotes(newPaginationDataObject.numPages, newPaginationDataObject.currentPage, newPaginationDataObject.pageSize, newPaginationDataObject.totalRecords);
+//                 updatePagination(newPaginationDataObject.numPages, newPaginationDataObject.currentPage);
+//             });
+//         } else if (page === 'Next') {
+//             // 逻辑处理
+//             fetchPaginationData(type, searchKeyword, currentPage + 1).then(newPaginationDataObject => {
+//                 updateData(type, newPaginationDataObject);
+//                 updateTable(newPaginationDataObject.data);
+//                 updateFooterNotes(newPaginationDataObject.numPages, newPaginationDataObject.currentPage, newPaginationDataObject.pageSize, newPaginationDataObject.totalRecords);
+//                 updatePagination(newPaginationDataObject.numPages, newPaginationDataObject.currentPage);
+//             });
+//         } else {
+//             const pageNum = parseInt(page);
+//             fetchPaginationData(type, searchKeyword, pageNum).then(newPaginationDataObject => {
+//                 updateData(type, newPaginationDataObject);
+//                 updateTable(newPaginationDataObject.data);
+//                 updateFooterNotes(newPaginationDataObject.numPages, newPaginationDataObject.currentPage, newPaginationDataObject.pageSize, newPaginationDataObject.totalRecords);
+//                 updatePagination(newPaginationDataObject.numPages, newPaginationDataObject.currentPage);
+//             });
+//         }
+//     }
+// }
+
+function setUpPaginationEventListeners(containerSelector, dataType) {
+    const container = document.querySelector(containerSelector); // 获取表格容器结构
+    // console.log(container);
+    const paginationClickHandler = createPaginationClickHandler(container, dataType); // 生成该容器的事件处理器
+    container.addEventListener('click', paginationClickHandler); // 为容器添加事件监听器
+    const clickToCopyHandler = createClickToCopyHandler();
+    container.addEventListener('click', clickToCopyHandler);
+}
+
+
+export { updateTableContainer, setUpPaginationEventListeners }; 

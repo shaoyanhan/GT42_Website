@@ -47,6 +47,9 @@
 let haplotypeData = [];
 let SNPData = [];
 let transcriptData = [];
+let haplotypePaginationData = [];
+let SNPPaginationData = [];
+let transcriptPaginationData = [];
 
 // 定义API请求的前缀
 let apiPrefix = {
@@ -62,10 +65,25 @@ let apiPrefix = {
     }
 }
 // 定义更新函数的映射关系, 从名称映射到函数
-const updateFunctions = {
+const updateDataFunctions = {
     haplotype: updateHaplotypeData,
     SNP: updateSNPData,
     transcript: updateTranscriptData,
+    haplotypePagination: updateHaplotypePaginationData,
+    SNPPagination: updateSNPPaginationData,
+    transcriptPagination: updateTranscriptPaginationData,
+};
+
+const getDataFunctions = {
+    haplotype: getHaplotypeData, // [{geneID: 'GT42G000001', ...}, {geneID: 'GT42G000002', ...} ...]
+    SNP: getSNPData,
+    transcript: getTranscriptData,
+    haplotypePagination: getHaplotypePaginationData, // {data: [{geneID: 'GT42G000001', ...}, {geneID: 'GT42G000002', ...} ...], numPages: 1, currentPage: 1, pageSize: 10, totalRecords: 1}
+    SNPPagination: getSNPPaginationData,
+    transcriptPagination: getTranscriptPaginationData,
+    haplotypeDataArray: getHaplotypeDataArray, // [['GT42G000001', ...], ['GT42G000002', ...] ...]
+    SNPDataArray: getSNPDataArray,
+    transcriptDataArray: getTranscriptDataArray,
 };
 
 // 更新数据，因为在ES6模块中，通过import导入的变量是只读的，不能被重新赋值。
@@ -78,6 +96,15 @@ function updateSNPData(newData) {
 function updateTranscriptData(newData) {
     transcriptData = newData;
 }
+function updateHaplotypePaginationData(newData) {
+    haplotypePaginationData = newData;
+}
+function updateSNPPaginationData(newData) {
+    SNPPaginationData = newData;
+}
+function updateTranscriptPaginationData(newData) {
+    transcriptPaginationData = newData;
+}
 
 // 获取对象数组数据
 function getHaplotypeData() {
@@ -89,6 +116,16 @@ function getSNPData() {
 function getTranscriptData() {
     return transcriptData;
 }
+function getHaplotypePaginationData() {
+    return haplotypePaginationData;
+}
+function getSNPPaginationData() {
+    return SNPPaginationData;
+}
+function getTranscriptPaginationData() {
+    return transcriptPaginationData;
+}
+
 
 // 获取二维数组数据
 function getHaplotypeDataArray() {
@@ -147,17 +184,25 @@ async function fetchPaginationData(type, searchKeyword, page = 1) {
 
 function updateData(type, data) {
     // 从映射中获取数据集对应的更新函数并调用它
-    const updateDataFunction = updateFunctions[type];
-    if (updateDataFunction) {
-        updateDataFunction(data);
+    const func = updateDataFunctions[type];
+    if (func) {
+        func(data);
     } else {
         console.error(`未知的数据类型: ${type}`);
     }
 }
 
+function getData(type) {
+    const func = getDataFunctions[type];
+    if (func) {
+        return func();
+    } else {
+        console.error(`未知的数据类型: ${type}`);
+    }
+}
 
 export {
     getHaplotypeData, getSNPData, getTranscriptData,
     getHaplotypeDataArray, getSNPDataArray, getTranscriptDataArray,
-    fetchData, fetchAllData, fetchPaginationData, updateData
+    fetchData, fetchAllData, fetchPaginationData, updateData, getData
 };

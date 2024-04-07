@@ -60,13 +60,73 @@
             border-radius: 5px;
         }
 
-        .footer_pagination_container {
+        .haplotype_table_container .footer_pagination_container {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 10px;
             background: #f0f0f0;
             border-radius: 0 0 10px 10px;
+        }
+
+        .haplotype_table_container .footer_pagination_container .pagination_container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .haplotype_table_container .footer_pagination_container .pagination_container a {
+            margin: 0 5px;
+            padding: 5px 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            text-decoration: none;
+            color: #333;
+        }
+
+        .haplotype_table_container .footer_pagination_container .pagination_container a:hover {
+            background: #8bc2d0;
+            color: #fff;
+        }
+
+        .haplotype_table_container .footer_pagination_container .pagination_container .active {
+            background: #8bc2d0;
+            color: #fff;
+        }
+
+        .haplotype_table_container .download_button {
+            margin: 10px;
+            padding: 5px 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            text-decoration: none;
+            color: #333;
+            background: #f0f0f0;
+            cursor: pointer;
+        }
+
+        .haplotype_table_container .download_button:hover {
+            background: #8bc2d0;
+            color: #fff;
+        }
+
+        .custom_alert {
+            display: none;
+            /* 初始状态不显示 */
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #b8e994;
+            /* 浅绿色背景 */
+            padding: 20px;
+            border-radius: 10px;
+            /* 圆角边框 */
+            z-index: 1000;
+            /* 确保它在页面上的其他元素之上 */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            /* 轻微的阴影效果 */
+            text-align: center;
         }
     </style>
 </head>
@@ -102,51 +162,55 @@
 
     <details open>
         <summary>Click to view the table</summary>
-        <div class="table_container">
-            <table id="haplotype_table">
-                <thead>
-                    <tr>
-                        <th>mosaicID</th>
-                        <th>geneID</th>
-                        <th>geneType</th>
-                        <th>length</th>
-                        <th>nucleotide sequence</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>GT42G000001</td>
-                        <td>GT42G000001.SO.0</td>
-                        <td>mosaic</td>
-                        <td>5420</td>
-                        <td><button>Copy</button></td>
-                    </tr>
-                    <tr>
-                        <td>GT42G000001</td>
-                        <td>GT42G000001.SO.0</td>
-                        <td>mosaic</td>
-                        <td>5420</td>
-                        <td><button>Copy</button></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="footer_pagination_container">
-            <span id="footer_notes">Showing ? to ? of ? entries</span>
-            <div id="pagination_container">
-                <a href="#">1</a>
-                <a href="#">2</a>
-                <a href="#">3</a>
+        <div class="haplotype_table_container">
+            <button class="download_button" id="download_haplotype_table">Download</button>
+            <div class="table_container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>mosaicID</th>
+                            <th>geneID</th>
+                            <th>geneType</th>
+                            <th>length</th>
+                            <th>nucleotide sequence</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>GT42G000001</td>
+                            <td>GT42G000001.SO.0</td>
+                            <td>mosaic</td>
+                            <td>5420</td>
+                            <td><button>Copy</button></td>
+                        </tr>
+                        <tr>
+                            <td>GT42G000001</td>
+                            <td>GT42G000001.SO.0</td>
+                            <td>mosaic</td>
+                            <td>5420</td>
+                            <td><button>Copy</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="footer_pagination_container">
+                <span class="footer_notes">Showing ? to ? of ? entries</span>
+                <div class="pagination_container">
+                    <a href="#">1</a>
+                    <a href="#">2</a>
+                    <a href="#">3</a>
+                </div>
             </div>
         </div>
+
     </details>
 
     <div id="drawTranscript" style="width: 1600px;height:1400px;"></div>
 
 
 
-
-
+    <!-- 触发showCustomAlert方法之后才显示 -->
+    <div id="customAlert" class="custom_alert"></div>
     <script type="module" src="../../js/test/main.js"></script>
 </body>
 

@@ -1,7 +1,8 @@
 import { getHaplotypeOption } from "./echartsOptionHaplotype.js";
 import { getTranscriptOption } from "./echartsOptionTranscript.js";
-import { getHaplotypeData, getSNPData, getTranscriptData, getHaplotypeDataArray, getSNPDataArray, getTranscriptDataArray, fetchAllData, fetchPaginationData, updateData } from "./data.js";
-import { updateTable, updateFooterNotes, updatePagination } from "./tablePagination.js";
+import { fetchAllData, fetchPaginationData, updateData, getData } from "./data.js";
+import { updateTableContainer, setUpPaginationEventListeners } from "./tablePagination.js";
+import { setupDownloadButton } from "./downloadTable.js";
 
 
 // 初始化ECharts实例
@@ -63,9 +64,9 @@ async function inital() {
     }
 
     // 获取二维数组数据
-    let haplotypeDataArray = getHaplotypeDataArray();
-    let SNPDataArray = getSNPDataArray();
-    let transcriptDataArray = getTranscriptDataArray();
+    let haplotypeDataArray = getData('haplotypeDataArray');
+    let SNPDataArray = getData('SNPDataArray');
+    let transcriptDataArray = getData('transcriptDataArray');
 
     // 同步两个图像中第一条单倍型的颜色
     let [changedHaplotypeDataArray, changedTranscriptDataArray] = initialBarColorSync(haplotypeDataArray, transcriptDataArray, '#ff7e98');
@@ -77,13 +78,19 @@ async function inital() {
     drawTranscriptChart(changedTranscriptDataArray);
 
     let paginationDataObject = await fetchPaginationData('haplotypePagination', searchKeywordMosaic, 1);
-    console.log(paginationDataObject);
-    updateTable(paginationDataObject.data);
-    updateFooterNotes(paginationDataObject.num_pages, paginationDataObject.current_page, paginationDataObject.page_size, paginationDataObject.total_records);
-    updatePagination(paginationDataObject.num_pages, paginationDataObject.current_page);
+    // console.log(paginationDataObject);
+    updateData('haplotypePagination', paginationDataObject);
+    // console.log(getData('haplotypePagination'));
+    let haplotype_table_container = document.querySelector('.haplotype_table_container');
+    // console.log(haplotype_table_container);
+    updateTableContainer('haplotypePagination', searchKeywordMosaic, 1, haplotype_table_container); // 初始化表格
 
 
 }
 
 // 确保文档加载完成后再执行初始化
-document.addEventListener('DOMContentLoaded', inital);
+document.addEventListener('DOMContentLoaded', () => {
+    inital();
+    setUpPaginationEventListeners('.haplotype_table_container', 'haplotypePagination'); // 为haplotype表格容器添加事件监听器
+    setupDownloadButton('download_haplotype_table'); // 为haplotype表格下载按钮添加事件监听器
+});
