@@ -4,6 +4,8 @@ import { showCustomAlert } from './others.js';
 // 更新表格的函数映射
 let updateTableFunctions = {
     haplotype_table_container: updateHaplotypeTable,
+    SNP_table_container: updateSNPTable,
+    transcript_table_container: updateTranscriptTable,
 };
 
 // 更新haplotype表格
@@ -20,6 +22,45 @@ function updateHaplotypeTable(data, container) {
         container.appendChild(tr);
     });
 }
+
+// 更新SNP表格
+function updateSNPTable(data, container) {
+    container.innerHTML = '';  // 清空当前表格
+    data.forEach(row => {
+        const tr = document.createElement('tr');
+        // 给核苷酸序列设置为点击复制按钮，附带自定义的data_属性，用于存储实际要复制的数据。
+        tr.innerHTML = `<td>${row.mosaicID}</td>
+                        <td>${row.SNPSite}</td>
+                        <td>${row.SNPType}</td>
+                        <td>${row.IsoSeqEvidence}</td>
+                        <td>${row.RNASeqEvidence}</td>
+                        <td>${row.haplotypeSNP}</td>`;
+        container.appendChild(tr);
+    });
+}
+
+// 更新transcript表格，表格头为mosaicID, geneID, transcriptID, transcriptIndex, isExon, start, end, length, transcriptRange, transcriptLength, proteinSequence, nucleotideSequence，最后两列为点击复制按钮
+function updateTranscriptTable(data, container) {
+    container.innerHTML = '';  // 清空当前表格
+    data.forEach(row => {
+        const tr = document.createElement('tr');
+        // 给核苷酸序列设置为点击复制按钮，附带自定义的data_属性，用于存储实际要复制的数据。
+        tr.innerHTML = `<td>${row.mosaicID}</td>
+                        <td>${row.geneID}</td>
+                        <td>${row.transcriptID}</td>
+                        <td>${row.transcriptIndex}</td>
+                        <td>${row.isExon}</td>
+                        <td>${row.start}</td>
+                        <td>${row.end}</td>
+                        <td>${row.length}</td>
+                        <td>${row.transcriptRange}</td>
+                        <td>${row.transcriptLength}</td>
+                        <td><button class="copy_button" data_sequence="${row.proteinSequence}">Click to Copy</button></td>
+                        <td><button class="copy_button" data_sequence="${row.nucleotideSequence}">Click to Copy</button></td>`;
+        container.appendChild(tr);
+    });
+}
+
 
 // 将data_sequence里的文本复制到剪贴板
 function copyTextToClipboard(text) {
@@ -41,11 +82,11 @@ function copyTextToClipboard(text) {
 // 更新表格的通用函数
 function updateTable(data, container) {
     const tableBody = container.querySelector('tbody');
-    const updateFunction = updateTableFunctions[container.className];
+    const updateFunction = updateTableFunctions[container.id];
     if (updateFunction) {
         updateFunction(data, tableBody);
     } else {   // 如果没有对应的更新函数，输出错误信息
-        console.error(`未知的表格类型: ${container.className}`);
+        console.error(`未知的表格类型: ${container.id}`);
     }
 }
 
@@ -152,6 +193,7 @@ function updateTableContainer(type, searchKeyword, page, container) {
 // dataType 只有在点击页码组件的时候才用到，因为获取旧的分页数据对象需要用到它
 function createPaginationClickHandler(container, dataType) {
     return function (e) {
+        e.preventDefault(); // 阻止默认行为, 否则每次点击页码会刷新页面
         const target = e.target;
         if (target.tagName === 'A') {
             const pageText = target.innerText;
@@ -225,7 +267,7 @@ function setUpPaginationEventListeners(containerSelector, dataType) {
     // console.log(container);
     const paginationClickHandler = createPaginationClickHandler(container, dataType); // 生成该容器的事件处理器
     container.addEventListener('click', paginationClickHandler); // 为容器添加事件监听器
-    const clickToCopyHandler = createClickToCopyHandler();
+    const clickToCopyHandler = createClickToCopyHandler(); // 生成点击复制按钮的事件处理器
     container.addEventListener('click', clickToCopyHandler);
 }
 

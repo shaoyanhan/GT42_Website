@@ -59,6 +59,8 @@ let apiPrefix = {
     SNP: 'getSNPTable/',
     transcript: 'getTranscriptTable/',
     haplotypePagination: 'getHaplotypeTableByPage/',
+    SNPPagination: 'getSNPTableByPage/',
+    transcriptPagination: 'getTranscriptTableByPage/',
     parameter: {
         searchKeyword: 'searchKeyword=',
         page: 'page=',
@@ -176,6 +178,7 @@ async function fetchPaginationData(type, searchKeyword, page = 1) {
             apiPrefix.parameter.page + page;
         console.log(dataRequestUrl);
         const data = await fetchData(dataRequestUrl);
+        // console.log(data);
         return data;
     } catch (error) {
         console.error(`${type}数据加载失败:`, error);

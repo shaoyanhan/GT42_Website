@@ -60,7 +60,7 @@
             border-radius: 5px;
         }
 
-        .haplotype_table_container .footer_pagination_container {
+        .table_footer_pagination_container .footer_pagination_container {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -69,13 +69,13 @@
             border-radius: 0 0 10px 10px;
         }
 
-        .haplotype_table_container .footer_pagination_container .pagination_container {
+        .table_footer_pagination_container .footer_pagination_container .pagination_container {
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
-        .haplotype_table_container .footer_pagination_container .pagination_container a {
+        .table_footer_pagination_container .footer_pagination_container .pagination_container a {
             margin: 0 5px;
             padding: 5px 10px;
             border: 1px solid #ccc;
@@ -84,17 +84,17 @@
             color: #333;
         }
 
-        .haplotype_table_container .footer_pagination_container .pagination_container a:hover {
+        .table_footer_pagination_container .footer_pagination_container .pagination_container a:hover {
             background: #8bc2d0;
             color: #fff;
         }
 
-        .haplotype_table_container .footer_pagination_container .pagination_container .active {
+        .table_footer_pagination_container .footer_pagination_container .pagination_container .active {
             background: #8bc2d0;
             color: #fff;
         }
 
-        .haplotype_table_container .download_button {
+        .table_footer_pagination_container .footer_pagination_container .download_button {
             margin: 10px;
             padding: 5px 10px;
             border: 1px solid #ccc;
@@ -105,7 +105,7 @@
             cursor: pointer;
         }
 
-        .haplotype_table_container .download_button:hover {
+        .table_footer_pagination_container .footer_pagination_container .download_button:hover {
             background: #8bc2d0;
             color: #fff;
         }
@@ -136,6 +136,7 @@
 
 
 
+
     <div class="haplotype_result_container">
         <!-- 容器的大小一定要包裹住 echart 的option配置中的 grid + dataZoomX 的大小 -->
         <div id="drawHaplotype" style="width: 1100px;height:1000px; color: #ff7e98;"></div>
@@ -160,10 +161,11 @@
         </div>
     </div>
 
+    <!-- 套用该模式需要修改：1. id="haplotype_table_container"；2. <thead>；3. id="download_haplotype_table"-->
     <details open>
         <summary>Click to view the table</summary>
-        <div class="haplotype_table_container">
-            <button class="download_button" id="download_haplotype_table">Download</button>
+        <div class="table_footer_pagination_container" id="haplotype_table_container">
+
             <div class="table_container">
                 <table>
                     <thead>
@@ -200,6 +202,110 @@
                     <a href="#">2</a>
                     <a href="#">3</a>
                 </div>
+                <button class="download_button" id="download_haplotype_table">Download</button>
+            </div>
+        </div>
+
+    </details>
+
+
+    <details open>
+        <summary>Click to view the table</summary>
+        <div class="table_footer_pagination_container" id="SNP_table_container">
+
+            <div class="table_container">
+                <table>
+                    <thead>
+                        <!-- 表格头为mosaicID, SNPSite, SNPType, IsoSeqEvidence, RNASeqEvidence, haplotypeSNP -->
+                        <tr>
+                            <th>mosaicID</th>
+                            <th>SNPSite</th>
+                            <th>SNPType</th>
+                            <th>IsoSeqEvidence</th>
+                            <th>RNASeqEvidence</th>
+                            <th>haplotypeSNP</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>GT42G000001</td>
+                            <td>GT42G000001.SO.0</td>
+                            <td>mosaic</td>
+                            <td>5420</td>
+                            <td><button>Copy</button></td>
+                        </tr>
+                        <tr>
+                            <td>GT42G000001</td>
+                            <td>GT42G000001.SO.0</td>
+                            <td>mosaic</td>
+                            <td>5420</td>
+                            <td><button>Copy</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="footer_pagination_container">
+                <span class="footer_notes">Showing ? to ? of ? entries</span>
+                <div class="pagination_container">
+                    <a href="#">1</a>
+                    <a href="#">2</a>
+                    <a href="#">3</a>
+                </div>
+                <button class="download_button" id="download_SNP_table">Download</button>
+            </div>
+        </div>
+
+    </details>
+
+    <details open>
+        <summary>Click to view the table</summary>
+        <div class="table_footer_pagination_container" id="transcript_table_container">
+
+            <div class="table_container">
+                <table>
+                    <thead>
+                        <!-- 表格头为mosaicID, geneID, transcriptID, transcriptIndex, isExon, start, end, length, transcriptRange, transcriptLength, proteinSequence, nucleotideSequence -->
+                        <tr>
+                            <th>mosaicID</th>
+                            <th>geneID</th>
+                            <th>transcriptID</th>
+                            <th>transcriptIndex</th>
+                            <th>isExon</th>
+                            <th>start</th>
+                            <th>end</th>
+                            <th>length</th>
+                            <th>transcriptRange</th>
+                            <th>transcriptLength</th>
+                            <th>proteinSequence</th>
+                            <th>nucleotideSequence</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>GT42G000001</td>
+                            <td>GT42G000001.SO.0</td>
+                            <td>mosaic</td>
+                            <td>5420</td>
+                            <td><button>Copy</button></td>
+                        </tr>
+                        <tr>
+                            <td>GT42G000001</td>
+                            <td>GT42G000001.SO.0</td>
+                            <td>mosaic</td>
+                            <td>5420</td>
+                            <td><button>Copy</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="footer_pagination_container">
+                <span class="footer_notes">Showing ? to ? of ? entries</span>
+                <div class="pagination_container">
+                    <a href="#">1</a>
+                    <a href="#">2</a>
+                    <a href="#">3</a>
+                </div>
+                <button class="download_button" id="download_transcript_table">Download</button>
             </div>
         </div>
 
@@ -209,7 +315,7 @@
 
 
 
-    <!-- 触发showCustomAlert方法之后才显示 -->
+    <!-- 提示框，触发showCustomAlert方法之后才显示 -->
     <div id="customAlert" class="custom_alert"></div>
     <script type="module" src="../../js/test/main.js"></script>
 </body>
