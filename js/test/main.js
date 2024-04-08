@@ -3,6 +3,7 @@ import { getTranscriptOption } from "./echartsOptionTranscript.js";
 import { fetchAllData, fetchPaginationData, updateData, getData } from "./data.js";
 import { updateTableContainer, setUpPaginationEventListeners } from "./tablePagination.js";
 import { setupDownloadButton } from "./downloadTable.js";
+import { updateResultDetailsContainer, setUpResultDetailsContainerEventListeners } from "./resultDetailsContainer.js";
 
 
 // 初始化ECharts实例
@@ -56,10 +57,11 @@ async function inital() {
     // transcriptData的搜索关键词基于haplotypeData查询结果的geneID，
     // 因此需要确保先获取到了haplotypeData，再根据haplotypeData的geneID获取transcriptData
     let searchKeywordGene;
+    let transcriptDataObject;
     if (haplotypeDataObject.length > 0) {
         searchKeywordGene = haplotypeDataObject[1].geneID;
         console.log(searchKeywordGene);
-        let transcriptDataObject = await fetchAllData('transcript', searchKeywordGene);
+        transcriptDataObject = await fetchAllData('transcript', searchKeywordGene);
         console.log(transcriptDataObject);
         updateData('transcript', transcriptDataObject);
     }
@@ -94,7 +96,14 @@ async function inital() {
     updateTableContainer('transcriptPagination', searchKeywordGene, 1, transcript_table_container); // 初始化表格
 
 
+    let haplotype_result_details_container = document.querySelector('#haplotype_result_details_container');
+    updateResultDetailsContainer(haplotypeDataObject[1], haplotype_result_details_container);
 
+    let SNP_result_details_container = document.querySelector('#SNP_result_details_container');
+    updateResultDetailsContainer(SNPDataObject[1], SNP_result_details_container);
+
+    let transcript_result_details_container = document.querySelector('#transcript_result_details_container');
+    updateResultDetailsContainer(transcriptDataObject[1], transcript_result_details_container);
 
 }
 
@@ -104,7 +113,10 @@ document.addEventListener('DOMContentLoaded', () => {
     setUpPaginationEventListeners('#haplotype_table_container', 'haplotypePagination'); // 为haplotype表格容器添加事件监听器
     setUpPaginationEventListeners('#SNP_table_container', 'SNPPagination'); // 为SNP表格容器添加事件监听器
     setUpPaginationEventListeners('#transcript_table_container', 'transcriptPagination'); // 为transcript表格容器添加事件监听器
-    setupDownloadButton('download_haplotype_table'); // 为haplotype表格下载按钮添加事件监听器
-    setupDownloadButton('download_SNP_table'); // 为SNP表格下载按钮添加事件监听器
-    setupDownloadButton('download_transcript_table'); // 为transcript表格下载按钮添加事件监听器
+    setupDownloadButton('#download_haplotype_table'); // 为haplotype表格下载按钮添加事件监听器
+    setupDownloadButton('#download_SNP_table'); // 为SNP表格下载按钮添加事件监听器
+    setupDownloadButton('#download_transcript_table'); // 为transcript表格下载按钮添加事件监听器
+    setUpResultDetailsContainerEventListeners('#haplotype_result_details_container'); // 为结果详情容器添加事件监听器
+    setUpResultDetailsContainerEventListeners('#SNP_result_details_container'); // 为结果详情容器添加事件监听器
+    setUpResultDetailsContainerEventListeners('#transcript_result_details_container'); // 为结果详情容器添加事件监听器
 });

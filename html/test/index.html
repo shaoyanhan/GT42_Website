@@ -14,7 +14,7 @@
             align-items: center;
         }
 
-        .haplotype_result_container .result_details_container {
+        .result_details_container {
             width: 400px;
             height: 1000px;
             margin: 20px;
@@ -25,7 +25,7 @@
             box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
         }
 
-        .haplotype_result_container .result_details_container .content_box {
+        .result_details_container .content_box {
             width: calc(100% - 40px);
             /* 矩形框的宽度，减去间隔的两倍 */
             height: calc(100% - 40px);
@@ -43,22 +43,82 @@
             /* 垂直方向出现滚动条 */
         }
 
-        .haplotype_result_container .result_details_container .content_box .result_details {
+        .result_details_container .content_box .result_details {
             padding: 10px;
             text-align: left;
             /* 文本内容两端对齐 */
             font-size: 18px;
         }
 
-        .haplotype_result_container .result_details_container .content_box .result_details .main_title {
+        .result_details_container .content_box .main_title {
             font-size: 20px;
             font-weight: bold;
-            margin-bottom: 10px;
+            margin: 10px;
             display: block;
             background-color: #8bc2d0;
             text-align: center;
             border-radius: 5px;
         }
+
+        .result_details_container .content_box .item_container {
+            display: flex;
+            align-items: center;
+        }
+
+        .result_details_container .content_box .item_container .item_title {
+            font-weight: bold;
+            margin-right: 10px;
+            font-size: 18px;
+            background-color: rgb(234, 231, 231);
+            border-bottom: 1px solid #929191;
+            padding: 5px;
+        }
+
+        .result_details_container .content_box .item_container .item_content {
+            font-size: 18px;
+        }
+
+        .result_details_container .content_box .sequence_item_container .sequence_container_header {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .result_details_container .content_box .sequence_item_container .sequence_container_header .item_title {
+            font-weight: bold;
+            margin-right: 10px;
+            font-size: 18px;
+            background-color: rgb(234, 231, 231);
+            border-bottom: 1px solid #929191;
+            padding: 5px;
+        }
+
+        .result_details_container .content_box .sequence_item_container .sequence_container {
+            padding: 10px;
+            font-size: 18px;
+            height: 400px;
+            word-wrap: break-word;
+            /* 允许在长单词或URL内部进行换行 */
+            /* white-space: pre-wrap; */
+            /* 保持空白符的处理，同时允许文本自动换行 */
+            background-color: white;
+            overflow-y: scroll;
+        }
+
+        .result_details_container .table_header_container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background: #f0f0f0;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .result_details_container .table_content_container .table_content {
+            height: 100px;
+            overflow-y: scroll;
+        }
+
+
 
         .table_footer_pagination_container .footer_pagination_container {
             display: flex;
@@ -140,24 +200,128 @@
     <div class="haplotype_result_container">
         <!-- 容器的大小一定要包裹住 echart 的option配置中的 grid + dataZoomX 的大小 -->
         <div id="drawHaplotype" style="width: 1100px;height:1000px; color: #ff7e98;"></div>
-        <div class="result_details_container">
+        <div class="result_details_container" id="haplotype_result_details_container">
             <!-- 下面必须使用两个div嵌套才能实现内容溢出的时候不会覆盖圆角框和矩形框之间的底部间隔 -->
             <div class="content_box">
+                <h1 class="main_title">Result Details</h1>
                 <div class="result_details">
-                    <h1 class="main_title">Result Details</h1>
-                    <h1 class="sub_title">Gene</h1>
-                    <h1 class="sub_title">SNP</h1>
-                    <p>Gene Name: Gene Name</p>
-                    <p>Gene Length: 1000 bp</p>
-                    <p>Gene Description: Gene Description</p>
-                    <p>Gene Sequence: Gene Sequence</p>
-                    <p>Gene Annotation: Gene Annotation</p>
-                    <p>Gene Expression: Gene Expression</p>
-                    <p>Gene Function: Gene Function</p>
+                    <!-- 该结构内的内容使用 updateResultDetailsContainer(data, container)填充-->
+                    <div class="item_container">
+                        <h1 class="item_title">mosaicID</h1>
+                        <p class="item_content">GT42G000001</p>
+                    </div>
+                    <div class="item_container">
+                        <h1 class="item_title">geneID</h1>
+                        <p class="item_content">GT42G000001.SO.1</p>
+                    </div>
+                    <div class="item_container">
+                        <h1 class="item_title">geneType</h1>
+                        <p class="item_content">mosaic</p>
+                    </div>
+                    <div class="item_container">
+                        <h1 class="item_title">length</h1>
+                        <p class="item_content">5420</p>
+                    </div>
+                    <div class="sequence_item_container">
+                        <div class="sequence_container_header">
+                            <h1 class="item_title">nucleotideSequence</h1>
+                            <button class="copy_button" data_sequence="daaaaaaaaaaaaaaa">Click to Copy</button>
+                        </div>
+                        <div class="sequence_container">
+                            <p class="item_content">
+                                CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+                            </p>
+                        </div>
+                    </div>
+
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div class="result_details_container" id="SNP_result_details_container">
+        <!-- 下面必须使用两个div嵌套才能实现内容溢出的时候不会覆盖圆角框和矩形框之间的底部间隔 -->
+        <div class="content_box">
+            <h1 class="main_title">Result Details</h1>
+            <div class="result_details">
+                <!-- h1分别为mosaicID, geneType, SNPSite, SNPType, IsoSeqEvidence, RNASeqEvidence, haplotypeSNP, color -->
+                <div class="item_container">
+                    <h1 class="item_title">mosaicID</h1>
+                    <p class="item_content">GT42G000001</p>
+                </div>
+                <div class="item_container">
+                    <h1 class="item_title">geneType</h1>
+                    <p class="item_content">mosaic</p>
+                </div>
+                <div class="item_container">
+                    <h1 class="item_title">SNPSite</h1>
+                    <p class="item_content">1</p>
+                </div>
+                <div class="item_container">
+                    <h1 class="item_title">SNPType</h1>
+                    <p class="item_content">C/T</p>
+                </div>
+                <div class="item_container">
+                    <h1 class="item_title">IsoSeqEvidence</h1>
+                    <p class="item_content">IsoSeq</p>
+                </div>
+                <div class="item_container">
+                    <h1 class="item_title">RNASeqEvidence</h1>
+                    <p class="item_content">RNASeq</p>
+                </div>
+                <div class="table_item_container">
+                    <div class="table_header_container">
+                        <h1 class="item_title">Haplotype SNP</h1>
+                        <button class="download_button">Download</button>
+                    </div>
+                    <div class="table_content_container">
+                        <div class="table_header">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>SNP ID</th>
+                                        <th>Type</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div class="table_content">
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td>GT42G000001.SO.1</td>
+                                        <td>C</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="item_container">
+                    <h1 class="item_title">Color</h1>
+                    <div style="width: 20px; height: 20px; border-radius: 50%; background-color: #003666"></div>
+                </div>
 
 
+            </div>
+        </div>
+    </div>
+
+    <div class="result_details_container" id="transcript_result_details_container">
+        <!-- 下面必须使用两个div嵌套才能实现内容溢出的时候不会覆盖圆角框和矩形框之间的底部间隔 -->
+        <div class="content_box">
+            <h1 class="main_title">Result Details</h1>
+            <div class="result_details">
+
+                <div class="item_container">
+                    <h1 class="item_title">mosaicID</h1>
+                    <p class="item_content">GT42G000001</p>
+                </div>
+
+
+            </div>
         </div>
     </div>
 
@@ -178,20 +342,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>GT42G000001</td>
-                            <td>GT42G000001.SO.0</td>
-                            <td>mosaic</td>
-                            <td>5420</td>
-                            <td><button>Copy</button></td>
-                        </tr>
-                        <tr>
-                            <td>GT42G000001</td>
-                            <td>GT42G000001.SO.0</td>
-                            <td>mosaic</td>
-                            <td>5420</td>
-                            <td><button>Copy</button></td>
-                        </tr>
+                        <!-- 由tablePagination.js 中的 updateTable（data, container）进行填充 -->
                     </tbody>
                 </table>
             </div>
@@ -227,20 +378,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>GT42G000001</td>
-                            <td>GT42G000001.SO.0</td>
-                            <td>mosaic</td>
-                            <td>5420</td>
-                            <td><button>Copy</button></td>
-                        </tr>
-                        <tr>
-                            <td>GT42G000001</td>
-                            <td>GT42G000001.SO.0</td>
-                            <td>mosaic</td>
-                            <td>5420</td>
-                            <td><button>Copy</button></td>
-                        </tr>
+                        <!-- 由tablePagination.js 中的 updateTable（data, container）进行填充 -->
                     </tbody>
                 </table>
             </div>
@@ -281,20 +419,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>GT42G000001</td>
-                            <td>GT42G000001.SO.0</td>
-                            <td>mosaic</td>
-                            <td>5420</td>
-                            <td><button>Copy</button></td>
-                        </tr>
-                        <tr>
-                            <td>GT42G000001</td>
-                            <td>GT42G000001.SO.0</td>
-                            <td>mosaic</td>
-                            <td>5420</td>
-                            <td><button>Copy</button></td>
-                        </tr>
+                        <!-- 由tablePagination.js 中的 updateTable（data, container）进行填充 -->
                     </tbody>
                 </table>
             </div>

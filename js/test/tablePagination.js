@@ -1,5 +1,5 @@
 import { fetchPaginationData, getData, updateData } from './data.js';
-import { showCustomAlert } from './others.js';
+import { createClickToCopyHandler } from './copyTextToClipboard.js';
 
 // 更新表格的函数映射
 let updateTableFunctions = {
@@ -62,21 +62,6 @@ function updateTranscriptTable(data, container) {
 }
 
 
-// 将data_sequence里的文本复制到剪贴板
-function copyTextToClipboard(text) {
-    const textarea = document.createElement('textarea');
-    textarea.value = text;
-    document.body.appendChild(textarea);
-    textarea.select();
-    navigator.clipboard.writeText(text).then(() => {
-        // 可选：提醒用户已复制
-        // 成功复制文本后
-        showCustomAlert('Text copied to clipboard!');
-    }).catch(err => {
-        console.error('Error in copying text: ', err);
-    });
-    document.body.removeChild(textarea);
-}
 
 
 // 更新表格的通用函数
@@ -212,55 +197,6 @@ function createPaginationClickHandler(container, dataType) {
         }
     };
 }
-
-// 使用一个工厂函数来创建一个点击复制按钮的事件处理器
-function createClickToCopyHandler() {
-    return function (e) {
-        if (e.target && e.target.classList.contains('copy_button')) {
-            const sequence = e.target.getAttribute('data_sequence');
-            copyTextToClipboard(sequence);
-        }
-    };
-}
-
-// function handlePaginationClick(e) {
-//     e.preventDefault();
-//     const target = e.target;
-//     console.log(target);
-//     if (target.tagName === 'A') {
-//         const page = target.innerText;
-//         const oldPaginationDataObject = getData('haplotypePagination');
-//         const type = oldPaginationDataObject.type;
-//         const searchKeyword = oldPaginationDataObject.searchKeyword;
-//         const currentPage = oldPaginationDataObject.currentPage;
-
-//         if (page === 'Previous') {
-//             // 逻辑处理
-//             fetchPaginationData(type, searchKeyword, currentPage - 1).then(newPaginationDataObject => {
-//                 updateData(type, newPaginationDataObject);
-//                 updateTable(newPaginationDataObject.data);
-//                 updateFooterNotes(newPaginationDataObject.numPages, newPaginationDataObject.currentPage, newPaginationDataObject.pageSize, newPaginationDataObject.totalRecords);
-//                 updatePagination(newPaginationDataObject.numPages, newPaginationDataObject.currentPage);
-//             });
-//         } else if (page === 'Next') {
-//             // 逻辑处理
-//             fetchPaginationData(type, searchKeyword, currentPage + 1).then(newPaginationDataObject => {
-//                 updateData(type, newPaginationDataObject);
-//                 updateTable(newPaginationDataObject.data);
-//                 updateFooterNotes(newPaginationDataObject.numPages, newPaginationDataObject.currentPage, newPaginationDataObject.pageSize, newPaginationDataObject.totalRecords);
-//                 updatePagination(newPaginationDataObject.numPages, newPaginationDataObject.currentPage);
-//             });
-//         } else {
-//             const pageNum = parseInt(page);
-//             fetchPaginationData(type, searchKeyword, pageNum).then(newPaginationDataObject => {
-//                 updateData(type, newPaginationDataObject);
-//                 updateTable(newPaginationDataObject.data);
-//                 updateFooterNotes(newPaginationDataObject.numPages, newPaginationDataObject.currentPage, newPaginationDataObject.pageSize, newPaginationDataObject.totalRecords);
-//                 updatePagination(newPaginationDataObject.numPages, newPaginationDataObject.currentPage);
-//             });
-//         }
-//     }
-// }
 
 function setUpPaginationEventListeners(containerSelector, dataType) {
     const container = document.querySelector(containerSelector); // 获取表格容器结构

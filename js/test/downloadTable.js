@@ -1,11 +1,11 @@
 import { getData } from "./data.js";
-import { showCustomAlert } from "./others.js";
+import { showCustomAlert } from "./showCustomAlert.js";
 
 // 建立buttonID到getData函数的参数的映射
 let idToType = {
-    download_haplotype_table: 'haplotype',
-    download_SNP_table: 'SNP',
-    download_transcript_table: 'transcript',
+    '#download_haplotype_table': 'haplotype',
+    '#download_SNP_table': 'SNP',
+    '#download_transcript_table': 'transcript',
 };
 
 function convertDataToCSV(data) {
@@ -34,7 +34,7 @@ function downloadCSV(csv, filename) {
 }
 
 function setupDownloadButton(buttonId) {
-    const button = document.getElementById(buttonId);
+    const button = document.querySelector(buttonId);
     button.addEventListener('click', () => {
         const type = idToType[buttonId];
         console.log(type);
