@@ -1,14 +1,11 @@
 import { createClickToCopyHandler } from './copyTextToClipboard.js';
 
 // 更新结果详情的函数映射
+// 因为haplotype和SNP共用一个result details容器, 所以不能用id映射到更新函数, 而是直接传入type进行分辨
 let updateResultDetailsContainerFunctions = {
-    // haplotype_SNP_result_details_container: { // 由于haplotype和SNP的结果详情容器相同，因此使用一个id映射到两个函数
-    //     haplotype: updateHaplotypeResultDetailsContainer,
-    //     SNP: updateSNPResultDetailsContainer
-    // },
-    haplotype_result_details_container: updateHaplotypeResultDetailsContainer,
-    SNP_result_details_container: updateSNPResultDetailsContainer,
-    transcript_result_details_container: updateTranscriptResultDetailsContainer,
+    haplotype: updateHaplotypeResultDetailsContainer,
+    SNP: updateSNPResultDetailsContainer,
+    transcript: updateTranscriptResultDetailsContainer,
 };
 
 function updateHaplotypeResultDetailsContainer(data, container) {
@@ -284,18 +281,24 @@ function updateTranscriptResultDetailsContainer(data, container) {
     resultDetails.innerHTML = mosaicIDContent + geneIDContent + transcriptIDContent + transcriptIndexContent + isExonContent + startContent + endContent + lengthContent + transcriptRangeContent + transcriptLengthContent + proteinSequenceContainer + nucleotideSequenceContainer;
 }
 
-
+// 这里传入的data是一个对象，包含了type和data两个属性, type用于选择对应的更新函数，data用于传入更新函数的数据
+// 因为haplotype和SNP共用一个result details容器, 所以不能用id映射到更新函数, 而是直接传入type进行分辨
 function updateResultDetailsContainer(data, container) {
-    // 获取容器的id
-    const containerId = container.id;
-    console.log(containerId);
+    // 获取数据的类型
+    const dataType = data.type;
+    const dataValue = data.data;
+    console.log(`Updating container for type: ${dataType}`);
 
     // 获取对应的更新函数
-    const updateFunction = updateResultDetailsContainerFunctions[containerId];
+    const updateFunction = updateResultDetailsContainerFunctions[dataType];
     console.log(updateFunction);
 
-    // 调用更新函数
-    updateFunction(data, container);
+    // 调用更新函数（如果存在）
+    if (updateFunction) {
+        updateFunction(dataValue, container);
+    } else {
+        console.error(`No update function found for type: ${dataType}`);
+    }
 }
 
 

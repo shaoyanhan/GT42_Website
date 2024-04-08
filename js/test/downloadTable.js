@@ -3,9 +3,9 @@ import { showCustomAlert } from "./showCustomAlert.js";
 
 // 建立buttonID到getData函数的参数的映射
 let idToType = {
-    '#download_haplotype_table': 'haplotype',
-    '#download_SNP_table': 'SNP',
-    '#download_transcript_table': 'transcript',
+    '#download_haplotype_table': 'haplotypeObjectData',
+    '#download_SNP_table': 'SNPObjectData',
+    '#download_transcript_table': 'transcriptObjectData',
 };
 
 function convertDataToCSV(data) {

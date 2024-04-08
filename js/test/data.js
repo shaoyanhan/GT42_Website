@@ -44,9 +44,67 @@
 //     ['GT42G000001', 'GT42G000001.SO.1', 'GT42G000001.SO.1.5', 'transcript5', 1, 130, 140, 10, '130 - 140', 10],
 // ];
 
-let haplotypeData = [];
-let SNPData = [];
-let transcriptData = [];
+
+// {
+//     "type": "haplotype",
+//         "data": [
+//             {
+//                 "mosaicID": "GT42G000002",
+//                 "geneID": "GT42G000002.SO.0",
+//                 "geneType": "mosaic",
+//                 "length": 5420,
+//                 "nucleotideSequence": "ATCGATCG",
+//                 "id": 6
+//             },
+//         ]
+// }
+let haplotypeRawData = [];
+let SNPRawData = [];
+let transcriptRawData = [];
+
+
+// [
+//     {
+//          "mosaicID": "GT42G000002",
+//          "geneID": "GT42G000002.SO.0",
+//          "geneType": "mosaic",
+//          "length": 5420,
+//          "nucleotideSequence": "ATCGATCG",
+//     },
+// ]
+let haplotypeObjectData = [];
+let SNPObjectData = [];
+let transcriptObjectData = [];
+
+
+// [
+//     ["GT42G000002", "GT42G000002.SO.0", "mosaic", 5420, "ATCGATCG"],
+// ]
+let haplotypeArrayData = [];
+let SNPArrayData = [];
+let transcriptArrayData = [];
+
+
+/*
+{
+    "numPages": 1,
+    "currentPage": 1,
+    "pageSize": 10,
+    "totalRecords": 4,
+    "searchKeyword": "GT42G000001",
+    "type": "haplotypePagination",
+    "data": [
+        {
+            "mosaicID": "GT42G000001",
+            "geneID": "GT42G000001.SO.0",
+            "geneType": "mosaic",
+            "length": 5420,
+            "nucleotideSequence": "ATCGATCG",
+            "id": 1
+        },
+    ]
+}
+*/
 let haplotypePaginationData = [];
 let SNPPaginationData = [];
 let transcriptPaginationData = [];
@@ -77,27 +135,45 @@ const updateDataFunctions = {
 };
 
 const getDataFunctions = {
-    haplotype: getHaplotypeData, // [{geneID: 'GT42G000001', ...}, {geneID: 'GT42G000002', ...} ...]
-    SNP: getSNPData,
-    transcript: getTranscriptData,
-    haplotypePagination: getHaplotypePaginationData, // {data: [{geneID: 'GT42G000001', ...}, {geneID: 'GT42G000002', ...} ...], numPages: 1, currentPage: 1, pageSize: 10, totalRecords: 1}
-    SNPPagination: getSNPPaginationData,
-    transcriptPagination: getTranscriptPaginationData,
-    haplotypeDataArray: getHaplotypeDataArray, // [['GT42G000001', ...], ['GT42G000002', ...] ...]
-    SNPDataArray: getSNPDataArray,
-    transcriptDataArray: getTranscriptDataArray,
+    haplotypeRawData: getHaplotypeRawData,
+    SNPRawData: getSNPRawData,
+    transcriptRawData: getTranscriptRawData,
+
+    haplotypeObjectData: getHaplotypeObjectData,
+    SNPObjectData: getSNPObjectData,
+    transcriptObjectData: getTranscriptObjectData,
+
+    haplotypeArrayData: getHaplotypeArrayData,
+    SNPArrayData: getSNPArrayData,
+    transcriptArrayData: getTranscriptArrayData,
+
+    haplotypePaginationData: getHaplotypePaginationData,
+    SNPPaginationData: getSNPPaginationData,
+    transcriptPaginationData: getTranscriptPaginationData,
 };
+
+// 将对象数组转换为二维数组
+function objectToArray(data) {
+    return data.map(element => Object.values(element));
+}
 
 // 更新数据，因为在ES6模块中，通过import导入的变量是只读的，不能被重新赋值。
 function updateHaplotypeData(newData) {
-    haplotypeData = newData;
+    haplotypeRawData = newData;
+    haplotypeObjectData = newData.data;
+    haplotypeArrayData = objectToArray(newData.data);
 }
 function updateSNPData(newData) {
-    SNPData = newData;
+    SNPRawData = newData;
+    SNPObjectData = newData.data;
+    SNPArrayData = objectToArray(newData.data);
 }
 function updateTranscriptData(newData) {
-    transcriptData = newData;
+    transcriptRawData = newData;
+    transcriptObjectData = newData.data;
+    transcriptArrayData = objectToArray(newData.data);
 }
+
 function updateHaplotypePaginationData(newData) {
     haplotypePaginationData = newData;
 }
@@ -108,16 +184,40 @@ function updateTranscriptPaginationData(newData) {
     transcriptPaginationData = newData;
 }
 
-// 获取对象数组数据
-function getHaplotypeData() {
-    return haplotypeData;
+// 获取原始数据
+function getHaplotypeRawData() {
+    return haplotypeRawData;
 }
-function getSNPData() {
-    return SNPData;
+function getSNPRawData() {
+    return SNPRawData;
 }
-function getTranscriptData() {
-    return transcriptData;
+function getTranscriptRawData() {
+    return transcriptRawData;
 }
+
+// 获取对象数据
+function getHaplotypeObjectData() {
+    return haplotypeObjectData;
+}
+function getSNPObjectData() {
+    return SNPObjectData;
+}
+function getTranscriptObjectData() {
+    return transcriptObjectData;
+}
+
+// 获取二维数组数据
+function getHaplotypeArrayData() {
+    return haplotypeArrayData;
+}
+function getSNPArrayData() {
+    return SNPArrayData;
+}
+function getTranscriptArrayData() {
+    return transcriptArrayData;
+}
+
+// 获取分页数据
 function getHaplotypePaginationData() {
     return haplotypePaginationData;
 }
@@ -127,20 +227,6 @@ function getSNPPaginationData() {
 function getTranscriptPaginationData() {
     return transcriptPaginationData;
 }
-
-
-// 获取二维数组数据
-function getHaplotypeDataArray() {
-    return haplotypeData.map(element => Object.values(element));
-}
-function getSNPDataArray() {
-    return SNPData.map(element => Object.values(element));
-}
-function getTranscriptDataArray() {
-    return transcriptData.map(element => Object.values(element));
-    // let extractData = transcriptData.map(element => Object.values(element));
-}
-
 
 
 // 数据请求, 相当于axios.get(url).then(response => response.data).catch(error => console.error('数据请求失败:', error));
@@ -154,7 +240,6 @@ async function fetchData(url) {
         console.error('数据请求失败:', error);
     }
 }
-
 
 
 // 请求全部数据
@@ -188,6 +273,8 @@ async function fetchPaginationData(type, searchKeyword, page = 1) {
 function updateData(type, data) {
     // 从映射中获取数据集对应的更新函数并调用它
     const func = updateDataFunctions[type];
+    // console.log(type)
+    // console.log(func);
     if (func) {
         func(data);
     } else {
@@ -204,8 +291,4 @@ function getData(type) {
     }
 }
 
-export {
-    getHaplotypeData, getSNPData, getTranscriptData,
-    getHaplotypeDataArray, getSNPDataArray, getTranscriptDataArray,
-    fetchData, fetchAllData, fetchPaginationData, updateData, getData
-};
+export { fetchAllData, fetchPaginationData, updateData, getData };
