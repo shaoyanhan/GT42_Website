@@ -1,43 +1,13 @@
-import { getHaplotypeOption } from "./echartsOptionHaplotype.js";
-import { getTranscriptOption } from "./echartsOptionTranscript.js";
+import { drawHaplotypeSNPChart, drawTranscriptChart, setBarFocus, setBarColor, initialBarColorSync, clickHaplotypeSNPChartsEvents, clickTranscriptChartEvents } from "./echartsEvents.js";
 import { fetchAllData, fetchPaginationData, updateData, getData } from "./data.js";
 import { updateTableContainer, setUpPaginationEventListeners } from "./tablePagination.js";
 import { setupDownloadButton } from "./downloadTable.js";
 import { updateResultDetailsContainer, setUpResultDetailsContainerEventListeners } from "./resultDetailsContainer.js";
-import { testEchartsEvents } from "./echartsEvents.js";
+
 
 // 初始化ECharts实例
-export let haplotypeChart = echarts.init(document.getElementById('drawHaplotype'), null, { renderer: 'svg' });
+export let haplotypeSNPChart = echarts.init(document.getElementById('drawHaplotype'), null, { renderer: 'svg' });
 export let transcriptChart = echarts.init(document.getElementById('drawTranscript'), null, { renderer: 'svg' });
-
-
-function drawHaplotypeChart(haplotypeData, SNPData) {
-    haplotypeChart.setOption(getHaplotypeOption(haplotypeData, SNPData));
-}
-
-function drawTranscriptChart(transcriptData) {
-    transcriptChart.setOption(getTranscriptOption(transcriptData));
-}
-
-// 实现单倍型和转录本图像中的选中的单倍型的颜色同步
-function initialBarColorSync(haplotypeDataArray, transcriptDataArray, color) {
-    let itemStyle = {
-        color: color,
-        borderWidth: 5,
-        borderColor: "red",
-        borderType: "solid",
-        opacity: 1
-    }
-    haplotypeDataArray[1] = {
-        value: haplotypeDataArray[1],
-        itemStyle: itemStyle
-    }
-    transcriptDataArray[0] = {
-        value: transcriptDataArray[0],
-        itemStyle: itemStyle
-    }
-    return [haplotypeDataArray, transcriptDataArray];
-}
 
 // 页面初始化
 async function inital() {
@@ -78,14 +48,22 @@ async function inital() {
     let SNPArrayData = getData('SNPArrayData');
     let transcriptArrayData = getData('transcriptArrayData');
 
-    // 同步两个图像中第一条单倍型的颜色
-    let [changedHaplotypeArrayData, changedTranscriptArrayData] = initialBarColorSync(haplotypeArrayData, transcriptArrayData, '#ff7e98');
-    console.log(changedHaplotypeArrayData);
-    console.log(changedTranscriptArrayData);
+    // // 同步两个图像中第一条单倍型的颜色
+    // let [changedHaplotypeArrayData, changedTranscriptArrayData] = initialBarColorSync(haplotypeArrayData, transcriptArrayData, '#ff7e98', 'red');
+    // console.log(changedHaplotypeArrayData);
+    // console.log(changedTranscriptArrayData);
 
+    // drawHaplotypeSNPChart(haplotypeSNPChart, changedHaplotypeArrayData, SNPArrayData);
+    // drawTranscriptChart(transcriptChart, changedTranscriptArrayData);
+
+    // 设置第一条单倍型和转录本图像中的单倍型的焦点
+    haplotypeArrayData = setBarFocus(haplotypeArrayData, 1, 'red');
+    transcriptArrayData = setBarFocus(transcriptArrayData, 0, 'red');
+    // 将转录本图像中的单倍型颜色设置为绿色（拙劣的手法）
+    transcriptArrayData = setBarColor(transcriptArrayData, 0, '#9cd283');
     // 绘制图像
-    drawHaplotypeChart(changedHaplotypeArrayData, SNPArrayData);
-    drawTranscriptChart(changedTranscriptArrayData);
+    drawHaplotypeSNPChart(haplotypeSNPChart, haplotypeArrayData, SNPArrayData);
+    drawTranscriptChart(transcriptChart, transcriptArrayData);
 
 
 
@@ -103,12 +81,8 @@ async function inital() {
     updateTableContainer('transcriptPagination', searchKeywordGene, 1, transcript_table_container); // 初始化表格
 
     let haplotypeResultDetailsData = { type: haplotypeRawData.type, data: haplotypeRawData.data[1] };
-    let haplotype_result_details_container = document.querySelector('#haplotype_result_details_container');
+    let haplotype_result_details_container = document.querySelector('#haplotype_SNP_result_details_container');
     updateResultDetailsContainer(haplotypeResultDetailsData, haplotype_result_details_container);
-
-    let SNPResultDetailsData = { type: SNPRawData.type, data: SNPRawData.data[1] };
-    let SNP_result_details_container = document.querySelector('#SNP_result_details_container');
-    updateResultDetailsContainer(SNPResultDetailsData, SNP_result_details_container);
 
     let transcriptResultDetailsData = { type: transcriptRawData.type, data: transcriptRawData.data[1] };
     let transcript_result_details_container = document.querySelector('#transcript_result_details_container');
@@ -125,8 +99,8 @@ document.addEventListener('DOMContentLoaded', () => {
     setupDownloadButton('#download_haplotype_table'); // 为haplotype表格下载按钮添加事件监听器
     setupDownloadButton('#download_SNP_table'); // 为SNP表格下载按钮添加事件监听器
     setupDownloadButton('#download_transcript_table'); // 为transcript表格下载按钮添加事件监听器
-    setUpResultDetailsContainerEventListeners('#haplotype_result_details_container'); // 为结果详情容器添加事件监听器
-    setUpResultDetailsContainerEventListeners('#SNP_result_details_container'); // 为结果详情容器添加事件监听器
+    setUpResultDetailsContainerEventListeners('#haplotype_SNP_result_details_container'); // 为结果详情容器添加事件监听器
     setUpResultDetailsContainerEventListeners('#transcript_result_details_container'); // 为结果详情容器添加事件监听器
-    haplotypeChart.on('click', testEchartsEvents); // 为单倍型图像添加事件监听器
+    haplotypeSNPChart.on('click', clickHaplotypeSNPChartsEvents); // 为单倍型图像添加事件监听器
+    transcriptChart.on('click', clickTranscriptChartEvents); // 为转录本图像添加事件监听器
 });

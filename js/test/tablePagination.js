@@ -34,7 +34,8 @@ function updateSNPTable(data, container) {
                         <td>${row.SNPType}</td>
                         <td>${row.IsoSeqEvidence}</td>
                         <td>${row.RNASeqEvidence}</td>
-                        <td>${row.haplotypeSNP}</td>`;
+                        <td>${row.haplotypeSNP}</td>
+                        <div style="width: 20px; height: 20px; border-radius: 50%; background-color: ${row.color}"></div>`;
         container.appendChild(tr);
     });
 }
@@ -55,8 +56,8 @@ function updateTranscriptTable(data, container) {
                         <td>${row.length}</td>
                         <td>${row.transcriptRange}</td>
                         <td>${row.transcriptLength}</td>
-                        <td><button class="copy_button" data_sequence="${row.proteinSequence}">Click to Copy</button></td>
-                        <td><button class="copy_button" data_sequence="${row.nucleotideSequence}">Click to Copy</button></td>`;
+                        <td><button class="copy_button" data_sequence="${row.nucleotideSequence}">Click to Copy</button></td>
+                        <td><button class="copy_button" data_sequence="${row.proteinSequence}">Click to Copy</button></td>`;
         container.appendChild(tr);
     });
 }

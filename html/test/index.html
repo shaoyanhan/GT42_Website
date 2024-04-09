@@ -6,6 +6,8 @@
     <title>ECharts</title>
     <!-- 引入 echarts.js -->
     <script src="https://cdn.jsdelivr.net/npm/echarts@latest/dist/echarts.min.js"></script>
+    <!-- 引入 lodash.js 用于 data.js 的数据深拷贝 -->
+    <script src="../../js/lodash.js"></script>
 
     <style>
         .haplotype_result_container {
@@ -48,6 +50,7 @@
             text-align: left;
             /* 文本内容两端对齐 */
             font-size: 18px;
+            /* color: #9cd283; */
         }
 
         .result_details_container .content_box .main_title {
@@ -200,7 +203,7 @@
     <div class="haplotype_result_container">
         <!-- 容器的大小一定要包裹住 echart 的option配置中的 grid + dataZoomX 的大小 -->
         <div id="drawHaplotype" style="width: 1100px;height:1000px; color: #ff7e98;"></div>
-        <div class="result_details_container" id="haplotype_result_details_container">
+        <div class="result_details_container" id="haplotype_SNP_result_details_container">
             <!-- 下面必须使用两个div嵌套才能实现内容溢出的时候不会覆盖圆角框和矩形框之间的底部间隔 -->
             <div class="content_box">
                 <h1 class="main_title">Result Details</h1>
@@ -239,75 +242,7 @@
         </div>
     </div>
 
-    <div class="result_details_container" id="SNP_result_details_container">
-        <!-- 下面必须使用两个div嵌套才能实现内容溢出的时候不会覆盖圆角框和矩形框之间的底部间隔 -->
-        <div class="content_box">
-            <h1 class="main_title">Result Details</h1>
-            <div class="result_details">
-                <!-- h1分别为mosaicID, geneType, SNPSite, SNPType, IsoSeqEvidence, RNASeqEvidence, haplotypeSNP, color -->
-                <div class="item_container">
-                    <h1 class="item_title">mosaicID</h1>
-                    <p class="item_content">GT42G000001</p>
-                </div>
-                <div class="item_container">
-                    <h1 class="item_title">geneType</h1>
-                    <p class="item_content">mosaic</p>
-                </div>
-                <div class="item_container">
-                    <h1 class="item_title">SNPSite</h1>
-                    <p class="item_content">1</p>
-                </div>
-                <div class="item_container">
-                    <h1 class="item_title">SNPType</h1>
-                    <p class="item_content">C/T</p>
-                </div>
-                <div class="item_container">
-                    <h1 class="item_title">IsoSeqEvidence</h1>
-                    <p class="item_content">IsoSeq</p>
-                </div>
-                <div class="item_container">
-                    <h1 class="item_title">RNASeqEvidence</h1>
-                    <p class="item_content">RNASeq</p>
-                </div>
-                <div class="table_item_container">
-                    <div class="table_header_container">
-                        <h1 class="item_title">Haplotype SNP</h1>
-                        <button class="download_button">Download</button>
-                    </div>
-                    <div class="table_content_container">
-                        <div class="table_header">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>SNP ID</th>
-                                        <th>Type</th>
-                                    </tr>
-                                </thead>
-                            </table>
-                        </div>
-                        <div class="table_content">
-                            <table>
-                                <tbody>
-                                    <tr>
-                                        <td>GT42G000001.SO.1</td>
-                                        <td>C</td>
-                                    </tr>
-                                </tbody>
-                            </table>
 
-                        </div>
-                    </div>
-                </div>
-
-                <div class="item_container">
-                    <h1 class="item_title">Color</h1>
-                    <div style="width: 20px; height: 20px; border-radius: 50%; background-color: #003666"></div>
-                </div>
-
-
-            </div>
-        </div>
-    </div>
 
     <div class="result_details_container" id="transcript_result_details_container">
         <!-- 下面必须使用两个div嵌套才能实现内容溢出的时候不会覆盖圆角框和矩形框之间的底部间隔 -->
@@ -375,6 +310,7 @@
                             <th>IsoSeqEvidence</th>
                             <th>RNASeqEvidence</th>
                             <th>haplotypeSNP</th>
+                            <th>color</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -414,8 +350,8 @@
                             <th>length</th>
                             <th>transcriptRange</th>
                             <th>transcriptLength</th>
-                            <th>proteinSequence</th>
                             <th>nucleotideSequence</th>
+                            <th>proteinSequence</th>
                         </tr>
                     </thead>
                     <tbody>

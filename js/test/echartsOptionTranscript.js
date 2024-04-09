@@ -158,14 +158,14 @@ function getTranscriptOption(transcriptData) {
         },
         series: [
             {
-                // name: 'haplotype',
+                name: 'transcript',
                 type: 'custom',
                 renderItem: renderItem,
                 itemStyle: {
-                    opacity: 0.8,
+                    opacity: 0.9,
                     color: function (value) {
                         if (value.data[3] == 'haplotype') {
-                            return '#A2C579';
+                            return '#9cd283';
                         } else {
                             if (value.data[4] == 1) {
                                 return '#61A3BA';
@@ -173,7 +173,6 @@ function getTranscriptOption(transcriptData) {
                                 return '#D2DE32';
                             }
                         }
-
                     }
                 },
                 borderRadius: 5,

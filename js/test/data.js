@@ -1,3 +1,5 @@
+
+
 // 用于绘图和数据处理的全局变量
 // 不能将数据定义放在main.js中，因为会导致main.js和echartsOptionHaplotype.js、echartsOptionTranscript.js之间的循环依赖问题
 // let haplotypeData = [["GT42G000001", "GT42G000001.SO.0", "mosaic", 5420, "ATCGATCG"],
@@ -186,46 +188,46 @@ function updateTranscriptPaginationData(newData) {
 
 // 获取原始数据
 function getHaplotypeRawData() {
-    return haplotypeRawData;
+    return _.cloneDeep(haplotypeRawData);
 }
 function getSNPRawData() {
-    return SNPRawData;
+    return _.cloneDeep(SNPRawData);
 }
 function getTranscriptRawData() {
-    return transcriptRawData;
+    return _.cloneDeep(transcriptRawData);
 }
 
 // 获取对象数据
 function getHaplotypeObjectData() {
-    return haplotypeObjectData;
+    return _.cloneDeep(haplotypeObjectData);
 }
 function getSNPObjectData() {
-    return SNPObjectData;
+    return _.cloneDeep(SNPObjectData);
 }
 function getTranscriptObjectData() {
-    return transcriptObjectData;
+    return _.cloneDeep(transcriptObjectData);
 }
 
 // 获取二维数组数据
 function getHaplotypeArrayData() {
-    return haplotypeArrayData;
+    return _.cloneDeep(haplotypeArrayData);
 }
 function getSNPArrayData() {
-    return SNPArrayData;
+    return _.cloneDeep(SNPArrayData);
 }
 function getTranscriptArrayData() {
-    return transcriptArrayData;
+    return _.cloneDeep(transcriptArrayData);
 }
 
 // 获取分页数据
 function getHaplotypePaginationData() {
-    return haplotypePaginationData;
+    return _.cloneDeep(haplotypePaginationData);
 }
 function getSNPPaginationData() {
-    return SNPPaginationData;
+    return _.cloneDeep(SNPPaginationData);
 }
 function getTranscriptPaginationData() {
-    return transcriptPaginationData;
+    return _.cloneDeep(transcriptPaginationData);
 }
 
 

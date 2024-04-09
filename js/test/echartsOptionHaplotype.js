@@ -1,7 +1,7 @@
 
 let startbp = 0;
 
-function getHaplotypeOption(haplotypeData, SNPData) {
+function getHaplotypeSNPOption(haplotypeData, SNPData) {
     return {
         tooltip: {
             // trigger: 'axis', // 设置之后与formatter冲突
@@ -180,7 +180,7 @@ function getHaplotypeOption(haplotypeData, SNPData) {
 
             {
 
-                name: 'SNP Site',
+                name: 'SNP',
                 type: 'scatter',
 
                 itemStyle: {
@@ -207,4 +207,4 @@ function getHaplotypeOption(haplotypeData, SNPData) {
     };
 }
 
-export { getHaplotypeOption };
+export { getHaplotypeSNPOption };
