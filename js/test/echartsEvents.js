@@ -100,8 +100,7 @@ async function clickHaplotypeSNPChartsEvents(params) {
     let seriesName = params.seriesName; // 与option中的series.name对应
     let geneType = params.name; // 与option中的y轴名称对应
 
-    // 将当前点击的ECharts的参数保存到haplotypeEchartParams或SNPEchartParams中
-    seriesName === 'haplotype' ? updateData('haplotypeEchartParams', params) : updateData('SNPEchartParams', params);
+
 
     let haplotypeObjectData = getData('haplotypeObjectData');
     let SNPObjectData = getData('SNPObjectData');
@@ -131,9 +130,14 @@ async function clickHaplotypeSNPChartsEvents(params) {
     if (seriesName === 'haplotype') {
         if (geneType === 'mosaic') {
             haplotypeArrayData = setBarFocus(haplotypeArrayData, 0, 'red');
+            drawHaplotypeSNPChart(haplotypeSNPChart, haplotypeArrayData, getData('SNPArrayData'));
         } else {
             // 如果点击的是haplotype的柱子，那么需要将transcriptChart的焦点和柱颜色进行更新，
             // 更新transcript的数据集，更新transcript的pagination，更新details container
+
+            // 将当前点击的ECharts的参数保存到haplotypeEchartParams中
+            // 注意：只有点击的是haplotype的柱子时，才会更新haplotypeEchartParams，否则如果点击mosaic时也更新，那么当再次点击可变剪接时，可变剪接图像中的单倍型颜色就会变成与mosaic一样
+            updateData('haplotypeEchartParams', params);
 
             let searchKeywordGene = currentClickedData.geneID; // 根据点击的haplotype数据获取geneID，然后根据geneID获取transcript数据
             // console.log(searchKeywordGene);
@@ -157,11 +161,10 @@ async function clickHaplotypeSNPChartsEvents(params) {
             let transcript_result_details_container = document.querySelector('#transcript_result_details_container'); // 获取transcript的result details容器
             updateResultDetailsContainer(transcriptResultDetailsData, transcript_result_details_container); // 初始化result details容器
 
+            drawHaplotypeSNPChart(haplotypeSNPChart, haplotypeArrayData, getData('SNPArrayData'));
+            drawTranscriptChart(transcriptChart, transcriptArrayData);
         }
-        drawHaplotypeSNPChart(haplotypeSNPChart, haplotypeArrayData, getData('SNPArrayData'));
-        drawTranscriptChart(transcriptChart, transcriptArrayData);
     }
-
 }
 
 function clickTranscriptChartEvents(params) {
@@ -182,6 +185,7 @@ function clickTranscriptChartEvents(params) {
     let clickedAreaData = exonAndIntronData.filter(item => item.start === startSite && item.end === endSite)[0]; // 取出与当前点击的区域对应的数据
     console.log(clickedAreaData);
 
+    // 更新details container
     let ResultDetailsData = { type: seriesName, data: clickedAreaData };
     let transcript_result_details_container = document.querySelector('#transcript_result_details_container');
     updateResultDetailsContainer(ResultDetailsData, transcript_result_details_container);
@@ -207,9 +211,6 @@ function clickTranscriptChartEvents(params) {
         console.log(haplotypeEchartParamsData);
         transcriptArrayData = setBarColor(transcriptArrayData, 0, haplotypeEchartParamsData.color);
     }
-
-    // 点击其他单倍型之后再点击mosaic，transcript中的单倍型颜色会被刷新
-
 
     drawTranscriptChart(transcriptChart, transcriptArrayData);
 

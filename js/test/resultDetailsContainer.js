@@ -206,7 +206,7 @@ function updateTranscriptResultDetailsContainer(data, container) {
     // 清空现有内容
     resultDetails.innerHTML = '';
 
-    // 创建并添加新的内容，h1分别为mosaicID, geneID, transcriptID, transcriptIndex, isExon, start, end, length, transcriptRange, transcriptLength, proteinSequence, nucleotideSequence，最后两个使用sequence_item_container结构
+    // 创建并添加新的内容，h1分别为mosaicID, geneID, transcriptID, transcriptIndex, areaType, start, end, length, transcriptRange, transcriptLength, proteinSequence, nucleotideSequence，最后两个使用sequence_item_container结构
     const mosaicIDContent = `
         <div class="item_container">
             <h1 class="item_title">mosaicID</h1>
@@ -227,10 +227,10 @@ function updateTranscriptResultDetailsContainer(data, container) {
             <h1 class="item_title">transcriptIndex</h1>
             <p class="item_content">${data.transcriptIndex}</p>
         </div>`;
-    const isExonContent = ` 
+    const areaTypeContent = ` 
         <div class="item_container">
-            <h1 class="item_title">isExon</h1>
-            <p class="item_content">${data.isExon}</p>
+            <h1 class="item_title">areaType</h1>
+            <p class="item_content">${data.areaType}</p>
         </div>`;
     const startContent = `
         <div class="item_container">
@@ -278,7 +278,7 @@ function updateTranscriptResultDetailsContainer(data, container) {
             </div>
         </div>`;
 
-    resultDetails.innerHTML = mosaicIDContent + geneIDContent + transcriptIDContent + transcriptIndexContent + isExonContent + startContent + endContent + lengthContent + transcriptRangeContent + transcriptLengthContent + proteinSequenceContainer + nucleotideSequenceContainer;
+    resultDetails.innerHTML = mosaicIDContent + geneIDContent + transcriptIDContent + transcriptIndexContent + areaTypeContent + startContent + endContent + lengthContent + transcriptRangeContent + transcriptLengthContent + proteinSequenceContainer + nucleotideSequenceContainer;
 }
 
 // 这里传入的data是一个对象，包含了type和data两个属性, type用于选择对应的更新函数，data用于传入更新函数的数据

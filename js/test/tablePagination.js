@@ -40,7 +40,7 @@ function updateSNPTable(data, container) {
     });
 }
 
-// 更新transcript表格，表格头为mosaicID, geneID, transcriptID, transcriptIndex, isExon, start, end, length, transcriptRange, transcriptLength, proteinSequence, nucleotideSequence，最后两列为点击复制按钮
+// 更新transcript表格，表格头为mosaicID, geneID, transcriptID, transcriptIndex, areaType, start, end, length, transcriptRange, transcriptLength, proteinSequence, nucleotideSequence，最后两列为点击复制按钮
 function updateTranscriptTable(data, container) {
     container.innerHTML = '';  // 清空当前表格
     data.forEach(row => {
@@ -50,7 +50,7 @@ function updateTranscriptTable(data, container) {
                         <td>${row.geneID}</td>
                         <td>${row.transcriptID}</td>
                         <td>${row.transcriptIndex}</td>
-                        <td>${row.isExon}</td>
+                        <td>${row.areaType}</td>
                         <td>${row.start}</td>
                         <td>${row.end}</td>
                         <td>${row.length}</td>

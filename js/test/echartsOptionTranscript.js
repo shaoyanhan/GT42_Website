@@ -2,11 +2,11 @@ let startbp = 0;
 
 function renderItem(params, api) {
     var categoryIndex = api.value(3);
-    var boxType = api.value(4);
+    var areaType = api.value(4);
     var start = api.coord([api.value(5), categoryIndex]); // x, y
     var end = api.coord([api.value(6), categoryIndex]);
 
-    if (boxType == 1) {
+    if (areaType == 'exon' || areaType == 'haplotype') {
         var height = api.size([0, 1])[1] * 0.6;
     } else {
         var height = api.size([0, 1])[1] * 0.1;
@@ -167,9 +167,9 @@ function getTranscriptOption(transcriptData) {
                         if (value.data[3] == 'haplotype') {
                             return '#9cd283';
                         } else {
-                            if (value.data[4] == 1) {
+                            if (value.data[4] == 'exon') {
                                 return '#61A3BA';
-                            } else if (value.data[4] == 0) {
+                            } else if (value.data[4] == 'intron') {
                                 return '#D2DE32';
                             }
                         }

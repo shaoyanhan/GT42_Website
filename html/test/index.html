@@ -191,12 +191,139 @@
             /* 轻微的阴影效果 */
             text-align: center;
         }
+
+
+        .search_container {
+            width: calc(100% - 80px);
+            padding: 0 40px 40px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .search_container .select_genome_form_group {
+            width: 350px;
+            height: 70px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            background-color: rgba(179, 236, 202, 0.73);
+            border-radius: 10px;
+            box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .search_container .select_genome_form_group label {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .search_container .select_genome_form_group select {
+            width: 120px;
+            height: 30px;
+            border: none;
+            background-color: rgba(255, 255, 255, 0.8);
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .search_container .search_id_form_group .submit_box {
+            width: 650px;
+            height: 70px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgba(179, 236, 202, 0.73);
+            border-radius: 10px;
+            box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .search_container .search_id_form_group .submit_box label {
+            font-size: 20px;
+            font-weight: bold;
+            margin-left: 30px;
+        }
+
+        .search_container .search_id_form_group .submit_box input {
+            width: 300px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.8);
+            font-size: 20px;
+            font-weight: bold;
+            padding: 0 10px;
+        }
+
+        .search_container .search_id_form_group .submit_box button {
+            width: 100px;
+            height: 40px;
+            margin-right: 30px;
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.8);
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .search_container .search_id_form_group .submit_box button:hover {
+            transform: scale(1.1);
+        }
+
+        .search_container .search_id_form_group .example_ids {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .search_container .search_id_form_group .example_ids .example_title,
+        .search_container .search_id_form_group .example_ids .example_id {
+            font-size: 20px;
+            font-weight: normal;
+            margin-right: 10px;
+            margin-top: 10px;
+            transition: all 0.5s;
+        }
+
+        .search_container .search_id_form_group .example_ids .example_id:hover {
+            cursor: pointer;
+            transform: scale(1.1);
+            color: red;
+            /* text-decoration: underline; */
+        }
     </style>
 </head>
 
 <body>
     <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div class="search_container">
 
+        <!-- 基因组选择框 -->
+        <div class="select_genome_form_group">
+            <label for="genome_select">Select Genome:</label>
+            <select id="genome_select" name="genome_select">
+                <option value="GT42" selected>GT42</option>
+                <!-- 其他选项 -->
+            </select>
+        </div>
+
+        <!-- 基因ID搜索框 -->
+        <div class="search_id_form_group">
+            <div class="submit_box">
+                <label for="search_input">Search ID:</label>
+                <input type="text" id="search_input" name="search_input" value="GT42G000001">
+                <button type="button" id="submit_button">Submit</button>
+            </div>
+            <div class="example_ids">
+                <span class="example_title">example:</span>
+                <span class="example_id" data-value="GT42G000001">GT42G000001,</span>
+                <span class="example_id" data-value="GT42G000001.SO.1">GT42G000001.SO.1,</span>
+                <span class="example_id" data-value="GT42G000001.SO.1.1">GT42G000001.SO.1.1</span>
+            </div>
+
+        </div>
+
+
+    </div>
 
 
 
@@ -344,7 +471,7 @@
                             <th>geneID</th>
                             <th>transcriptID</th>
                             <th>transcriptIndex</th>
-                            <th>isExon</th>
+                            <th>areaType</th>
                             <th>start</th>
                             <th>end</th>
                             <th>length</th>

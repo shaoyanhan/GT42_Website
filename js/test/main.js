@@ -56,13 +56,20 @@ async function inital() {
     // drawHaplotypeSNPChart(haplotypeSNPChart, changedHaplotypeArrayData, SNPArrayData);
     // drawTranscriptChart(transcriptChart, changedTranscriptArrayData);
 
-    // 设置第一条单倍型和转录本图像中的单倍型的焦点
+    // 设置第一条单倍型和转录本图像中的第一个转录本的第一个外显子的焦点
     haplotypeArrayData = setBarFocus(haplotypeArrayData, 1, 'red');
-    transcriptArrayData = setBarFocus(transcriptArrayData, 0, 'red');
+    transcriptArrayData = setBarFocus(transcriptArrayData, 1, 'red');
+    let initialExonBarColor = '#61A3BA';
+    transcriptArrayData = setBarColor(transcriptArrayData, 1, initialExonBarColor);
+
     // 将转录本图像中的单倍型颜色设置为绿色（拙劣的手法）
-    let initialBarColor = '#9cd283';
-    transcriptArrayData = setBarColor(transcriptArrayData, 0, initialBarColor);
-    let initialHaplotypeEchartParams = { color: initialBarColor };
+    let initialHaplotypeBarColor = '#9cd283';
+    transcriptArrayData = setBarColor(transcriptArrayData, 0, initialHaplotypeBarColor);
+
+    // 由于目前还没有发生点击事件，因此无法通过点击事件来更新transcript图像中单倍型的颜色，
+    // 如果初始化之后用户直接点击可变剪接的柱子，那么transcript图像中单倍型的颜色会变为默认的黑色
+    // 因此需要将当前的单倍型的颜色保存到haplotypeEchartParams中，以便在点击可变剪接的柱子时更新单倍型的颜色
+    let initialHaplotypeEchartParams = { color: initialHaplotypeBarColor };
     updateData('haplotypeEchartParams', initialHaplotypeEchartParams);
     console.log(getData('haplotypeEchartParamsData'));
     console.log(transcriptArrayData);
