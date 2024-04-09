@@ -148,9 +148,11 @@ let apiPrefix = {
     haplotypePagination: 'getHaplotypeTableByPage/',
     SNPPagination: 'getSNPTableByPage/',
     transcriptPagination: 'getTranscriptTableByPage/',
+    validateGenomeID: 'validateGenomeID/',
     parameter: {
         searchKeyword: 'searchKeyword=',
         page: 'page=',
+        genomeID: 'genomeID=',
     }
 }
 // 定义更新函数的映射关系, 从名称映射到函数
@@ -349,4 +351,17 @@ function getData(type) {
     }
 }
 
-export { fetchAllData, fetchPaginationData, updateData, getData };
+// 验证genomeID是否合法
+async function validateGenomeID(genomeID) {
+    try {
+        const dataRequestUrl = apiPrefix.IP + apiPrefix.app + apiPrefix.validateGenomeID + '?' +
+            apiPrefix.parameter.genomeID + genomeID;
+        console.log(dataRequestUrl);
+        const validateResult = await fetchData(dataRequestUrl);
+        return validateResult;
+    } catch (error) {
+        console.error('genomeID验证失败:', error);
+    }
+}
+
+export { fetchAllData, fetchPaginationData, updateData, getData, validateGenomeID };
