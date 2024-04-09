@@ -60,7 +60,13 @@ async function inital() {
     haplotypeArrayData = setBarFocus(haplotypeArrayData, 1, 'red');
     transcriptArrayData = setBarFocus(transcriptArrayData, 0, 'red');
     // 将转录本图像中的单倍型颜色设置为绿色（拙劣的手法）
-    transcriptArrayData = setBarColor(transcriptArrayData, 0, '#9cd283');
+    let initialBarColor = '#9cd283';
+    transcriptArrayData = setBarColor(transcriptArrayData, 0, initialBarColor);
+    let initialHaplotypeEchartParams = { color: initialBarColor };
+    updateData('haplotypeEchartParams', initialHaplotypeEchartParams);
+    console.log(getData('haplotypeEchartParamsData'));
+    console.log(transcriptArrayData);
+
     // 绘制图像
     drawHaplotypeSNPChart(haplotypeSNPChart, haplotypeArrayData, SNPArrayData);
     drawTranscriptChart(transcriptChart, transcriptArrayData);
@@ -80,13 +86,13 @@ async function inital() {
     // console.log(transcript_table_container);
     updateTableContainer('transcriptPagination', searchKeywordGene, 1, transcript_table_container); // 初始化表格
 
-    let haplotypeResultDetailsData = { type: haplotypeRawData.type, data: haplotypeRawData.data[1] };
-    let haplotype_result_details_container = document.querySelector('#haplotype_SNP_result_details_container');
-    updateResultDetailsContainer(haplotypeResultDetailsData, haplotype_result_details_container);
+    let haplotypeResultDetailsData = { type: haplotypeRawData.type, data: haplotypeRawData.data[1] }; // 获取第一条haplotype的信息
+    let haplotype_result_details_container = document.querySelector('#haplotype_SNP_result_details_container'); // 获取haplotype_SNP的result details容器
+    updateResultDetailsContainer(haplotypeResultDetailsData, haplotype_result_details_container); // 初始化result details容器
 
-    let transcriptResultDetailsData = { type: transcriptRawData.type, data: transcriptRawData.data[1] };
-    let transcript_result_details_container = document.querySelector('#transcript_result_details_container');
-    updateResultDetailsContainer(transcriptResultDetailsData, transcript_result_details_container);
+    let transcriptResultDetailsData = { type: transcriptRawData.type, data: transcriptRawData.data[1] }; // 获取第一条可变剪接的信息
+    let transcript_result_details_container = document.querySelector('#transcript_result_details_container'); // 获取transcript的result details容器
+    updateResultDetailsContainer(transcriptResultDetailsData, transcript_result_details_container); // 初始化result details容器
 
 }
 

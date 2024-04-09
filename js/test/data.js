@@ -111,6 +111,33 @@ let haplotypePaginationData = [];
 let SNPPaginationData = [];
 let transcriptPaginationData = [];
 
+
+/*
+$vars: (3) ['seriesName', 'name', 'value']
+borderColor: undefined
+color: "#003666"
+componentIndex: 1
+componentSubType: "scatter"
+componentType: "series"
+data: (9) ['GT42G000001', 'mosaic', 32, 'C/G', '8346/3244', '2133/4543', 'GT42G000001.SO.1:C; GT42G000001.SS.1:A', '#003666', 2]
+dataIndex:1
+dataTyp: undefined
+dimensionNames: (9) ['value', 'y', 'x', 'value0', 'value1', 'value2', 'value3', 'value4', 'value5']
+encode: {y: Array(1), x: Array(1)}
+event: {type: 'click', event: PointerEvent, target: i, topTarget: i, cancelBubble: false, …}
+name: "mosaic"
+seriesId: "\u0000SNP\u00000"
+seriesIndex: 1
+seriesName: "SNP"
+seriesType: "scatter"
+type: "click"
+value: (9) ['GT42G000001', 'mosaic', 32, 'C/G', '8346/3244', '2133/4543', 'GT42G000001.SO.1:C; GT42G000001.SS.1:A', '#003666', 2]
+[[Prototype]]: Object
+*/
+let haplotypeEchartParamsData = {};
+let SNPEchartParamsData = {};
+let transcriptEchartParamsData = {};
+
 // 定义API请求的前缀
 let apiPrefix = {
     IP: 'http://127.0.0.1:8080/',
@@ -134,6 +161,9 @@ const updateDataFunctions = {
     haplotypePagination: updateHaplotypePaginationData,
     SNPPagination: updateSNPPaginationData,
     transcriptPagination: updateTranscriptPaginationData,
+    haplotypeEchartParams: updateHaplotypeEchartParamsData,
+    SNPEchartParams: updateSNPEchartParamsData,
+    transcriptEchartParams: updateTranscriptEchartParamsData,
 };
 
 const getDataFunctions = {
@@ -152,6 +182,10 @@ const getDataFunctions = {
     haplotypePaginationData: getHaplotypePaginationData,
     SNPPaginationData: getSNPPaginationData,
     transcriptPaginationData: getTranscriptPaginationData,
+
+    haplotypeEchartParamsData: getHaplotypeEchartParamsData,
+    SNPEchartParamsData: getSNPEchartParamsData,
+    transcriptEchartParamsData: getTranscriptEchartParamsData,
 };
 
 // 将对象数组转换为二维数组
@@ -185,6 +219,17 @@ function updateSNPPaginationData(newData) {
 function updateTranscriptPaginationData(newData) {
     transcriptPaginationData = newData;
 }
+
+function updateHaplotypeEchartParamsData(newData) {
+    haplotypeEchartParamsData = newData;
+}
+function updateSNPEchartParamsData(newData) {
+    SNPEchartParamsData = newData;
+}
+function updateTranscriptEchartParamsData(newData) {
+    transcriptEchartParamsData = newData;
+}
+
 
 // 获取原始数据
 function getHaplotypeRawData() {
@@ -228,6 +273,17 @@ function getSNPPaginationData() {
 }
 function getTranscriptPaginationData() {
     return _.cloneDeep(transcriptPaginationData);
+}
+
+// 获取echart参数数据
+function getHaplotypeEchartParamsData() {
+    return _.cloneDeep(haplotypeEchartParamsData);
+}
+function getSNPEchartParamsData() {
+    return _.cloneDeep(SNPEchartParamsData);
+}
+function getTranscriptEchartParamsData() {
+    return _.cloneDeep(transcriptEchartParamsData);
 }
 
 
