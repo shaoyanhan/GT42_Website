@@ -35,6 +35,10 @@ function downloadCSV(csv, filename) {
 
 function setupDownloadButton(buttonId) {
     const button = document.querySelector(buttonId);
+    if (!button) {
+        console.error('button container not found!');
+        return;
+    }
     button.addEventListener('click', () => {
         const type = idToType[buttonId];
         console.log(type);

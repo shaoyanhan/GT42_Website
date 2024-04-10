@@ -178,9 +178,9 @@ function updateTableContainer(type, searchKeyword, page, container) {
 // 使用一个工厂函数来为每个分页组件生成事件处理器，以便能够处理特定的数据和容器。
 // dataType 只有在点击页码组件的时候才用到，因为获取旧的分页数据对象需要用到它
 function createPaginationClickHandler(container, dataType) {
-    return function (e) {
-        e.preventDefault(); // 阻止默认行为, 否则每次点击页码会刷新页面
-        const target = e.target;
+    return function (event) {
+        event.preventDefault(); // 阻止默认行为, 否则每次点击页码会刷新页面
+        const target = event.target;
         if (target.tagName === 'A') {
             const pageText = target.innerText;
             const oldPaginationDataObject = getData(dataType);
@@ -202,6 +202,10 @@ function createPaginationClickHandler(container, dataType) {
 function setUpPaginationEventListeners(containerSelector, dataType) {
     const container = document.querySelector(containerSelector); // 获取表格容器结构
     // console.log(container);
+    if (!container) {
+        console.error('Pagination container not found!');
+        return;
+    }
     const paginationClickHandler = createPaginationClickHandler(container, dataType); // 生成该容器的事件处理器
     container.addEventListener('click', paginationClickHandler); // 为容器添加事件监听器
     const clickToCopyHandler = createClickToCopyHandler(); // 生成点击复制按钮的事件处理器

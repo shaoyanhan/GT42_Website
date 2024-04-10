@@ -354,13 +354,17 @@ function getData(type) {
 // 验证genomeID是否合法
 async function validateGenomeID(genomeID) {
     try {
-        const dataRequestUrl = apiPrefix.IP + apiPrefix.app + apiPrefix.validateGenomeID + '?' +
-            apiPrefix.parameter.genomeID + genomeID;
+        const dataRequestUrl = `${apiPrefix.IP}${apiPrefix.app}${apiPrefix.validateGenomeID}?${apiPrefix.parameter.genomeID}${genomeID}`;
         console.log(dataRequestUrl);
-        const validateResult = await fetchData(dataRequestUrl);
+        const response = await fetch(dataRequestUrl);
+        if (!response.ok) { // response.ok是一个布尔值，它在响应的状态码是200-299范围内时为true，表示请求成功了；在其他情况下是false，表示请求失败。
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const validateResult = await response.json();
         return validateResult;
     } catch (error) {
-        console.error('genomeID验证失败:', error);
+        console.error('Genome ID验证失败:', error);
+        // 这里可以更新UI来向用户显示具体的错误信息
     }
 }
 

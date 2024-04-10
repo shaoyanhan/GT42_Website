@@ -305,6 +305,10 @@ function updateResultDetailsContainer(data, container) {
 // 传入的是result_details_container结构的id
 function setUpResultDetailsContainerEventListeners(containerSelector) {
     const container = document.querySelector(containerSelector);
+    if (!container) {
+        console.error('Result details container not found!');
+        return;
+    }
     const clickToCopyHandler = createClickToCopyHandler(); // 生成点击复制按钮的事件处理器
     container.addEventListener('click', clickToCopyHandler);
 }

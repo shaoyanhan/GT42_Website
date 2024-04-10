@@ -6,13 +6,33 @@ import { updateResultDetailsContainer, setUpResultDetailsContainerEventListeners
 import { validateSearchForm } from "./searchEvents.js";
 import { haplotypeSNPChart, transcriptChart } from "./main.js";
 
+function findIndexInObjectArray(objectArray, key, value) {
+    return objectArray.findIndex(obj => obj[key] === value);
+}
 
 
+function getInitialIndex(objectArray, searchKeyword, keywordType) {
+    if (keywordType === 'mosaic') { // GT42G000001
 
-// 页面初始化
-async function inital() {
+    } else if (keywordType === 'gene') { // GT42G000001.SO.1
+
+    } else if (keywordType === 'transcript') { // GT42G000001.SO.1.1
+
+    }
+}
+
+
+// 页面初始化，传入两个参数：genomeID和genomeID的类型，其实就是validateGenomeID成功之后的其中两个返回值
+// keywordType是一个字符串，表示genomeID的类型，有三种可能的值：mosaic、gene、transcript
+async function initalContentArea(searchKeyword, keywordType) {
     // 获取搜索框中的关键词
     let searchKeywordMosaic = 'GT42G000001';
+
+    let haplotypeIDIndex;
+    let geneIDIndex;
+    let transcriptIDIndex;
+
+
 
 
     // 请求数据并保存
@@ -36,16 +56,16 @@ async function inital() {
     let transcriptObjectData;
     if (haplotypeObjectData.length > 0) {
         searchKeywordGene = haplotypeObjectData[1].geneID;
-        console.log(searchKeywordGene);
+        // console.log(searchKeywordGene);
         transcriptRawData = await fetchAllData('transcript', searchKeywordGene);
-        console.log(transcriptRawData);
+        // console.log(transcriptRawData);
         updateData('transcript', transcriptRawData);
         transcriptObjectData = getData('transcriptObjectData');
     }
 
     // 获取二维数组数据
     let haplotypeArrayData = getData('haplotypeArrayData');
-    console.log(haplotypeArrayData);
+    // console.log(haplotypeArrayData);
     let SNPArrayData = getData('SNPArrayData');
     let transcriptArrayData = getData('transcriptArrayData');
 
@@ -72,8 +92,8 @@ async function inital() {
     // 因此需要将当前的单倍型的颜色保存到haplotypeEchartParams中，以便在点击可变剪接的柱子时更新单倍型的颜色
     let initialHaplotypeEchartParams = { color: initialHaplotypeBarColor };
     updateData('haplotypeEchartParams', initialHaplotypeEchartParams);
-    console.log(getData('haplotypeEchartParamsData'));
-    console.log(transcriptArrayData);
+    // console.log(getData('haplotypeEchartParamsData'));
+    // console.log(transcriptArrayData);
 
     // 绘制图像
     drawHaplotypeSNPChart(haplotypeSNPChart, haplotypeArrayData, SNPArrayData);
@@ -104,4 +124,4 @@ async function inital() {
 
 }
 
-export { inital };
+export { initalContentArea };

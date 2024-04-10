@@ -1,3 +1,5 @@
+import { initalContentArea } from "./initialContentArea.js";
+import { validateGenomeID } from "./data.js";
 
 function validateSearchForm(searchKeyword) {
     // var input = document.getElementById('search_input').value;
@@ -9,24 +11,78 @@ function validateSearchForm(searchKeyword) {
     if (mosaicPattern.test(searchKeyword)) {
         // 输入符合mosaicID的格式
         alert("Valid mosaicID format");
-        // 在这里添加代码来处理有效的mosaicID
+        return true;
     } else if (genePattern.test(searchKeyword)) {
         // 输入符合geneID的格式
         alert("Valid geneID format");
-        // 在这里添加代码来处理有效的geneID
+        return true;
     } else if (transcriptPattern.test(searchKeyword)) {
         // 输入符合transcriptID的格式
         alert("Valid transcriptID format");
-        // 在这里添加代码来处理有效的transcriptID
+        return true;
     } else {
         // 输入不符合任何已知的格式
         alert("Invalid ID format. Please enter a valid ID.");
         return false;
     }
-    return true;
 }
 
+// 用户点击example_id时，填充input框
+function fillInputWithExampleID(container, target) {
+    const searchInput = container.querySelector('.search_input');
+    searchInput.value = target.getAttribute('data_value');
+}
 
+// 用户点击submit按钮时，执行表单验证和进一步的处理
+async function submitSearchForm(container) {
+    const searchInput = container.querySelector('.search_input');
+    const searchKeyword = searchInput.value.trim(); // trim()方法是用来移除字符串两端的空白符的，包括：空格、制表符（tab）、换行符等
 
+    // 验证搜索关键词
+    if (validateSearchForm(searchKeyword)) {
+        const response = await validateGenomeID(searchKeyword);
 
-export { validateSearchForm };
+        if (response && response.status === 'success') {
+            await initalContentArea(searchKeyword, response.type);
+        } else {
+            console.error('Validation failed', response);
+            // 可以在这里更新UI，通知用户验证失败
+        }
+    } else {
+        console.error('Invalid search keyword');
+        // 可以在这里更新UI，通知用户输入无效
+    }
+}
+
+// 创建search container事件处理器
+function createSearchEventHandler(container) {
+    return async function (event) {
+        event.preventDefault();
+        const target = event.target;
+
+        // 用户点击example_id时，填充input框
+        if (target.classList.contains('example_id')) {
+            fillInputWithExampleID(container, target);
+            return;
+        }
+
+        // 用户点击submit按钮时，执行表单验证和进一步的处理
+        if (target.classList.contains('submit_button')) {
+            await submitSearchForm(container);
+            return;
+        }
+    };
+}
+
+// 设置search container事件监听器
+function setUpSearchEventListeners(containerSelector) {
+    const container = document.querySelector(containerSelector);
+    if (!container) {
+        console.error('Search container not found!');
+        return;
+    }
+    const eventHandler = createSearchEventHandler(container);
+    container.addEventListener('click', eventHandler);
+}
+
+export { validateSearchForm, createSearchEventHandler, setUpSearchEventListeners };

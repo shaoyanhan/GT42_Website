@@ -299,8 +299,9 @@
 
         <!-- 基因组选择框 -->
         <div class="select_genome_form_group">
+            <!-- label标签的for属性必须与相关联的表单控件的id属性值完全匹配，才能确保切换焦点的功能正常工作。 -->
             <label for="genome_select">Select Genome:</label>
-            <select id="genome_select" name="genome_select">
+            <select class="genome_select" id="genome_select" name="genome_select">
                 <option value="GT42" selected>GT42</option>
                 <!-- 其他选项 -->
             </select>
@@ -310,18 +311,16 @@
         <div class="search_id_form_group">
             <div class="submit_box">
                 <label for="search_input">Search ID:</label>
-                <input type="text" id="search_input" name="search_input" value="GT42G000001">
-                <button type="button" id="submit_button">Submit</button>
+                <input type="text" class="search_input" id="search_input" name="search_input" value="GT42G000001">
+                <button type="button" class="submit_button">Submit</button>
             </div>
             <div class="example_ids">
                 <span class="example_title">example:</span>
-                <span class="example_id" data-value="GT42G000001">GT42G000001,</span>
-                <span class="example_id" data-value="GT42G000001.SO.1">GT42G000001.SO.1,</span>
-                <span class="example_id" data-value="GT42G000001.SO.1.1">GT42G000001.SO.1.1</span>
+                <span class="example_id" data_value="GT42G000001">GT42G000001,</span>
+                <span class="example_id" data_value="GT42G000001.SO.1">GT42G000001.SO.1,</span>
+                <span class="example_id" data_value="GT42G000001.SO.1.1">GT42G000001.SO.1.1</span>
             </div>
-
         </div>
-
 
     </div>
 
