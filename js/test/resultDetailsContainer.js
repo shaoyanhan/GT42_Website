@@ -26,10 +26,10 @@ function updateHaplotypeResultDetailsContainer(data, container) {
             <h1 class="item_title">geneID</h1>
             <p class="item_content">${data.geneID}</p>
         </div>`;
-    const geneTypeContent = `
+    const areaTypeContent = `
         <div class="item_container">
-            <h1 class="item_title">geneType</h1>
-            <p class="item_content">${data.geneType}</p>
+            <h1 class="item_title">areaType</h1>
+            <p class="item_content">${data.areaType}</p>
         </div>`;
     const lengthContent = `
         <div class="item_container">
@@ -48,7 +48,7 @@ function updateHaplotypeResultDetailsContainer(data, container) {
             </div>
         </div>`;
 
-    resultDetails.innerHTML = mosaicIDContent + geneIDContent + geneTypeContent + lengthContent + sequenceContainer;
+    resultDetails.innerHTML = mosaicIDContent + geneIDContent + areaTypeContent + lengthContent + sequenceContainer;
 }
 
 function updateSNPResultDetailsContainer(data, container) {
@@ -63,13 +63,13 @@ function updateSNPResultDetailsContainer(data, container) {
     let tableContent = haplotypeSNPs.map(snp => `<tr><td>${snp[0]}</td><td>${snp[1]}</td></tr>`).join('');
 
     // 创建并添加新的内容
-    //    < !--h1分别为mosaicID, geneType, SNPSite, SNPType, IsoSeqEvidence, RNASeqEvidence, haplotypeSNP, color 其在网页中的结构如下-- >
+    //    < !--h1分别为mosaicID, areaType, SNPSite, SNPType, IsoSeqEvidence, RNASeqEvidence, haplotypeSNP, color 其在网页中的结构如下-- >
     // <div class="item_container">
     //     <h1 class="item_title">mosaicID</h1>
     //     <p class="item_content">GT42G000001</p>
     // </div>
     // <div class="item_container">
-    //     <h1 class="item_title">geneType</h1>
+    //     <h1 class="item_title">areaType</h1>
     //     <p class="item_content">mosaic</p>
     // </div>
     // <div class="item_container">
@@ -127,10 +127,10 @@ function updateSNPResultDetailsContainer(data, container) {
             <h1 class="item_title">mosaicID</h1>
             <p class="item_content">${data.mosaicID}</p>
         </div>`;
-    const geneTypeContent = `
+    const areaTypeContent = `
         <div class="item_container">
-            <h1 class="item_title">geneType</h1>
-            <p class="item_content">${data.geneType}</p>
+            <h1 class="item_title">areaType</h1>
+            <p class="item_content">${data.areaType}</p>
         </div>`;
     const SNPSiteContent = `
         <div class="item_container">
@@ -183,7 +183,7 @@ function updateSNPResultDetailsContainer(data, container) {
             <h1 class="item_title">Color</h1>
             <div style="width: 20px; height: 20px; border-radius: 50%; background-color: ${data.color}"></div>
         </div>`;
-    resultDetails.innerHTML = mosaicIDContent + geneTypeContent + SNPSiteContent + SNPTypeContent + IsoSeqEvidenceContent + RNASeqEvidenceContent + haplotypeSNPContainer + colorContent;
+    resultDetails.innerHTML = mosaicIDContent + areaTypeContent + SNPSiteContent + SNPTypeContent + IsoSeqEvidenceContent + RNASeqEvidenceContent + haplotypeSNPContainer + colorContent;
 
     // 为这部分的表格结构中的下载按钮单独添加下载按钮事件监听器，这个地方可以类似于copyTextToClipboards.js使用工厂函数独立，但是前提是要将haplotypeSNPs提前存储起来
     container.querySelector('.download_button').addEventListener('click', function () {

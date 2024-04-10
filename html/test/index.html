@@ -292,7 +292,7 @@
         }
 
         .search_container .search_alert {
-            display: none;
+            /* display: none; */
             color: #d9534f;
             /* 警告文字通常使用红色系 */
             background-color: #f2dede;
@@ -332,6 +332,7 @@
                 <input type="text" class="search_input" id="search_input" name="search_input" value="GT42G000001">
                 <button type="button" class="submit_button">Submit</button>
             </div>
+
             <div class="example_ids">
                 <span class="example_title">example:</span>
                 <span class="example_id" data_value="GT42G000001">GT42G000001,</span>
@@ -339,9 +340,10 @@
                 <span class="example_id" data_value="GT42G000001.SO.1.1">GT42G000001.SO.1.1</span>
             </div>
         </div>
-
         <!-- 输入非法提示框，用户点击空白处或两秒后自动消失 -->
-        <div class="search_alert">Invalid search keyword. Please try again.</div>
+        <div class="search_alert" style="display: none;">Invalid search keyword. Please try again.</div>
+
+
 
     </div>
 
@@ -365,7 +367,7 @@
                         <p class="item_content">GT42G000001.SO.1</p>
                     </div>
                     <div class="item_container">
-                        <h1 class="item_title">geneType</h1>
+                        <h1 class="item_title">areaType</h1>
                         <p class="item_content">mosaic</p>
                     </div>
                     <div class="item_container">
@@ -418,7 +420,7 @@
                         <tr>
                             <th>mosaicID</th>
                             <th>geneID</th>
-                            <th>geneType</th>
+                            <th>areaType</th>
                             <th>length</th>
                             <th>nucleotide sequence</th>
                         </tr>

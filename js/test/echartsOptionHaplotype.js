@@ -149,6 +149,30 @@ function getHaplotypeSNPOption(haplotypeData, SNPData) {
             }
         },
         series: [
+            { // 先画SNP，再画haplotype，并将，这样可以防止点击SNP的时候误触haplotype导致比例尺刷新
+                name: 'SNP',
+                type: 'scatter',
+
+                itemStyle: {
+                    color: function (value) {
+                        return value.value[7]; // 空间换时间，直接使用颜色值
+                    }
+                },
+                symbolSize: 20,
+                // symbol:
+                //     function (value) {
+                //         if (value[0] == 1) {
+                //             return "rect";
+                //         }
+                //         return "circle";
+                //     },
+                encode: {
+                    x: 2,
+                    y: 1,
+
+                },
+                data: SNPData
+            },
             {
                 name: 'haplotype',
                 type: 'bar',
@@ -178,31 +202,7 @@ function getHaplotypeSNPOption(haplotypeData, SNPData) {
 
             },
 
-            {
 
-                name: 'SNP',
-                type: 'scatter',
-
-                itemStyle: {
-                    color: function (value) {
-                        return value.value[7]; // 空间换时间，直接使用颜色值
-                    }
-                },
-                symbolSize: 20,
-                // symbol:
-                //     function (value) {
-                //         if (value[0] == 1) {
-                //             return "rect";
-                //         }
-                //         return "circle";
-                //     },
-                encode: {
-                    x: 2,
-                    y: 1,
-
-                },
-                data: SNPData
-            }
         ]
     };
 }

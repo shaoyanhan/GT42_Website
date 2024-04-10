@@ -98,7 +98,7 @@ async function clickHaplotypeSNPChartsEvents(params) {
     console.log(params);
 
     let seriesName = params.seriesName; // 与option中的series.name对应
-    let geneType = params.name; // 与option中的y轴名称对应
+    let areaType = params.name; // 与option中的y轴名称对应
 
 
 
@@ -110,7 +110,7 @@ async function clickHaplotypeSNPChartsEvents(params) {
     let currentClickedData;
 
     if (seriesName === 'haplotype') { // filter 会返回一个包含查询结果的对象数组，用[0]取出查询数据：[{...}] => {...}
-        currentClickedData = ObjectData.filter(item => item.geneType === geneType)[0]; // 取出与当前点击的haplotypeID对应的数据
+        currentClickedData = ObjectData.filter(item => item.areaType === areaType)[0]; // 取出与当前点击的haplotypeID对应的数据
     } else { // 取出前点击的SNP位点的SNPSite对应的SNP数据，这里使用value而不用data是因为data可能会成为一个对象数组附加其他绘图属性，但是value就是纯粹的绘图数据，另外，这里不使用mosaicID && SNPSite的方式是因为ObjectData只会存储当前mosaicID的数据
         currentClickedData = ObjectData.filter(item => item.SNPSite === params.value[2])[0];
     }
@@ -128,7 +128,7 @@ async function clickHaplotypeSNPChartsEvents(params) {
     console.log(transcriptArrayData);
     // 如果点击的是mosaic的柱子（且点击的不是SNP），那么只需要将haplotypeSNPChart的焦点进行更新, 并去除transcriptChart的焦点
     if (seriesName === 'haplotype') {
-        if (geneType === 'mosaic') {
+        if (areaType === 'mosaic') {
             haplotypeArrayData = setBarFocus(haplotypeArrayData, 0, 'red');
             drawHaplotypeSNPChart(haplotypeSNPChart, haplotypeArrayData, getData('SNPArrayData'));
         } else {

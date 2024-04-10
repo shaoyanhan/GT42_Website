@@ -28,21 +28,17 @@ import { validateGenomeID } from "./data.js";
 // }
 
 function showAlert(container, message) {
+    console.log("showAlert is called"); // 确认函数被调用
     const alertBox = container.querySelector('.search_alert');
     console.log(alertBox);
     alertBox.textContent = message;
     alertBox.style.display = 'block';
-
+    console.log(alertBox)
     // Hide the alert box after 2 seconds
     setTimeout(() => {
         alertBox.style.display = 'none';
-    }, 2000);
+    }, 3000);
 
-    // Hide the alert box if the user clicks anywhere
-    document.addEventListener('click', function hideAlert() {
-        alertBox.style.display = 'none';
-        document.removeEventListener('click', hideAlert);
-    }, { once: true }); // Ensure the listener is removed after execution
 }
 
 
@@ -74,6 +70,7 @@ function fillInputWithExampleID(container, target) {
 
 // 用户点击submit按钮时，执行表单验证和进一步的处理
 async function submitSearchForm(container) {
+    console.log("submitSearchForm is called"); // 确认方法被调用
     const searchInput = container.querySelector('.search_input');
     const searchKeyword = searchInput.value.trim(); // trim()方法是用来移除字符串两端的空白符的，包括：空格、制表符（tab）、换行符等
 
@@ -84,11 +81,11 @@ async function submitSearchForm(container) {
         if (response && response.status === 'success') {
             await initalContentArea(searchKeyword, response.type);
         } else {
-            // console.error('Validation failed', response);
+            console.error('Validation failed', response);
             showAlert(container, 'Validation failed. Please try again.');
         }
     } else {
-        // console.error('Invalid search keyword');
+        console.error('Invalid search keyword');
         showAlert(container, 'Invalid search keyword. Please try again.');
     }
 }

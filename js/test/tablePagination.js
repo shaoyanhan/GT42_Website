@@ -16,7 +16,7 @@ function updateHaplotypeTable(data, container) {
         // 给核苷酸序列设置为点击复制按钮，附带自定义的data_属性，用于存储实际要复制的数据。
         tr.innerHTML = `<td>${row.mosaicID}</td>
                         <td>${row.geneID}</td>
-                        <td>${row.geneType}</td>
+                        <td>${row.areaType}</td>
                         <td>${row.length}</td>
                         <td><button class="copy_button" data_sequence="${row.nucleotideSequence}">Click to Copy</button></td>`;
         container.appendChild(tr);

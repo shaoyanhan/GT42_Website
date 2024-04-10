@@ -53,7 +53,7 @@
 //             {
 //                 "mosaicID": "GT42G000002",
 //                 "geneID": "GT42G000002.SO.0",
-//                 "geneType": "mosaic",
+//                 "areaType": "mosaic",
 //                 "length": 5420,
 //                 "nucleotideSequence": "ATCGATCG",
 //                 "id": 6
@@ -69,7 +69,7 @@ let transcriptRawData = [];
 //     {
 //          "mosaicID": "GT42G000002",
 //          "geneID": "GT42G000002.SO.0",
-//          "geneType": "mosaic",
+//          "areaType": "mosaic",
 //          "length": 5420,
 //          "nucleotideSequence": "ATCGATCG",
 //     },
@@ -99,7 +99,7 @@ let transcriptArrayData = [];
         {
             "mosaicID": "GT42G000001",
             "geneID": "GT42G000001.SO.0",
-            "geneType": "mosaic",
+            "areaType": "mosaic",
             "length": 5420,
             "nucleotideSequence": "ATCGATCG",
             "id": 1
