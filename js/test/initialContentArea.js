@@ -11,19 +11,21 @@ function findIndexInObjectArray(objectArray, key, value) {
     return objectArray.findIndex(obj => obj[key] === value);
 }
 
-// 根据genomeID的类型，拆分genomeID得到mosaicID、geneID、transcriptID
+// 根据genomeID的类型，拆分genomeID得到mosaicID、geneID、transcriptID，请注意mosaicID和geneID还有两种别名情况
 function splitGenomeID(genomeID, keywordType) {
     let mosaicID = '';
     let geneID = '';
     let transcriptID = '';
-    if (keywordType === 'mosaic') { // GT42G000001
-        mosaicID = genomeID;
+    if (keywordType === 'mosaic') {
+        // mosaicID = genomeID;
+        mosaicID = genomeID.split('.')[0]; // GT42G000001 / GT42G000001.SO.0 => GT42G000001
     } else if (keywordType === 'gene') {
-        mosaicID = genomeID.split('.')[0]; // GT42G000001.SO.1 => GT42G000001
-        geneID = genomeID;
+        mosaicID = genomeID.split('.')[0];
+        // geneID = genomeID;
+        geneID = genomeID.split('.')[0] + '.' + genomeID.split('.')[1] + '.' + genomeID.split('.')[2]; // GT42G000001.SO.1 / GT42G000001.SO.1.0 => GT42G000001.SO.1
     } else if (keywordType === 'transcript') {
-        mosaicID = genomeID.split('.')[0]; // GT42G000001.SO.1.1 => GT42G000001
-        geneID = genomeID.split('.')[0] + '.' + genomeID.split('.')[1] + '.' + genomeID.split('.')[2]; // GT42G000001.SO.1.1 => GT42G000001.SO.1
+        mosaicID = genomeID.split('.')[0];
+        geneID = genomeID.split('.')[0] + '.' + genomeID.split('.')[1] + '.' + genomeID.split('.')[2];
         transcriptID = genomeID;
     }
     return [mosaicID, geneID, transcriptID];
@@ -35,6 +37,8 @@ function splitGenomeID(genomeID, keywordType) {
 async function initalContentArea(searchKeyword, keywordType) {
     // 获取搜索框中的关键词
     // let searchKeywordMosaic = 'GT42G000001';
+    console.log(searchKeyword);
+    console.log(keywordType);
 
     let geneIDIndex; // 用于保存某个geneID在haplotypeObjectData中的行索引
     let transcriptIDIndex; // 用于保存某个transcriptID在transcriptObjectData中的行索引

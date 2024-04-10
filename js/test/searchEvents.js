@@ -30,10 +30,8 @@ import { validateGenomeID } from "./data.js";
 function showAlert(container, message) {
     console.log("showAlert is called"); // 确认函数被调用
     const alertBox = container.querySelector('.search_alert');
-    console.log(alertBox);
     alertBox.textContent = message;
     alertBox.style.display = 'block';
-    console.log(alertBox)
     // Hide the alert box after 2 seconds
     setTimeout(() => {
         alertBox.style.display = 'none';
@@ -43,9 +41,9 @@ function showAlert(container, message) {
 
 
 function validateSearchForm(searchKeyword) {
-    var mosaicPattern = /^GT42G\d{6}$/;
-    var genePattern = /^GT42G\d{1,6}\.[A-Z]{2}\.\d{1,2}$/;
-    var transcriptPattern = /^GT42G\d{1,6}\.[A-Z]{2}\.\d{1,2}\.\d{1,2}$/;
+    var mosaicPattern = /^GT42G\d{6}$/; // mosaicID的格式：GT42G000001
+    var genePattern = /^GT42G\d{1,6}\.(?:[A-Z]{2}|0)\.\d{1,2}$/; // geneID的格式：GT42G000001.SO.1，加入了mosaic别名的情况：GT42G000001.0.0
+    var transcriptPattern = /^GT42G\d{1,6}\.[A-Z]{2}\.\d{1,2}\.\d{1,2}$/; // transcriptID的格式：GT42G000001.SO.1.1，已经包括了gene别名的情况：GT42G000001.SO.1.0
 
     // 检查是否匹配任何一个格式
     var isValid = mosaicPattern.test(searchKeyword) ||
