@@ -1,31 +1,70 @@
 import { initalContentArea } from "./initialContentArea.js";
 import { validateGenomeID } from "./data.js";
 
-function validateSearchForm(searchKeyword) {
-    // var input = document.getElementById('search_input').value;
+// function validateSearchForm(searchKeyword) {
+//     // var input = document.getElementById('search_input').value;
 
+//     var mosaicPattern = /^GT42G\d{6}$/;
+//     var genePattern = /^GT42G\d{1,6}\.[A-Z]{2}\.\d{1,2}$/;
+//     var transcriptPattern = /^GT42G\d{1,6}\.[A-Z]{2}\.\d{1,2}\.\d{1,2}$/;
+
+//     if (mosaicPattern.test(searchKeyword)) {
+//         // 输入符合mosaicID的格式
+//         alert("Valid mosaicID format");
+//         return true;
+//     } else if (genePattern.test(searchKeyword)) {
+//         // 输入符合geneID的格式
+//         alert("Valid geneID format");
+//         return true;
+//     } else if (transcriptPattern.test(searchKeyword)) {
+//         // 输入符合transcriptID的格式
+//         alert("Valid transcriptID format");
+//         return true;
+//     } else {
+//         // 输入不符合任何已知的格式
+//         alert("Invalid ID format. Please enter a valid ID.");
+//         return false;
+//     }
+// }
+
+function showAlert(container, message) {
+    const alertBox = container.querySelector('.search_alert');
+    console.log(alertBox);
+    alertBox.textContent = message;
+    alertBox.style.display = 'block';
+
+    // Hide the alert box after 2 seconds
+    setTimeout(() => {
+        alertBox.style.display = 'none';
+    }, 2000);
+
+    // Hide the alert box if the user clicks anywhere
+    document.addEventListener('click', function hideAlert() {
+        alertBox.style.display = 'none';
+        document.removeEventListener('click', hideAlert);
+    }, { once: true }); // Ensure the listener is removed after execution
+}
+
+
+function validateSearchForm(searchKeyword) {
     var mosaicPattern = /^GT42G\d{6}$/;
     var genePattern = /^GT42G\d{1,6}\.[A-Z]{2}\.\d{1,2}$/;
     var transcriptPattern = /^GT42G\d{1,6}\.[A-Z]{2}\.\d{1,2}\.\d{1,2}$/;
 
-    if (mosaicPattern.test(searchKeyword)) {
-        // 输入符合mosaicID的格式
-        alert("Valid mosaicID format");
-        return true;
-    } else if (genePattern.test(searchKeyword)) {
-        // 输入符合geneID的格式
-        alert("Valid geneID format");
-        return true;
-    } else if (transcriptPattern.test(searchKeyword)) {
-        // 输入符合transcriptID的格式
-        alert("Valid transcriptID format");
-        return true;
-    } else {
-        // 输入不符合任何已知的格式
-        alert("Invalid ID format. Please enter a valid ID.");
-        return false;
-    }
+    // 检查是否匹配任何一个格式
+    var isValid = mosaicPattern.test(searchKeyword) ||
+        genePattern.test(searchKeyword) ||
+        transcriptPattern.test(searchKeyword);
+
+    // if (isValid) {
+    //     console.log("Valid ID format"); // 或者使用其他方式提供反馈
+    // } else {
+    //     alert("Invalid ID format. Please enter a valid ID."); // 考虑使用更友好的反馈方式
+    // }
+
+    return isValid;
 }
+
 
 // 用户点击example_id时，填充input框
 function fillInputWithExampleID(container, target) {
@@ -45,12 +84,12 @@ async function submitSearchForm(container) {
         if (response && response.status === 'success') {
             await initalContentArea(searchKeyword, response.type);
         } else {
-            console.error('Validation failed', response);
-            // 可以在这里更新UI，通知用户验证失败
+            // console.error('Validation failed', response);
+            showAlert(container, 'Validation failed. Please try again.');
         }
     } else {
-        console.error('Invalid search keyword');
-        // 可以在这里更新UI，通知用户输入无效
+        // console.error('Invalid search keyword');
+        showAlert(container, 'Invalid search keyword. Please try again.');
     }
 }
 
@@ -73,6 +112,8 @@ function createSearchEventHandler(container) {
         }
     };
 }
+
+
 
 // 设置search container事件监听器
 function setUpSearchEventListeners(containerSelector) {

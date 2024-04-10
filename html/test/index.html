@@ -50,7 +50,7 @@
             text-align: left;
             /* 文本内容两端对齐 */
             font-size: 18px;
-            /* color: #9cd283; */
+            /* color: #dce6d7; */
         }
 
         .result_details_container .content_box .main_title {
@@ -290,6 +290,24 @@
             color: red;
             /* text-decoration: underline; */
         }
+
+        .search_container .search_alert {
+            display: none;
+            color: #d9534f;
+            /* 警告文字通常使用红色系 */
+            background-color: #f2dede;
+            border-color: #ebccd1;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            position: absolute;
+            /* 根据需要调整定位 */
+            z-index: 1000;
+            /* 确保提示框在最上面 */
+            width: 95%;
+            /* 根据需要调整宽度 */
+            text-align: center;
+        }
     </style>
 </head>
 
@@ -321,6 +339,9 @@
                 <span class="example_id" data_value="GT42G000001.SO.1.1">GT42G000001.SO.1.1</span>
             </div>
         </div>
+
+        <!-- 输入非法提示框，用户点击空白处或两秒后自动消失 -->
+        <div class="search_alert">Invalid search keyword. Please try again.</div>
 
     </div>
 
