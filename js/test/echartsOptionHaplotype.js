@@ -1,6 +1,39 @@
 
 let startbp = 0;
 
+function renderItem(params, api) {
+
+    var categoryIndex = api.value(1);
+    var start = api.coord([api.value(2), categoryIndex]); // x, y
+    var end = api.coord([api.value(2) + 1, categoryIndex]);
+
+    var height = api.size([0, 1])[1] * 0.6;
+
+
+    var rectShape = echarts.graphic.clipRectByRect(
+        {
+            x: start[0],
+            y: start[1] - height / 2,
+            width: end[0] - start[0],
+            height: height
+        },
+        {
+            x: params.coordSys.x,
+            y: params.coordSys.y,
+            width: params.coordSys.width,
+            height: params.coordSys.height
+        }
+    );
+    return (
+        rectShape && {
+            type: 'rect',
+            transition: ['shape'],
+            shape: rectShape,
+            style: api.style()
+        }
+    );
+}
+
 function getHaplotypeSNPOption(haplotypeData, SNPData) {
     return {
         tooltip: {
@@ -120,7 +153,8 @@ function getHaplotypeSNPOption(haplotypeData, SNPData) {
         // 目前设置为可以展示10个 haplotype 和1个 mosaic 的高度，已经测试过最多138个haplotype的情况, 大部分集中于10-20个
         grid: {
             height: 720,
-            width: 800
+            width: 800,
+            containLabel: true
         },
         xAxis:
         {
@@ -151,8 +185,9 @@ function getHaplotypeSNPOption(haplotypeData, SNPData) {
         series: [
             { // 先画SNP，再画haplotype，并将，这样可以防止点击SNP的时候误触haplotype导致比例尺刷新
                 name: 'SNP',
-                type: 'scatter',
-
+                type: 'custom',
+                // type: 'scatter',
+                renderItem: renderItem,
                 itemStyle: {
                     color: function (value) {
                         return value.value[7]; // 空间换时间，直接使用颜色值
@@ -171,6 +206,7 @@ function getHaplotypeSNPOption(haplotypeData, SNPData) {
                     y: 1,
 
                 },
+
                 data: SNPData
             },
             {
@@ -198,7 +234,11 @@ function getHaplotypeSNPOption(haplotypeData, SNPData) {
                     opacity: 0.9,
                     borderRadius: 5
 
-                }
+                },
+                // emphasis: {
+                //     focus: 'self',
+                //     blurScope: 'series',
+                // }
 
             },
 

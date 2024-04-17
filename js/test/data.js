@@ -202,6 +202,7 @@ function updateHaplotypeData(newData) {
     haplotypeArrayData = objectToArray(newData.data);
 }
 function updateSNPData(newData) {
+    console.log(newData);
     SNPRawData = newData;
     SNPObjectData = newData.data;
     SNPArrayData = objectToArray(newData.data);
@@ -298,6 +299,7 @@ async function fetchData(url) {
     }
     catch (error) {
         console.error('数据请求失败:', error);
+        throw error; // 重新抛出错误，让调用者处理
     }
 }
 
@@ -312,6 +314,7 @@ async function fetchAllData(type, searchKeyword) {
         return data;
     } catch (error) {
         console.error(`${type}数据加载失败:`, error);
+        return { type: type, data: [] }; // 返回一个空数据结构
     }
 }
 
@@ -327,6 +330,7 @@ async function fetchPaginationData(type, searchKeyword, page = 1) {
         return data;
     } catch (error) {
         console.error(`${type}数据加载失败:`, error);
+        return { numPages: 0, currentPage: 0, pageSize: 1, totalRecords: 0, searchKeyword: searchKeyword, type: type, data: [{}] }; // 返回一页空数据
     }
 }
 

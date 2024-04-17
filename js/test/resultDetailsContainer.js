@@ -257,16 +257,7 @@ function updateTranscriptResultDetailsContainer(data, container) {
             <h1 class="item_title">transcriptLength</h1>
             <p class="item_content">${data.transcriptLength}</p>
         </div>`;
-    const proteinSequenceContainer = `
-        <div class="sequence_item_container">
-            <div class="sequence_container_header">
-                <h1 class="item_title">proteinSequence</h1>
-                <button class="copy_button" data_sequence="${data.proteinSequence}">Click to Copy</button>
-            </div>
-            <div class="sequence_container">
-                <p class="item_content">${data.proteinSequence}</p>
-            </div>
-        </div>`;
+
     const nucleotideSequenceContainer = `
         <div class="sequence_item_container">
             <div class="sequence_container_header">
@@ -277,8 +268,18 @@ function updateTranscriptResultDetailsContainer(data, container) {
                 <p class="item_content">${data.nucleotideSequence}</p>
             </div>
         </div>`;
+    const proteinSequenceContainer = `
+        <div class="sequence_item_container">
+            <div class="sequence_container_header">
+                <h1 class="item_title">proteinSequence</h1>
+                <button class="copy_button" data_sequence="${data.proteinSequence}">Click to Copy</button>
+            </div>
+            <div class="sequence_container">
+                <p class="item_content">${data.proteinSequence}</p>
+            </div>
+        </div>`;
 
-    resultDetails.innerHTML = mosaicIDContent + geneIDContent + transcriptIDContent + transcriptIndexContent + areaTypeContent + startContent + endContent + lengthContent + transcriptRangeContent + transcriptLengthContent + proteinSequenceContainer + nucleotideSequenceContainer;
+    resultDetails.innerHTML = mosaicIDContent + geneIDContent + transcriptIDContent + transcriptIndexContent + areaTypeContent + startContent + endContent + lengthContent + transcriptRangeContent + transcriptLengthContent + nucleotideSequenceContainer + proteinSequenceContainer;
 }
 
 // 这里传入的data是一个对象，包含了type和data两个属性, type用于选择对应的更新函数，data用于传入更新函数的数据

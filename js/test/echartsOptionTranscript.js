@@ -1,6 +1,8 @@
 let startbp = 0;
 
 function renderItem(params, api) {
+    // console.log(params);
+    // console.log(api);
     var categoryIndex = api.value(3);
     var areaType = api.value(4);
     var start = api.coord([api.value(5), categoryIndex]); // x, y
@@ -135,7 +137,8 @@ function getTranscriptOption(transcriptData) {
         // 最多 66 个转录本，平均值10-20个
         grid: {
             height: 1000,
-            width: 1200
+            width: 1200,
+            containLabel: true
         },
         xAxis:
         {
@@ -187,6 +190,7 @@ function getTranscriptOption(transcriptData) {
                     // }
 
                 },
+
                 data: transcriptData
             }
         ]

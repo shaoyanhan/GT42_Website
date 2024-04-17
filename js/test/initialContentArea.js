@@ -18,7 +18,7 @@ function splitGenomeID(genomeID, keywordType) {
     let transcriptID = '';
     if (keywordType === 'mosaic') {
         // mosaicID = genomeID;
-        mosaicID = genomeID.split('.')[0]; // GT42G000001 / GT42G000001.SO.0 => GT42G000001
+        mosaicID = genomeID.split('.')[0]; // GT42G000001 / GT42G000001.0.0 => GT42G000001
     } else if (keywordType === 'gene') {
         mosaicID = genomeID.split('.')[0];
         // geneID = genomeID;
@@ -35,8 +35,7 @@ function splitGenomeID(genomeID, keywordType) {
 // 页面初始化，传入两个参数：genomeID和genomeID的类型，其实就是validateGenomeID成功之后的其中两个返回值
 // keywordType是一个字符串，表示genomeID的类型，有三种可能的值：mosaic、gene、transcript
 async function initalContentArea(searchKeyword, keywordType) {
-    // 获取搜索框中的关键词
-    // let searchKeywordMosaic = 'GT42G000001';
+
     console.log(searchKeyword);
     console.log(keywordType);
 
@@ -53,8 +52,8 @@ async function initalContentArea(searchKeyword, keywordType) {
     // 请求原始数据并保存
     let haplotypeRawData = await fetchAllData('haplotype', searchKeywordMosaic);
     let SNPRawData = await fetchAllData('SNP', searchKeywordMosaic);
-    // console.log(haplotypeRawData);
-    // console.log(SNPRawData);
+    console.log(haplotypeRawData);
+    console.log(SNPRawData);
     updateData('haplotype', haplotypeRawData);
     updateData('SNP', SNPRawData);
 
@@ -88,7 +87,7 @@ async function initalContentArea(searchKeyword, keywordType) {
 
     // 获取二维数组数据
     let haplotypeArrayData = getData('haplotypeArrayData');
-    // console.log(haplotypeArrayData);
+    console.log(haplotypeArrayData);
     let SNPArrayData = getData('SNPArrayData');
     let transcriptArrayData = getData('transcriptArrayData');
 
