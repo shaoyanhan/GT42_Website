@@ -1,38 +1,38 @@
 
 let startbp = 0;
 
-function renderItem(params, api) {
+// function renderItem(params, api) {
 
-    var categoryIndex = api.value(1);
-    var start = api.coord([api.value(2), categoryIndex]); // x, y
-    var end = api.coord([api.value(2) + 1, categoryIndex]);
+//     var categoryIndex = api.value(1);
+//     var start = api.coord([api.value(2), categoryIndex]); // x, y
+//     var end = api.coord([api.value(2) + 1, categoryIndex]);
 
-    var height = api.size([0, 1])[1] * 0.6;
+//     var height = api.size([0, 1])[1] * 0.6;
 
 
-    var rectShape = echarts.graphic.clipRectByRect(
-        {
-            x: start[0],
-            y: start[1] - height / 2,
-            width: end[0] - start[0],
-            height: height
-        },
-        {
-            x: params.coordSys.x,
-            y: params.coordSys.y,
-            width: params.coordSys.width,
-            height: params.coordSys.height
-        }
-    );
-    return (
-        rectShape && {
-            type: 'rect',
-            transition: ['shape'],
-            shape: rectShape,
-            style: api.style()
-        }
-    );
-}
+//     var rectShape = echarts.graphic.clipRectByRect(
+//         {
+//             x: start[0],
+//             y: start[1] - height / 2,
+//             width: end[0] - start[0],
+//             height: height
+//         },
+//         {
+//             x: params.coordSys.x,
+//             y: params.coordSys.y,
+//             width: params.coordSys.width,
+//             height: params.coordSys.height
+//         }
+//     );
+//     return (
+//         rectShape && {
+//             type: 'rect',
+//             transition: ['shape'],
+//             shape: rectShape,
+//             style: api.style()
+//         }
+//     );
+// }
 
 function getHaplotypeSNPOption(haplotypeData, SNPData) {
     return {
@@ -76,7 +76,7 @@ function getHaplotypeSNPOption(haplotypeData, SNPData) {
 
                 },
                 {
-                    name: 'SNP Site',
+                    name: 'SNP',
                     backgroundColor: '#ccc'
                 }
             ],
@@ -185,9 +185,9 @@ function getHaplotypeSNPOption(haplotypeData, SNPData) {
         series: [
             { // 先画SNP，再画haplotype，并将，这样可以防止点击SNP的时候误触haplotype导致比例尺刷新
                 name: 'SNP',
-                type: 'custom',
-                // type: 'scatter',
-                renderItem: renderItem,
+                // type: 'custom',
+                type: 'scatter',
+                // renderItem: renderItem,
                 itemStyle: {
                     color: function (value) {
                         return value.value[7]; // 空间换时间，直接使用颜色值
@@ -207,7 +207,18 @@ function getHaplotypeSNPOption(haplotypeData, SNPData) {
 
                 },
 
-                data: SNPData
+                data: SNPData,
+
+                // SNP选择存在bug,会一次性选择所有SNP位点，无法单独选择
+                // select: {
+                //     disabled: false,
+                //     itemStyle: {
+                //         borderColor: "rgba(250, 3, 3, 1)",
+                //         borderWidth: 3
+                //     }
+                // },
+                // selectedMode: 'single',
+
             },
             {
                 name: 'haplotype',
@@ -235,6 +246,15 @@ function getHaplotypeSNPOption(haplotypeData, SNPData) {
                     borderRadius: 5
 
                 },
+
+                select: {
+                    disabled: false,
+                    itemStyle: {
+                        borderColor: "rgba(250, 3, 3, 1)",
+                        borderWidth: 3
+                    }
+                },
+                selectedMode: 'single',
                 // emphasis: {
                 //     focus: 'self',
                 //     blurScope: 'series',

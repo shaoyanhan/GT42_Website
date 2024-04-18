@@ -12,72 +12,13 @@
     <link rel="stylesheet" href="../css/FullLenTrans.css">
     <script src="../js/jquery-3.7.1.js"></script>
     <script src="../js/echarts.js"></script>
-    <!-- 用于转换JSON格式和并行请求的方法 -->
-    <script src="../js/globalFunctions.js"></script>
+    <!-- 引入 lodash.js 用于 data.js 的数据深拷贝 -->
+    <script src="../js/lodash.js"></script>
+
     <style>
-        .content_container .haplotype_result_container,
-        .content_container .transcript_result_container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
 
-        .content_container .haplotype_result_container .result_details_container {
-            width: 400px;
-            height: 1000px;
-            margin: 20px;
-            background: linear-gradient(to right, #C0DDE4, #F6EDD3);
-            border-radius: 10px;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
-        }
 
-        .content_container .haplotype_result_container .result_details_container .content_box {
-            width: calc(100% - 40px);
-            /* 矩形框的宽度，减去间隔的两倍 */
-            height: calc(100% - 40px);
-            /* 矩形框的高度，减去间隔的两倍 */
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 5px;
-            /* 矩形框的圆角大小 */
-            position: absolute;
-            /* 绝对定位，相对于圆角框定位 */
-            top: 20px;
-            /* 矩形框距离圆角框顶部的距离 */
-            left: 20px;
-            /* 矩形框距离圆角框左侧的距离 */
-            overflow-y: auto;
-            /* 垂直方向出现滚动条 */
-        }
 
-        .content_container .haplotype_result_container .result_details_container .content_box .result_details {
-            padding: 10px;
-            text-align: left;
-            /* 文本内容两端对齐 */
-            font-size: 18px;
-        }
-
-        .content_container .haplotype_result_container .result_details_container .content_box .result_details .main_title {
-            font-size: 20px;
-            font-weight: bold;
-            margin-bottom: 10px;
-            display: block;
-            background-color: #8bc2d0;
-            text-align: center;
-            border-radius: 5px;
-        }
-
-        .content_container .transcript_result_container .result_details_container {
-            width: 400px;
-            height: 1300px;
-            margin: 20px;
-            background: linear-gradient(to right, #C0DDE4, #F6EDD3);
-            border-radius: 10px;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
-        }
     </style>
 
 </head>
@@ -104,11 +45,11 @@
 
         <div class="content_container">
             <div class="search_container">
-
                 <!-- 基因组选择框 -->
                 <div class="select_genome_form_group">
+                    <!-- label标签的for属性必须与相关联的表单控件的id属性值完全匹配，才能确保切换焦点的功能正常工作。 -->
                     <label for="genome_select">Select Genome:</label>
-                    <select id="genome_select" name="genome_select">
+                    <select class="genome_select" id="genome_select" name="genome_select">
                         <option value="GT42" selected>GT42</option>
                         <!-- 其他选项 -->
                     </select>
@@ -118,65 +59,147 @@
                 <div class="search_id_form_group">
                     <div class="submit_box">
                         <label for="search_input">Search ID:</label>
-                        <input type="text" id="search_input" name="search_input" value="GT42G000001">
-                        <button type="button" id="submit_button">Submit</button>
-                    </div>
-                    <div class="example_ids">
-                        <span class="example_title">example:</span>
-                        <span class="example_id" data-value="GT42G000001">GT42G000001,</span>
-                        <span class="example_id" data-value="GT42G000001.SO.1">GT42G000001.SO.1,</span>
-                        <span class="example_id" data-value="GT42G000001.SO.1.1">GT42G000001.SO.1.1</span>
+                        <input type="text" class="search_input" id="search_input" name="search_input"
+                            value="GT42G000001">
+                        <button type="button" class="submit_button">Submit</button>
                     </div>
 
+                    <div class="example_ids">
+                        <span class="example_title">example:</span>
+                        <span class="example_id" data_value="GT42G000001">GT42G000001,</span>
+                        <span class="example_id" data_value="GT42G000001.SO.1">GT42G000001.SO.1,</span>
+                        <span class="example_id" data_value="GT42G000001.SO.1.1">GT42G000001.SO.1.1</span>
+                    </div>
                 </div>
+                <!-- 输入非法提示框，用户点击空白处或两秒后自动消失 -->
+                <div class="search_alert" style="display: none;">Invalid search keyword. Please try again.</div>
 
 
             </div>
 
             <div class="haplotype_result_container">
                 <!-- 容器的大小一定要包裹住 echart 的option配置中的 grid + dataZoomX 的大小 -->
-                <div id="drawHaplotype" style="width: 1100px;height: 1000px;">
-                    <script type="text/javascript" src="../js/drawHaplotype.js"></script>
-                </div>
-                <div class="result_details_container">
+                <div id="drawHaplotype" style="width: 1100px;height:1000px;"></div>
+                <div class="result_details_container" id="haplotype_SNP_result_details_container">
                     <!-- 下面必须使用两个div嵌套才能实现内容溢出的时候不会覆盖圆角框和矩形框之间的底部间隔 -->
                     <div class="content_box">
+                        <h1 class="main_title">Result Details</h1>
                         <div class="result_details">
-                            <h1 class="main_title">Result Details</h1>
-                            <h1 class="sub_title">Gene</h1>
-                            <h1 class="sub_title">SNP</h1>
-                            <p>Gene Name: Gene Name</p>
-                            <p>Gene Length: 1000 bp</p>
-                            <p>Gene Description: Gene Description</p>
-                            <p>Gene Sequence: Gene Sequence</p>
-                            <p>Gene Annotation: Gene Annotation</p>
-                            <p>Gene Expression: Gene Expression</p>
-                            <p>Gene Function: Gene Function</p>
+                            <!-- 该结构内的内容使用 updateResultDetailsContainer(data, container)填充-->
+                            <div class="item_container">
+                                <h1 class="item_title">mosaicID</h1>
+                                <p class="item_content">GT42G000001</p>
+                            </div>
+                            <div class="item_container">
+                                <h1 class="item_title">geneID</h1>
+                                <p class="item_content">GT42G000001.SO.1</p>
+                            </div>
+                            <div class="item_container">
+                                <h1 class="item_title">areaType</h1>
+                                <p class="item_content">mosaic</p>
+                            </div>
+                            <div class="item_container">
+                                <h1 class="item_title">length</h1>
+                                <p class="item_content">5420</p>
+                            </div>
+                            <div class="sequence_item_container">
+                                <div class="sequence_container_header">
+                                    <h1 class="item_title">nucleotideSequence</h1>
+                                    <button class="copy_button" data_sequence="ATCG">Click to Copy</button>
+                                </div>
+                                <div class="sequence_container">
+                                    <p class="item_content">ATCG</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
-
-
                 </div>
             </div>
+
+            <!-- 套用该模式需要修改：1. id="haplotype_table_container"；2. <thead>；3. id="download_haplotype_table"-->
+            <details>
+                <summary>Click to view the haplotype table</summary>
+                <div class="table_footer_pagination_container" id="haplotype_table_container">
+
+                    <div class="table_container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>mosaicID</th>
+                                    <th>geneID</th>
+                                    <th>areaType</th>
+                                    <th>length</th>
+                                    <th>nucleotide sequence</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- 由tablePagination.js 中的 updateTable（data, container）进行填充 -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="footer_pagination_container">
+                        <span class="footer_notes">Showing ? to ? of ? entries</span>
+                        <div class="pagination_container">
+                            <a href="#">1</a>
+                            <a href="#">2</a>
+                            <a href="#">3</a>
+                        </div>
+                        <button class="download_button" id="download_haplotype_table">Download</button>
+                    </div>
+                </div>
+
+            </details>
+
+            <details>
+                <summary>Click to view the SNP table</summary>
+                <div class="table_footer_pagination_container" id="SNP_table_container">
+
+                    <div class="table_container">
+                        <table>
+                            <thead>
+                                <!-- 表格头为mosaicID, SNPSite, SNPType, IsoSeqEvidence, RNASeqEvidence, haplotypeSNP -->
+                                <tr>
+                                    <th>mosaicID</th>
+                                    <th>SNPSite</th>
+                                    <th>SNPType</th>
+                                    <th>IsoSeqEvidence</th>
+                                    <th>RNASeqEvidence</th>
+                                    <th>haplotypeSNP</th>
+                                    <th>color</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- 由tablePagination.js 中的 updateTable（data, container）进行填充 -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="footer_pagination_container">
+                        <span class="footer_notes">Showing ? to ? of ? entries</span>
+                        <div class="pagination_container">
+                            <a href="#">1</a>
+                            <a href="#">2</a>
+                            <a href="#">3</a>
+                        </div>
+                        <button class="download_button" id="download_SNP_table">Download</button>
+                    </div>
+                </div>
+
+            </details>
 
             <div class="transcript_result_container">
-                <div id="drawTranscript" style="width: 1100px;height:1300px;">
-                    <script type="text/javascript" src="../js/drawTranscript.js"></script>
-                </div>
-                <div class="result_details_container">
+                <div id="drawTranscript" style="width: 1100px;height:1300px;"></div>
+                <div class="result_details_container" id="transcript_result_details_container">
                     <!-- 下面必须使用两个div嵌套才能实现内容溢出的时候不会覆盖圆角框和矩形框之间的底部间隔 -->
                     <div class="content_box">
+                        <h1 class="main_title">Result Details</h1>
                         <div class="result_details">
-                            <h1 class="main_title">Result Details</h1>
-                            <h1 class="sub_title">Gene</h1>
-                            <h1 class="sub_title">SNP</h1>
-                            <p>Gene Name: Gene Name</p>
-                            <p>Gene Length: 1000 bp</p>
-                            <p>Gene Description: Gene Description</p>
-                            <p>Gene Sequence: Gene Sequence</p>
-                            <p>Gene Annotation: Gene Annotation</p>
-                            <p>Gene Expression: Gene Expression</p>
-                            <p>Gene Function: Gene Function</p>
+
+                            <div class="item_container">
+                                <h1 class="item_title">mosaicID</h1>
+                                <p class="item_content">GT42G000001</p>
+                            </div>
+
+
                         </div>
                     </div>
                 </div>
@@ -184,58 +207,104 @@
 
             </div>
 
-            <div class="footer_container">
-                <div class="container">
-                    <div class="logo_container">
-                        <div class="logo_box">
-                            <img src="../img/sugarcane-logo.jpeg" alt="logo">
+            <details>
+                <summary>Click to view the Transcript table</summary>
+                <div class="table_footer_pagination_container" id="transcript_table_container">
+
+                    <div class="table_container">
+                        <table>
+                            <thead>
+                                <!-- 表格头为mosaicID, geneID, transcriptID, transcriptIndex, isExon, start, end, length, transcriptRange, transcriptLength, proteinSequence, nucleotideSequence -->
+                                <tr>
+                                    <th>mosaicID</th>
+                                    <th>geneID</th>
+                                    <th>transcriptID</th>
+                                    <th>transcriptIndex</th>
+                                    <th>areaType</th>
+                                    <th>start</th>
+                                    <th>end</th>
+                                    <th>length</th>
+                                    <th>transcriptRange</th>
+                                    <th>transcriptLength</th>
+                                    <th>nucleotideSequence</th>
+                                    <th>proteinSequence</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- 由tablePagination.js 中的 updateTable（data, container）进行填充 -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="footer_pagination_container">
+                        <span class="footer_notes">Showing ? to ? of ? entries</span>
+                        <div class="pagination_container">
+                            <a href="#">1</a>
+                            <a href="#">2</a>
+                            <a href="#">3</a>
                         </div>
-                        <div class="title_box">
-                            <h1>Project Title</h1>
-                        </div>
-                    </div>
-                    <div class="logo_box">
-                        <img src="../img/HZAU.png" alt="logo">
-                    </div>
-                    <div class="logo_box">
-                        <img src="../img/GuoZhong.png" alt="logo">
-                    </div>
-                    <div class="logo_box">
-                        <img src="../img/sky_logo.png" alt="logo">
-                    </div>
-                    <div class="logo_box">
-                        <img src="../img/GXU_logo.png" alt="logo">
-                    </div>
-                    <ul>
-                        <li>Home</li>
-                        <li>About</li>
-                        <li>Downloads</li>
-                    </ul>
-                    <ul>
-                        <li>Documents</li>
-                        <li>Help</li>
-                        <li>Tools</li>
-                    </ul>
-                    <ul>
-                        <li>Contact</li>
-                        <li>llchen@gxu.edu.cn</li>
-                        <li>1740569155@qq.com</li>
-                    </ul>
-                    <div class="revolver_maps">
-                        <script type="text/javascript"
-                            src="//rf.revolvermaps.com/0/0/6.js?i=5mrx7fhr2hr&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80"
-                            async="async"></script>
+                        <button class="download_button" id="download_transcript_table">Download</button>
                     </div>
                 </div>
 
-                <h1 class="copyright">Developed by the Chen LL’s Lab at GuangXi University and Xie WB’s Lab at HuaZhong
-                    Agricultural University</h1>
-                <h1 class="copyright">Copyright © 2020-2030 All rights reserved</h1>
-            </div>
+            </details>
 
         </div>
 
-        <script type="text/javascript" src="../js/searchBoxEvents_FLT.js"></script>
+        <div class="footer_container">
+            <div class="container">
+                <div class="logo_container">
+                    <div class="logo_box">
+                        <img src="../img/sugarcane-logo.jpeg" alt="logo">
+                    </div>
+                    <div class="title_box">
+                        <h1>Project Title</h1>
+                    </div>
+                </div>
+                <div class="logo_box">
+                    <img src="../img/HZAU.png" alt="logo">
+                </div>
+                <div class="logo_box">
+                    <img src="../img/GuoZhong.png" alt="logo">
+                </div>
+                <div class="logo_box">
+                    <img src="../img/sky_logo.png" alt="logo">
+                </div>
+                <div class="logo_box">
+                    <img src="../img/GXU_logo.png" alt="logo">
+                </div>
+                <ul>
+                    <li>Home</li>
+                    <li>About</li>
+                    <li>Downloads</li>
+                </ul>
+                <ul>
+                    <li>Documents</li>
+                    <li>Help</li>
+                    <li>Tools</li>
+                </ul>
+                <ul>
+                    <li>Contact</li>
+                    <li>llchen@gxu.edu.cn</li>
+                    <li>1740569155@qq.com</li>
+                </ul>
+                <div class="revolver_maps">
+                    <script type="text/javascript"
+                        src="//rf.revolvermaps.com/0/0/6.js?i=5mrx7fhr2hr&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80"
+                        async="async"></script>
+                </div>
+            </div>
+
+            <h1 class="copyright">Developed by the Chen LL’s Lab at GuangXi University and Xie WB’s Lab at HuaZhong
+                Agricultural University</h1>
+            <h1 class="copyright">Copyright © 2020-2030 All rights reserved</h1>
+        </div>
+
+        <!-- 全局提示框，触发showCustomAlert方法之后才显示（copy、download） -->
+        <div id="customAlert" class="custom_alert"></div>
+
+
+        <script type="module" src="../js/test/main.js"></script>
+    </div>
 
 </body>
 

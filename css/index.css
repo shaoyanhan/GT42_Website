@@ -17,6 +17,25 @@ body {
     background-color: #FAFFF2;
 }
 
+.center_container .custom_alert {
+    display: none;
+    /* 初始状态不显示 */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #b8e994;
+    /* 浅绿色背景 */
+    padding: 20px;
+    border-radius: 10px;
+    /* 圆角边框 */
+    z-index: 1000;
+    /* 确保它在页面上的其他元素之上 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* 轻微的阴影效果 */
+    text-align: center;
+}
+
 .header_container {
     width: calc(100% - 40px);
     padding: 20px;

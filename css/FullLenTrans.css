@@ -103,3 +103,186 @@
     color: red;
     /* text-decoration: underline; */
 }
+
+.content_container .search_container .search_alert {
+    /* display: none; */
+    color: #d9534f;
+    /* 警告文字通常使用红色系 */
+    background-color: #f2dede;
+    border-color: #ebccd1;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+    position: absolute;
+    /* 根据需要调整定位 */
+    z-index: 1000;
+    /* 确保提示框在最上面 */
+    width: 95%;
+    /* 根据需要调整宽度 */
+    text-align: center;
+}
+
+
+.content_container .haplotype_result_container,
+.content_container .transcript_result_container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.content_container .result_details_container {
+    width: 400px;
+    height: 1000px;
+    margin: 20px;
+    background: linear-gradient(to right, #C0DDE4, #F6EDD3);
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
+}
+
+.content_container .result_details_container .content_box {
+    width: calc(100% - 40px);
+    /* 矩形框的宽度，减去间隔的两倍 */
+    height: calc(100% - 40px);
+    /* 矩形框的高度，减去间隔的两倍 */
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 5px;
+    /* 矩形框的圆角大小 */
+    position: absolute;
+    /* 绝对定位，相对于圆角框定位 */
+    top: 20px;
+    /* 矩形框距离圆角框顶部的距离 */
+    left: 20px;
+    /* 矩形框距离圆角框左侧的距离 */
+    overflow-y: auto;
+    /* 垂直方向出现滚动条 */
+}
+
+.content_container .result_details_container .content_box .result_details {
+    padding: 10px;
+    text-align: left;
+    /* 文本内容两端对齐 */
+    font-size: 18px;
+    /* color: #dce6d7; */
+}
+
+.content_container .result_details_container .content_box .main_title {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 10px;
+    display: block;
+    background-color: #8bc2d0;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.content_container .result_details_container .content_box .item_container {
+    display: flex;
+    align-items: center;
+    margin: 15px 0;
+}
+
+.content_container .result_details_container .content_box .item_container .item_title {
+    font-weight: bold;
+    margin-right: 10px;
+    font-size: 18px;
+    background-color: rgb(234, 231, 231);
+    border-bottom: 1px solid #929191;
+    padding: 5px;
+}
+
+.content_container .result_details_container .content_box .item_container .item_content {
+    font-size: 18px;
+}
+
+.content_container .result_details_container .content_box .sequence_item_container .sequence_container_header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.content_container .result_details_container .content_box .sequence_item_container .sequence_container_header .item_title {
+    font-weight: bold;
+    margin-right: 10px;
+    font-size: 18px;
+    background-color: rgb(234, 231, 231);
+    border-bottom: 1px solid #929191;
+    padding: 5px;
+}
+
+.content_container .result_details_container .content_box .sequence_item_container .sequence_container {
+    padding: 10px;
+    font-size: 18px;
+    height: 400px;
+    word-wrap: break-word;
+    /* 允许在长单词或URL内部进行换行 */
+    /* white-space: pre-wrap; */
+    /* 保持空白符的处理，同时允许文本自动换行 */
+    background-color: white;
+    overflow-y: scroll;
+}
+
+.content_container .result_details_container .table_header_container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background: #f0f0f0;
+    border-radius: 10px 10px 0 0;
+}
+
+.content_container .result_details_container .table_content_container .table_content {
+    height: 100px;
+    overflow-y: scroll;
+}
+
+
+.content_container .table_footer_pagination_container .footer_pagination_container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background: #f0f0f0;
+    border-radius: 0 0 10px 10px;
+}
+
+.content_container .table_footer_pagination_container .footer_pagination_container .pagination_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.content_container .table_footer_pagination_container .footer_pagination_container .pagination_container a {
+    margin: 0 5px;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #333;
+}
+
+.content_container .table_footer_pagination_container .footer_pagination_container .pagination_container a:hover {
+    background: #8bc2d0;
+    color: #fff;
+}
+
+.content_container .table_footer_pagination_container .footer_pagination_container .pagination_container .active {
+    background: #8bc2d0;
+    color: #fff;
+}
+
+.content_container .table_footer_pagination_container .footer_pagination_container .download_button {
+    margin: 10px;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #333;
+    background: #f0f0f0;
+    cursor: pointer;
+}
+
+.content_container .table_footer_pagination_container .footer_pagination_container .download_button:hover {
+    background: #8bc2d0;
+    color: #fff;
+}

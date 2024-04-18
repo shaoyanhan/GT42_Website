@@ -62,7 +62,10 @@ function getTranscriptOption(transcriptData) {
                     'Transcript Range: ' + params.value[8] + ' bp',
                     'Transcript Length: ' + params.value[9] + ' bp',
                 ].join('<br>');
-            }
+            },
+            textStyle: {
+                fontSize: 18
+            },
         },
         title: {
             text: 'Profile',
@@ -90,6 +93,9 @@ function getTranscriptOption(transcriptData) {
                 showDataShadow: true,
                 labelFormatter: function (value) {
                     return Math.round(value) + 'bp';
+                },
+                textStyle: {
+                    fontSize: 18
                 },
                 bottom: 50,
                 height: 100,
@@ -137,7 +143,7 @@ function getTranscriptOption(transcriptData) {
         // 最多 66 个转录本，平均值10-20个
         grid: {
             height: 1000,
-            width: 1200,
+            width: 800,
             containLabel: true
         },
         xAxis:
@@ -147,7 +153,8 @@ function getTranscriptOption(transcriptData) {
             axisLabel: {
                 formatter: function (val) {
                     return Math.round(Math.max(0, val - startbp)) + ' bp';
-                }
+                },
+                fontSize: 18
             },
             // axisPointer: {
             //     show: true,
@@ -156,7 +163,11 @@ function getTranscriptOption(transcriptData) {
         },
         yAxis: {
             type: 'category',
-            inverse: true
+            inverse: true,
+            axisLabel: {
+                show: true,
+                fontSize: 18
+            }
             // data: categories
         },
         series: [
@@ -165,13 +176,13 @@ function getTranscriptOption(transcriptData) {
                 type: 'custom',
                 renderItem: renderItem,
                 itemStyle: {
-                    opacity: 0.9,
+                    opacity: 1,
                     color: function (value) {
                         if (value.data[3] == 'haplotype') {
-                            return '#9cd283';
+                            return '#dce6d7';
                         } else {
                             if (value.data[4] == 'exon') {
-                                return '#61A3BA';
+                                return '#a8e1f5';
                             } else if (value.data[4] == 'intron') {
                                 return '#D2DE32';
                             }
@@ -191,7 +202,16 @@ function getTranscriptOption(transcriptData) {
 
                 },
 
-                data: transcriptData
+                data: transcriptData,
+                // custom 模式下无法使用select,只能使用highlight
+                // select: {
+                //     disabled: false,
+                //     itemStyle: {
+                //         borderColor: 'rgba(250, 3, 3, 1)',
+                //         borderWidth: 2
+                //     }
+                // },
+                // selectedMode: 'single',
             }
         ]
     };

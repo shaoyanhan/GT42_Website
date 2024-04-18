@@ -7,6 +7,7 @@ import { fetchAllData, fetchPaginationData, updateData, getData } from "./data.j
 import { updateTableContainer, setUpPaginationEventListeners } from "./tablePagination.js";
 
 
+
 function drawHaplotypeSNPChart(haplotypeSNPChart, haplotypeData, SNPData) {
     haplotypeSNPChart.setOption(getHaplotypeSNPOption(haplotypeData, SNPData));
 }
@@ -77,23 +78,26 @@ function setBarColor(dataArray, index, color) {
     return dataArray;
 }
 
-// 初始化的时候，实现第一条单倍型和转录本图像中的单倍型的颜色同步，并为它们设置焦点
-function initialBarColorSync(haplotypeArrayData, transcriptArrayData, barColor, borderColor) {
-    // 设置第一条单倍型和转录本图像中的单倍型的焦点
-    haplotypeArrayData = setBarFocus(haplotypeArrayData, 1, borderColor);
-    transcriptArrayData = setBarFocus(transcriptArrayData, 0, borderColor);
+// 设置元素的聚焦方式：highlight（直接高亮）、select（需要在option的series中配置select）
+function setDispatchAction(echartsInstance, type, dataIndex) {
+    echartsInstance.dispatchAction({
+        type: type,
+        dataIndex: dataIndex
+    });
+}
 
-    // 设置第一条单倍型和转录本图像中的单倍型的颜色
-    haplotypeArrayData = setBarColor(haplotypeArrayData, 1, barColor);
-    transcriptArrayData = setBarColor(transcriptArrayData, 0, barColor);
-
-    return [haplotypeArrayData, transcriptArrayData];
+// 取消元素的聚焦
+function setDownplayAction(echartsInstance, dataIndex) {
+    echartsInstance.dispatchAction({
+        type: 'downplay',
+        dataIndex: dataIndex
+    });
 }
 
 
-
-
 async function clickHaplotypeSNPChartsEvents(params) {
+
+
     console.log('clickHaplotypeSNPChartsEvents events');
     console.log(params);
 
@@ -116,22 +120,18 @@ async function clickHaplotypeSNPChartsEvents(params) {
     }
     // console.log(data);
 
+    // 不管点击的是haplotype(包括mosaic)还是SNP，都需要更新result details container
     let ResultDetailsData = { type: seriesName, data: currentClickedData };
     let haplotype_SNP_result_details_container = document.querySelector('#haplotype_SNP_result_details_container');
     updateResultDetailsContainer(ResultDetailsData, haplotype_SNP_result_details_container);
-
-
 
     let haplotypeArrayData = getData('haplotypeArrayData');
     console.log(haplotypeArrayData);
     let transcriptArrayData = getData('transcriptArrayData');
     console.log(transcriptArrayData);
-    // 如果点击的是mosaic的柱子（且点击的不是SNP），那么只需要将haplotypeSNPChart的焦点进行更新, 并去除transcriptChart的焦点
+    // 如果点击的是haplotype的柱子(且不是mosaic)，还需要更新transcriptChart以及transcript的表格和details container
     if (seriesName === 'haplotype') {
-        if (areaType === 'mosaic') {
-            haplotypeArrayData = setBarFocus(haplotypeArrayData, 0, 'red');
-            drawHaplotypeSNPChart(haplotypeSNPChart, haplotypeArrayData, getData('SNPArrayData'));
-        } else {
+        if (areaType !== 'mosaic') {
             // 如果点击的是haplotype的柱子，那么需要将transcriptChart的焦点和柱颜色进行更新，
             // 更新transcript的数据集，更新transcript的pagination，更新details container
 
@@ -147,9 +147,19 @@ async function clickHaplotypeSNPChartsEvents(params) {
 
             transcriptArrayData = getData('transcriptArrayData'); // 获取更新之后的数组
             console.log(transcriptArrayData);
-            haplotypeArrayData = setBarFocus(haplotypeArrayData, params.dataIndex, 'red');
-            transcriptArrayData = setBarFocus(transcriptArrayData, 0, 'red');
+
             transcriptArrayData = setBarColor(transcriptArrayData, 0, params.color);
+
+            // 在每次绘制转录本图像之前，取消前一个高亮元素的聚焦效果，因为formerHighlightIndex存储的是上一个高亮元素的dataIndex，但是绘制转录本图像之后，transcript数据会切换为另外一组数据，导致formerHighlightIndex对应的dataIndex元素不再是高亮元素
+            let formerHighlightIndex = getData('formerTranscriptHighlightIndex');
+            setDownplayAction(transcriptChart, formerHighlightIndex);
+
+            drawTranscriptChart(transcriptChart, transcriptArrayData);
+
+            // 设置transcriptChart中第一个exon高亮
+            let currentHighlightIndex = 1;
+            setDispatchAction(transcriptChart, 'highlight', currentHighlightIndex);
+            updateData('formerTranscriptHighlightIndex', currentHighlightIndex); // 更新旧的高亮元素的dataIndex
 
             // 更新transcript的pagination
             let transcript_table_container = document.querySelector('#transcript_table_container'); // 获取相应id的表格容器
@@ -160,14 +170,14 @@ async function clickHaplotypeSNPChartsEvents(params) {
             let transcriptResultDetailsData = { type: transcriptRawData.type, data: transcriptRawData.data[1] }; // 获取第一个可变剪接的信息
             let transcript_result_details_container = document.querySelector('#transcript_result_details_container'); // 获取transcript的result details容器
             updateResultDetailsContainer(transcriptResultDetailsData, transcript_result_details_container); // 初始化result details容器
-
-            drawHaplotypeSNPChart(haplotypeSNPChart, haplotypeArrayData, getData('SNPArrayData'));
-            drawTranscriptChart(transcriptChart, transcriptArrayData);
         }
     }
+
 }
 
 function clickTranscriptChartEvents(params) {
+
+
     console.log('clickTranscriptChartEvents events');
     console.log(params);
 
@@ -200,21 +210,27 @@ function clickTranscriptChartEvents(params) {
     console.log(clickedAreaIndex);
     let transcriptArrayData = getData('transcriptArrayData');
     console.log(transcriptArrayData);
-    transcriptArrayData = setBarFocus(transcriptArrayData, clickedAreaIndex, 'red');
-    console.log(transcriptArrayData);
-    transcriptArrayData = setBarColor(transcriptArrayData, clickedAreaIndex, params.color);
-    console.log(transcriptArrayData);
+    // transcriptArrayData = setBarFocus(transcriptArrayData, clickedAreaIndex, 'red');
+    // console.log(transcriptArrayData);
+    // transcriptArrayData = setBarColor(transcriptArrayData, clickedAreaIndex, params.color);
+    // console.log(transcriptArrayData);
 
-    // 如果点击了可变剪接的柱子，那么transcriptArrayData又会被刷新，此时要保证可变剪接图像中的单倍型颜色保持不变
-    if (transcriptIndex !== 'haplotype') {
-        let haplotypeEchartParamsData = getData('haplotypeEchartParamsData');
-        console.log(haplotypeEchartParamsData);
-        transcriptArrayData = setBarColor(transcriptArrayData, 0, haplotypeEchartParamsData.color);
-    }
+    // // 如果点击了可变剪接的柱子，那么transcriptArrayData又会被刷新，此时要保证可变剪接图像中的单倍型颜色保持不变
+    // if (transcriptIndex !== 'haplotype') {
+    //     let haplotypeEchartParamsData = getData('haplotypeEchartParamsData');
+    //     console.log(haplotypeEchartParamsData);
+    //     transcriptArrayData = setBarColor(transcriptArrayData, 0, haplotypeEchartParamsData.color);
+    // }
 
-    drawTranscriptChart(transcriptChart, transcriptArrayData);
+    // drawTranscriptChart(transcriptChart, transcriptArrayData);
 
+    // 设置点击的区域高亮
+    let currentHighlightIndex = clickedAreaIndex; // 获取当前点击的元素对应的dataIndex
+    let formerHighlightIndex = getData('formerTranscriptHighlightIndex'); // 获取旧的高亮元素的dataIndex
+    setDownplayAction(transcriptChart, formerHighlightIndex); // 取消前一个高亮元素的聚焦效果，注意这里并没有重绘transcriptChart，因此dataIndex是局限在当前transcript数据集中的，可以确保每次点击都能取消前一个高亮元素的聚焦效果
+    setDispatchAction(transcriptChart, 'highlight', currentHighlightIndex); // 设置当前点击的元素高亮
+    updateData('formerTranscriptHighlightIndex', currentHighlightIndex); // 更新旧的高亮元素的dataIndex
 
 }
 
-export { drawHaplotypeSNPChart, drawTranscriptChart, setBarFocus, setBarColor, initialBarColorSync, clickHaplotypeSNPChartsEvents, clickTranscriptChartEvents };
+export { drawHaplotypeSNPChart, drawTranscriptChart, setBarFocus, setBarColor, clickHaplotypeSNPChartsEvents, clickTranscriptChartEvents, setDispatchAction, setDownplayAction };

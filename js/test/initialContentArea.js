@@ -1,4 +1,4 @@
-import { drawHaplotypeSNPChart, drawTranscriptChart, setBarFocus, setBarColor, initialBarColorSync, clickHaplotypeSNPChartsEvents, clickTranscriptChartEvents } from "./echartsEvents.js";
+import { drawHaplotypeSNPChart, drawTranscriptChart, setBarFocus, setBarColor, clickHaplotypeSNPChartsEvents, clickTranscriptChartEvents, setDispatchAction, setDownplayAction } from "./echartsEvents.js";
 import { fetchAllData, fetchPaginationData, updateData, getData, validateGenomeID } from "./data.js";
 import { updateTableContainer, setUpPaginationEventListeners } from "./tablePagination.js";
 import { setupDownloadButton } from "./downloadTable.js";
@@ -91,35 +91,46 @@ async function initalContentArea(searchKeyword, keywordType) {
     let SNPArrayData = getData('SNPArrayData');
     let transcriptArrayData = getData('transcriptArrayData');
 
-    // // 同步两个图像中第一条单倍型的颜色
-    // let [changedHaplotypeArrayData, changedTranscriptArrayData] = initialBarColorSync(haplotypeArrayData, transcriptArrayData, '#ff7e98', 'red');
-    // console.log(changedHaplotypeArrayData);
-    // console.log(changedTranscriptArrayData);
-
-    // drawHaplotypeSNPChart(haplotypeSNPChart, changedHaplotypeArrayData, SNPArrayData);
-    // drawTranscriptChart(transcriptChart, changedTranscriptArrayData);
 
     // 设置用户所搜索的单倍型以及转录本图像中的外显子的焦点
-    haplotypeArrayData = setBarFocus(haplotypeArrayData, geneIDIndex, 'red');
-    transcriptArrayData = setBarFocus(transcriptArrayData, transcriptIDIndex, 'red');
-    let initialExonBarColor = '#61A3BA'; // 对第一个显示的外显子设置颜色，否则transcriptArrayData被刷新之后默认为黑色
-    transcriptArrayData = setBarColor(transcriptArrayData, transcriptIDIndex, initialExonBarColor);
+    // haplotypeArrayData = setBarFocus(haplotypeArrayData, geneIDIndex, 'red');
+    // transcriptArrayData = setBarFocus(transcriptArrayData, transcriptIDIndex, 'red');
+    // let initialExonBarColor = '#61A3BA'; // 对第一个显示的外显子设置颜色，否则transcriptArrayData被刷新之后默认为黑色
+    // transcriptArrayData = setBarColor(transcriptArrayData, transcriptIDIndex, initialExonBarColor);
 
-    // 初始的时候，将转录本图像中的单倍型颜色设置为浅绿色（拙劣的手法）
-    let initialHaplotypeBarColor = '#dce6d7';
-    transcriptArrayData = setBarColor(transcriptArrayData, 0, initialHaplotypeBarColor);
+    // 初始的时候，将转录本图像中的单倍型颜色设置为浅色（拙劣的手法）
+    // let initialHaplotypeBarColor = '#dce6d7';
+    // transcriptArrayData = setBarColor(transcriptArrayData, 0, initialHaplotypeBarColor);
 
     // 由于目前还没有发生点击事件，因此无法通过点击事件来更新transcript图像中单倍型的颜色，
     // 如果初始化之后用户直接点击可变剪接的柱子，那么transcript图像中单倍型的颜色会变为默认的黑色
     // 因此需要将当前的单倍型的颜色保存到haplotypeEchartParams中，以便在点击可变剪接的柱子时更新单倍型的颜色
-    let initialHaplotypeEchartParams = { color: initialHaplotypeBarColor };
-    updateData('haplotypeEchartParams', initialHaplotypeEchartParams);
+    // let initialHaplotypeEchartParams = { color: initialHaplotypeBarColor };
+    // updateData('haplotypeEchartParams', initialHaplotypeEchartParams);
     // console.log(getData('haplotypeEchartParamsData'));
     // console.log(transcriptArrayData);
 
     // 绘制图像
     drawHaplotypeSNPChart(haplotypeSNPChart, haplotypeArrayData, SNPArrayData);
+
+    // 在每次绘制转录本图像之前，取消前一个高亮元素的聚焦效果，因为formerHighlightIndex存储的是上一个高亮元素的dataIndex，但是绘制转录本图像之后，transcript数据会切换为另外一组数据，导致formerHighlightIndex对应的dataIndex元素不再是高亮元素
+    let formerHighlightIndex = getData('formerTranscriptHighlightIndex'); // 获取旧的高亮元素的dataIndex
+    setDownplayAction(transcriptChart, formerHighlightIndex); // 取消前一个高亮元素的聚焦效果
+
     drawTranscriptChart(transcriptChart, transcriptArrayData);
+
+    //setDispatchAction(haplotypeSNPChart, 'select', geneIDIndex);
+    // 为用户搜索的单倍型设置聚焦，请注意haplotype使用的是标准bar图，因此可以配置select属性并设置selectMode为single，因此无需手动进行聚焦操作的取消和设置
+    haplotypeSNPChart.dispatchAction({
+        type: 'select',
+        seriesIndex: 1,
+        dataIndex: geneIDIndex
+    });
+
+    // 为用户搜索的转录本的第一个外显子设置高亮
+    let currentHighlightIndex = transcriptIDIndex;
+    setDispatchAction(transcriptChart, 'highlight', currentHighlightIndex);
+    updateData('formerTranscriptHighlightIndex', currentHighlightIndex); // 更新旧的高亮元素的dataIndex
 
 
     let haplotype_table_container = document.querySelector('#haplotype_table_container'); // 获取相应id的表格容器

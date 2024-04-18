@@ -138,6 +138,9 @@ let haplotypeEchartParamsData = {};
 let SNPEchartParamsData = {};
 let transcriptEchartParamsData = {};
 
+// 用于记录转录本图像中的外显子的上一个焦点元素所对应的dataIndex
+let formerTranscriptHighlightIndex = -1;
+
 // 定义API请求的前缀
 let apiPrefix = {
     IP: 'http://127.0.0.1:8080/',
@@ -166,8 +169,10 @@ const updateDataFunctions = {
     haplotypeEchartParams: updateHaplotypeEchartParamsData,
     SNPEchartParams: updateSNPEchartParamsData,
     transcriptEchartParams: updateTranscriptEchartParamsData,
+    formerTranscriptHighlightIndex: updateFormerTranscriptHighlightIndex,
 };
 
+// 定义获取数据的映射关系, 从名称映射到函数
 const getDataFunctions = {
     haplotypeRawData: getHaplotypeRawData,
     SNPRawData: getSNPRawData,
@@ -188,6 +193,8 @@ const getDataFunctions = {
     haplotypeEchartParamsData: getHaplotypeEchartParamsData,
     SNPEchartParamsData: getSNPEchartParamsData,
     transcriptEchartParamsData: getTranscriptEchartParamsData,
+
+    formerTranscriptHighlightIndex: getFormerTranscriptHighlightIndex,
 };
 
 // 将对象数组转换为二维数组
@@ -231,6 +238,10 @@ function updateSNPEchartParamsData(newData) {
 }
 function updateTranscriptEchartParamsData(newData) {
     transcriptEchartParamsData = newData;
+}
+
+function updateFormerTranscriptHighlightIndex(newData) {
+    formerTranscriptHighlightIndex = newData;
 }
 
 
@@ -287,6 +298,10 @@ function getSNPEchartParamsData() {
 }
 function getTranscriptEchartParamsData() {
     return _.cloneDeep(transcriptEchartParamsData);
+}
+
+function getFormerTranscriptHighlightIndex() {
+    return _.cloneDeep(formerTranscriptHighlightIndex);
 }
 
 
