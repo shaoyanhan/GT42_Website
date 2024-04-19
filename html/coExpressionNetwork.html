@@ -12,6 +12,8 @@
     <script src="../js/echarts.js"></script>
     <script src="../js/jquery-3.7.1.js"></script>
     <script src="../js/purple-passion.js"></script>
+    <!-- 引入 lodash.js 用于 data.js 的数据深拷贝 -->
+    <script src="../js/lodash.js"></script>
     <style>
         .content_container {
             width: calc(100% - 40px);
@@ -38,9 +40,12 @@
             </div>
             <div class="menu_box">
                 <div class="menu_button" onclick="location.href='./index.html'">Home</div>
-                <div class="menu_button" onclick="location.href='./FullLenTrans.html'">Full Length Transcriptome</div>
-                <div class="menu_button" onclick="location.href='./eFP.html'">Gene Expansion Profile</div>
-                <div class="menu_button" onclick="location.href='./network.html'">Co-expression Network</div>
+                <div class="menu_button" onclick="location.href='./fullLengthTranscriptome.html'">Full Length
+                    Transcriptome</div>
+                <div class="menu_button" onclick="location.href='./geneExpressionProfile.html'">Gene Expression Profile
+                </div>
+                <div class="menu_button" onclick="location.href='./coExpressionNetwork.html'">Co-expression Network
+                </div>
             </div>
         </div>
 

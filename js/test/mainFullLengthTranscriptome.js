@@ -2,13 +2,15 @@ import { clickHaplotypeSNPChartsEvents, clickTranscriptChartEvents } from "./ech
 import { setUpPaginationEventListeners } from "./tablePagination.js";
 import { setupDownloadButton } from "./downloadTable.js";
 import { setUpResultDetailsContainerEventListeners } from "./resultDetailsContainer.js";
-import { initalContentArea } from "./initialContentArea.js";
+import { initalContentArea } from "./initialContentAreaFullLengthTranscriptome.js";
 import { setUpSearchEventListeners } from "./searchEvents.js";
+
 
 
 // 初始化ECharts实例
 export let haplotypeSNPChart = echarts.init(document.getElementById('drawHaplotype'), null, { renderer: 'svg' });
 export let transcriptChart = echarts.init(document.getElementById('drawTranscript'), null, { renderer: 'svg' });
+
 
 
 // 确保文档加载完成后再执行初始化

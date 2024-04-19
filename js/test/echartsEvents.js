@@ -2,7 +2,7 @@
 import { updateResultDetailsContainer } from './resultDetailsContainer.js';
 import { getHaplotypeSNPOption } from "./echartsOptionHaplotype.js";
 import { getTranscriptOption } from "./echartsOptionTranscript.js";
-import { haplotypeSNPChart, transcriptChart } from './main.js';
+import { haplotypeSNPChart, transcriptChart } from './mainFullLengthTranscriptome.js';
 import { fetchAllData, fetchPaginationData, updateData, getData } from "./data.js";
 import { updateTableContainer, setUpPaginationEventListeners } from "./tablePagination.js";
 
@@ -14,6 +14,10 @@ function drawHaplotypeSNPChart(haplotypeSNPChart, haplotypeData, SNPData) {
 
 function drawTranscriptChart(transcriptChart, transcriptData) {
     transcriptChart.setOption(getTranscriptOption(transcriptData));
+}
+
+function drawOrthologHeatmap() {
+    orthologHeatmapChart.setOption(getHeatmapOption());
 }
 
 // 设置柱子的焦点（添加边框颜色显示焦点）
@@ -233,4 +237,4 @@ function clickTranscriptChartEvents(params) {
 
 }
 
-export { drawHaplotypeSNPChart, drawTranscriptChart, setBarFocus, setBarColor, clickHaplotypeSNPChartsEvents, clickTranscriptChartEvents, setDispatchAction, setDownplayAction };
+export { drawHaplotypeSNPChart, drawTranscriptChart, drawOrthologHeatmap, setBarFocus, setBarColor, clickHaplotypeSNPChartsEvents, clickTranscriptChartEvents, setDispatchAction, setDownplayAction };

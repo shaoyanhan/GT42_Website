@@ -1,5 +1,5 @@
-import { initalContentArea } from "./initialContentArea.js";
-import { validateGenomeID } from "./data.js";
+// import { initalContentArea } from "./initialContentArea.js";
+import { validateGenomeID, getCurrentPageName } from "./data.js";
 
 // function validateSearchForm(searchKeyword) {
 //     // var input = document.getElementById('search_input').value;
@@ -73,11 +73,14 @@ async function submitSearchForm(container) {
     const searchKeyword = searchInput.value.trim(); // trim()方法是用来移除字符串两端的空白符的，包括：空格、制表符（tab）、换行符等
 
     // 验证搜索关键词
-    if (validateSearchForm(searchKeyword)) {
-        const response = await validateGenomeID(searchKeyword);
+    if (validateSearchForm(searchKeyword)) { // 前端验证格式是否正确
+        const response = await validateGenomeID(searchKeyword); // 后端验证ID是否存在
 
         if (response && response.status === 'success') {
-            await initalContentArea(searchKeyword, response.type);
+            // 导入当前页面的初始化模块
+            const currentPageName = getCurrentPageName();
+            const module = await import(`./initialContentArea${currentPageName}.js`);
+            await module.initalContentArea(searchKeyword, response.type);
         } else {
             console.error('Validation failed', response);
             showAlert(container, 'Validation failed. Please try again.');

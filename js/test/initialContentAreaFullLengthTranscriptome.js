@@ -1,10 +1,8 @@
-import { drawHaplotypeSNPChart, drawTranscriptChart, setBarFocus, setBarColor, clickHaplotypeSNPChartsEvents, clickTranscriptChartEvents, setDispatchAction, setDownplayAction } from "./echartsEvents.js";
-import { fetchAllData, fetchPaginationData, updateData, getData, validateGenomeID } from "./data.js";
-import { updateTableContainer, setUpPaginationEventListeners } from "./tablePagination.js";
-import { setupDownloadButton } from "./downloadTable.js";
-import { updateResultDetailsContainer, setUpResultDetailsContainerEventListeners } from "./resultDetailsContainer.js";
-import { validateSearchForm } from "./searchEvents.js";
-import { haplotypeSNPChart, transcriptChart } from "./main.js";
+import { drawHaplotypeSNPChart, drawTranscriptChart, setDispatchAction, setDownplayAction } from "./echartsEvents.js";
+import { fetchAllData, updateData, getData } from "./data.js";
+import { updateTableContainer } from "./tablePagination.js";
+import { updateResultDetailsContainer } from "./resultDetailsContainer.js";
+import { haplotypeSNPChart, transcriptChart } from "./mainFullLengthTranscriptome.js";
 
 // 从对象数组中查找指定key和value的对象的行索引
 function findIndexInObjectArray(objectArray, key, value) {

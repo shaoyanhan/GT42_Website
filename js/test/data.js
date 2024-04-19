@@ -387,4 +387,21 @@ async function validateGenomeID(genomeID) {
     }
 }
 
-export { fetchAllData, fetchPaginationData, updateData, getData, validateGenomeID };
+function getCurrentPageName() {
+    // 通过URL路径名来判断当前是哪个页面
+    const pathName = window.location.pathname;
+    if (pathName.includes('index.html')) {
+        return 'index';
+    } else if (pathName.includes('fullLengthTranscriptome.html')) {
+        return 'fullLengthTranscriptome';
+    } else if (pathName.includes('geneExpressionProfile.html')) {
+        return 'geneExpressionProfile';
+    } else if (pathName.includes('coExpressionNetwork.html')) {
+        return 'coExpressionNetwork';
+    } else {
+        return 'default';
+    }
+}
+
+
+export { fetchAllData, fetchPaginationData, updateData, getData, validateGenomeID, getCurrentPageName };

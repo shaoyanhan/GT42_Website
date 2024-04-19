@@ -9,8 +9,20 @@
     <link rel="icon" href="../img/sugarcane-logo.jpeg" type="image/x-icon">
     <link rel="stylesheet" href="../css/reset.css">
     <link rel="stylesheet" href="../css/index.css">
+    <script src="../js/echarts.js"></script>
     <script src="../js/jquery-3.7.1.js"></script>
-
+    <script src="../js/vintage.js"></script>
+    <!-- 引入 lodash.js 用于 data.js 的数据深拷贝 -->
+    <script src="../js/lodash.js"></script>
+    <style>
+        .content_container {
+            width: calc(100% - 40px);
+            /* 保证内容不溢出 */
+            height: 1130px;
+            /* 由内容自动撑起 */
+            padding: 40px 20px;
+        }
+    </style>
 
 </head>
 
@@ -38,59 +50,10 @@
         </div>
 
         <div class="content_container">
-            <div class="introduction_box">
-                <div class="text_box">
-                    <h1 class="introduction_title">Saccharum Regulatory Networks Database</h1>
-                    <br>
-                    <p class="introduction_text">This is introduce of this database. This is introduce of this database.
-                        This is introduce of this
-                        database. This is
-                        introduce of this database. This is introduce of this database. This is introduce of this
-                        database. This is introduce of
-                        this database. This is introduce of this database. This is introduce of this database. This is
-                        introduce of this
-                        database. This is introduce of this database. This is introduce of this database. This is
-                        introduce of this database.
-                        This is introduce of this database. This is introduce of this database. This is introduce of
-                        this database. This is
-                        introduce of this database. This is introduce of this database.</p>
-                    <p class="citation_text">if you used the data from the database, please cite the paper kindly!
-                        (https://doi.org/123456/123456)</p>
-                </div>
-                <div class="image_box">
-                    <img src="../img/intro.png" alt="intro">
-                </div>
+            <div id="drawOrthologHeatmap" style="width: 100%;height:300px;">
+
             </div>
 
-            <div class="databases_box">
-                <div class="database_container" onclick="location.href='./fullLengthTranscriptome.html'">
-                    <img src="../img/FLNC.png" alt="image">
-                    <h1>Full Length Transcriptome</h1>
-                </div>
-                <div class="database_container" onclick="location.href='./geneExpressionProfile.html'">
-                    <img src="../img/eFP.png" alt="image">
-                    <h1>Gene Expression Profile</h1>
-                </div>
-                <div class="database_container" onclick="location.href='./coExpressionNetwork.html'">
-                    <img src="../img/co-expression.png" alt="image">
-                    <h1>Co-expression Network</h1>
-                </div>
-            </div>
-
-            <div class="news_box">
-                <h1>News: </h1>
-                <ul>
-                    <li>2024/01/29 what’s new. what’s new. what’s new. what’s new. what’s new. what’s new.what’s
-                        new.what’s new.
-                        what’s new.</li>
-                    <li>2024/01/29 what’s new. what’s new. what’s new. what’s new. what’s new.
-                        what’s new.</li>
-                    <li>2024/01/29 what’s new. what’s new. what’s new. what’s new. what’s new.
-                        what’s new.</li>
-                    <li>News 4...</li>
-                    <li>News 5...</li>
-                </ul>
-            </div>
         </div>
 
         <div class="footer_container">
@@ -130,7 +93,6 @@
                     <li>llchen@gxu.edu.cn</li>
                     <li>1740569155@qq.com</li>
                 </ul>
-
                 <div class="revolver_maps">
                     <script type="text/javascript"
                         src="//rf.revolvermaps.com/0/0/6.js?i=5mrx7fhr2hr&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80"
@@ -145,7 +107,7 @@
 
     </div>
 
-
+    <script type="module" src="../js/test/mainGeneExpressionProfile.js"></script>
 </body>
 
 </html>
