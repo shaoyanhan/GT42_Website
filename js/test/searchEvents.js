@@ -80,6 +80,8 @@ async function submitSearchForm(container) {
             // 导入当前页面的初始化模块
             const currentPageName = getCurrentPageName();
             const module = await import(`./initialContentArea${currentPageName}.js`);
+            // console.log(currentPageName)
+            // console.log(module);
             await module.initalContentArea(searchKeyword, response.type);
         } else {
             console.error('Validation failed', response);

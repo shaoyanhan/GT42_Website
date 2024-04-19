@@ -1,6 +1,6 @@
-import { drawOrthologHeatmap } from "./echartsEvents.js";
+import { drawOrthologHeatmap } from "./echartsEventsFullLengthTranscriptome.js";
 
-async function initalContentArea(searchKeyword, keywordType) {
+async function initalContentArea() {
     drawOrthologHeatmap();
 }
 

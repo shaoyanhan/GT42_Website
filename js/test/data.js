@@ -388,16 +388,16 @@ async function validateGenomeID(genomeID) {
 }
 
 function getCurrentPageName() {
-    // 通过URL路径名来判断当前是哪个页面
+    // 通过URL路径名来判断当前是哪个页面, 这里好像是弱匹配，即Full和full都会匹配到FullLengthTranscriptome
     const pathName = window.location.pathname;
     if (pathName.includes('index.html')) {
         return 'index';
     } else if (pathName.includes('fullLengthTranscriptome.html')) {
-        return 'fullLengthTranscriptome';
+        return 'FullLengthTranscriptome';
     } else if (pathName.includes('geneExpressionProfile.html')) {
-        return 'geneExpressionProfile';
+        return 'GeneExpressionProfile';
     } else if (pathName.includes('coExpressionNetwork.html')) {
-        return 'coExpressionNetwork';
+        return 'CoExpressionNetwork';
     } else {
         return 'default';
     }

@@ -2,7 +2,9 @@
 import { updateResultDetailsContainer } from './resultDetailsContainer.js';
 import { getHaplotypeSNPOption } from "./echartsOptionHaplotype.js";
 import { getTranscriptOption } from "./echartsOptionTranscript.js";
+// import { getHeatmapOption } from "./echartsOptionHeatmap.js"; 
 import { haplotypeSNPChart, transcriptChart } from './mainFullLengthTranscriptome.js';
+// import { orthologHeatmapChart } from "./mainGeneExpressionProfile.js"; 不能导入, 会产生实例未定义的错误
 import { fetchAllData, fetchPaginationData, updateData, getData } from "./data.js";
 import { updateTableContainer, setUpPaginationEventListeners } from "./tablePagination.js";
 
@@ -16,9 +18,9 @@ function drawTranscriptChart(transcriptChart, transcriptData) {
     transcriptChart.setOption(getTranscriptOption(transcriptData));
 }
 
-function drawOrthologHeatmap() {
-    orthologHeatmapChart.setOption(getHeatmapOption());
-}
+// function drawOrthologHeatmap() {
+//     orthologHeatmapChart.setOption(getHeatmapOption());
+// }
 
 // 设置柱子的焦点（添加边框颜色显示焦点）
 /*
@@ -237,4 +239,4 @@ function clickTranscriptChartEvents(params) {
 
 }
 
-export { drawHaplotypeSNPChart, drawTranscriptChart, drawOrthologHeatmap, setBarFocus, setBarColor, clickHaplotypeSNPChartsEvents, clickTranscriptChartEvents, setDispatchAction, setDownplayAction };
+export { drawHaplotypeSNPChart, drawTranscriptChart, setBarFocus, setBarColor, clickHaplotypeSNPChartsEvents, clickTranscriptChartEvents, setDispatchAction, setDownplayAction };

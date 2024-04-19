@@ -1,4 +1,4 @@
-import { drawHaplotypeSNPChart, drawTranscriptChart, setDispatchAction, setDownplayAction } from "./echartsEvents.js";
+import { drawHaplotypeSNPChart, drawTranscriptChart, setDispatchAction, setDownplayAction } from "./echartsEventsFullLengthTranscriptome.js";
 import { fetchAllData, updateData, getData } from "./data.js";
 import { updateTableContainer } from "./tablePagination.js";
 import { updateResultDetailsContainer } from "./resultDetailsContainer.js";

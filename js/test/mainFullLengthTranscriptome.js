@@ -1,5 +1,7 @@
-import { clickHaplotypeSNPChartsEvents, clickTranscriptChartEvents } from "./echartsEvents.js";
+// 这里在页面加载时就导入了echartsEvents.js，如果echartsEvents.js中导入了其他的main文件，那么这些文件也会被加载，也就是说，
+// 如果其他main文件中初始化了echarts实例，那么由于其他页面并没有载入，所以会产生其他页面的echarts实例未定义的错误
 import { setUpPaginationEventListeners } from "./tablePagination.js";
+import { clickHaplotypeSNPChartsEvents, clickTranscriptChartEvents } from "./echartsEventsFullLengthTranscriptome.js";
 import { setupDownloadButton } from "./downloadTable.js";
 import { setUpResultDetailsContainerEventListeners } from "./resultDetailsContainer.js";
 import { initalContentArea } from "./initialContentAreaFullLengthTranscriptome.js";
