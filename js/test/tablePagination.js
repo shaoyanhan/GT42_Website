@@ -35,7 +35,9 @@ function updateSNPTable(data, container) {
                         <td>${row.IsoSeqEvidence}</td>
                         <td>${row.RNASeqEvidence}</td>
                         <td>${row.haplotypeSNP}</td>
-                        <div style="width: 20px; height: 20px; border-radius: 50%; background-color: ${row.color}"></div>`;
+                        <td>
+                            <div style="width: 20px; height: 20px; border-radius: 50%; background-color: ${row.color}"></div>
+                        </td>`;
         container.appendChild(tr);
     });
 }

@@ -1,4 +1,5 @@
 import { createClickToCopyHandler } from './copyTextToClipboard.js';
+import { showCustomAlert } from './showCustomAlert.js';
 
 // 更新结果详情的函数映射
 // 因为haplotype和SNP共用一个result details容器, 所以不能用id映射到更新函数, 而是直接传入type进行分辨
@@ -155,7 +156,7 @@ function updateSNPResultDetailsContainer(data, container) {
     const haplotypeSNPContainer = `
         <div class="table_item_container">
             <div class="table_header_container">
-                <h1 class="item_title">Haplotype SNP</h1>
+                <h1 class="item_title">haplotypeSNP</h1>
                 <button class="download_button">Download</button>
             </div>
             <div class="table_content_container">
@@ -163,7 +164,7 @@ function updateSNPResultDetailsContainer(data, container) {
                     <table>
                         <thead>
                             <tr>
-                                <th>SNP ID</th>
+                                <th>haplotype ID</th>
                                 <th>Type</th>
                             </tr>
                         </thead>
@@ -195,6 +196,7 @@ function updateSNPResultDetailsContainer(data, container) {
         document.body.appendChild(link); // Required for FF
         link.click();
         document.body.removeChild(link);
+        showCustomAlert('SNP of haplotype data downloaded!');
     });
 
 }

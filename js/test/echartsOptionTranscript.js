@@ -213,7 +213,9 @@ function getTranscriptOption(transcriptData) {
                 // },
                 // selectedMode: 'single',
             }
-        ]
+        ],
+        animation: true,
+        animationEasing: 'elasticOut',
     };
 }
 
