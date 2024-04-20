@@ -1,275 +1,1127 @@
+<!--
+	THIS EXAMPLE WAS DOWNLOADED FROM https://echarts.apache.org/examples/en/editor.html?code=PYBwLglsB2AEC8sDeAoWsDOBTAThLGAXMmurGAJ4hbEBEYOWWAtgIYi0A0p6AJq2FbEA2qjJlorZjVi0AYsGC8uPMgGMAFhAA2vRtBFjxZAG6ttAVxkBmbsYlSZ8nBYhgV99Jp16sB2KKq9maWMgCMdp7oktJ0AIIgINpYtEFkAL6cJFHoIVbEAEyRUTFOAPI4rNAA5inFnt66-oZp9qV0AMpYJjrJsBVVtR45ueb5sGGtGVlGI-2yAELairz9lTV1U-J54Vuw6QC6U4dpmdmeO8QAnPXi87QAslgCw_aNvv6BI5ewAGy3xnuC2eADNXg0tE0_C0RtFHJ0IDhlhBoOCoj9JiMzrMcvcAEoQABGaIuY12WJmezhsVkAGENBY1ABrEnBMnETE5bFU2D3DoaKosgFs0IcvYnKLc77s2BFPb3ekQZl-VnqSEfGGw-4AdRR1Qwqu2Ms5kqOkspc3hi0YrAw7mFpmNxzNxgl03ORtFfwB9wAInhoEyDQD3s0AjjPeNbFMdSjNlFQ9Dw_KrbQAKodOKG2A_ArHC241MAUQsOFA8Zyic-Ec89wA4rg2NAKNnRl6TZ43fYu-6a9SnB1gCCwLB_SihVMq5r0TLo5aabQAFKuNQVhPqsNfLWphJJLCwZdKtc5DHigvz8rrWoHlfHmdevNYl3d58ZV9S4w_f5pe5yW1aGASSnZMSlTWlljALQalVYCt1Ahd-URMBgz2U9zQ9WtU0XVhlWQ7MfjnSsNyTODCwXJ5UQdSNyS5c8yKcbVgCbVscydJ98wwkVxjlC86FpYABBQkZYL7QFUwoli0NozjMIXRjmKox123FV9xB7dAew_O4wKYkALDAXAhOMESYx05gQBgPw8IdH4ABYHRM3jFlYRhCUsoz73GDs1LoriZB4-i6CLAAPAycEkbRs0c7cFwACRc1YxxMAhJJlR8uVU3sU3ImA3GAHAPNJZTTVOXylKjB17jKSDcBg4jq2ypwMwWfC2M7MrtIXWlbRSjjRP7TpgAsaBVm6nBeEKvyxRKl9VDddIUHSIA&_source=echarts-doc-preview
+	⚠ Please be aware that this chart is not an official demo of Apache ECharts but is made by user-generated code.
+-->
 <!DOCTYPE html>
-<html>
+<html lang="en" style="height: 100%">
 
 <head>
     <meta charset="utf-8">
-    <title>第一个 ECharts 实例</title>
-    <script src="https://cdn.staticfile.net/jquery/2.2.4/jquery.min.js"></script>
-    <!-- 引入 echarts.js -->
-    <script src="https://cdn.staticfile.net/echarts/4.3.0/echarts.min.js"></script>
-    <style>
-        .container {
-            width: 100%;
-            height: 100%;
-            background-color: #f60;
-        }
-    </style>
 </head>
 
-<body>
-    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
-    <div id="main" style="width: 1500px;height:1500px;"></div>
+<body style="height: 100%; margin: 0">
+    <div style="height: 100px;background-color: bisque;"></div>
+
+    <div id="container1" style="height: 1000px; width: 100%;"></div>
+
+    <div style="height: 100px;background-color: bisque;"></div>
+
+    <div id="container2" style="height: 1000px; width: 100%;"></div>
+
+
+    <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+
+    <!-- Uncomment this line if you want to dataTool extension
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.5.0/dist/extension/dataTool.min.js"></script>
+  -->
+    <!-- Uncomment this line if you want to use gl extension
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts-gl@2/dist/echarts-gl.min.js"></script>
+  -->
+    <!-- Uncomment this line if you want to echarts-stat extension
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts-stat@latest/dist/ecStat.min.js"></script>
+  -->
+    <!-- Uncomment this line if you want to use map
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@4.9.0/map/js/china.js"></script>
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@4.9.0/map/js/world.js"></script>
+  -->
+    <!-- Uncomment these two lines if you want to use bmap extension
+  <script type="text/javascript" src="https://api.map.baidu.com/api?v=3.0&ak=YOUR_API_KEY"></script>
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.5.0/dist/extension/bmap.min.js"></script>
+  -->
+
     <script type="text/javascript">
-        // 基于准备好的dom，初始化echarts实例
-        // var myChart = echarts.init(document.getElementById('main'));
-        // option = {
-        //     xAxis: [{ gridIndex: 0 }, { gridIndex: 1 }], // 两个x轴，第一个绘制exon，第二个绘制intron
+        var dom = document.getElementById('container1');
+        var myChart = echarts.init(dom, null, {
+            renderer: 'canvas',
+            useDirtyRect: false
+        });
+        var app = {};
 
-        //     yAxis: [ // 两个y轴，类型为category，让柱子横向排列
-        //         {
-        //             gridIndex: 0,
-        //             type: 'category',
-        //             data: ['A', 'B', 'C', 'D', 'E']
-        //         },
-        //         {
-        //             gridIndex: 1,
-        //             type: 'category',
-        //             data: ['A', 'B', 'C', 'D', 'E']
-        //         }
-        //     ],
-        //     grid: [{ top: '55%' }, { top: '55%' }], // 这里定义了两个网格，第一个网格距离底部55%，第二个网格距离顶部55%
-
-        //     series: [
-        //         {
-        //             data: [10, 22, 28, 43, 49],
-        //             type: 'bar',
-        //             stack: 'x'
-
-        //         },
-
-        //         {
-        //             data: [
-        //                 { value: 10, itemStyle: { color: 'white' } }, 22, 28, 43, 49],
-        //             type: 'bar',
-        //             stack: 'x'
-
-        //         },
-        //         {
-        //             data: [10, 22, 28, 43, 49],
-        //             type: 'bar',
-        //             stack: 'x'
-
-        //         },
-        //         {
-        //             data: [10, 22, 28, 43, 49],
-        //             type: 'bar',
-        //             stack: 'y',
-        //             xAxisIndex: 1, yAxisIndex: 1,
-        //             barWidth: '2%'
-
-        //         },
-        //         {
-        //             data: [10, 22, 28, 43, 49],
-        //             type: 'bar',
-        //             stack: 'y',
-        //             xAxisIndex: 1, yAxisIndex: 1
-
-        //         },
-        //         {
-        //             data: [10, 22, 28, 43, 49],
-        //             type: 'bar',
-        //             stack: 'y',
-        //             xAxisIndex: 1, yAxisIndex: 1
-
-        //         }
-
-        //     ]
-        // };
-
-        // myChart.setOption(option)
-
-
-        var chartDom = document.getElementById('main');
-        var myChart = echarts.init(chartDom);
         var option;
 
-
-        var data = [];
-        var dataCount = 10;
-        var startTime = +new Date();
-        var categories = ['categoryA', 'categoryB', 'categoryC'];
-        var types = [
-            { name: 'JS Heap', color: '#7b9ce1' },
-            { name: 'Documents', color: '#bd6d6c' },
-            { name: 'Nodes', color: '#75d874' },
-            { name: 'Listeners', color: '#e0bc78' },
-            { name: 'GPU Memory', color: '#dc77dc' },
-            { name: 'GPU', color: '#72b362' }
-        ];
-        // Generate mock data
-        categories.forEach(function (category, index) {
-            var baseTime = startTime;
-            for (var i = 0; i < dataCount; i++) {
-                var typeItem = types[Math.round(Math.random() * (types.length - 1))];
-                var duration = Math.round(Math.random() * 10000);
-                data.push({
-                    name: typeItem.name,
-                    value: [index, baseTime, (baseTime += duration), duration],
-                    itemStyle: {
-                        normal: {
-                            color: typeItem.color
-                        }
+        var data = [
+            {
+                name: 'Callus',
+                itemStyle: {
+                    color: '#da0d68'
+                },
+                children: [
+                    {
+                        name: 'Callus1',
+                        itemStyle: {
+                            color: '#975e6d'
+                        },
+                        children: [
+                            {
+                                name: 'Ca1-1',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#3e0317'
+                                }
+                            },
+                            {
+                                name: 'Ca1-2',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#e62969'
+                                }
+                            },
+                            {
+                                name: 'Ca1-3',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#6569b0'
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        name: 'Callus2',
+                        itemStyle: {
+                            color: '#c94a44'
+                        },
+                        children: [
+                            {
+                                name: 'Ca2-1',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#b53b54'
+                                }
+                            },
+                            {
+                                name: 'Ca2-2',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#a5446f'
+                                }
+                            },
+                            {
+                                name: 'Ca2-3',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#f99e1c'
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        name: 'Callus3',
+                        itemStyle: {
+                            color: '#dd4c51'
+                        },
+                        children: [
+                            {
+                                name: 'Ca3-1',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#f2684b'
+                                }
+                            },
+                            {
+                                name: 'Ca3-2',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#e73451'
+                                }
+                            },
+                            {
+                                name: 'Ca3-3',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#e65656'
+                                }
+                            }
+                        ]
                     }
-                });
-                baseTime += Math.round(Math.random() * 2000);
-            }
-        });
-        function renderItem(params, api) {
-
-            var categoryIndex = api.value(0);
-            var start = api.coord([api.value(1), categoryIndex]); // x, y
-            var end = api.coord([api.value(2), categoryIndex]);
-
-            // 这里证明height可以根据categoryIndex来调整
-            if (categoryIndex == 0) {
-                var height = api.size([0, 1])[1] * 0.1;
-            } else {
-                var height = api.size([0, 1])[1] * 0.6;
-            }
-
-            var rectShape = echarts.graphic.clipRectByRect(
-                {
-                    x: start[0],
-                    y: start[1] - height / 2,
-                    width: end[0] - start[0],
-                    height: height
+                ]
+            },
+            {
+                name: 'Trefoil',
+                itemStyle: {
+                    color: '#c94a44'
                 },
-                {
-                    x: params.coordSys.x,
-                    y: params.coordSys.y,
-                    width: params.coordSys.width,
-                    height: params.coordSys.height
-                }
-            );
-            return (
-                rectShape && {
-                    type: 'rect',
-                    transition: ['shape'],
-                    shape: rectShape,
-                    style: api.style()
-                }
-            );
-        }
-
-        // 这里证明可以同时应用两个renderItem方法
-        function renderItem2(params, api) {
-            var categoryIndex = api.value(0);
-            var start = api.coord([api.value(1), categoryIndex]);
-            var end = api.coord([api.value(2), categoryIndex]);
-            var height = api.size([0, 1])[1] * 0.2;
-            var rectShape = echarts.graphic.clipRectByRect(
-                {
-                    x: start[0],
-                    y: start[1] - height / 2,
-                    width: end[0] - start[0],
-                    height: height
+                children: [
+                    {
+                        name: 'Root1',
+                        itemStyle: {
+                            color: '#e73451'
+                        },
+                        children: [
+                            {
+                                name: 'Ro1-1',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#f2684b'
+                                }
+                            },
+                            {
+                                name: 'Ro1-2',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#dd4c51'
+                                }
+                            },
+                            {
+                                name: 'Ro1-3',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#c94a44'
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        name: 'Root2',
+                        itemStyle: {
+                            color: '#dd4c51'
+                        },
+                        children: [
+                            {
+                                name: 'Ro2-1',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#e73451'
+                                }
+                            },
+                            {
+                                name: 'Ro2-2',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#f2684b'
+                                }
+                            },
+                            {
+                                name: 'Ro2-3',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#dd4c51'
+                                }
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                name: 'Elongation',
+                itemStyle: {
+                    color: '#f2684b'
                 },
-                {
-                    x: params.coordSys.x,
-                    y: params.coordSys.y,
-                    width: params.coordSys.width,
-                    height: params.coordSys.height
-                }
-            );
-            return (
-                rectShape && {
-                    type: 'rect',
-                    transition: ['shape'],
-                    shape: rectShape,
-                    style: api.style()
-                }
-            );
-        }
+                children: [
+                    {
+                        name: 'Leaf1',
+                        itemStyle: {
+                            color: '#e73451'
+                        },
+                        children: [
+                            {
+                                name: 'Le1-1',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#f2684b'
+                                }
+                            },
+                            {
+                                name: 'Le1-2',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#dd4c51'
+                                }
+                            },
+                            {
+                                name: 'Le1-3',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#c94a44'
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        name: 'Leaf + Sheath1',
+                        itemStyle: {
+                            color: '#dd4c51'
+                        },
+                        children: [
+                            {
+                                name: 'LS1-1',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#e73451'
+                                }
+                            },
+                            {
+                                name: 'LS1-2',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#f2684b'
+                                }
+                            },
+                            {
+                                name: 'LS1-3',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#dd4c51'
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        name: 'Bud1',
+                        itemStyle: {
+                            color: '#c94a44'
+                        },
+                        children: [
+                            {
+                                name: 'Bu1-1',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#e73451'
+                                }
+                            },
+                            {
+                                name: 'Bu1-2',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#f2684b'
+                                }
+                            },
+                            {
+                                name: 'Bu1-3',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#dd4c51'
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        name: 'Internode1',
+                        itemStyle: {
+                            color: '#dd4c51'
+                        },
+                        children: [
+                            {
+                                name: 'In1-1',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#e73451'
+                                }
+                            },
+                            {
+                                name: 'In1-2',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#f2684b'
+                                }
+                            },
+                            {
+                                name: 'In1-3',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#dd4c51'
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        name: 'Nodal Root1',
+                        itemStyle: {
+                            color: '#c94a44'
+                        },
+                        children: [
+                            {
+                                name: 'NR1-1',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#e73451'
+                                }
+                            },
+                            {
+                                name: 'NR1-2',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#f2684b'
+                                }
+                            },
+                            {
+                                name: 'NR1-3',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#dd4c51'
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        name: 'Apical Meristem',
+                        itemStyle: {
+                            color: '#dd4c51'
+                        },
+                        children: [
+                            {
+                                name: 'AM1-1',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#e73451'
+                                }
+                            },
+                            {
+                                name: 'AM1-2',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#f2684b'
+                                }
+                            },
+                            {
+                                name: 'AM1-3',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#dd4c51'
+                                }
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                name: 'Biennial Root',
+                itemStyle: {
+                    color: '#f2684b'
+                },
+                children: [
+                    {
+                        name: 'Bud2',
+                        itemStyle: {
+                            color: '#e73451'
+                        },
+                        children: [
+                            {
+                                name: 'Bu2-1',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#f2684b'
+                                }
+                            },
+                            {
+                                name: 'Bu2-2',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#dd4c51'
+                                }
+                            },
+                            {
+                                name: 'Bu2-3',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#c94a44'
+                                }
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                name: 'Florescence',
+                itemStyle: {
+                    color: '#dd4c51'
+                },
+                children: [
+                    {
+                        name: 'Spikelet',
+                        itemStyle: {
+                            color: '#e73451'
+                        },
+                        children: [
+                            {
+                                name: 'Sp-1',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#f2684b'
+                                }
+                            },
+                            {
+                                name: 'Sp-2',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#dd4c51'
+                                }
+                            },
+                            {
+                                name: 'Sp-3',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#c94a44'
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        name: 'Branch',
+                        itemStyle: {
+                            color: '#c94a44'
+                        },
+                        children: [
+                            {
+                                name: 'Br-1',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#e73451'
+                                }
+                            },
+                            {
+                                name: 'Br-2',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#f2684b'
+                                }
+                            },
+                            {
+                                name: 'Br-3',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#dd4c51'
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        name: 'Stamen',
+                        itemStyle: {
+                            color: '#dd4c51'
+                        },
+                        children: [
+                            {
+                                name: 'St-1',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#e73451'
+                                }
+                            },
+                            {
+                                name: 'St-2',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#f2684b'
+                                }
+                            },
+                            {
+                                name: 'St-3',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#dd4c51'
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        name: 'Pistil',
+                        itemStyle: {
+                            color: '#c94a44'
+                        },
+                        children: [
+                            {
+                                name: 'Pi-1',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#e73451'
+                                }
+                            },
+                            {
+                                name: 'Pi-2',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#f2684b'
+                                }
+                            },
+                            {
+                                name: 'Pi-3',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#dd4c51'
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        name: 'Glume',
+                        itemStyle: {
+                            color: '#dd4c51'
+                        },
+                        children: [
+                            {
+                                name: 'Gl-2',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#f2684b'
+                                }
+                            },
+                            {
+                                name: 'Gl-3',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#dd4c51'
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        name: 'Leaf + Sheath2',
+                        itemStyle: {
+                            color: '#c94a44'
+                        },
+                        children: [
+                            {
+                                name: 'LS2-2',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#f2684b'
+                                }
+                            },
+                            {
+                                name: 'LS2-3',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#dd4c51'
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        name: 'Internode2',
+                        itemStyle: {
+                            color: '#dd4c51'
+                        },
+                        children: [
+                            {
+                                name: 'In2-1',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#f2684b'
+                                }
+                            },
+                            {
+                                name: 'In2-3',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#dd4c51'
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        name: 'Node2',
+                        itemStyle: {
+                            color: '#c94a44'
+                        },
+                        children: [
+                            {
+                                name: 'No2-1',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#f2684b'
+                                }
+                            },
+                            {
+                                name: 'No2-2',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#f2684b'
+                                }
+                            },
+                            {
+                                name: 'No2-3',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#dd4c51'
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        name: 'Bud3',
+                        itemStyle: {
+                            color: '#dd4c51'
+                        },
+                        children: [
+                            {
+                                name: 'Bu3-1',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#f2684b'
+                                }
+                            },
+                            {
+                                name: 'Bu3-3',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#c94a44'
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        name: 'Leaf2',
+                        itemStyle: {
+                            color: '#c94a44'
+                        },
+                        children: [
+                            {
+                                name: 'Le2-1',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#e73451'
+                                }
+                            },
+                            {
+                                name: 'Le2-2',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#f2684b'
+                                }
+                            },
+                            {
+                                name: 'Le2-3',
+                                value: 1,
+                                itemStyle: {
+                                    color: '#dd4c51'
+                                }
+                            }
+                        ]
+                    }
+                ]
+            },
+
+            {
+                name: 'Development Stages',
+                value: 5,
+                itemStyle: {
+                    color: 'white'
+                },
+                label: {
+                    rotate: 'radial',
+                    padding: [0, 250, 0, 0],
+                    fontSize: 20,
+                    fontWeight: 'bold'
+                },
+                nodeClick: 'false',
+            },
+
+
+        ];
 
 
         option = {
-            tooltip: {
-                formatter: function (params) {
-                    return params.marker + params.name + ': ' + params.value[3] + ' ms';
-                }
-            },
             title: {
-                text: 'Profile',
-                left: 'center'
-            },
-            dataZoom: [
-                {
-                    type: 'slider',
-                    filterMode: 'weakFilter',
-                    showDataShadow: false,
-                    top: 400,
-                    labelFormatter: ''
+                text: 'WORLD COFFEE RESEARCH SENSORY LEXICON',
+                subtext: 'Source: https://worldcoffeeresearch.org/work/sensory-lexicon/',
+                textStyle: {
+                    fontSize: 14,
+                    align: 'center'
                 },
-                {
-                    type: 'inside',
-                    filterMode: 'weakFilter'
-                }
-            ],
-            grid: {
-                height: 300
+                subtextStyle: {
+                    align: 'center'
+                },
+                sublink: 'https://worldcoffeeresearch.org/work/sensory-lexicon/'
             },
-            xAxis: {
-                min: startTime,
-                scale: true,
-                axisLabel: {
-                    formatter: function (val) {
-                        return Math.max(0, val - startTime) + ' ms';
+            series: {
+                type: 'sunburst',
+                data: data,
+                radius: [0, '95%'],
+                sort: undefined,
+                emphasis: {
+                    focus: 'descendant'
+                },
+                label: {
+                    fontSize: 18
+                },
+                startAngle: 180, // 起始角度，支持范围[0, 360]，但是同样导致了label.rotate: 'tangential'的节点下钻的时候标签向右了
+                levels: [ // 为每一层设置样式
+                    {}, // 第一层留空用作下钻按钮，否则第一层label会被按钮遮挡
+                    {
+                        r0: '15%',
+                        r: '35%',
+                        itemStyle: {
+                            borderWidth: 2
+                        },
+                        label: {
+                            rotate: 'tangential'
+                        }
+                    },
+                    {
+                        r0: '35%',
+                        r: '70%',
+                        label: {
+                            align: 'right'
+                        }
+                    },
+                    {
+                        r0: '70%',
+                        r: '72%',
+                        label: {
+                            position: 'outside',
+                            padding: 3,
+                            silent: false
+                        },
+                        itemStyle: {
+                            borderWidth: 3
+                        }
                     }
-                }
-            },
-            yAxis: {
-                data: categories
-            },
-            series: [
-                {
-                    type: 'custom',
-                    renderItem: renderItem,
-                    itemStyle: {
-                        opacity: 0.8
-                    },
-                    encode: {
-                        x: [1, 2],
-                        y: 0
-                    },
-                    data: data
-                },
-                { // 这里证明可以同时使用内置绘图方法，并且使用同一数据集
-                    type: 'scatter',
-                    itemStyle: {
-                        color: '#333'
-                    },
-                    encode: {
-                        x: 1,
-                        y: 0
-                    },
-                    data: data
-                }
-                // {
-                //     type: 'custom',
-                //     renderItem: renderItem2,
-                //     itemStyle: {
-                //         opacity: 0.9
-                //     },
-                //     encode: {
-                //         x: [1, 2],
-                //         y: 0
-                //     },
-                //     data: data
-                // }
-            ]
+                ]
+            }
         };
 
-        option && myChart.setOption(option);
+        if (option && typeof option === 'object') {
+            myChart.setOption(option);
+        }
 
+        window.addEventListener('resize', myChart.resize);
     </script>
+
+    <script type="text/javascript">
+        var dom = document.getElementById('container2');
+        var myChart = echarts.init(dom, null, {
+            renderer: 'canvas',
+            useDirtyRect: false
+        });
+        var app = {};
+
+        var option;
+
+        data = [
+            {
+                name: 'GT42G000001',
+                value: 9,
+                children: [
+                    {
+                        name: 'GT42G000001.SO',
+                        value: 3,
+                        children: [
+                            {
+                                name: 'GT42G000001.SO.1',
+                                value: 1
+                            },
+                            {
+                                name: 'GT42G000001.SO.2',
+                                value: 1
+                            },
+                            {
+                                name: 'GT42G000001.SO.3',
+                                value: 1
+                            }
+                        ]
+                    },
+                    {
+                        name: 'GT42G000001.CO',
+                        value: 3,
+                        children: [
+                            {
+                                name: 'GT42G000001.CO.1',
+                                value: 1
+                            },
+                            {
+                                name: 'GT42G000001.CO.2',
+                                value: 1
+                            },
+                            {
+                                name: 'GT42G000001.CO.3',
+                                value: 1
+                            }
+                        ]
+                    },
+                    {
+                        name: 'GT42G000001.UK',
+                        value: 3,
+                        children: [
+                            {
+                                name: 'GT42G000001.UK.1',
+                                value: 1
+                            },
+                            {
+                                name: 'GT42G000001.UK.2',
+                                value: 1
+                            },
+                            {
+                                name: 'GT42G000001.UK.3',
+                                value: 1
+                            }
+                        ]
+                    }
+                ]
+            }
+        ];
+
+        option = {
+            series: {
+                type: "treemap",
+                data: data,
+                // data:
+                //     [
+
+                //         {
+                //             value: 9,
+                //             name: "Callus",
+                //             children: [
+                //                 {
+                //                     name: "Callus1",
+                //                     value: 3,
+                //                     children: [
+                //                         {
+                //                             name: "Ca1-1",
+                //                             value: 1
+                //                         },
+                //                         {
+                //                             name: "Ca1-2",
+                //                             value: 1
+                //                         },
+                //                         {
+                //                             name: "Ca1-3",
+                //                             value: 1
+                //                         }
+                //                     ]
+                //                 },
+                //                 {
+                //                     name: "Callus2",
+                //                     value: 3,
+                //                     children: [
+                //                         {
+                //                             name: "Ca2-1",
+                //                             value: 1
+                //                         },
+                //                         {
+                //                             name: "Ca2-2",
+                //                             value: 1
+                //                         },
+                //                         {
+                //                             name: "Ca2-3",
+                //                             value: 1
+                //                         }
+                //                     ]
+                //                 },
+                //                 {
+                //                     name: "Callus3",
+                //                     value: 3,
+                //                     children: [
+                //                         {
+                //                             name: "Ca3-1",
+                //                             value: 1
+                //                         },
+                //                         {
+                //                             name: "Ca3-2",
+                //                             value: 1
+                //                         },
+                //                         {
+                //                             name: "Ca3-3",
+                //                             value: 1
+                //                         }
+                //                     ]
+                //                 },
+                //             ]
+                //         },
+                //         {
+                //             name: "Trefoil",
+                //             value: 6,
+                //             children: [
+                //                 {
+                //                     name: "Root1",
+                //                     value: 3,
+                //                     children: [
+                //                         {
+                //                             name: "Ro1-1",
+                //                             value: 1
+                //                         },
+                //                         {
+                //                             name: "Ro1-2",
+                //                             value: 1
+                //                         },
+                //                         {
+                //                             name: "Ro1-3",
+                //                             value: 1
+                //                         }
+                //                     ]
+                //                 },
+                //                 {
+                //                     name: "Root2",
+                //                     value: 3,
+                //                     children: [
+                //                         {
+                //                             name: "Ro2-1",
+                //                             value: 1
+                //                         },
+                //                         {
+                //                             name: "Ro2-2",
+                //                             value: 1
+                //                         },
+                //                         {
+                //                             name: "Ro2-3",
+                //                             value: 1
+                //                         }
+                //                     ]
+                //                 }
+                //             ]
+                //         },
+                //         {
+                //             name: "Elongation",
+                //             value: 18,
+                //             children: [
+                //                 {
+                //                     name: "Leaf1",
+                //                     value: 3,
+                //                     children: [
+                //                         {
+                //                             name: "Le1-1",
+                //                             value: 1
+                //                         },
+                //                         {
+                //                             name: "Le1-2",
+                //                             value: 1
+                //                         },
+                //                         {
+                //                             name: "Le1-3",
+                //                             value: 1
+                //                         }
+                //                     ]
+                //                 },
+                //                 {
+                //                     name: "Leaf + Sheath1",
+                //                     value: 3,
+                //                     children: [
+                //                         {
+                //                             name: "LS1-1",
+                //                             value: 1
+                //                         },
+                //                         {
+                //                             name: "LS1-2",
+                //                             value: 1
+                //                         },
+                //                         {
+                //                             name: "LS1-3",
+                //                             value: 1
+                //                         }
+                //                     ]
+                //                 },
+                //                 {
+                //                     name: "Bud1",
+                //                     value: 3,
+                //                     children: [
+                //                         {
+                //                             name: "Bu1-1",
+                //                             value: 1
+                //                         },
+                //                         {
+                //                             name: "Bu1-2",
+                //                             value: 1
+                //                         },
+                //                         {
+                //                             name: "Bu1-3",
+                //                             value: 1
+                //                         }
+                //                     ]
+                //                 },
+                //                 {
+                //                     name: "Internode1",
+                //                     value: 3,
+                //                     children: [
+                //                         {
+                //                             name: "In1-1",
+                //                             value: 1
+                //                         },
+                //                         {
+                //                             name: "In1-2",
+                //                             value: 1
+                //                         },
+                //                         {
+                //                             name: "In1-3",
+                //                             value: 1
+                //                         }
+                //                     ]
+                //                 },
+                //                 {
+                //                     name: "Nodal Root1",
+                //                     value: 3,
+                //                     children: [
+                //                         {
+                //                             name: "NR1-1",
+                //                             value: 1
+                //                         },
+                //                         {
+                //                             name: "NR1-2",
+                //                             value: 1
+                //                         },
+                //                         {
+                //                             name: "NR1-3",
+                //                             value: 1
+                //                         }
+                //                     ]
+                //                 },
+                //                 {
+                //                     name: "Apical Meristem",
+                //                     value: 3,
+                //                     children: [
+                //                         {
+                //                             name: "AM1-1",
+                //                             value: 1
+                //                         },
+                //                         {
+                //                             name: "AM1-2",
+                //                             value: 1
+                //                         },
+                //                         {
+                //                             name: "AM1-3",
+                //                             value: 1
+                //                         }
+                //                     ]
+                //                 },
+                //             ]
+                //         }
+
+                //     ],
+                // leafDepth: 1,
+                nodeClick: 'false', // 点击叶子节点是否缩放
+                label: {
+
+                    fontSize: 16
+                },
+                upperLabel: { // 父级标签样式
+                    show: true,
+                    fontSize: 18,
+                    height: 50,
+                    // backgroundColor: 'inherit',
+
+                    backgroundColor: "rgba(241, 246, 246, 1)",
+
+                    // borderColor: "rgba(239, 146, 146, 1)",
+                    // borderWidth: 1,
+                    borderRadius: [4, 4, 4, 4],
+                    padding: [0, 0, 0, 20]
+                },
+                itemStyle: {
+                    borderWidth: 2,
+                    borderColor: "rgba(207, 229, 227, 1)",
+                    gapWidth: 4
+                }
+            }
+        }
+
+        if (option && typeof option === 'object') {
+            myChart.setOption(option);
+        }
+
+        window.addEventListener('resize', myChart.resize);
+    </script>
+
+
+
+
 </body>
+
+</html>

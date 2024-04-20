@@ -57,7 +57,7 @@ function getTranscriptOption(transcriptData) {
                 }
                 return [
                     params.marker + params.name,
-                    (params.value[4] == 1 ? 'Exon: ' : 'Intron: ') + params.value[5] + ' - ' + params.value[6] + ' bp',
+                    (params.value[4] == 'exon' ? 'Exon: ' : 'Intron: ') + params.value[5] + ' - ' + params.value[6] + ' bp',
                     'Transcript ID: ' + params.value[2],
                     'Transcript Range: ' + params.value[8] + ' bp',
                     'Transcript Length: ' + params.value[9] + ' bp',

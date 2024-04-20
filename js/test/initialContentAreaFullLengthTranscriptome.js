@@ -151,6 +151,19 @@ async function initalContentArea(searchKeyword, keywordType) {
     let transcriptResultDetailsData = { type: transcriptRawData.type, data: transcriptRawData.data[transcriptIDIndex] }; // 根据用户搜索的transcriptID的索引，获取第一条待展示的可变剪接的信息
     let transcript_result_details_container = document.querySelector('#transcript_result_details_container'); // 获取transcript的result details容器
     updateResultDetailsContainer(transcriptResultDetailsData, transcript_result_details_container); // 初始化result details容器
+
+
+    // 根据keywordType的类型，跳转到相应的页面位置
+    let jumpTargetElement = '';
+    if (keywordType === 'mosaic' || keywordType === 'gene') {
+        jumpTargetElement = document.getElementById('drawHaplotype');
+    } else if (keywordType === 'transcript') {
+        jumpTargetElement = document.getElementById('drawTranscript');
+    }
+    if (jumpTargetElement) {
+        //  'smooth' 选项会平滑地滚动到指定元素，而不是瞬间跳转，'center' 选项会将元素滚动到视口的中间( block: 'start' 为顶部 )
+        jumpTargetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
 }
 
 export { initalContentArea };

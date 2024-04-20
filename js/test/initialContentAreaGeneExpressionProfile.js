@@ -1,4 +1,4 @@
-import { drawOrthologHeatmap } from "./echartsEventsFullLengthTranscriptome.js";
+import { drawOrthologHeatmap } from "./echartsEventsGeneExpressionProfile.js";
 
 async function initalContentArea() {
     drawOrthologHeatmap();
