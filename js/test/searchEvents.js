@@ -42,11 +42,13 @@ function showAlert(container, message) {
 
 function validateSearchForm(searchKeyword) {
     var mosaicPattern = /^GT42G\d{6}$/; // mosaicID的格式：GT42G000001
+    var xenologousPattern = /^GT42G\d{6}\.[A-Z]{2}$/; // xenologousID的格式：GT42G000001.SO
     var genePattern = /^GT42G\d{1,6}\.(?:[A-Z]{2}|0)\.\d{1,2}$/; // geneID的格式：GT42G000001.SO.1，加入了mosaic别名的情况：GT42G000001.0.0
     var transcriptPattern = /^GT42G\d{1,6}\.[A-Z]{2}\.\d{1,2}\.\d{1,2}$/; // transcriptID的格式：GT42G000001.SO.1.1，已经包括了gene别名的情况：GT42G000001.SO.1.0
 
     // 检查是否匹配任何一个格式
     var isValid = mosaicPattern.test(searchKeyword) ||
+        xenologousPattern.test(searchKeyword) ||
         genePattern.test(searchKeyword) ||
         transcriptPattern.test(searchKeyword);
 
@@ -75,6 +77,7 @@ async function submitSearchForm(container) {
     // 验证搜索关键词
     if (validateSearchForm(searchKeyword)) { // 前端验证格式是否正确
         const response = await validateGenomeID(searchKeyword); // 后端验证ID是否存在
+        console.log(response);
 
         if (response && response.status === 'success') {
             // 导入当前页面的初始化模块

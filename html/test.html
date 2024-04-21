@@ -18,6 +18,10 @@
 
     <div id="container2" style="height: 1000px; width: 100%;"></div>
 
+    <div style="height: 100px;background-color: bisque;"></div>
+
+    <div id="container3" style="height: 1000px; width: 100%;"></div>
+
 
     <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
 
@@ -797,32 +801,162 @@
 
         var option;
 
-        data = [
+        treeMapData = [
             {
                 name: 'GT42G000001',
-                value: 9,
+                value: 1,
                 children: [
                     {
                         name: 'GT42G000001.SO',
-                        value: 3,
+                        value: 1,
                         children: [
                             {
                                 name: 'GT42G000001.SO.1',
-                                value: 1
+                                value: 1,
+                                children: [
+                                    {
+                                        name: 'GT42G000001.SO.1.1',
+                                        value: 1
+                                    },
+                                    {
+                                        name: 'GT42G000001.SO.1.2',
+                                        value: 1
+                                    },
+                                    {
+                                        name: 'GT42G000001.SO.1.3',
+                                        value: 1
+                                    },
+                                    {
+                                        name: 'GT42G000001.SO.1.4',
+                                        value: 1
+                                    },
+                                    {
+                                        name: 'GT42G000001.SO.1.5',
+                                        value: 1
+                                    },
+                                    {
+                                        name: 'GT42G000001.SO.1.6',
+                                        value: 1
+                                    },
+                                    {
+                                        name: 'GT42G000001.SO.1.7',
+                                        value: 1
+                                    },
+                                    {
+                                        name: 'GT42G000001.SO.1.8',
+                                        value: 1
+                                    },
+                                    {
+                                        name: 'GT42G000001.SO.1.9',
+                                        value: 1
+                                    },
+                                    {
+                                        name: 'GT42G000001.SO.1.10',
+                                        value: 1
+                                    },
+                                    {
+                                        name: 'GT42G000001.SO.1.11',
+                                        value: 1
+                                    },
+                                    {
+                                        name: 'GT42G000001.SO.1.12',
+                                        value: 1
+                                    },
+                                    {
+                                        name: 'GT42G000001.SO.1.13',
+                                        value: 1
+                                    },
+                                    {
+                                        name: 'GT42G000001.SO.1.14',
+                                        value: 1
+                                    },
+                                    {
+                                        name: 'GT42G000001.SO.1.15',
+                                        value: 1
+                                    },
+                                    {
+                                        name: 'GT42G000001.SO.1.16',
+                                        value: 1
+                                    },
+                                    {
+                                        name: 'GT42G000001.SO.1.17',
+                                        value: 1
+                                    },
+                                    {
+                                        name: 'GT42G000001.SO.1.18',
+                                        value: 1
+                                    },
+                                    {
+                                        name: 'GT42G000001.SO.1.19',
+                                        value: 1
+                                    },
+                                    {
+                                        name: 'GT42G000001.SO.1.20',
+                                        value: 1
+                                    },
+                                    {
+                                        name: 'GT42G000001.SO.1.21',
+                                        value: 1
+                                    },
+                                    {
+                                        name: 'GT42G000001.SO.1.22',
+                                        value: 1
+                                    },
+                                    {
+                                        name: 'GT42G000001.SO.1.23',
+                                        value: 1
+                                    },
+                                    {
+                                        name: 'GT42G000001.SO.1.24',
+                                        value: 1
+                                    },
+                                    {
+                                        name: 'GT42G000001.SO.1.25',
+                                        value: 1
+                                    },
+                                ]
                             },
                             {
                                 name: 'GT42G000001.SO.2',
-                                value: 1
+                                value: 1,
+                                children: [
+                                    {
+                                        name: 'GT42G000001.SO.2.1',
+                                        value: 1
+                                    },
+                                    {
+                                        name: 'GT42G000001.SO.2.2',
+                                        value: 1
+                                    },
+                                    {
+                                        name: 'GT42G000001.SO.2.3',
+                                        value: 1
+                                    }
+                                ]
                             },
                             {
                                 name: 'GT42G000001.SO.3',
-                                value: 1
+                                value: 1,
+                                children: [
+                                    {
+                                        name: 'GT42G000001.SO.3.1',
+                                        value: 1
+                                    },
+                                    {
+                                        name: 'GT42G000001.SO.3.2',
+                                        value: 1
+                                    },
+                                    {
+                                        name: 'GT42G000001.SO.3.3',
+                                        value: 1
+                                    }
+                                ]
                             }
                         ]
                     },
                     {
                         name: 'GT42G000001.CO',
-                        value: 3,
+                        value: 1,
                         children: [
                             {
                                 name: 'GT42G000001.CO.1',
@@ -840,7 +974,7 @@
                     },
                     {
                         name: 'GT42G000001.UK',
-                        value: 3,
+                        value: 1,
                         children: [
                             {
                                 name: 'GT42G000001.UK.1',
@@ -861,231 +995,15 @@
         ];
 
         option = {
+            tooltip: {
+                trigger: 'item',
+                triggerOn: 'mousemove',
+                formatter: "{b}" // 只显示name
+            },
             series: {
                 type: "treemap",
-                data: data,
-                // data:
-                //     [
-
-                //         {
-                //             value: 9,
-                //             name: "Callus",
-                //             children: [
-                //                 {
-                //                     name: "Callus1",
-                //                     value: 3,
-                //                     children: [
-                //                         {
-                //                             name: "Ca1-1",
-                //                             value: 1
-                //                         },
-                //                         {
-                //                             name: "Ca1-2",
-                //                             value: 1
-                //                         },
-                //                         {
-                //                             name: "Ca1-3",
-                //                             value: 1
-                //                         }
-                //                     ]
-                //                 },
-                //                 {
-                //                     name: "Callus2",
-                //                     value: 3,
-                //                     children: [
-                //                         {
-                //                             name: "Ca2-1",
-                //                             value: 1
-                //                         },
-                //                         {
-                //                             name: "Ca2-2",
-                //                             value: 1
-                //                         },
-                //                         {
-                //                             name: "Ca2-3",
-                //                             value: 1
-                //                         }
-                //                     ]
-                //                 },
-                //                 {
-                //                     name: "Callus3",
-                //                     value: 3,
-                //                     children: [
-                //                         {
-                //                             name: "Ca3-1",
-                //                             value: 1
-                //                         },
-                //                         {
-                //                             name: "Ca3-2",
-                //                             value: 1
-                //                         },
-                //                         {
-                //                             name: "Ca3-3",
-                //                             value: 1
-                //                         }
-                //                     ]
-                //                 },
-                //             ]
-                //         },
-                //         {
-                //             name: "Trefoil",
-                //             value: 6,
-                //             children: [
-                //                 {
-                //                     name: "Root1",
-                //                     value: 3,
-                //                     children: [
-                //                         {
-                //                             name: "Ro1-1",
-                //                             value: 1
-                //                         },
-                //                         {
-                //                             name: "Ro1-2",
-                //                             value: 1
-                //                         },
-                //                         {
-                //                             name: "Ro1-3",
-                //                             value: 1
-                //                         }
-                //                     ]
-                //                 },
-                //                 {
-                //                     name: "Root2",
-                //                     value: 3,
-                //                     children: [
-                //                         {
-                //                             name: "Ro2-1",
-                //                             value: 1
-                //                         },
-                //                         {
-                //                             name: "Ro2-2",
-                //                             value: 1
-                //                         },
-                //                         {
-                //                             name: "Ro2-3",
-                //                             value: 1
-                //                         }
-                //                     ]
-                //                 }
-                //             ]
-                //         },
-                //         {
-                //             name: "Elongation",
-                //             value: 18,
-                //             children: [
-                //                 {
-                //                     name: "Leaf1",
-                //                     value: 3,
-                //                     children: [
-                //                         {
-                //                             name: "Le1-1",
-                //                             value: 1
-                //                         },
-                //                         {
-                //                             name: "Le1-2",
-                //                             value: 1
-                //                         },
-                //                         {
-                //                             name: "Le1-3",
-                //                             value: 1
-                //                         }
-                //                     ]
-                //                 },
-                //                 {
-                //                     name: "Leaf + Sheath1",
-                //                     value: 3,
-                //                     children: [
-                //                         {
-                //                             name: "LS1-1",
-                //                             value: 1
-                //                         },
-                //                         {
-                //                             name: "LS1-2",
-                //                             value: 1
-                //                         },
-                //                         {
-                //                             name: "LS1-3",
-                //                             value: 1
-                //                         }
-                //                     ]
-                //                 },
-                //                 {
-                //                     name: "Bud1",
-                //                     value: 3,
-                //                     children: [
-                //                         {
-                //                             name: "Bu1-1",
-                //                             value: 1
-                //                         },
-                //                         {
-                //                             name: "Bu1-2",
-                //                             value: 1
-                //                         },
-                //                         {
-                //                             name: "Bu1-3",
-                //                             value: 1
-                //                         }
-                //                     ]
-                //                 },
-                //                 {
-                //                     name: "Internode1",
-                //                     value: 3,
-                //                     children: [
-                //                         {
-                //                             name: "In1-1",
-                //                             value: 1
-                //                         },
-                //                         {
-                //                             name: "In1-2",
-                //                             value: 1
-                //                         },
-                //                         {
-                //                             name: "In1-3",
-                //                             value: 1
-                //                         }
-                //                     ]
-                //                 },
-                //                 {
-                //                     name: "Nodal Root1",
-                //                     value: 3,
-                //                     children: [
-                //                         {
-                //                             name: "NR1-1",
-                //                             value: 1
-                //                         },
-                //                         {
-                //                             name: "NR1-2",
-                //                             value: 1
-                //                         },
-                //                         {
-                //                             name: "NR1-3",
-                //                             value: 1
-                //                         }
-                //                     ]
-                //                 },
-                //                 {
-                //                     name: "Apical Meristem",
-                //                     value: 3,
-                //                     children: [
-                //                         {
-                //                             name: "AM1-1",
-                //                             value: 1
-                //                         },
-                //                         {
-                //                             name: "AM1-2",
-                //                             value: 1
-                //                         },
-                //                         {
-                //                             name: "AM1-3",
-                //                             value: 1
-                //                         }
-                //                     ]
-                //                 },
-                //             ]
-                //         }
-
-                //     ],
-                // leafDepth: 1,
+                data: treeMapData,
+                leafDepth: 3,
                 nodeClick: 'false', // 点击叶子节点是否缩放
                 label: {
 
@@ -1119,6 +1037,211 @@
         window.addEventListener('resize', myChart.resize);
     </script>
 
+    <script type="text/javascript">
+        var dom = document.getElementById('container3');
+        var myChart = echarts.init(dom, null, {
+            renderer: 'canvas',
+            useDirtyRect: false
+        });
+        var app = {};
+
+        var option;
+
+        treeData = [
+            {
+                name: 'GT42G000001',
+                // itemStyle: {
+                //     color: '#da0d68'
+                // },
+                children: [
+                    {
+                        name: 'GT42G000001.SO',
+                        // itemStyle: {
+                        //     color: '#975e6d'
+                        // },
+                        children: [
+                            {
+                                name: 'GT42G000001.SO.1',
+                                // itemStyle: {
+                                //     color: '#3e0317'
+                                // },
+                                children: [
+                                    {
+                                        name: 'GT42G000001.SO.1.1',
+                                        // itemStyle: {
+                                        //     color: '#e62969'
+                                        // }
+                                    },
+                                    {
+                                        name: 'GT42G000001.SO.1.2',
+                                    },
+                                    {
+                                        name: 'GT42G000001.SO.1.3',
+                                    },
+                                    {
+                                        name: 'GT42G000001.SO.1.4',
+                                    },
+                                    {
+                                        name: 'GT42G000001.SO.1.5',
+                                    },
+                                    {
+                                        name: 'GT42G000001.SO.1.6',
+                                    },
+                                    {
+                                        name: 'GT42G000001.SO.1.7',
+                                    },
+                                    {
+                                        name: 'GT42G000001.SO.1.8',
+                                    },
+                                    {
+                                        name: 'GT42G000001.SO.1.9',
+                                    },
+                                    {
+                                        name: 'GT42G000001.SO.1.10',
+                                    },
+                                    {
+                                        name: 'GT42G000001.SO.1.11',
+                                    },
+                                    {
+                                        name: 'GT42G000001.SO.1.12',
+                                    },
+                                    {
+                                        name: 'GT42G000001.SO.1.13',
+                                    },
+                                    {
+                                        name: 'GT42G000001.SO.1.14',
+                                    },
+                                    {
+                                        name: 'GT42G000001.SO.1.15',
+                                    },
+                                    {
+                                        name: 'GT42G000001.SO.1.16',
+                                    },
+                                    {
+                                        name: 'GT42G000001.SO.1.17',
+                                    },
+                                    {
+                                        name: 'GT42G000001.SO.1.18',
+                                    },
+                                    {
+                                        name: 'GT42G000001.SO.1.19',
+                                    },
+                                    {
+                                        name: 'GT42G000001.SO.1.20',
+                                    },
+                                    {
+                                        name: 'GT42G000001.SO.1.21',
+                                    },
+                                    {
+                                        name: 'GT42G000001.SO.1.22',
+                                    },
+                                    {
+                                        name: 'GT42G000001.SO.1.23',
+                                    },
+                                    {
+                                        name: 'GT42G000001.SO.1.24',
+                                    },
+                                    {
+                                        name: 'GT42G000001.SO.1.25',
+                                    },
+                                ]
+                            },
+                            {
+                                name: 'GT42G000001.SO.2',
+                                children: [
+                                    {
+                                        name: 'GT42G000001.SO.2.1',
+                                    },
+                                    {
+                                        name: 'GT42G000001.SO.2.2',
+                                    },
+                                    {
+                                        name: 'GT42G000001.SO.2.3',
+                                    }
+                                ]
+                            },
+                            {
+                                name: 'GT42G000001.SO.3',
+                                children: [
+                                    {
+                                        name: 'GT42G000001.SO.3.1',
+                                    },
+                                    {
+                                        name: 'GT42G000001.SO.3.2',
+                                    },
+                                    {
+                                        name: 'GT42G000001.SO.3.3',
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        name: 'GT42G000001.CO',
+                        children: [
+                            {
+                                name: 'GT42G000001.CO.1',
+                            },
+                            {
+                                name: 'GT42G000001.CO.2',
+                            },
+                            {
+                                name: 'GT42G000001.CO.3',
+                            }
+                        ]
+                    },
+                    {
+                        name: 'GT42G000001.UK',
+                        children: [
+                            {
+                                name: 'GT42G000001.UK.1',
+                            },
+                            {
+                                name: 'GT42G000001.UK.2',
+                            },
+                            {
+                                name: 'GT42G000001.UK.3',
+                            }
+                        ]
+                    }
+                ]
+            }
+        ];
+
+        option = {
+            tooltip: {
+                trigger: 'item',
+                triggerOn: 'mousemove',
+                formatter: "{b}" // 只显示name
+            },
+            series: {
+                type: "tree",
+                data: treeData,
+                layout: 'orthogonal', // 树图布局，orthogonal正交布局，radial环形布局
+                orient: 'LR', // 树图方向，LR从左到右，RL从右到左，TB从上到下，BT从下到上
+                // roam: true, // 是否开启滚轮和拖拽缩放
+                emphasis: {
+                    focus: 'ancestor'
+                },
+                label: {
+                    fontSize: 16,
+                    position: "top", // 分支节点标签在节点上方显示
+                },
+                leaves: {
+                    label: {
+                        position: "right" // 叶子节点标签在节点右侧显示
+                    }
+                }
+
+            }
+        }
+
+        if (option && typeof option === 'object') {
+            myChart.setOption(option);
+        }
+
+        window.addEventListener('resize', myChart.resize);
+    </script>
 
 
 
