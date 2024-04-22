@@ -1,5 +1,5 @@
 import { drawHaplotypeSNPChart, drawTranscriptChart, setDispatchAction, setDownplayAction } from "./echartsEventsFullLengthTranscriptome.js";
-import { fetchAllData, updateData, getData } from "./data.js";
+import { fetchRawData, updateData, getData } from "./data.js";
 import { updateTableContainer } from "./tablePagination.js";
 import { updateResultDetailsContainer } from "./resultDetailsContainer.js";
 import { haplotypeSNPChart, transcriptChart } from "./mainFullLengthTranscriptome.js";
@@ -48,8 +48,8 @@ async function initalContentArea(searchKeyword, keywordType) {
     console.log(searchKeywordTranscript);
 
     // 请求原始数据并保存
-    let haplotypeRawData = await fetchAllData('haplotype', searchKeywordMosaic);
-    let SNPRawData = await fetchAllData('SNP', searchKeywordMosaic);
+    let haplotypeRawData = await fetchRawData('haplotype', searchKeywordMosaic);
+    let SNPRawData = await fetchRawData('SNP', searchKeywordMosaic);
     console.log(haplotypeRawData);
     console.log(SNPRawData);
     updateData('haplotype', haplotypeRawData);
@@ -70,7 +70,7 @@ async function initalContentArea(searchKeyword, keywordType) {
         geneIDIndex = findIndexInObjectArray(haplotypeObjectData, 'geneID', searchKeywordGene);
     }
     // console.log(searchKeywordGene);
-    transcriptRawData = await fetchAllData('transcript', searchKeywordGene);
+    transcriptRawData = await fetchRawData('transcript', searchKeywordGene);
     // console.log(transcriptRawData);
     updateData('transcript', transcriptRawData);
     transcriptObjectData = getData('transcriptObjectData');

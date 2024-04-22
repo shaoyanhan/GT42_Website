@@ -1,50 +1,5 @@
-
-
 // 用于绘图和数据处理的全局变量
 // 不能将数据定义放在main.js中，因为会导致main.js和echartsOptionHaplotype.js、echartsOptionTranscript.js之间的循环依赖问题
-// let haplotypeData = [["GT42G000001", "GT42G000001.SO.0", "mosaic", 5420, "ATCGATCG"],
-// ["GT42G000001", "GT42G000001.SO.1", "haplotype1", 5124, "ATCGATCG"],
-// ["GT42G000001", "GT42G000001.SO.2", "haplotype2", 4634, "ATCGATCG"],
-// ["GT42G000001", "GT42G000001.SO.3", "haplotype3", 4965, "ATCGATCG"],
-// ["GT42G000001", "GT42G000001.SO.4", "haplotype4", 4965, "ATCGATCG"],
-// ["GT42G000001", "GT42G000001.SO.5", "haplotype5", 4965, "ATCGATCG"],
-// ["GT42G000001", "GT42G000001.SO.6", "haplotype6", 4965, "ATCGATCG"],
-// ["GT42G000001", "GT42G000001.SO.7", "haplotype7", 4965, "ATCGATCG"],
-// ["GT42G000001", "GT42G000001.SO.8", "haplotype8", 4965, "ATCGATCG"],
-// ["GT42G000001", "GT42G000001.SO.9", "haplotype9", 4965, "ATCGATCG"],
-// ["GT42G000001", "GT42G000001.SO.10", "haplotype10", 4965, "ATCGATCG"],
-// ["GT42G000001", "GT42G000001.SO.11", "haplotype11", 5124, "ATCGATCG"],
-// ["GT42G000001", "GT42G000001.SO.12", "haplotype12", 4634, "ATCGATCG"],
-// ["GT42G000001", "GT42G000001.SO.13", "haplotype13", 4965, "ATCGATCG"],];
-
-
-// let SNPData = [['GT42G000001', 'mosaic', 17, 'A/C', '10045/5210', '5921/1705', 'GT42G000001.SO.1:C; GT42G000001.SS.1:A', '#050f2c'],
-// ['GT42G000001', 'mosaic', 32, 'C/G', '8346/3244', '2133/4543', 'GT42G000001.SO.1:C; GT42G000001.SS.1:A', '#003666'],
-// ['GT42G000001', 'mosaic', 45, 'G/T', '10045/5210', '5921/1705', 'GT42G000001.SO.1:C; GT42G000001.SS.1:A', '#050f2c'],
-// ['GT42G000001', 'mosaic', 56, 'T/A', '8346/3244', '2133/4543', 'GT42G000001.SO.1:C; GT42G000001.SS.1:A', '#003666'],
-// ['GT42G000002', 'mosaic', 675, 'A/C/G', '10045/3410', '7521/1705', 'GT42G000001.SO.1:C; GT42G000001.SS.1:A', '#050f2c'],
-// ['GT42G000002', 'mosaic', 175, 'A/G/C', '34045/5210', '5921/1755', 'GT42G000001.SO.1:C; GT42G000001.SS.1:A', '#050f2c'],
-// ['GT42G000002', 'mosaic', 325, 'C/G/G', '8346/3444', '2133/7543', 'GT42G000001.SO.1:C; GT42G000001.SS.1:A', '#003666'],
-// ['GT42G000002', 'mosaic', 455, 'G/G/T', '10045/3410', '7521/1705', 'GT42G000001.SO.1:C; GT42G000001.SS.1:A', '#050f2c'],
-// ['GT42G000002', 'mosaic', 565, 'T/A/G', '8346/3244', '7533/4543', 'GT42G000001.SO.1:C; GT42G000001.SS.1:A', '#003666'],
-// ['GT42G000002', 'mosaic', 675, 'A/G/C', '34045/5210', '5921/1755', 'GT42G000001.SO.1:C; GT42G000001.SS.1:A', '#050f2c'],];
-
-
-// let transcriptData = [
-//     { value: ['GT42G000001', 'GT42G000001.SO.1', 'GT42G000001.SO.1.0', 'haplotype', 1, 1, 140, 140, '1 - 140', 140], itemStyle: { color: 'black' } },
-//     ['GT42G000001', 'GT42G000001.SO.1', 'GT42G000001.SO.1.1', 'transcript1', 1, 1, 20, 20, '1 - 40', 40],
-//     ['GT42G000001', 'GT42G000001.SO.1', 'GT42G000001.SO.1.1', 'transcript1', 0, 20, 30, 10, '1 - 40', 40],
-//     ['GT42G000001', 'GT42G000001.SO.1', 'GT42G000001.SO.1.1', 'transcript1', 1, 30, 40, 10, '1 - 40', 40],
-//     ['GT42G000001', 'GT42G000001.SO.1', 'GT42G000001.SO.1.2', 'transcript2', 0, 20, 30, 10, '20 - 50', 30],
-//     ['GT42G000001', 'GT42G000001.SO.1', 'GT42G000001.SO.1.2', 'transcript2', 1, 30, 50, 20, '20 - 50', 30],
-//     ['GT42G000001', 'GT42G000001.SO.1', 'GT42G000001.SO.1.3', 'transcript3', 1, 50, 80, 30, '50 - 80', 30],
-//     ['GT42G000001', 'GT42G000001.SO.1', 'GT42G000001.SO.1.3', 'transcript3', 0, 80, 90, 10, '50 - 80', 30],
-//     ['GT42G000001', 'GT42G000001.SO.1', 'GT42G000001.SO.1.3', 'transcript3', 1, 90, 100, 10, '50 - 80', 30],
-//     ['GT42G000001', 'GT42G000001.SO.1', 'GT42G000001.SO.1.4', 'transcript4', 1, 100, 110, 10, '100 - 130', 30],
-//     ['GT42G000001', 'GT42G000001.SO.1', 'GT42G000001.SO.1.4', 'transcript4', 0, 110, 120, 10, '100 - 130', 30],
-//     ['GT42G000001', 'GT42G000001.SO.1', 'GT42G000001.SO.1.4', 'transcript4', 1, 120, 130, 10, '100 - 130', 30],
-//     ['GT42G000001', 'GT42G000001.SO.1', 'GT42G000001.SO.1.5', 'transcript5', 1, 130, 140, 10, '130 - 140', 10],
-// ];
 
 
 // {
@@ -63,6 +18,10 @@
 let haplotypeRawData = [];
 let SNPRawData = [];
 let transcriptRawData = [];
+let mosaicTPMRawData = [];
+let xenologousTPMRawData = [];
+let geneTPMRawData = [];
+let transcriptTPMRawData = [];
 
 
 // [
@@ -77,6 +36,10 @@ let transcriptRawData = [];
 let haplotypeObjectData = [];
 let SNPObjectData = [];
 let transcriptObjectData = [];
+let mosaicTPMObjectData = [];
+let xenologousTPMObjectData = [];
+let geneTPMObjectData = [];
+let transcriptTPMObjectData = [];
 
 
 // [
@@ -85,6 +48,14 @@ let transcriptObjectData = [];
 let haplotypeArrayData = [];
 let SNPArrayData = [];
 let transcriptArrayData = [];
+
+// [
+//     ["ID", num, num ...],
+// ]
+let mosaicTPMArrayData = [];
+let xenologousTPMArrayData = [];
+let geneTPMArrayData = [];
+let transcriptTPMArrayData = [];
 
 
 /*
@@ -144,14 +115,23 @@ let formerTranscriptHighlightIndex = -1;
 // 定义API请求的前缀
 let apiPrefix = {
     IP: 'http://127.0.0.1:8080/',
+
     app: 'searchDatabase/',
+
     haplotype: 'getHaplotypeTable/',
     SNP: 'getSNPTable/',
     transcript: 'getTranscriptTable/',
+    mosaicTPM: 'getMosaicTPMTable/',
+    xenologousTPM: 'getXenologousTPMTable/',
+    geneTPM: 'getGeneTPMTable/',
+    transcriptTPM: 'getTranscriptTPMTable/',
+
     haplotypePagination: 'getHaplotypeTableByPage/',
     SNPPagination: 'getSNPTableByPage/',
     transcriptPagination: 'getTranscriptTableByPage/',
+
     validateGenomeID: 'validateGenomeID/',
+
     parameter: {
         searchKeyword: 'searchKeyword=',
         page: 'page=',
@@ -163,12 +143,19 @@ const updateDataFunctions = {
     haplotype: updateHaplotypeData,
     SNP: updateSNPData,
     transcript: updateTranscriptData,
+    mosaicTPM: updateMosaicTPMData,
+    xenologousTPM: updateXenologousTPMData,
+    geneTPM: updateGeneTPMData,
+    transcriptTPM: updateTranscriptTPMData,
+
     haplotypePagination: updateHaplotypePaginationData,
     SNPPagination: updateSNPPaginationData,
     transcriptPagination: updateTranscriptPaginationData,
+
     haplotypeEchartParams: updateHaplotypeEchartParamsData,
     SNPEchartParams: updateSNPEchartParamsData,
     transcriptEchartParams: updateTranscriptEchartParamsData,
+
     formerTranscriptHighlightIndex: updateFormerTranscriptHighlightIndex,
 };
 
@@ -177,14 +164,26 @@ const getDataFunctions = {
     haplotypeRawData: getHaplotypeRawData,
     SNPRawData: getSNPRawData,
     transcriptRawData: getTranscriptRawData,
+    mosaicTPMRawData: getMosaicTPMRawData,
+    xenologousTPMRawData: getXenologousTPMRawData,
+    geneTPMRawData: getGeneTPMRawData,
+    transcriptTPMRawData: getTranscriptTPMRawData,
 
     haplotypeObjectData: getHaplotypeObjectData,
     SNPObjectData: getSNPObjectData,
     transcriptObjectData: getTranscriptObjectData,
+    mosaicTPMObjectData: getMosaicTPMObjectData,
+    xenologousTPMObjectData: getXenologousTPMObjectData,
+    geneTPMObjectData: getGeneTPMObjectData,
+    transcriptTPMObjectData: getTranscriptTPMObjectData,
 
     haplotypeArrayData: getHaplotypeArrayData,
     SNPArrayData: getSNPArrayData,
     transcriptArrayData: getTranscriptArrayData,
+    mosaicTPMArrayData: getMosaicTPMArrayData,
+    xenologousTPMArrayData: getXenologousTPMArrayData,
+    geneTPMArrayData: getGeneTPMArrayData,
+    transcriptTPMArrayData: getTranscriptTPMArrayData,
 
     haplotypePaginationData: getHaplotypePaginationData,
     SNPPaginationData: getSNPPaginationData,
@@ -219,6 +218,30 @@ function updateTranscriptData(newData) {
     transcriptObjectData = newData.data;
     transcriptArrayData = objectToArray(newData.data);
 }
+function updateMosaicTPMData(newData) {
+    mosaicTPMRawData = newData;
+    mosaicTPMObjectData = newData.data;
+    mosaicTPMArrayData = objectToArray(newData.data);
+}
+function updateXenologousTPMData(newData) {
+    xenologousTPMRawData = newData;
+    xenologousTPMObjectData = newData.data;
+    // 将object转换为数组并去除每个元素的mosaicID列
+    xenologousTPMArrayData = objectToArray(newData.data).map(element => element.slice(1));
+}
+function updateGeneTPMData(newData) {
+    geneTPMRawData = newData;
+    geneTPMObjectData = newData.data;
+    // 将object转换为数组并去除每个元素的mosaicID和xenologous列
+    geneTPMArrayData = objectToArray(newData.data).map(element => element.slice(2));
+}
+function updateTranscriptTPMData(newData) {
+    transcriptTPMRawData = newData;
+    transcriptTPMObjectData = newData.data;
+    // 将object转换为数组并去除每个元素的mosaicID、xenologous和gene列
+    transcriptTPMArrayData = objectToArray(newData.data).map(element => element.slice(3));
+}
+
 
 function updateHaplotypePaginationData(newData) {
     haplotypePaginationData = newData;
@@ -255,6 +278,18 @@ function getSNPRawData() {
 function getTranscriptRawData() {
     return _.cloneDeep(transcriptRawData);
 }
+function getMosaicTPMRawData() {
+    return _.cloneDeep(mosaicTPMRawData);
+}
+function getXenologousTPMRawData() {
+    return _.cloneDeep(xenologousTPMRawData);
+}
+function getGeneTPMRawData() {
+    return _.cloneDeep(geneTPMRawData);
+}
+function getTranscriptTPMRawData() {
+    return _.cloneDeep(transcriptTPMRawData);
+}
 
 // 获取对象数据
 function getHaplotypeObjectData() {
@@ -266,6 +301,18 @@ function getSNPObjectData() {
 function getTranscriptObjectData() {
     return _.cloneDeep(transcriptObjectData);
 }
+function getMosaicTPMObjectData() {
+    return _.cloneDeep(mosaicTPMObjectData);
+}
+function getXenologousTPMObjectData() {
+    return _.cloneDeep(xenologousTPMObjectData);
+}
+function getGeneTPMObjectData() {
+    return _.cloneDeep(geneTPMObjectData);
+}
+function getTranscriptTPMObjectData() {
+    return _.cloneDeep(transcriptTPMObjectData);
+}
 
 // 获取二维数组数据
 function getHaplotypeArrayData() {
@@ -276,6 +323,18 @@ function getSNPArrayData() {
 }
 function getTranscriptArrayData() {
     return _.cloneDeep(transcriptArrayData);
+}
+function getMosaicTPMArrayData() {
+    return _.cloneDeep(mosaicTPMArrayData);
+}
+function getXenologousTPMArrayData() {
+    return _.cloneDeep(xenologousTPMArrayData);
+}
+function getGeneTPMArrayData() {
+    return _.cloneDeep(geneTPMArrayData);
+}
+function getTranscriptTPMArrayData() {
+    return _.cloneDeep(transcriptTPMArrayData);
 }
 
 // 获取分页数据
@@ -320,7 +379,7 @@ async function fetchData(url) {
 
 
 // 请求全部数据
-async function fetchAllData(type, searchKeyword) {
+async function fetchRawData(type, searchKeyword) {
     try {
         const dataRequestUrl = apiPrefix.IP + apiPrefix.app + apiPrefix[type] + '?' +
             apiPrefix.parameter.searchKeyword + searchKeyword;
@@ -346,6 +405,19 @@ async function fetchPaginationData(type, searchKeyword, page = 1) {
     } catch (error) {
         console.error(`${type}数据加载失败:`, error);
         return { numPages: 0, currentPage: 0, pageSize: 1, totalRecords: 0, searchKeyword: searchKeyword, type: type, data: [{}] }; // 返回一页空数据
+    }
+}
+
+// 请求genomeIDList数据
+async function fetchGenomeIDList() {
+    try {
+        const dataRequestUrl = apiPrefix.IP + apiPrefix.app + 'getGenomeIDList/';
+        console.log(dataRequestUrl);
+        const data = await fetchData(dataRequestUrl);
+        return data;
+    } catch (error) {
+        console.error('genomeIDList数据加载失败:', error);
+        return { type: 'genomeIDList', data: [] }; // 返回一个空数据结构
     }
 }
 
@@ -404,4 +476,4 @@ function getCurrentPageName() {
 }
 
 
-export { fetchAllData, fetchPaginationData, updateData, getData, validateGenomeID, getCurrentPageName };
+export { fetchRawData, fetchPaginationData, fetchGenomeIDList, updateData, getData, validateGenomeID, getCurrentPageName };

@@ -65,7 +65,7 @@ function getHaplotypeSNPOption(haplotypeData, SNPData) {
             },
         },
         title: {
-            text: 'Profile',
+            text: 'Haplotype and SNP Profile',
             left: 'center'
         },
         legend: { // 暂时实现不了详细颜色的对应，或许使用两个坐标系覆盖方式可以实现
@@ -138,8 +138,8 @@ function getHaplotypeSNPOption(haplotypeData, SNPData) {
         ],
         toolbox: {
             feature: {
-                dataZoom: { yAxisIndex: 'none' },
-                dataView: { show: true, readOnly: false },
+                dataZoom: { show: true },
+                // dataView: { show: true, readOnly: false },
                 restore: { show: true },
                 saveAsImage: { show: true },
                 // magicType: {

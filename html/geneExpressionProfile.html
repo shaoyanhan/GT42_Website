@@ -9,19 +9,14 @@
     <link rel="icon" href="../img/sugarcane-logo.jpeg" type="image/x-icon">
     <link rel="stylesheet" href="../css/reset.css">
     <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/geneExpressionProfile.css">
     <script src="../js/echarts.js"></script>
     <script src="../js/jquery-3.7.1.js"></script>
     <script src="../js/vintage.js"></script>
     <!-- 引入 lodash.js 用于 data.js 的数据深拷贝 -->
     <script src="../js/lodash.js"></script>
     <style>
-        .content_container {
-            width: calc(100% - 40px);
-            /* 保证内容不溢出 */
-            height: 1130px;
-            /* 由内容自动撑起 */
-            padding: 40px 20px;
-        }
+
     </style>
 
 </head>
@@ -50,9 +45,40 @@
         </div>
 
         <div class="content_container">
-            <div id="drawOrthologHeatmap" style="width: 100%;height:1000px;">
+            <div class="search_container">
+                <!-- 基因组选择框 -->
+                <div class="select_genome_form_group">
+                    <!-- label标签的for属性必须与相关联的表单控件的id属性值完全匹配，才能确保切换焦点的功能正常工作。 -->
+                    <label for="genome_select">Select Genome:</label>
+                    <select class="genome_select" id="genome_select" name="genome_select">
+                        <option value="GT42" selected>GT42</option>
+                        <!-- 其他选项 -->
+                    </select>
+                </div>
 
+                <!-- 基因ID搜索框 -->
+                <div class="search_id_form_group">
+                    <div class="submit_box">
+                        <label for="search_input">Search ID:</label>
+                        <input type="text" class="search_input" id="search_input" name="search_input"
+                            value="GT42G000001">
+                        <button type="button" class="submit_button">Submit</button>
+                    </div>
+
+                    <div class="example_ids">
+                        <span class="example_title">example:</span>
+                        <span class="example_id" data_value="GT42G000001">GT42G000001,</span>
+                        <span class="example_id" data_value="GT42G000002.SO.1">GT42G000002.SO.1,</span>
+                        <span class="example_id" data_value="GT42G000003.SO.1.1">GT42G000003.SO.1.1</span>
+                    </div>
+                </div>
+                <!-- 输入非法提示框，用户点击空白处或两秒后自动消失 -->
+                <div class="search_alert" style="display: none;">Invalid search keyword. Please try again.</div>
             </div>
+
+
+
+            <div id="drawOrthologHeatmap" style="width: 100%;height:1000px;"></div>
 
         </div>
 

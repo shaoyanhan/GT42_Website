@@ -68,7 +68,7 @@ function getTranscriptOption(transcriptData) {
             },
         },
         title: {
-            text: 'Profile',
+            text: 'Transcripts Profile of Haplotype',
             left: 'center'
         },
         // legend: {
@@ -130,8 +130,8 @@ function getTranscriptOption(transcriptData) {
         ],
         toolbox: {
             feature: {
-                dataZoom: { yAxisIndex: 'none' },
-                dataView: { show: true, readOnly: false },
+                dataZoom: { show: true },
+                // dataView: { show: true, readOnly: false },
                 restore: { show: true },
                 saveAsImage: { show: true },
                 // magicType: {

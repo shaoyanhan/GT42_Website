@@ -9,16 +9,89 @@
     <link rel="icon" href="../img/sugarcane-logo.jpeg" type="image/x-icon">
     <link rel="stylesheet" href="../css/reset.css">
     <link rel="stylesheet" href="../css/index.css">
-    <link rel="stylesheet" href="../css/FullLenTrans.css">
+    <link rel="stylesheet" href="../css/fullLengthTranscriptome.css">
     <script src="../js/jquery-3.7.1.js"></script>
     <script src="../js/echarts.js"></script>
     <!-- 引入 lodash.js 用于 data.js 的数据深拷贝 -->
     <script src="../js/lodash.js"></script>
 
     <style>
+        .content_container .search_container .search_id_form_group .download_button {
+            margin: 10px;
+            padding: 5px 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
+            text-decoration: none;
+            color: #333;
+            background: #f0f0f0;
+            cursor: pointer;
+            font-size: 14px;
+        }
 
+        .content_container .search_container .search_id_form_group .download_button:hover {
+            background: #8bc2d0;
+            color: #fff;
+        }
 
+        .search_id_form_group {
+            position: relative;
 
+        }
+
+        .help_icon {
+            padding: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 20px;
+            color: #007BFF;
+            /* 蓝色 */
+            user-select: none;
+
+        }
+
+        /* 浮窗样式 */
+        .help_box {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 90%;
+            background-color: rgb(246, 255, 250);
+            /* 浅蓝色背景 */
+            border: 1px solid rgba(179, 236, 202);
+            /* 蓝色边框 */
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            display: none;
+            /* 默认不显示，由JS控制 */
+        }
+
+        .help_box h1 {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .help_box p {
+            font-size: 17px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .help_box p strong {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .help_box .notice {
+            font-size: 16px;
+            color: #d93939;
+            /* margin-top: 10px; */
+        }
     </style>
 
 </head>
@@ -62,22 +135,37 @@
                 <div class="search_id_form_group">
                     <div class="submit_box">
                         <label for="search_input">Search ID:</label>
+                        <!-- 添加一个问号图标显示ID格式 -->
+                        <span class="help_icon" id="top_search_box_help_icon">?</span>
                         <input type="text" class="search_input" id="search_input" name="search_input"
                             value="GT42G000001">
                         <button type="button" class="submit_button">Submit</button>
                     </div>
 
+                    <!-- 点击问号之后的浮窗 -->
+                    <div class="help_box" id="top_search_box_help_box">
+                        <h1>ID Format</h1>
+                        <p><strong>Mosaic ID / Orthologous ID: </strong>GT42G000001 ~ GT42G025748</p>
+                        <p><strong>Xenologous ID: </strong>GT42G000001.SO, GT42G000001.SS, etc.
+                        </p>
+                        <p><strong>Gene ID / Haplotype ID: </strong>GT42G000001.SO.1, GT42G000001.SS.1, etc.</p>
+                        <p><strong>Transcript ID: </strong>GT42G000001.SO.1.1, GT42G000001.SO.1.2, etc.</p>
+                        <!-- 下载按钮 -->
+                        <button class="download_button">download full available ID
+                            list</button>
+                        <p class="notice">*notice: xenologous ID is not available in Full Length
+                            Transcriptome.</p>
+                    </div>
+
                     <div class="example_ids">
                         <span class="example_title">example:</span>
                         <span class="example_id" data_value="GT42G000001">GT42G000001,</span>
-                        <span class="example_id" data_value="GT42G000001.SO.1">GT42G000001.SO.1,</span>
-                        <span class="example_id" data_value="GT42G000001.SO.1.1">GT42G000001.SO.1.1</span>
+                        <span class="example_id" data_value="GT42G000002.SO.1">GT42G000002.SO.1,</span>
+                        <span class="example_id" data_value="GT42G000005.SS.1.1">GT42G000005.SS.1.1</span>
                     </div>
                 </div>
                 <!-- 输入非法提示框，用户点击空白处或两秒后自动消失 -->
                 <div class="search_alert" style="display: none;">Invalid search keyword. Please try again.</div>
-
-
             </div>
 
             <div class="haplotype_result_container">
@@ -307,6 +395,8 @@
 
 
         <script type="module" src="../js/test/mainFullLengthTranscriptome.js"></script>
+
+
     </div>
 
 </body>

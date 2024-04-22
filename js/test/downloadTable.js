@@ -8,7 +8,10 @@ let idToType = {
     '#download_transcript_table': 'transcriptObjectData',
 };
 
+// 将数据转换为CSV格式
 function convertDataToCSV(data) {
+    // console.log('Converting started!')
+    // showCustomAlert('Converting started!');
     const headers = Object.keys(data[0]);
     const csvRows = data.map(row =>
         headers.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(',')
@@ -21,6 +24,24 @@ function convertDataToCSV(data) {
     }
 }
 
+// 将数据转换为TSV格式
+function convertDataToTSV(data) {
+    // console.log('Converting started!')
+    // showCustomAlert('Converting started!');
+    const headers = Object.keys(data[0]);
+    const tsvRows = data.map(row =>
+        headers.map(fieldName => JSON.stringify(row[fieldName], replacer)).join('\t') // 使用制表符作为分隔符
+    );
+    tsvRows.unshift(headers.join('\t')); // 将标题行添加到TSV的最前面
+    return tsvRows.join('\n');
+
+    function replacer(key, value) {
+        // 处理数据中的特殊情况，例如将null转换为空字符串
+        return value === null ? '' : value;
+    }
+}
+
+// 下载CSV文件
 function downloadCSV(csv, filename) {
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
@@ -29,7 +50,6 @@ function downloadCSV(csv, filename) {
     link.style.visibility = 'hidden';
     document.body.appendChild(link);
     link.click();
-    showCustomAlert('Download started!');
     document.body.removeChild(link);
 }
 
@@ -43,10 +63,11 @@ function setupDownloadButton(buttonId) {
         const type = idToType[buttonId];
         console.log(type);
         const data = getData(type);
+        showCustomAlert('Converting started!'); // 目前只有下载完成的一瞬间会显示，需要优化
         const csv = convertDataToCSV(data);
         const filename = type + '_table.csv'; // 自定义文件名
         downloadCSV(csv, filename);
     });
 }
 
-export { setupDownloadButton };
+export { setupDownloadButton, convertDataToCSV, convertDataToTSV, downloadCSV };

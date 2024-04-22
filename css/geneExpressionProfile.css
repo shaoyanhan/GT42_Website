@@ -1,0 +1,124 @@
+.content_container {
+    width: calc(100% - 40px);
+    /* 保证内容不溢出 */
+    /* height: 1130px; */
+    /* 由内容自动撑起 */
+    padding: 40px 20px;
+}
+
+.content_container .search_container {
+    width: calc(100% - 80px);
+    padding: 0 40px 40px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.content_container .search_container .select_genome_form_group {
+    width: 350px;
+    height: 70px;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    background-color: rgba(179, 236, 202, 0.73);
+    border-radius: 10px;
+    box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
+}
+
+.content_container .search_container .select_genome_form_group label {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.content_container .search_container .select_genome_form_group select {
+    width: 120px;
+    height: 30px;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.8);
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.content_container .search_container .search_id_form_group .submit_box {
+    width: 650px;
+    height: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(179, 236, 202, 0.73);
+    border-radius: 10px;
+    box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
+}
+
+.content_container .search_container .search_id_form_group .submit_box label {
+    font-size: 20px;
+    font-weight: bold;
+    margin-left: 30px;
+}
+
+.content_container .search_container .search_id_form_group .submit_box input {
+    width: 300px;
+    height: 40px;
+    background-color: rgba(255, 255, 255, 0.8);
+    font-size: 20px;
+    font-weight: bold;
+    padding: 0 10px;
+}
+
+.content_container .search_container .search_id_form_group .submit_box button {
+    width: 100px;
+    height: 40px;
+    margin-right: 30px;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.8);
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.content_container .search_container .search_id_form_group .submit_box button:hover {
+    transform: scale(1.1);
+}
+
+.content_container .search_container .search_id_form_group .example_ids {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.content_container .search_container .search_id_form_group .example_ids .example_title,
+.content_container .search_container .search_id_form_group .example_ids .example_id {
+    font-size: 20px;
+    font-weight: normal;
+    margin-right: 10px;
+    margin-top: 10px;
+    transition: all 0.5s;
+}
+
+.content_container .search_container .search_id_form_group .example_ids .example_id:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+    color: red;
+    /* text-decoration: underline; */
+}
+
+.content_container .search_container .search_alert {
+    /* display: none; */
+    color: #d9534f;
+    /* 警告文字通常使用红色系 */
+    background-color: #f2dede;
+    border-color: #ebccd1;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+    position: absolute;
+    /* 根据需要调整定位 */
+    z-index: 1000;
+    /* 确保提示框在最上面 */
+    width: 95%;
+    /* 根据需要调整宽度 */
+    text-align: center;
+}

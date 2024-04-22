@@ -1,31 +1,8 @@
 // import { initalContentArea } from "./initialContentArea.js";
-import { validateGenomeID, getCurrentPageName } from "./data.js";
+import { validateGenomeID, getCurrentPageName, fetchGenomeIDList } from "./data.js";
+import { convertDataToTSV, downloadCSV } from "./downloadTable.js";
+import { showCustomAlert } from "./showCustomAlert.js";
 
-// function validateSearchForm(searchKeyword) {
-//     // var input = document.getElementById('search_input').value;
-
-//     var mosaicPattern = /^GT42G\d{6}$/;
-//     var genePattern = /^GT42G\d{1,6}\.[A-Z]{2}\.\d{1,2}$/;
-//     var transcriptPattern = /^GT42G\d{1,6}\.[A-Z]{2}\.\d{1,2}\.\d{1,2}$/;
-
-//     if (mosaicPattern.test(searchKeyword)) {
-//         // 输入符合mosaicID的格式
-//         alert("Valid mosaicID format");
-//         return true;
-//     } else if (genePattern.test(searchKeyword)) {
-//         // 输入符合geneID的格式
-//         alert("Valid geneID format");
-//         return true;
-//     } else if (transcriptPattern.test(searchKeyword)) {
-//         // 输入符合transcriptID的格式
-//         alert("Valid transcriptID format");
-//         return true;
-//     } else {
-//         // 输入不符合任何已知的格式
-//         alert("Invalid ID format. Please enter a valid ID.");
-//         return false;
-//     }
-// }
 
 function showAlert(container, message) {
     console.log("showAlert is called"); // 确认函数被调用
@@ -51,12 +28,6 @@ function validateSearchForm(searchKeyword) {
         xenologousPattern.test(searchKeyword) ||
         genePattern.test(searchKeyword) ||
         transcriptPattern.test(searchKeyword);
-
-    // if (isValid) {
-    //     console.log("Valid ID format"); // 或者使用其他方式提供反馈
-    // } else {
-    //     alert("Invalid ID format. Please enter a valid ID."); // 考虑使用更友好的反馈方式
-    // }
 
     return isValid;
 }
@@ -96,11 +67,34 @@ async function submitSearchForm(container) {
     }
 }
 
+
+// 定义切换帮助浮窗显示/隐藏的函数
+function toggleHelpBox(helpBox) {
+    // 使用CSS的display属性来切换显示状态
+    if (helpBox.style.display === 'block') {
+        helpBox.style.display = 'none';
+    } else {
+        helpBox.style.display = 'block';
+    }
+}
+
+// 下载genomeID列表
+async function downloadGenomeIDList() {
+    showCustomAlert('Converting started!');
+    const genomeIDList = await fetchGenomeIDList();
+    const tsv = convertDataToTSV(genomeIDList.data);
+    const filename = 'genomeID_list.tsv'; // 自定义文件名
+    downloadCSV(tsv, filename);
+}
+
+
+
 // 创建search container事件处理器
 function createSearchEventHandler(container) {
     return async function (event) {
         event.preventDefault();
         const target = event.target;
+        console.log(target);
 
         // 用户点击example_id时，填充input框
         if (target.classList.contains('example_id')) {
@@ -108,11 +102,28 @@ function createSearchEventHandler(container) {
             return;
         }
 
-        // 用户点击submit按钮时，执行表单验证和进一步的处理
+        // 用户点击submit按钮时，执行表单验证和进一步的处理，如果此时helpBox是显示状态，则隐藏
         if (target.classList.contains('submit_button')) {
             await submitSearchForm(container);
+
+            const helpBox = container.querySelector('.help_box');
+            helpBox.style.display = 'none';
+            return; // 这里不设置return是为了在submitSearchForm执行完之后执行下面隐藏帮助浮窗的代码
+        }
+
+        // 用户点击帮助图标时，切换帮助浮窗的显示状态
+        if (target.classList.contains('help_icon')) {
+            const helpBox = container.querySelector('.help_box');
+            toggleHelpBox(helpBox);
             return;
         }
+
+        // 用户点击.download_button时，下载数据
+        if (target.classList.contains('download_button')) {
+            // console.log('Download button clicked');
+            downloadGenomeIDList();
+        }
+
     };
 }
 

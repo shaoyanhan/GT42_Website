@@ -5,7 +5,7 @@ import { getTranscriptOption } from "./echartsOptionTranscript.js";
 // import { getHeatmapOption } from "./echartsOptionHeatmap.js"; 
 import { haplotypeSNPChart, transcriptChart } from './mainFullLengthTranscriptome.js';
 // import { orthologHeatmapChart } from "./mainGeneExpressionProfile.js"; 不能导入, 会产生实例未定义的错误
-import { fetchAllData, fetchPaginationData, updateData, getData } from "./data.js";
+import { fetchRawData, fetchPaginationData, updateData, getData } from "./data.js";
 import { updateTableContainer, setUpPaginationEventListeners } from "./tablePagination.js";
 
 
@@ -147,7 +147,7 @@ async function clickHaplotypeSNPChartsEvents(params) {
 
             let searchKeywordGene = currentClickedData.geneID; // 根据点击的haplotype数据获取geneID，然后根据geneID获取transcript数据
             // console.log(searchKeywordGene);
-            let transcriptRawData = await fetchAllData('transcript', searchKeywordGene);
+            let transcriptRawData = await fetchRawData('transcript', searchKeywordGene);
             // console.log(transcriptRawData);
             updateData('transcript', transcriptRawData);
 
