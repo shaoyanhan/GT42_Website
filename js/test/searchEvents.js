@@ -1,5 +1,5 @@
 // import { initalContentArea } from "./initialContentArea.js";
-import { validateGenomeID, getCurrentPageName, fetchGenomeIDList } from "./data.js";
+import { validateGenomeID, getCurrentPageName, fetchGenomeIDList, fetchNextSearchIDData, updateData, getData } from "./data.js";
 import { convertDataToTSV, downloadCSV } from "./downloadTable.js";
 import { showCustomAlert } from "./showCustomAlert.js";
 
@@ -43,14 +43,28 @@ function fillInputWithExampleID(container, target) {
 async function submitSearchForm(container) {
     console.log("submitSearchForm is called"); // 确认方法被调用
     const searchInput = container.querySelector('.search_input');
-    const searchKeyword = searchInput.value.trim(); // trim()方法是用来移除字符串两端的空白符的，包括：空格、制表符（tab）、换行符等
+    const searchKeyword = searchInput.value.trim(); // 获取当前搜索框中的ID, trim()方法是用来移除字符串两端的空白符的，包括：空格、制表符（tab）、换行符等
 
     // 验证搜索关键词
     if (validateSearchForm(searchKeyword)) { // 前端验证格式是否正确
         const response = await validateGenomeID(searchKeyword); // 后端验证ID是否存在
         console.log(response);
 
+        // 确保当前的searchKeyword是有效的，然后再进行后续更新的一系列操作
         if (response && response.status === 'success') {
+            // 更新与PreviousID和NextID组件相关的一系列参数，此时由于用户点击了submit按钮，所以currentIDIndex是未知的，需要通过将当前搜索框中的ID当作currentIDIndex查询数据库获取当前ID的index，
+            // 然后更新currentIDIndex，这样的话当用户点击submit之后再点击PreviousID或NextID按钮时，就可以根据currentIDIndex来获取上一个或下一个ID的数据
+            // 获取select标签中的选中的option的value值
+            const select = container.querySelector('.genome_select');
+            const selectedValue = select.value;
+            const apiType = selectedValue + 'NextID';
+            let currentSearchID = searchKeyword;
+            let parts = currentSearchID.split('.');
+            currentSearchID = parts.length > 1 ? parts[0] : currentSearchID; // 如果输入的ID是geneID或transcriptID，则只取mosaicID部分
+            const data = await fetchNextSearchIDData(apiType, currentSearchID);
+            updateData('nextIDData', data);
+
+
             // 导入当前页面的初始化模块
             const currentPageName = getCurrentPageName();
             const module = await import(`./initialContentArea${currentPageName}.js`);
@@ -102,13 +116,62 @@ function createSearchEventHandler(container) {
             return;
         }
 
-        // 用户点击submit按钮时，执行表单验证和进一步的处理，如果此时helpBox是显示状态，则隐藏
+        // 用户点击submit按钮时，更新与PreviousID和NextID组件相关的一系列参数、执行表单验证和进一步的处理，如果此时helpBox是显示状态，则隐藏
         if (target.classList.contains('submit_button')) {
+
+
+
             await submitSearchForm(container);
 
             const helpBox = container.querySelector('.help_box');
             helpBox.style.display = 'none';
             return; // 这里不设置return是为了在submitSearchForm执行完之后执行下面隐藏帮助浮窗的代码
+        }
+
+        if (target.classList.contains('previous_id_button')) {
+            // 获取select标签中的选中的option的value值
+            const select = container.querySelector('.genome_select');
+            const selectedValue = select.value;
+            const apiType = selectedValue + 'NextID';
+            const currentIDIndex = getData('currentIDIndex');
+            // 为了获取上一个ID的数据，需要获取上上个ID的index，因为后端的currentIDIndex是递增查询的，所以要减2
+            const previousOfPreviousID = currentIDIndex - 2;
+            const data = await fetchNextSearchIDData(apiType, previousOfPreviousID);
+
+            updateData('nextIDData', data);
+
+            // 修改search_input的值
+            const searchInput = container.querySelector('.search_input');
+            searchInput.value = getData('nextSearchID');
+
+            await submitSearchForm(container);
+
+            const helpBox = container.querySelector('.help_box');
+            helpBox.style.display = 'none';
+            return; // 这里不设置return是为了在submitSearchForm执行完之后执行下面隐藏帮助浮窗的代码
+        }
+
+        // 用户点击NextID按钮时，获取下一个ID的数据，执行与上一个if块相同的操作
+        if (target.classList.contains('next_id_button')) {
+            // 获取select标签中的选中的option的value值
+            const select = container.querySelector('.genome_select');
+            const selectedValue = select.value;
+            const apiType = selectedValue + 'NextID';
+            const currentIDIndex = getData('currentIDIndex');
+            const data = await fetchNextSearchIDData(apiType, currentIDIndex);
+
+            updateData('nextIDData', data);
+
+            // 修改search_input的值
+            const searchInput = container.querySelector('.search_input');
+            searchInput.value = getData('nextSearchID');
+
+            await submitSearchForm(container);
+
+            const helpBox = container.querySelector('.help_box');
+            helpBox.style.display = 'none';
+            return; // 这里不设置return是为了在submitSearchForm执行完之后执行下面隐藏帮助浮窗的代码
+
         }
 
         // 用户点击帮助图标时，切换帮助浮窗的显示状态

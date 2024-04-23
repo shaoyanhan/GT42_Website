@@ -112,6 +112,13 @@ let transcriptEchartParamsData = {};
 // 用于记录转录本图像中的外显子的上一个焦点元素所对应的dataIndex
 let formerTranscriptHighlightIndex = -1;
 
+// 与PreviousID和NextID组件相关的一系列参数
+let currentGenome = 'GT42'; // 记录Select Genome选择框的当前值
+let currentIDIndex = 1; // 记录当前ID在next_id_table中的索引
+let nextSearchID = 'GT42G000001'; // 记录next_id_table中currentIDIndex索引所对应的ID
+let previousSearchID = 'GT42G000001'; // 记录上一个搜索的ID
+
+
 // 定义API请求的前缀
 let apiPrefix = {
     IP: 'http://127.0.0.1:8080/',
@@ -132,10 +139,13 @@ let apiPrefix = {
 
     validateGenomeID: 'validateGenomeID/',
 
+    GT42NextID: 'getGT42NextID/',
+
     parameter: {
         searchKeyword: 'searchKeyword=',
         page: 'page=',
         genomeID: 'genomeID=',
+        currentIDIndex: 'currentIDIndex=',
     }
 }
 // 定义更新函数的映射关系, 从名称映射到函数
@@ -157,6 +167,11 @@ const updateDataFunctions = {
     transcriptEchartParams: updateTranscriptEchartParamsData,
 
     formerTranscriptHighlightIndex: updateFormerTranscriptHighlightIndex,
+
+    nextIDData: updateNextIDData,
+    currentGenome: updateCurrentGenome,
+    currentIDIndex: updateCurrentIDIndex,
+    nextSearchID: updateNextSearchID,
 };
 
 // 定义获取数据的映射关系, 从名称映射到函数
@@ -194,6 +209,12 @@ const getDataFunctions = {
     transcriptEchartParamsData: getTranscriptEchartParamsData,
 
     formerTranscriptHighlightIndex: getFormerTranscriptHighlightIndex,
+
+    currentGenome: getCurrentGenome,
+    currentIDIndex: getCurrentIDIndex,
+    nextSearchID: getNextSearchID,
+    previousSearchID: getPreviousSearchID,
+
 };
 
 // 将对象数组转换为二维数组
@@ -266,6 +287,24 @@ function updateTranscriptEchartParamsData(newData) {
 function updateFormerTranscriptHighlightIndex(newData) {
     formerTranscriptHighlightIndex = newData;
 }
+
+
+function updateCurrentGenome(newData) {
+    currentGenome = newData;
+}
+function updateCurrentIDIndex(newData) {
+    currentIDIndex = newData;
+}
+function updateNextSearchID(newData) {
+    nextSearchID = newData;
+}
+// 由于接收的格式是{'status': 'success', 'id': 1, 'nextID': GT42G00001 , 'type': mosaic}，因此可以使用这个函数一次性更新currentIDIndex、previousSearchID和nextSearchID
+function updateNextIDData(newData) {
+    updateCurrentIDIndex(newData.id);
+    previousSearchID = nextSearchID; // 保存上一个搜索的ID
+    nextSearchID = newData.nextID; // 更新下一个搜索的ID
+}
+
 
 
 // 获取原始数据
@@ -363,6 +402,20 @@ function getFormerTranscriptHighlightIndex() {
     return _.cloneDeep(formerTranscriptHighlightIndex);
 }
 
+function getCurrentGenome() {
+    return _.cloneDeep(currentGenome);
+}
+function getCurrentIDIndex() {
+    return _.cloneDeep(currentIDIndex);
+}
+function getNextSearchID() {
+    return _.cloneDeep(nextSearchID);
+}
+function getPreviousSearchID() {
+    return _.cloneDeep(previousSearchID);
+}
+
+
 
 // 数据请求, 相当于axios.get(url).then(response => response.data).catch(error => console.error('数据请求失败:', error));
 async function fetchData(url) {
@@ -421,6 +474,20 @@ async function fetchGenomeIDList() {
     }
 }
 
+// 请求下一个genomeID
+async function fetchNextSearchIDData(type, currentIDIndex) {
+    try {
+        const dataRequestUrl = apiPrefix.IP + apiPrefix.app + apiPrefix[type] + '?' +
+            apiPrefix.parameter.currentIDIndex + currentIDIndex;
+        console.log(dataRequestUrl);
+        const data = await fetchData(dataRequestUrl);
+        return data;
+    } catch (error) {
+        console.error(`${type}数据加载失败:`, error);
+        return {}; // 返回一个空数据结构
+    }
+}
+
 function updateData(type, data) {
     // 从映射中获取数据集对应的更新函数并调用它
     const func = updateDataFunctions[type];
@@ -476,4 +543,4 @@ function getCurrentPageName() {
 }
 
 
-export { fetchRawData, fetchPaginationData, fetchGenomeIDList, updateData, getData, validateGenomeID, getCurrentPageName };
+export { fetchRawData, fetchPaginationData, fetchGenomeIDList, fetchNextSearchIDData, updateData, getData, validateGenomeID, getCurrentPageName };

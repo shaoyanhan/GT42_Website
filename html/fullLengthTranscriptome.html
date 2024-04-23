@@ -140,6 +140,8 @@
                         <input type="text" class="search_input" id="search_input" name="search_input"
                             value="GT42G000001">
                         <button type="button" class="submit_button">Submit</button>
+                        <button type="button" class="previous_id_button">PreviousID</button>
+                        <button type="button" class="next_id_button">NextID</button>
                     </div>
 
                     <!-- 点击问号之后的浮窗 -->
@@ -163,9 +165,11 @@
                         <span class="example_id" data_value="GT42G000002.SO.1">GT42G000002.SO.1,</span>
                         <span class="example_id" data_value="GT42G000005.SS.1.1">GT42G000005.SS.1.1</span>
                     </div>
+
+                    <!-- 输入非法提示框，用户点击空白处或两秒后自动消失 -->
+                    <div class="search_alert" style="display: none;">Invalid search keyword. Please try again.</div>
                 </div>
-                <!-- 输入非法提示框，用户点击空白处或两秒后自动消失 -->
-                <div class="search_alert" style="display: none;">Invalid search keyword. Please try again.</div>
+
             </div>
 
             <div class="haplotype_result_container">
