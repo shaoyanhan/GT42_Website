@@ -60,25 +60,49 @@
                 <div class="search_id_form_group">
                     <div class="submit_box">
                         <label for="search_input">Search ID:</label>
+                        <!-- 添加一个问号图标显示ID格式 -->
+                        <span class="help_icon" id="top_search_box_help_icon">?</span>
                         <input type="text" class="search_input" id="search_input" name="search_input"
                             value="GT42G000001">
                         <button type="button" class="submit_button">Submit</button>
+                        <button type="button" class="previous_id_button">PreviousID</button>
+                        <button type="button" class="next_id_button">NextID</button>
+                    </div>
+
+                    <!-- 点击问号之后的浮窗，基于search_id_form_group开启的相对定位进行绝对定位-->
+                    <div class="help_box" id="top_search_box_help_box">
+                        <h1>ID Format</h1>
+                        <p><strong>Mosaic ID / Orthologous ID: </strong>GT42G000001 ~ GT42G025748</p>
+                        <p><strong>Xenologous ID: </strong>GT42G000001.SO, GT42G000001.SS, etc.
+                        </p>
+                        <p><strong>Gene ID / Haplotype ID: </strong>GT42G000001.SO.1, GT42G000001.SS.1, etc.</p>
+                        <p><strong>Transcript ID: </strong>GT42G000001.SO.1.1, GT42G000001.SO.1.2, etc.</p>
+                        <!-- 下载按钮 -->
+                        <button class="download_button">download full available ID
+                            list</button>
+                        <p class="notice">*notice: xenologous ID is not available in Full Length
+                            Transcriptome.</p>
                     </div>
 
                     <div class="example_ids">
                         <span class="example_title">example:</span>
                         <span class="example_id" data_value="GT42G000001">GT42G000001,</span>
                         <span class="example_id" data_value="GT42G000002.SO.1">GT42G000002.SO.1,</span>
-                        <span class="example_id" data_value="GT42G000003.SO.1.1">GT42G000003.SO.1.1</span>
+                        <span class="example_id" data_value="GT42G000005.SS.1.1">GT42G000005.SS.1.1</span>
                     </div>
+
+                    <!-- 输入非法提示框，用户点击空白处或两秒后自动消失，基于search_id_form_group开启的相对定位进行绝对定位 -->
+                    <div class="search_alert" style="display: none;">Invalid search keyword. Please try again.</div>
                 </div>
-                <!-- 输入非法提示框，用户点击空白处或两秒后自动消失 -->
-                <div class="search_alert" style="display: none;">Invalid search keyword. Please try again.</div>
+
             </div>
 
 
 
-            <div id="drawOrthologHeatmap" style="width: 100%;height:1000px;"></div>
+            <div id="drawOrthologousHeatmap" style="width: 100%;height:200px;"></div>
+            <div id="drawXenologousHeatmap" style="width: 100%;height:250px;"></div>
+            <div id="drawGeneHeatmap" style="width: 100%;height:700px;"></div>
+            <div id="drawTranscriptHeatmap" style="width: 100%;height:1200px;"></div>
 
         </div>
 
