@@ -110,21 +110,35 @@ function getHeatmapOption(dataArray) {
     return {
         tooltip: {
             formatter: function (params) {
-                return ['ID:  ' + params.value[1], returnAbbreviationDetails(params.value[0]), params.marker + 'TPM:  ' + params.value[2]].join('<br>');
+                console.log(params);
+                return [
+                    params.marker + 'TPM:&nbsp;&nbsp;&nbsp;' + params.value[2],
+                    'ID:&nbsp;&nbsp;&nbsp;' + params.value[1],
+                    'Sample ID:&nbsp;&nbsp;&nbsp;' + params.value[0],
+                    returnAbbreviationDetails(params.value[0])
+
+                ].join('<br>');
             },
             textStyle: {
                 fontSize: 18,
                 fontWeight: "bolder"
             },
+            // position: function (pos, params, el, elRect, size) {
+            //     var obj = { top: 10 };
+            //     obj[['left', 'right'][+(pos[0] < size.viewSize[0] / 2)]] = 30;
+            //     return obj;
+            // },
+
         },
         grid: {
-            height: '95%',
-            width: '83%',
-            top: 0,
+            height: 80,
+            width: '86%',
+            top: 80,
             left: '12%',
             containLabel: false
         },
         xAxis: {
+
             type: 'category',
             // data: sampleID,
             splitArea: {
@@ -178,11 +192,16 @@ function getHeatmapOption(dataArray) {
             max: 20,
             type: 'continuous', // 定义为连续型 visualMap
             calculable: true,
-            orient: 'vertical',
+            orient: 'horizontal',
             right: 0,
             top: 0,
             precision: 2,
             hoverLink: true,
+            textStyle: {
+                fontWeight: "bold",
+                fontSize: 16
+            },
+            itemHeight: 250,
             // inRange: { color: ['red', 'blue'] }
 
         },

@@ -24,11 +24,13 @@
     background-color: rgba(179, 236, 202, 0.73);
     border-radius: 10px;
     box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
+
 }
 
 .content_container .search_container .select_genome_form_group label {
     font-size: 20px;
     font-weight: bold;
+
 }
 
 .content_container .search_container .select_genome_form_group select {
@@ -39,6 +41,7 @@
     font-size: 20px;
     font-weight: bold;
     cursor: pointer;
+    border-radius: 5px;
 }
 
 .content_container .search_container .search_id_form_group .submit_box {

@@ -1,5 +1,6 @@
-import { initalContentArea } from "./initialContentAreaGeneExpressionProfile.js";
+import { initalContentArea, drawTranscriptHeatmapByGeneID } from "./initialContentAreaGeneExpressionProfile.js";
 import { setUpSearchEventListeners } from "./searchEvents.js";
+import { setUpSelectEventListeners, setUpSelectWithSelect2 } from "./selectEvents.js";
 
 // 初始化ECharts实例
 export let orthologousHeatmapDOM = document.getElementById('drawOrthologousHeatmap');
@@ -17,6 +18,8 @@ export let transcriptHeatmapChart = echarts.init(transcriptHeatmapDOM, null, { r
 document.addEventListener('DOMContentLoaded', () => {
     initalContentArea();
     setUpSearchEventListeners('.search_container');
+    // setUpSelectEventListeners('#haplotype_select', drawTranscriptHeatmapByGeneID);
+    setUpSelectWithSelect2('#haplotype_select', drawTranscriptHeatmapByGeneID);
     orthologousHeatmapChart.on('click', (params) => {
         console.log(params);
     });

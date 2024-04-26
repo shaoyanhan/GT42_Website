@@ -1,14 +1,11 @@
 import { getHeatmapOption } from "./echartsOptionHeatmap.js";
 import { orthologousHeatmapDOM, xenologousHeatmapDOM, geneHeatmapDOM, transcriptHeatmapDOM, orthologousHeatmapChart, xenologousHeatmapChart, geneHeatmapChart, transcriptHeatmapChart } from "./mainGeneExpressionProfile.js";
 
-function adjustChartSize(dataLength, echartsInstance, container) {
-    // 假设的最佳比例和基础高度
-    const baseHeightPerRow = 80; // 每行数据的基础高度
-    const baseTotalHeight = 250; // 总的基础高度
 
-    // 计算实际的 gridHeight 和 DOM容器的 height
-    const gridHeight = '90%'; // grid 高度占据容器的 75%
-    const height = baseHeightPerRow * dataLength < baseTotalHeight ? baseTotalHeight : baseHeightPerRow * dataLength;
+function resizeChartAndDOMHeight(chart, container, dataLength, dataHeight) {
+    const xAxisLabelHeight = 80;
+    const visualMapHeight = 80;
+    const DOMHeight = dataLength * dataHeight + xAxisLabelHeight + visualMapHeight;
 
     // 检查 container 是否是 DOM 元素
     if (!(container instanceof HTMLElement)) {
@@ -17,48 +14,63 @@ function adjustChartSize(dataLength, echartsInstance, container) {
     }
 
     // 更新容器的高度
-    container.style.height = `${height}px`;
+    container.style.height = `${DOMHeight}px`;
 
-    // 更新图表的 grid 尺寸
-    echartsInstance.setOption({
+    // 重置图表的高度
+    chart.setOption({
         grid: {
-            height: gridHeight
-        }
+            height: DOMHeight - xAxisLabelHeight - visualMapHeight,
+        },
     });
+    chart.resize();
 }
 
 function drawOrthologHeatmap(data) {
+    // resizeDOMHeight(orthologousHeatmapDOM, data.length, 80, 1);
     orthologousHeatmapChart.setOption(getHeatmapOption(data));
-    orthologousHeatmapChart.setOption({
-        grid: {
-            height: '65%',
-        },
-    });
+    resizeChartAndDOMHeight(orthologousHeatmapChart, orthologousHeatmapDOM, data.length, 80);
+    console.log(data.length, orthologousHeatmapChart, orthologousHeatmapDOM);
+    // orthologousHeatmapChart.setOption({
+    //     grid: {
+    //         height: ,
+    //     },
+    // });
 }
 
 function drawXenologousHeatmap(data) {
+    // resizeDOMHeight(xenologousHeatmapDOM, data.length, 80, 1);
     xenologousHeatmapChart.setOption(getHeatmapOption(data));
-    xenologousHeatmapChart.setOption({
-        grid: {
-            height: '75%',
-        },
-    });
+    resizeChartAndDOMHeight(xenologousHeatmapChart, xenologousHeatmapDOM, data.length, 60);
+    console.log(data.length, xenologousHeatmapChart, xenologousHeatmapDOM);
+    // xenologousHeatmapChart.setOption({
+    //     grid: {
+    //         height: 160,
+    //     },
+    // });
 }
 
 function drawGeneHeatmap(data) {
+    // resizeDOMHeight(geneHeatmapDOM, data.length, 80, 0.5);
     geneHeatmapChart.setOption(getHeatmapOption(data));
+    resizeChartAndDOMHeight(geneHeatmapChart, geneHeatmapDOM, data.length, 30);
     console.log(data.length, geneHeatmapChart, geneHeatmapDOM);
-    // adjustChartSize(data.length, geneHeatmapChart, geneHeatmapDOM);
-    geneHeatmapChart.setOption({
-        grid: {
-            height: '90%',
-        },
-    });
+
+    // geneHeatmapChart.setOption({
+    //     grid: {
+    //         height: 720,
+    //     },
+    // });
 
 }
 
 function drawTranscriptHeatmap(data) {
+    // resizeDOMHeight(transcriptHeatmapDOM, data.length, 80, 0.5);
     transcriptHeatmapChart.setOption(getHeatmapOption(data));
+    resizeChartAndDOMHeight(transcriptHeatmapChart, transcriptHeatmapDOM, data.length, 30);
+    // transcriptHeatmapChart.setOption({ grid: { height: 3760 } });
+    console.log(data.length, transcriptHeatmapChart, transcriptHeatmapDOM);
 }
+
+
 
 export { drawOrthologHeatmap, drawXenologousHeatmap, drawGeneHeatmap, drawTranscriptHeatmap };
