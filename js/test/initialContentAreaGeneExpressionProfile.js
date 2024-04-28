@@ -1,7 +1,7 @@
-import { drawOrthologHeatmap, drawXenologousHeatmap, drawGeneHeatmap, drawTranscriptHeatmap } from "./echartsEventsGeneExpressionProfile.js";
+import { drawOrthologousHeatmap, drawXenologousHeatmap, drawGeneHeatmap, drawTranscriptHeatmap } from "./echartsEventsGeneExpressionProfile.js";
 import { fetchRawData, getData, updateData } from "./data.js";
 import { fillSelect } from "./selectEvents.js";
-import { transcriptHeatmapChart } from "./mainGeneExpressionProfile.js";
+import { updateTableContainer } from "./tablePagination.js";
 
 // 根据genomeID的类型，拆分genomeID得到mosaicID、xenologousID、geneID、transcriptID，此处mosaicID和geneID没有别名情况
 function splitGenomeID(genomeID, keywordType) {
@@ -63,6 +63,9 @@ async function drawTranscriptHeatmapByGeneID(geneID) {
 
     drawTranscriptHeatmap(cuttedTranscriptTPMObjectData);
 
+    let transcript_table_container = document.querySelector('#transcript_TPM_table_container'); // 获取相应id的表格容器
+    updateTableContainer('transcriptTPMPagination', geneID, 1, transcript_table_container); // 初始化表格
+
 }
 
 
@@ -118,10 +121,41 @@ async function initalContentArea(searchKeyword = 'GT42G000001', keywordType = 'm
     fillSelect(selectContainer, geneIDArray, geneIDIndex);
 
     // 绘制热图
-    drawOrthologHeatmap(mosaicTPMObjectData);
+    drawOrthologousHeatmap(mosaicTPMObjectData);
     drawXenologousHeatmap(cuttedXenologousTPMObjectData);
     drawGeneHeatmap(cuttedGeneTPMObjectData);
     drawTranscriptHeatmap(cuttedTranscriptTPMObjectData);
+
+    let orthologous_table_container = document.querySelector('#orthologous_TPM_table_container'); // 获取相应id的表格容器
+    updateTableContainer('mosaicTPMPagination', mosaicID, 1, orthologous_table_container); // 初始化表格
+
+    let xenologous_table_container = document.querySelector('#xenologous_TPM_table_container'); // 获取相应id的表格容器
+    updateTableContainer('xenologousTPMPagination', mosaicID, 1, xenologous_table_container); // 初始化表格
+
+    let gene_table_container = document.querySelector('#gene_TPM_table_container'); // 获取相应id的表格容器
+    updateTableContainer('geneTPMPagination', mosaicID, 1, gene_table_container); // 初始化表格
+
+    let transcript_table_container = document.querySelector('#transcript_TPM_table_container'); // 获取相应id的表格容器
+    updateTableContainer('transcriptTPMPagination', geneID, 1, transcript_table_container); // 初始化表格
+
+
+    // 根据keywordType的类型，跳转到相应的页面位置
+    let jumpTargetElement = '';
+    if (keywordType === 'mosaic') {
+        jumpTargetElement = document.getElementById('drawOrthologousHeatmap');
+    } else if (keywordType === 'xenologous') {
+        jumpTargetElement = document.getElementById('drawXenologousHeatmap');
+    }
+    else if (keywordType === 'gene') {
+        jumpTargetElement = document.getElementById('drawGeneHeatmap');
+    }
+    else if (keywordType === 'transcript') {
+        jumpTargetElement = document.getElementById('drawTranscriptHeatmap');
+    }
+    if (jumpTargetElement) {
+        //  'smooth' 选项会平滑地滚动到指定元素，而不是瞬间跳转，'center' 选项会将元素滚动到视口的中间( block: 'start' 为顶部 )
+        jumpTargetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
 
 }
 

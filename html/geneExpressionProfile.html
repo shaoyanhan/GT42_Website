@@ -10,66 +10,18 @@
     <link rel="stylesheet" href="../css/reset.css">
     <link rel="stylesheet" href="../css/index.css">
     <link rel="stylesheet" href="../css/geneExpressionProfile.css">
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
-
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
     <script src="../js/echarts.js"></script>
     <script src="../js/jquery-3.7.1.js"></script>
     <script src="../js/vintage.js"></script>
     <!-- 引入 lodash.js 用于 data.js 的数据深拷贝 -->
     <script src="../js/lodash.js"></script>
+
     <!-- 引入select2下拉框组件 -->
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <style>
-        .content_container .transcriptHeatmapContainer {
-            position: relative;
-        }
 
-        .content_container .transcriptHeatmapContainer .select_haplotype_from_group {
-            position: absolute;
-            top: 0;
-            left: 0;
-            z-index: 1000;
-            width: 450px;
-            height: 50px;
-            margin-bottom: 30px;
-            display: flex;
-            justify-content: space-evenly;
-            align-items: center;
-            /* margin: 10px; */
-            background-color: rgba(179, 236, 202, 0.73);
-            border-radius: 10px;
-            box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
-        }
-
-        .content_container .transcriptHeatmapContainer .select_haplotype_from_group label {
-            font-size: 20px;
-            font-weight: bold;
-        }
-
-        .content_container .transcriptHeatmapContainer .select_haplotype_from_group .haplotype_select {
-            width: 230px;
-            height: auto;
-            max-height: 50px;
-            overflow-y: auto;
-            border: none;
-            background-color: rgba(255, 255, 255, 0.8);
-            font-size: 20px;
-            font-weight: bold;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-
-        .select2-container--default .select2-results__option {
-            font-size: 18px;
-            /* 下拉选项的字体大小 */
-        }
-
-        .select2-container--default .select2-selection--single .select2-selection__rendered,
-        .select2-container--default .select2-selection--multiple .select2-selection__rendered {
-            font-size: 18px;
-            /* 选择框内文本的字体大小 */
-        }
     </style>
 
 </head>
@@ -140,7 +92,8 @@
                     <div class="example_ids">
                         <span class="example_title">example:</span>
                         <span class="example_id" data_value="GT42G000001">GT42G000001,</span>
-                        <span class="example_id" data_value="GT42G000002.SO.1">GT42G000002.SO.1,</span>
+                        <span class="example_id" data_value="GT42G000002.SO">GT42G000002.SO,</span>
+                        <span class="example_id" data_value="GT42G000003.SS.1">GT42G000003.SS.1,</span>
                         <span class="example_id" data_value="GT42G000005.SS.1.1">GT42G000005.SS.1.1</span>
                     </div>
 
@@ -151,22 +104,411 @@
             </div>
 
 
+            <details class="heatmap_result_container" open>
+                <summary>Click to view the orthologous results</summary>
 
-            <div id="drawOrthologousHeatmap" style="width: 100%;height: 160px;"></div>
-            <div id="drawXenologousHeatmap" style="width: 100%;height:240px;"></div>
-            <div id="drawGeneHeatmap" style="width: 100%;height:800px;"></div>
-            <!-- 为了实现不同haplotype对应的transcript的切换，这里使用一个容器包裹ECharts实例，并开启相对低位，内置一个绝对定位select下拉框 -->
-            <div class="transcriptHeatmapContainer">
-                <div class="select_haplotype_from_group">
-                    <label for="haplotype_select">Select Haplotype:</label>
-                    <select class="haplotype_select" id="haplotype_select" name="haplotype_select">
-                        <option value="GT42G000001.SO">GT42G000001.SO.13</option>
-                        <option value="GT42G000001.SS">GT42G000001.SS.123</option>
-                    </select>
+                <div id="drawOrthologousHeatmap" style="width: 100%;height: 160px;"></div>
+                <div id="drawOrthologousDynamicCharts" style="width: 100%;height: 1600px;"></div>
+                <!-- 套用该模式需要修改：1. id="haplotype_table_container"；2. <thead>；3. id="download_haplotype_table"-->
+                <details class="TPM_data_table">
+                    <summary>Click to view the data table</summary>
+                    <div class="table_footer_pagination_container" id="orthologous_TPM_table_container">
+
+                        <div class="table_container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>mosaicID</th>
+                                        <th>Ca1_1</th>
+                                        <th>Ca1_2</th>
+                                        <th>Ca1_3</th>
+                                        <th>Ca2_1</th>
+                                        <th>Ca2_2</th>
+                                        <th>Ca2_3</th>
+                                        <th>Ca3_1</th>
+                                        <th>Ca3_2</th>
+                                        <th>Ca3_3</th>
+                                        <th>Ro1_1</th>
+                                        <th>Ro1_2</th>
+                                        <th>Ro1_3</th>
+                                        <th>Ro2_1</th>
+                                        <th>Ro2_2</th>
+                                        <th>Ro2_3</th>
+                                        <th>Le1_1</th>
+                                        <th>Le1_2</th>
+                                        <th>Le1_3</th>
+                                        <th>LS1_1</th>
+                                        <th>LS1_2</th>
+                                        <th>LS1_3</th>
+                                        <th>Bu1_1</th>
+                                        <th>Bu1_2</th>
+                                        <th>Bu1_3</th>
+                                        <th>In1_1</th>
+                                        <th>In1_2</th>
+                                        <th>In1_3</th>
+                                        <th>NR1_1</th>
+                                        <th>NR1_2</th>
+                                        <th>NR1_3</th>
+                                        <th>AM_1</th>
+                                        <th>AM_2</th>
+                                        <th>AM_3</th>
+                                        <th>Bu2_1</th>
+                                        <th>Bu2_2</th>
+                                        <th>Bu2_3</th>
+                                        <th>Sp_1</th>
+                                        <th>Sp_2</th>
+                                        <th>Sp_3</th>
+                                        <th>Br_1</th>
+                                        <th>Br_2</th>
+                                        <th>Br_3</th>
+                                        <th>St_1</th>
+                                        <th>St_2</th>
+                                        <th>St_3</th>
+                                        <th>Pi_1</th>
+                                        <th>Pi_2</th>
+                                        <th>Pi_3</th>
+                                        <th>Gl_2</th>
+                                        <th>Gl_3</th>
+                                        <th>LS2_2</th>
+                                        <th>LS2_3</th>
+                                        <th>In2_1</th>
+                                        <th>In2_3</th>
+                                        <th>No2_1</th>
+                                        <th>No2_2</th>
+                                        <th>No2_3</th>
+                                        <th>Bu3_1</th>
+                                        <th>Bu3_3</th>
+                                        <th>Le2_1</th>
+                                        <th>Le2_2</th>
+                                        <th>Le2_3</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- 由tablePagination.js 中的 updateTable（data, container）进行填充 -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="footer_pagination_container">
+                            <span class="footer_notes">Showing ? to ? of ? entries</span>
+                            <div class="pagination_container">
+                                <a href="#">1</a>
+                                <a href="#">2</a>
+                                <a href="#">3</a>
+                            </div>
+                            <button class="download_button" id="download_orthologous_TPM_table">Download</button>
+                        </div>
+                    </div>
+
+                </details>
+            </details>
+
+
+            <details class="heatmap_result_container" open>
+                <summary>Click to view the xenologous results</summary>
+                <div id="drawXenologousHeatmap" style="width: 100%;height:240px;"></div>
+                <!-- 套用该模式需要修改：1. id="haplotype_table_container"；2. <thead>；3. id="download_haplotype_table"-->
+                <details class="TPM_data_table">
+                    <summary>Click to view the data table</summary>
+                    <div class="table_footer_pagination_container" id="xenologous_TPM_table_container">
+
+                        <div class="table_container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>mosaicID</th>
+                                        <th>xenologousID</th>
+                                        <th>Ca1_1</th>
+                                        <th>Ca1_2</th>
+                                        <th>Ca1_3</th>
+                                        <th>Ca2_1</th>
+                                        <th>Ca2_2</th>
+                                        <th>Ca2_3</th>
+                                        <th>Ca3_1</th>
+                                        <th>Ca3_2</th>
+                                        <th>Ca3_3</th>
+                                        <th>Ro1_1</th>
+                                        <th>Ro1_2</th>
+                                        <th>Ro1_3</th>
+                                        <th>Ro2_1</th>
+                                        <th>Ro2_2</th>
+                                        <th>Ro2_3</th>
+                                        <th>Le1_1</th>
+                                        <th>Le1_2</th>
+                                        <th>Le1_3</th>
+                                        <th>LS1_1</th>
+                                        <th>LS1_2</th>
+                                        <th>LS1_3</th>
+                                        <th>Bu1_1</th>
+                                        <th>Bu1_2</th>
+                                        <th>Bu1_3</th>
+                                        <th>In1_1</th>
+                                        <th>In1_2</th>
+                                        <th>In1_3</th>
+                                        <th>NR1_1</th>
+                                        <th>NR1_2</th>
+                                        <th>NR1_3</th>
+                                        <th>AM_1</th>
+                                        <th>AM_2</th>
+                                        <th>AM_3</th>
+                                        <th>Bu2_1</th>
+                                        <th>Bu2_2</th>
+                                        <th>Bu2_3</th>
+                                        <th>Sp_1</th>
+                                        <th>Sp_2</th>
+                                        <th>Sp_3</th>
+                                        <th>Br_1</th>
+                                        <th>Br_2</th>
+                                        <th>Br_3</th>
+                                        <th>St_1</th>
+                                        <th>St_2</th>
+                                        <th>St_3</th>
+                                        <th>Pi_1</th>
+                                        <th>Pi_2</th>
+                                        <th>Pi_3</th>
+                                        <th>Gl_2</th>
+                                        <th>Gl_3</th>
+                                        <th>LS2_2</th>
+                                        <th>LS2_3</th>
+                                        <th>In2_1</th>
+                                        <th>In2_3</th>
+                                        <th>No2_1</th>
+                                        <th>No2_2</th>
+                                        <th>No2_3</th>
+                                        <th>Bu3_1</th>
+                                        <th>Bu3_3</th>
+                                        <th>Le2_1</th>
+                                        <th>Le2_2</th>
+                                        <th>Le2_3</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- 由tablePagination.js 中的 updateTable（data, container）进行填充 -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="footer_pagination_container">
+                            <span class="footer_notes">Showing ? to ? of ? entries</span>
+                            <div class="pagination_container">
+                                <a href="#">1</a>
+                                <a href="#">2</a>
+                                <a href="#">3</a>
+                            </div>
+                            <button class="download_button" id="download_xenologous_TPM_table">Download</button>
+                        </div>
+                    </div>
+
+                </details>
+            </details>
+
+
+            <details class="heatmap_result_container" open>
+                <summary>Click to view the haplotype results</summary>
+                <div id="drawGeneHeatmap" style="width: 100%;height:800px;"></div>
+                <!-- 套用该模式需要修改：1. id="haplotype_table_container"；2. <thead>；3. id="download_haplotype_table"-->
+                <details class="TPM_data_table">
+                    <summary>Click to view the data table</summary>
+                    <div class="table_footer_pagination_container" id="gene_TPM_table_container">
+
+                        <div class="table_container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>mosaicID</th>
+                                        <th>xenologousID</th>
+                                        <th>geneID</th>
+                                        <th>Ca1_1</th>
+                                        <th>Ca1_2</th>
+                                        <th>Ca1_3</th>
+                                        <th>Ca2_1</th>
+                                        <th>Ca2_2</th>
+                                        <th>Ca2_3</th>
+                                        <th>Ca3_1</th>
+                                        <th>Ca3_2</th>
+                                        <th>Ca3_3</th>
+                                        <th>Ro1_1</th>
+                                        <th>Ro1_2</th>
+                                        <th>Ro1_3</th>
+                                        <th>Ro2_1</th>
+                                        <th>Ro2_2</th>
+                                        <th>Ro2_3</th>
+                                        <th>Le1_1</th>
+                                        <th>Le1_2</th>
+                                        <th>Le1_3</th>
+                                        <th>LS1_1</th>
+                                        <th>LS1_2</th>
+                                        <th>LS1_3</th>
+                                        <th>Bu1_1</th>
+                                        <th>Bu1_2</th>
+                                        <th>Bu1_3</th>
+                                        <th>In1_1</th>
+                                        <th>In1_2</th>
+                                        <th>In1_3</th>
+                                        <th>NR1_1</th>
+                                        <th>NR1_2</th>
+                                        <th>NR1_3</th>
+                                        <th>AM_1</th>
+                                        <th>AM_2</th>
+                                        <th>AM_3</th>
+                                        <th>Bu2_1</th>
+                                        <th>Bu2_2</th>
+                                        <th>Bu2_3</th>
+                                        <th>Sp_1</th>
+                                        <th>Sp_2</th>
+                                        <th>Sp_3</th>
+                                        <th>Br_1</th>
+                                        <th>Br_2</th>
+                                        <th>Br_3</th>
+                                        <th>St_1</th>
+                                        <th>St_2</th>
+                                        <th>St_3</th>
+                                        <th>Pi_1</th>
+                                        <th>Pi_2</th>
+                                        <th>Pi_3</th>
+                                        <th>Gl_2</th>
+                                        <th>Gl_3</th>
+                                        <th>LS2_2</th>
+                                        <th>LS2_3</th>
+                                        <th>In2_1</th>
+                                        <th>In2_3</th>
+                                        <th>No2_1</th>
+                                        <th>No2_2</th>
+                                        <th>No2_3</th>
+                                        <th>Bu3_1</th>
+                                        <th>Bu3_3</th>
+                                        <th>Le2_1</th>
+                                        <th>Le2_2</th>
+                                        <th>Le2_3</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- 由tablePagination.js 中的 updateTable（data, container）进行填充 -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="footer_pagination_container">
+                            <span class="footer_notes">Showing ? to ? of ? entries</span>
+                            <div class="pagination_container">
+                                <a href="#">1</a>
+                                <a href="#">2</a>
+                                <a href="#">3</a>
+                            </div>
+                            <button class="download_button" id="download_gene_TPM_table">Download</button>
+                        </div>
+                    </div>
+
+                </details>
+            </details>
+
+
+            <details class="heatmap_result_container" open>
+                <summary>Click to view the transcript results</summary>
+                <!-- 为了实现不同haplotype对应的transcript的切换，这里使用一个容器包裹ECharts实例，并开启相对低位，内置一个绝对定位select下拉框 -->
+                <div class="transcriptHeatmapContainer">
+                    <div class="select_haplotype_from_group">
+                        <label for="haplotype_select">Select Haplotype:</label>
+                        <select class="haplotype_select" id="haplotype_select" name="haplotype_select">
+                            <option value="GT42G000001.SO">GT42G000001.SO.13</option>
+                            <option value="GT42G000001.SS">GT42G000001.SS.123</option>
+                        </select>
+                    </div>
+
+                    <div id="drawTranscriptHeatmap" style="width: 100%;height:1200px;"></div>
                 </div>
+                <!-- 套用该模式需要修改：1. id="haplotype_table_container"；2. <thead>；3. id="download_haplotype_table"-->
+                <details class="TPM_data_table">
+                    <summary>Click to view the data table</summary>
+                    <div class="table_footer_pagination_container" id="transcript_TPM_table_container">
 
-                <div id="drawTranscriptHeatmap" style="width: 100%;height:1200px;"></div>
-            </div>
+                        <div class="table_container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>mosaicID</th>
+                                        <th>xenologousID</th>
+                                        <th>geneID</th>
+                                        <th>transcriptID</th>
+                                        <th>Ca1_1</th>
+                                        <th>Ca1_2</th>
+                                        <th>Ca1_3</th>
+                                        <th>Ca2_1</th>
+                                        <th>Ca2_2</th>
+                                        <th>Ca2_3</th>
+                                        <th>Ca3_1</th>
+                                        <th>Ca3_2</th>
+                                        <th>Ca3_3</th>
+                                        <th>Ro1_1</th>
+                                        <th>Ro1_2</th>
+                                        <th>Ro1_3</th>
+                                        <th>Ro2_1</th>
+                                        <th>Ro2_2</th>
+                                        <th>Ro2_3</th>
+                                        <th>Le1_1</th>
+                                        <th>Le1_2</th>
+                                        <th>Le1_3</th>
+                                        <th>LS1_1</th>
+                                        <th>LS1_2</th>
+                                        <th>LS1_3</th>
+                                        <th>Bu1_1</th>
+                                        <th>Bu1_2</th>
+                                        <th>Bu1_3</th>
+                                        <th>In1_1</th>
+                                        <th>In1_2</th>
+                                        <th>In1_3</th>
+                                        <th>NR1_1</th>
+                                        <th>NR1_2</th>
+                                        <th>NR1_3</th>
+                                        <th>AM_1</th>
+                                        <th>AM_2</th>
+                                        <th>AM_3</th>
+                                        <th>Bu2_1</th>
+                                        <th>Bu2_2</th>
+                                        <th>Bu2_3</th>
+                                        <th>Sp_1</th>
+                                        <th>Sp_2</th>
+                                        <th>Sp_3</th>
+                                        <th>Br_1</th>
+                                        <th>Br_2</th>
+                                        <th>Br_3</th>
+                                        <th>St_1</th>
+                                        <th>St_2</th>
+                                        <th>St_3</th>
+                                        <th>Pi_1</th>
+                                        <th>Pi_2</th>
+                                        <th>Pi_3</th>
+                                        <th>Gl_2</th>
+                                        <th>Gl_3</th>
+                                        <th>LS2_2</th>
+                                        <th>LS2_3</th>
+                                        <th>In2_1</th>
+                                        <th>In2_3</th>
+                                        <th>No2_1</th>
+                                        <th>No2_2</th>
+                                        <th>No2_3</th>
+                                        <th>Bu3_1</th>
+                                        <th>Bu3_3</th>
+                                        <th>Le2_1</th>
+                                        <th>Le2_2</th>
+                                        <th>Le2_3</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- 由tablePagination.js 中的 updateTable（data, container）进行填充 -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="footer_pagination_container">
+                            <span class="footer_notes">Showing ? to ? of ? entries</span>
+                            <div class="pagination_container">
+                                <a href="#">1</a>
+                                <a href="#">2</a>
+                                <a href="#">3</a>
+                            </div>
+                            <button class="download_button" id="download_transcript_TPM_table">Download</button>
+                        </div>
+                    </div>
+
+                </details>
+            </details>
 
 
         </div>
@@ -220,7 +562,11 @@
             <h1 class="copyright">Copyright © 2020-2030 All rights reserved</h1>
         </div>
 
+        <!-- 全局提示框，触发showCustomAlert方法之后才显示（copy、download） -->
+        <div id="customAlert" class="custom_alert">custom alert</div>
     </div>
+
+
 
     <!-- 全局覆盖层, 用于禁用用户交互 -->
     <div id="global_overlay"
@@ -230,16 +576,6 @@
 
     <script type="module" src="../js/test/mainGeneExpressionProfile.js"></script>
 
-    <!-- <script>
-        $(document).ready(function () {
-            $('#haplotype_select').select2({
-                width: '230px',
-                // font- size: '16px',
-                dropdownAutoWidth: true,
-                dropdownCssClass: 'select2-dropdown', // 自定义下拉框样式类
-            });
-        });
-    </script> -->
 </body>
 
 </html>

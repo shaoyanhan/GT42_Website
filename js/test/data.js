@@ -81,6 +81,10 @@ let transcriptTPMArrayData = [];
 let haplotypePaginationData = [];
 let SNPPaginationData = [];
 let transcriptPaginationData = [];
+let mosaicTPMPaginationData = [];
+let xenologousTPMPaginationData = [];
+let geneTPMPaginationData = [];
+let transcriptTPMPaginationData = [];
 
 
 /*
@@ -136,6 +140,10 @@ let apiPrefix = {
     haplotypePagination: 'getHaplotypeTableByPage/',
     SNPPagination: 'getSNPTableByPage/',
     transcriptPagination: 'getTranscriptTableByPage/',
+    mosaicTPMPagination: 'getMosaicTPMTableByPage/',
+    xenologousTPMPagination: 'getXenologousTPMTableByPage/',
+    geneTPMPagination: 'getGeneTPMTableByPage/',
+    transcriptTPMPagination: 'getTranscriptTPMTableByPage/',
 
     validateGenomeID: 'validateGenomeID/',
 
@@ -161,6 +169,10 @@ const updateDataFunctions = {
     haplotypePagination: updateHaplotypePaginationData,
     SNPPagination: updateSNPPaginationData,
     transcriptPagination: updateTranscriptPaginationData,
+    mosaicTPMPagination: updateMosaicTPMPaginationData,
+    xenologousTPMPagination: updateXenologousTPMPaginationData,
+    geneTPMPagination: updateGeneTPMPaginationData,
+    transcriptTPMPagination: updateTranscriptTPMPaginationData,
 
     haplotypeEchartParams: updateHaplotypeEchartParamsData,
     SNPEchartParams: updateSNPEchartParamsData,
@@ -203,6 +215,10 @@ const getDataFunctions = {
     haplotypePaginationData: getHaplotypePaginationData,
     SNPPaginationData: getSNPPaginationData,
     transcriptPaginationData: getTranscriptPaginationData,
+    mosaicTPMPaginationData: getMosaicTPMPaginationData,
+    xenologousTPMPaginationData: getXenologousTPMPaginationData,
+    geneTPMPaginationData: getGeneTPMPaginationData,
+    transcriptTPMPaginationData: getTranscriptTPMPaginationData,
 
     haplotypeEchartParamsData: getHaplotypeEchartParamsData,
     SNPEchartParamsData: getSNPEchartParamsData,
@@ -272,6 +288,18 @@ function updateSNPPaginationData(newData) {
 }
 function updateTranscriptPaginationData(newData) {
     transcriptPaginationData = newData;
+}
+function updateMosaicTPMPaginationData(newData) {
+    mosaicTPMPaginationData = newData;
+}
+function updateXenologousTPMPaginationData(newData) {
+    xenologousTPMPaginationData = newData;
+}
+function updateGeneTPMPaginationData(newData) {
+    geneTPMPaginationData = newData;
+}
+function updateTranscriptTPMPaginationData(newData) {
+    transcriptTPMPaginationData = newData;
 }
 
 function updateHaplotypeEchartParamsData(newData) {
@@ -386,6 +414,19 @@ function getSNPPaginationData() {
 function getTranscriptPaginationData() {
     return _.cloneDeep(transcriptPaginationData);
 }
+function getMosaicTPMPaginationData() {
+    return _.cloneDeep(mosaicTPMPaginationData);
+}
+function getXenologousTPMPaginationData() {
+    return _.cloneDeep(xenologousTPMPaginationData);
+}
+function getGeneTPMPaginationData() {
+    return _.cloneDeep(geneTPMPaginationData);
+}
+function getTranscriptTPMPaginationData() {
+    return _.cloneDeep(transcriptTPMPaginationData);
+}
+
 
 // 获取echart参数数据
 function getHaplotypeEchartParamsData() {
@@ -453,7 +494,7 @@ async function fetchPaginationData(type, searchKeyword, page = 1) {
             apiPrefix.parameter.page + page;
         console.log(dataRequestUrl);
         const data = await fetchData(dataRequestUrl);
-        // console.log(data);
+        console.log(data);
         return data;
     } catch (error) {
         console.error(`${type}数据加载失败:`, error);

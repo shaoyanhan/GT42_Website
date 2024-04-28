@@ -6,6 +6,10 @@ let updateTableFunctions = {
     haplotype_table_container: updateHaplotypeTable,
     SNP_table_container: updateSNPTable,
     transcript_table_container: updateTranscriptTable,
+    orthologous_TPM_table_container: updateOrthologousTPMTable,
+    xenologous_TPM_table_container: updateXenologousTPMTable,
+    gene_TPM_table_container: updateGeneTPMTable,
+    transcript_TPM_table_container: updateTranscriptTPMTable,
 };
 
 // 更新haplotype表格
@@ -64,11 +68,304 @@ function updateTranscriptTable(data, container) {
     });
 }
 
+// 更新orthologous表格
+function updateOrthologousTPMTable(data, container) {
+    container.innerHTML = '';  // 清空当前表格
+    data.forEach(row => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${row.mosaicID}</td>
+                        <td>${row.Ca1_1}</td>
+                        <td>${row.Ca1_2}</td>
+                        <td>${row.Ca1_3}</td>
+                        <td>${row.Ca2_1}</td>
+                        <td>${row.Ca2_2}</td>
+                        <td>${row.Ca2_3}</td>
+                        <td>${row.Ca3_1}</td>
+                        <td>${row.Ca3_2}</td>
+                        <td>${row.Ca3_3}</td>
+                        <td>${row.Ro1_1}</td>
+                        <td>${row.Ro1_2}</td>
+                        <td>${row.Ro1_3}</td>
+                        <td>${row.Ro2_1}</td>
+                        <td>${row.Ro2_2}</td>
+                        <td>${row.Ro2_3}</td>
+                        <td>${row.Le1_1}</td>
+                        <td>${row.Le1_2}</td>
+                        <td>${row.Le1_3}</td>
+                        <td>${row.LS1_1}</td>
+                        <td>${row.LS1_2}</td>
+                        <td>${row.LS1_3}</td>
+                        <td>${row.Bu1_1}</td>
+                        <td>${row.Bu1_2}</td>
+                        <td>${row.Bu1_3}</td>
+                        <td>${row.In1_1}</td>
+                        <td>${row.In1_2}</td>
+                        <td>${row.In1_3}</td>
+                        <td>${row.NR1_1}</td>
+                        <td>${row.NR1_2}</td>
+                        <td>${row.NR1_3}</td>
+                        <td>${row.AM_1}</td>
+                        <td>${row.AM_2}</td>
+                        <td>${row.AM_3}</td>
+                        <td>${row.Bu2_1}</td>
+                        <td>${row.Bu2_2}</td>
+                        <td>${row.Bu2_3}</td>
+                        <td>${row.Sp_1}</td>
+                        <td>${row.Sp_2}</td>
+                        <td>${row.Sp_3}</td>
+                        <td>${row.Br_1}</td>
+                        <td>${row.Br_2}</td>
+                        <td>${row.Br_3}</td>
+                        <td>${row.St_1}</td>
+                        <td>${row.St_2}</td>
+                        <td>${row.St_3}</td>
+                        <td>${row.Pi_1}</td>
+                        <td>${row.Pi_2}</td>
+                        <td>${row.Pi_3}</td>
+                        <td>${row.Gl_2}</td>
+                        <td>${row.Gl_3}</td>
+                        <td>${row.LS2_2}</td>
+                        <td>${row.LS2_3}</td>
+                        <td>${row.In2_1}</td>
+                        <td>${row.In2_3}</td>
+                        <td>${row.No2_1}</td>
+                        <td>${row.No2_2}</td>
+                        <td>${row.No2_3}</td>
+                        <td>${row.Bu3_1}</td>
+                        <td>${row.Bu3_3}</td>
+                        <td>${row.Le2_1}</td>
+                        <td>${row.Le2_2}</td>
+                        <td>${row.Le2_3}</td>`;
+        container.appendChild(tr);
+    });
+}
 
+// 更新xenologous表格
+function updateXenologousTPMTable(data, container) {
+    container.innerHTML = '';  // 清空当前表格
+    data.forEach(row => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${row.mosaicID}</td>
+                        <td>${row.xenologousID}</td>
+                        <td>${row.Ca1_1}</td>
+                        <td>${row.Ca1_2}</td>
+                        <td>${row.Ca1_3}</td>
+                        <td>${row.Ca2_1}</td>
+                        <td>${row.Ca2_2}</td>
+                        <td>${row.Ca2_3}</td>
+                        <td>${row.Ca3_1}</td>
+                        <td>${row.Ca3_2}</td>
+                        <td>${row.Ca3_3}</td>
+                        <td>${row.Ro1_1}</td>
+                        <td>${row.Ro1_2}</td>
+                        <td>${row.Ro1_3}</td>
+                        <td>${row.Ro2_1}</td>
+                        <td>${row.Ro2_2}</td>
+                        <td>${row.Ro2_3}</td>
+                        <td>${row.Le1_1}</td>
+                        <td>${row.Le1_2}</td>
+                        <td>${row.Le1_3}</td>
+                        <td>${row.LS1_1}</td>
+                        <td>${row.LS1_2}</td>
+                        <td>${row.LS1_3}</td>
+                        <td>${row.Bu1_1}</td>
+                        <td>${row.Bu1_2}</td>
+                        <td>${row.Bu1_3}</td>
+                        <td>${row.In1_1}</td>
+                        <td>${row.In1_2}</td>
+                        <td>${row.In1_3}</td>
+                        <td>${row.NR1_1}</td>
+                        <td>${row.NR1_2}</td>
+                        <td>${row.NR1_3}</td>
+                        <td>${row.AM_1}</td>
+                        <td>${row.AM_2}</td>
+                        <td>${row.AM_3}</td>
+                        <td>${row.Bu2_1}</td>
+                        <td>${row.Bu2_2}</td>
+                        <td>${row.Bu2_3}</td>
+                        <td>${row.Sp_1}</td>
+                        <td>${row.Sp_2}</td>
+                        <td>${row.Sp_3}</td>
+                        <td>${row.Br_1}</td>
+                        <td>${row.Br_2}</td>
+                        <td>${row.Br_3}</td>
+                        <td>${row.St_1}</td>
+                        <td>${row.St_2}</td>
+                        <td>${row.St_3}</td>
+                        <td>${row.Pi_1}</td>
+                        <td>${row.Pi_2}</td>
+                        <td>${row.Pi_3}</td>
+                        <td>${row.Gl_2}</td>
+                        <td>${row.Gl_3}</td>
+                        <td>${row.LS2_2}</td>
+                        <td>${row.LS2_3}</td>
+                        <td>${row.In2_1}</td>
+                        <td>${row.In2_3}</td>
+                        <td>${row.No2_1}</td>
+                        <td>${row.No2_2}</td>
+                        <td>${row.No2_3}</td>
+                        <td>${row.Bu3_1}</td>
+                        <td>${row.Bu3_3}</td>
+                        <td>${row.Le2_1}</td>
+                        <td>${row.Le2_2}</td>
+                        <td>${row.Le2_3}</td>`;
+        container.appendChild(tr);
+    });
+}
+
+// 更新gene表格
+function updateGeneTPMTable(data, container) {
+    container.innerHTML = '';  // 清空当前表格
+    data.forEach(row => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${row.mosaicID}</td>
+                        <td>${row.xenologousID}</td>
+                        <td>${row.geneID}</td>
+                        <td>${row.Ca1_1}</td>
+                        <td>${row.Ca1_2}</td>
+                        <td>${row.Ca1_3}</td>
+                        <td>${row.Ca2_1}</td>
+                        <td>${row.Ca2_2}</td>
+                        <td>${row.Ca2_3}</td>
+                        <td>${row.Ca3_1}</td>
+                        <td>${row.Ca3_2}</td>
+                        <td>${row.Ca3_3}</td>
+                        <td>${row.Ro1_1}</td>
+                        <td>${row.Ro1_2}</td>
+                        <td>${row.Ro1_3}</td>
+                        <td>${row.Ro2_1}</td>
+                        <td>${row.Ro2_2}</td>
+                        <td>${row.Ro2_3}</td>
+                        <td>${row.Le1_1}</td>
+                        <td>${row.Le1_2}</td>
+                        <td>${row.Le1_3}</td>
+                        <td>${row.LS1_1}</td>
+                        <td>${row.LS1_2}</td>
+                        <td>${row.LS1_3}</td>
+                        <td>${row.Bu1_1}</td>
+                        <td>${row.Bu1_2}</td>
+                        <td>${row.Bu1_3}</td>
+                        <td>${row.In1_1}</td>
+                        <td>${row.In1_2}</td>
+                        <td>${row.In1_3}</td>
+                        <td>${row.NR1_1}</td>
+                        <td>${row.NR1_2}</td>
+                        <td>${row.NR1_3}</td>
+                        <td>${row.AM_1}</td>
+                        <td>${row.AM_2}</td>
+                        <td>${row.AM_3}</td>
+                        <td>${row.Bu2_1}</td>
+                        <td>${row.Bu2_2}</td>
+                        <td>${row.Bu2_3}</td>
+                        <td>${row.Sp_1}</td>
+                        <td>${row.Sp_2}</td>
+                        <td>${row.Sp_3}</td>
+                        <td>${row.Br_1}</td>
+                        <td>${row.Br_2}</td>
+                        <td>${row.Br_3}</td>
+                        <td>${row.St_1}</td>
+                        <td>${row.St_2}</td>
+                        <td>${row.St_3}</td>
+                        <td>${row.Pi_1}</td>
+                        <td>${row.Pi_2}</td>
+                        <td>${row.Pi_3}</td>
+                        <td>${row.Gl_2}</td>
+                        <td>${row.Gl_3}</td>
+                        <td>${row.LS2_2}</td>
+                        <td>${row.LS2_3}</td>
+                        <td>${row.In2_1}</td>
+                        <td>${row.In2_3}</td>
+                        <td>${row.No2_1}</td>
+                        <td>${row.No2_2}</td>
+                        <td>${row.No2_3}</td>
+                        <td>${row.Bu3_1}</td>
+                        <td>${row.Bu3_3}</td>
+                        <td>${row.Le2_1}</td>
+                        <td>${row.Le2_2}</td>
+                        <td>${row.Le2_3}</td>`;
+        container.appendChild(tr);
+    });
+}
+
+// 更新transcript表格
+function updateTranscriptTPMTable(data, container) {
+    container.innerHTML = '';  // 清空当前表格
+    data.forEach(row => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${row.mosaicID}</td>
+                        <td>${row.xenologousID}</td>
+                        <td>${row.geneID}</td>
+                        <td>${row.transcriptID}</td>
+                        <td>${row.Ca1_1}</td>
+                        <td>${row.Ca1_2}</td>
+                        <td>${row.Ca1_3}</td>
+                        <td>${row.Ca2_1}</td>
+                        <td>${row.Ca2_2}</td>
+                        <td>${row.Ca2_3}</td>
+                        <td>${row.Ca3_1}</td>
+                        <td>${row.Ca3_2}</td>
+                        <td>${row.Ca3_3}</td>
+                        <td>${row.Ro1_1}</td>
+                        <td>${row.Ro1_2}</td>
+                        <td>${row.Ro1_3}</td>
+                        <td>${row.Ro2_1}</td>
+                        <td>${row.Ro2_2}</td>
+                        <td>${row.Ro2_3}</td>
+                        <td>${row.Le1_1}</td>
+                        <td>${row.Le1_2}</td>
+                        <td>${row.Le1_3}</td>
+                        <td>${row.LS1_1}</td>
+                        <td>${row.LS1_2}</td>
+                        <td>${row.LS1_3}</td>
+                        <td>${row.Bu1_1}</td>
+                        <td>${row.Bu1_2}</td>
+                        <td>${row.Bu1_3}</td>
+                        <td>${row.In1_1}</td>
+                        <td>${row.In1_2}</td>
+                        <td>${row.In1_3}</td>
+                        <td>${row.NR1_1}</td>
+                        <td>${row.NR1_2}</td>
+                        <td>${row.NR1_3}</td>
+                        <td>${row.AM_1}</td>
+                        <td>${row.AM_2}</td>
+                        <td>${row.AM_3}</td>
+                        <td>${row.Bu2_1}</td>
+                        <td>${row.Bu2_2}</td>
+                        <td>${row.Bu2_3}</td>
+                        <td>${row.Sp_1}</td>
+                        <td>${row.Sp_2}</td>
+                        <td>${row.Sp_3}</td>
+                        <td>${row.Br_1}</td>
+                        <td>${row.Br_2}</td>
+                        <td>${row.Br_3}</td>
+                        <td>${row.St_1}</td>
+                        <td>${row.St_2}</td>
+                        <td>${row.St_3}</td>
+                        <td>${row.Pi_1}</td>
+                        <td>${row.Pi_2}</td>
+                        <td>${row.Pi_3}</td>
+                        <td>${row.Gl_2}</td>
+                        <td>${row.Gl_3}</td>
+                        <td>${row.LS2_2}</td>
+                        <td>${row.LS2_3}</td>
+                        <td>${row.In2_1}</td>
+                        <td>${row.In2_3}</td>
+                        <td>${row.No2_1}</td>
+                        <td>${row.No2_2}</td>
+                        <td>${row.No2_3}</td>
+                        <td>${row.Bu3_1}</td>
+                        <td>${row.Bu3_3}</td>
+                        <td>${row.Le2_1}</td>
+                        <td>${row.Le2_2}</td>
+                        <td>${row.Le2_3}</td>`;
+        container.appendChild(tr);
+    });
+}
 
 
 // 更新表格的通用函数
 function updateTable(data, container) {
+    console.log(data, container);
     const tableBody = container.querySelector('tbody');
     const updateFunction = updateTableFunctions[container.id];
     if (updateFunction) {

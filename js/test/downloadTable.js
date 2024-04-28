@@ -6,6 +6,11 @@ let idToType = {
     '#download_haplotype_table': 'haplotypeObjectData',
     '#download_SNP_table': 'SNPObjectData',
     '#download_transcript_table': 'transcriptObjectData',
+    '#download_orthologous_TPM_table': 'mosaicTPMObjectData',
+    '#download_xenologous_TPM_table': 'xenologousTPMObjectData',
+    '#download_gene_TPM_table': 'geneTPMObjectData',
+    '#download_transcript_TPM_table': 'transcriptTPMObjectData'
+
 };
 
 // 将数据转换为CSV格式

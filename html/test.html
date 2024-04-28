@@ -7,23 +7,48 @@
 
 <head>
     <meta charset="utf-8">
+    <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+    <script src="../js/jquery-3.7.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sigma.js/2.4.0/sigma.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/graphology/0.25.4/graphology.umd.min.js"></script>
+
+    <style>
+        .center_container {
+            margin: 0 auto;
+            width: 1600px;
+            /* 用内容撑开高度 */
+            /* height: 100%; */
+            background-color: #FAFFF2;
+        }
+    </style>
 </head>
 
 <body style="height: 100%; margin: 0">
-    <div style="height: 100px;background-color: bisque;"></div>
+    <div class="center_container">
+        <div style="height: 100px;background-color: bisque;"></div>
 
-    <div id="container1" style="height: 1000px; width: 100%;"></div>
+        <div id="network_container" style="height: 1000px; width: 100%;"></div>
 
-    <div style="height: 100px;background-color: bisque;"></div>
+        <div style="height: 100px;background-color: bisque;"></div>
 
-    <div id="container2" style="height: 1000px; width: 100%;"></div>
+        <div id="map_container" style="height: 1000px; width: 100%;"></div>
 
-    <div style="height: 100px;background-color: bisque;"></div>
+        <div style="height: 100px;background-color: bisque;"></div>
 
-    <div id="container3" style="height: 1000px; width: 100%;"></div>
+        <div id="container1" style="height: 1000px; width: 100%;"></div>
+
+        <div style="height: 100px;background-color: bisque;"></div>
+
+        <div id="container2" style="height: 1000px; width: 100%;"></div>
+
+        <div style="height: 100px;background-color: bisque;"></div>
+
+        <div id="container3" style="height: 1000px; width: 100%;"></div>
+
+    </div>
 
 
-    <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+
 
     <!-- Uncomment this line if you want to dataTool extension
   <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.5.0/dist/extension/dataTool.min.js"></script>
@@ -42,6 +67,86 @@
   <script type="text/javascript" src="https://api.map.baidu.com/api?v=3.0&ak=YOUR_API_KEY"></script>
   <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.5.0/dist/extension/bmap.min.js"></script>
   -->
+
+    <script>
+        // Create a graphology graph
+        const graph = new graphology.Graph();
+        graph.addNode("1", { label: "Node 1", x: 0, y: 0, size: 10, color: "blue" });
+        graph.addNode("2", { label: "Node 2", x: 1, y: 1, size: 20, color: "red" });
+        graph.addEdge("1", "2", { size: 5, color: "purple" });
+
+        // Instantiate sigma.js and render the graph
+        const sigmaInstance = new Sigma(graph, document.getElementById("network_container"));
+    </script>
+
+    <script type="text/javascript">
+
+        async function loadSVG() {
+            try {
+                const response = await fetch('../img/GT42.svg');
+                const svg = await response.text();
+                echarts.registerMap('GT42', { svg: svg });
+                return true; // 表示成功
+            } catch (error) {
+                console.error('Error loading the SVG:', error);
+                return false; // 表示失败
+            }
+        }
+        function initChart() {
+            var dom = document.getElementById('map_container');
+            var myChart = echarts.init(dom, null, {
+                renderer: 'canvas',
+                useDirtyRect: false
+            });
+
+            var option = {
+                tooltip: {},
+                visualMap: {
+                    left: 'center',
+                    bottom: '10%',
+                    min: 0,
+                    max: 5,
+                    orient: 'horizontal',
+                    text: ['', 'Price'],
+                    realtime: true,
+                    calculable: true,
+                    inRange: {
+                        color: ['#dbac00', '#db6e00', '#cf0000']
+                    }
+                },
+                series: [
+                    {
+                        name: 'GT42',
+                        type: 'map',
+                        map: 'GT42',
+                        data: [
+                            { name: 'Leaf1', value: 1 },
+                            { name: 'Leaf2', value: 2 },
+                            { name: 'Leaf3', value: 3 },
+                            { name: 'Leaf4', value: 4 },
+                        ]
+                    }
+                ]
+            };
+
+            if (option && typeof option === 'object') {
+                myChart.setOption(option);
+            }
+
+            window.addEventListener('resize', myChart.resize);
+            return myChart; // 返回图表实例以供可能的进一步使用
+        }
+        async function main() {
+            const loaded = await loadSVG();
+            if (loaded) {
+                initChart();
+            }
+        }
+        main();
+
+
+
+    </script>
 
     <script type="text/javascript">
         var dom = document.getElementById('container1');

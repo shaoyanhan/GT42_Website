@@ -108,9 +108,14 @@ function getHeatmapOption(dataArray) {
     const heatmapData = extractHeatmapData(dataArray);
     console.log(heatmapData);
     return {
+        title: {
+            text: 'Profile',
+            left: 'center',
+            top: 20,
+        },
         tooltip: {
             formatter: function (params) {
-                console.log(params);
+                // console.log(params);
                 return [
                     params.marker + 'TPM:&nbsp;&nbsp;&nbsp;' + params.value[2],
                     'ID:&nbsp;&nbsp;&nbsp;' + params.value[1],
@@ -131,11 +136,16 @@ function getHeatmapOption(dataArray) {
 
         },
         grid: {
+            // height: 80,
+            // width: '86%',
+            // top: 80,
+            // left: '12%',
+            // containLabel: false
             height: 80,
-            width: '86%',
-            top: 80,
-            left: '12%',
-            containLabel: false
+            width: '95%',
+            top: 80, // 为visualMap预留空间
+            left: 40,
+            containLabel: true // 图像框架包含坐标轴的刻度标签，这样可以整体调整防止文字溢出
         },
         xAxis: {
 
@@ -179,6 +189,8 @@ function getHeatmapOption(dataArray) {
                 triggerEmphasis: false, // 是否触发强调
                 label: {
                     fontSize: 20,
+                    // overflow: "break",
+                    // width: 170
                 },
                 lineStyle: {
                     width: 3,
@@ -194,7 +206,7 @@ function getHeatmapOption(dataArray) {
             calculable: true,
             orient: 'horizontal',
             right: 0,
-            top: 0,
+            top: 10,
             precision: 2,
             hoverLink: true,
             textStyle: {
@@ -210,9 +222,6 @@ function getHeatmapOption(dataArray) {
                 name: 'Heatmap',
                 type: 'heatmap',
                 data: heatmapData,
-                label: {
-                    show: true
-                },
                 emphasis: {
                     itemStyle: {
                         shadowBlur: 10,
@@ -221,8 +230,13 @@ function getHeatmapOption(dataArray) {
                         borderWidth: 1
                     }
                 },
-                label: {
+                label: { // 不显示数值
                     show: false
+                },
+                encode: {
+                    x: 0,
+                    y: 1,
+                    value: 2
                 }
             }
         ]
