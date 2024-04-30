@@ -9,8 +9,8 @@
     <meta charset="utf-8">
     <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
     <script src="../js/jquery-3.7.1.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sigma.js/2.4.0/sigma.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/graphology/0.25.4/graphology.umd.min.js"></script>
+
+
 
     <style>
         .center_container {
@@ -25,28 +25,25 @@
 
 <body style="height: 100%; margin: 0">
     <div class="center_container">
-        <div style="height: 100px;background-color: bisque;"></div>
 
+
+
+        <div style="height: 100px;background-color: bisque;"></div>
         <div id="network_container" style="height: 1000px; width: 100%;"></div>
 
         <div style="height: 100px;background-color: bisque;"></div>
-
         <div id="map_container" style="height: 1000px; width: 100%;"></div>
 
         <div style="height: 100px;background-color: bisque;"></div>
-
         <div id="container1" style="height: 1000px; width: 100%;"></div>
 
         <div style="height: 100px;background-color: bisque;"></div>
-
         <div id="container2" style="height: 1000px; width: 100%;"></div>
 
         <div style="height: 100px;background-color: bisque;"></div>
-
         <div id="container3" style="height: 1000px; width: 100%;"></div>
 
     </div>
-
 
 
 
@@ -69,15 +66,112 @@
   -->
 
     <script>
-        // Create a graphology graph
-        const graph = new graphology.Graph();
-        graph.addNode("1", { label: "Node 1", x: 0, y: 0, size: 10, color: "blue" });
-        graph.addNode("2", { label: "Node 2", x: 1, y: 1, size: 20, color: "red" });
-        graph.addEdge("1", "2", { size: 5, color: "purple" });
+        //Sony have 20 hex colors that represent their brand, and they are 000000, 7c8285, bfbdb0, b1b134, bbd634, dbe3b6, b2c8bd, 165b65, 697d99, 96b8db, 00a4e8, a4dbdb, fdd666, dc9018, e31a22, df8f2d, b24f3f, b51f29, f58268, f4979c.
+        // More4 have 17 hex colors that represent their brand, and they are 949483, f47b7b, 9f1f5c, ef9020, 00af3e, 85b7e2, 29245c, ffd616, e5352b, e990ab, 0081b4, 96cbb3, 91be3e, 39a6dd, eb0973, dde2e0, 333c41
+        // Mapbox have 13 hex colors that represent their brand, and they are 3bb2d0, 3887be, 8a8acb, 56b881, 50667f, 41afa5, f9886c, e55e5e, ed6498, fbb03b, 142736, 28353d, 222b30.
+        var dom = document.getElementById('network_container');
+        var myChart = echarts.init(dom, null, {
+            renderer: 'canvas',
+            useDirtyRect: false
+        });
+        var app = {};
+        var graph = {
+            nodes: [
+                { name: 'node1', x: 300, y: 300, symbolSize: 5, itemStyle: { color: 'red' }, inDegree: 2, outDegree: 3 },
+                { name: 'node2', x: 800, y: 300, symbolSize: 7, itemStyle: { color: 'yellow' }, inDegree: 3, outDegree: 4 },
+                { name: 'node3', x: 550, y: 100, symbolSize: 4, itemStyle: { color: 'green' }, inDegree: 2, outDegree: 2 },
+                { name: 'node4', x: 550, y: 500, symbolSize: 5, itemStyle: { color: 'black' }, inDegree: 4, outDegree: 1 },
+                { name: 'node5', x: 550, y: 300, symbolSize: 3, itemStyle: { color: 'blue' }, inDegree: 1, outDegree: 2 },
 
-        // Instantiate sigma.js and render the graph
-        const sigmaInstance = new Sigma(graph, document.getElementById("network_container"));
+                { name: 'node6', x: 550, y: 700, symbolSize: 20, itemStyle: { color: '#507BFF' }, inDegree: 1, outDegree: 2 },
+                { name: 'node7', x: 550, y: 900, symbolSize: 20, itemStyle: { color: '#607BFF' }, inDegree: 1, outDegree: 2 },
+                { name: 'node8', x: 550, y: 1100, symbolSize: 20, itemStyle: { color: '#707BFF' }, inDegree: 1, outDegree: 2 },
+                { name: 'node9', x: 550, y: 1300, symbolSize: 20, itemStyle: { color: '#807BFF' }, inDegree: 1, outDegree: 2 },
+                { name: 'node10', x: 550, y: 1500, symbolSize: 20, itemStyle: { color: '#907BFF' }, inDegree: 1, outDegree: 2 },
+                { name: 'node11', x: 550, y: 1700, symbolSize: 20, itemStyle: { color: '#A07BFF' }, inDegree: 1, outDegree: 2 },
+                { name: 'node12', x: 550, y: 1900, symbolSize: 20, itemStyle: { color: '#B07BFF' }, inDegree: 1, outDegree: 2 },
+                { name: 'node13', x: 550, y: 2100, symbolSize: 20, itemStyle: { color: '#C07BFF' }, inDegree: 1, outDegree: 2 },
+                { name: 'node14', x: 550, y: 2300, symbolSize: 20, itemStyle: { color: '#D07BFF' }, inDegree: 1, outDegree: 2 },
+                { name: 'node15', x: 550, y: 2500, symbolSize: 20, itemStyle: { color: '#E07BFF' }, inDegree: 1, outDegree: 2 },
+                { name: 'node16', x: 550, y: 2700, symbolSize: 20, itemStyle: { color: '#F07BFF' }, inDegree: 1, outDegree: 2 },
+
+            ],
+            edges: [
+                { source: 'node1', target: 'node2', lineStyle: { width: 5.5, color: 'red' } },
+                { source: 0, target: 2, lineStyle: { width: 3.5, color: 'red' } },
+                { source: 0, target: 3, lineStyle: { width: 2.5, color: 'red' } },
+                { source: 1, target: 0, lineStyle: { width: 4.5, color: 'yellow' } },
+                { source: 2, target: 0, lineStyle: { width: 7.5, color: 'green' } },
+                { source: 1, target: 0, lineStyle: { width: 3.5, color: 'yellow' } },
+                { source: 1, target: 2, lineStyle: { width: 8.5, color: 'yellow' } },
+                { source: 1, target: 3, lineStyle: { width: 1.5, color: 'yellow' } },
+                { source: 1, target: 4, lineStyle: { width: 2.5, color: 'yellow' } },
+                { source: 2, target: 1, lineStyle: { width: 3.5, color: 'green' } },
+                { source: 3, target: 1, lineStyle: { width: 4.5, color: 'black' } },
+                { source: 4, target: 1, lineStyle: { width: 5.5, color: 'blue' } }
+            ]
+        };
+
+
+        option = {
+            tooltip: {},
+            // legend: [
+            //   {
+            //     data: graph.categories.map(function (a) {
+            //       return a.name;
+            //     })
+            //   }
+            // ],
+            series: [
+                {
+                    name: 'Les Miserables',
+                    type: 'graph',
+                    layout: 'none',
+                    data: graph.nodes,
+                    links: graph.edges,
+                    // categories: graph.categories,
+                    roam: true,
+                    // draggable: true,
+                    edgeSymbol: ['circle', 'arrow'],
+                    edgeSymbolSize: [10, 10],
+                    nodeScaleRatio: 0.6,
+                    label: {
+                        show: true,
+                        position: 'right',
+                        formatter: '{b}'
+                    },
+                    labelLayout: {
+                        hideOverlap: true
+                    },
+
+                    lineStyle: {
+                        // color: 'source',
+                        curveness: 0.3,
+
+                    },
+                    emphasis: {
+                        focus: 'adjacency',
+                    },
+                    itemStyle: {
+                        normal: {
+                            borderColor: '#ffffff',
+                            borderWidth: 1,
+                            shadowBlur: 10,
+                            shadowColor: 'rgba(0, 0, 0, 0.3)'
+                        },
+                        emphasis: {
+                            borderColor: '#b1e4ff',
+                            borderWidth: 2,
+                            shadowBlur: 20,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            ]
+        };
+        myChart.setOption(option);
     </script>
+
 
     <script type="text/javascript">
 
