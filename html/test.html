@@ -20,6 +20,28 @@
             /* height: 100%; */
             background-color: #FAFFF2;
         }
+
+        .network_results_container {
+            position: relative;
+        }
+
+        #loading_container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20%;
+            display: none;
+            /* height: 100px;  */
+            /* background-color: rgba(255, 255, 255, 1); */
+            /* 半透明背景 */
+            z-index: 1000;
+            /* 确保在最上层 */
+        }
+
+        #loading_container img {
+            width: 100%;
+        }
     </style>
 </head>
 
@@ -29,7 +51,22 @@
 
 
         <div style="height: 100px;background-color: bisque;"></div>
-        <div id="network_container" style="height: 1000px; width: 100%;"></div>
+        <div class="network_results_container">
+            <div id="loading_container">
+                <img src="../img/networkLoading3.gif" alt="network loading...">
+            </div>
+            <div id="network_container" style="height: 1000px; width: 100%;"></div>
+        </div>
+
+        <div style="height: 100px;background-color: bisque;"></div>
+        <div class="network_results_container">
+            <div id="loading_container">
+                <img src="../img/networkLoading3.gif" alt="network loading...">
+            </div>
+            <div id="network_container2" style="height: 1000px; width: 100%;"></div>
+        </div>
+
+
 
         <div style="height: 100px;background-color: bisque;"></div>
         <div id="map_container" style="height: 1000px; width: 100%;"></div>
@@ -50,9 +87,9 @@
     <!-- Uncomment this line if you want to dataTool extension
   <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.5.0/dist/extension/dataTool.min.js"></script>
   -->
-    <!-- Uncomment this line if you want to use gl extension
-  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts-gl@2/dist/echarts-gl.min.js"></script>
-  -->
+    <!-- Uncomment this line if you want to use gl extension -->
+    <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts-gl@2/dist/echarts-gl.min.js"></script>
+
     <!-- Uncomment this line if you want to echarts-stat extension
   <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts-stat@latest/dist/ecStat.min.js"></script>
   -->
@@ -66,54 +103,118 @@
   -->
 
     <script>
-        //Sony have 20 hex colors that represent their brand, and they are 000000, 7c8285, bfbdb0, b1b134, bbd634, dbe3b6, b2c8bd, 165b65, 697d99, 96b8db, 00a4e8, a4dbdb, fdd666, dc9018, e31a22, df8f2d, b24f3f, b51f29, f58268, f4979c.
-        // More4 have 17 hex colors that represent their brand, and they are 949483, f47b7b, 9f1f5c, ef9020, 00af3e, 85b7e2, 29245c, ffd616, e5352b, e990ab, 0081b4, 96cbb3, 91be3e, 39a6dd, eb0973, dde2e0, 333c41
-        // Mapbox have 13 hex colors that represent their brand, and they are 3bb2d0, 3887be, 8a8acb, 56b881, 50667f, 41afa5, f9886c, e55e5e, ed6498, fbb03b, 142736, 28353d, 222b30.
-        var dom = document.getElementById('network_container');
-        var myChart = echarts.init(dom, null, {
+        var dom = document.getElementById('network_container2');
+        var myChart1 = echarts.init(dom, null, {
             renderer: 'canvas',
             useDirtyRect: false
         });
-        var app = {};
-        var graph = {
+        var graph2 = {
             nodes: [
-                { name: 'node1', x: 300, y: 300, symbolSize: 5, itemStyle: { color: 'red' }, inDegree: 2, outDegree: 3 },
-                { name: 'node2', x: 800, y: 300, symbolSize: 7, itemStyle: { color: 'yellow' }, inDegree: 3, outDegree: 4 },
-                { name: 'node3', x: 550, y: 100, symbolSize: 4, itemStyle: { color: 'green' }, inDegree: 2, outDegree: 2 },
-                { name: 'node4', x: 550, y: 500, symbolSize: 5, itemStyle: { color: 'black' }, inDegree: 4, outDegree: 1 },
-                { name: 'node5', x: 550, y: 300, symbolSize: 3, itemStyle: { color: 'blue' }, inDegree: 1, outDegree: 2 },
-
-                { name: 'node6', x: 550, y: 700, symbolSize: 20, itemStyle: { color: '#507BFF' }, inDegree: 1, outDegree: 2 },
-                { name: 'node7', x: 550, y: 900, symbolSize: 20, itemStyle: { color: '#607BFF' }, inDegree: 1, outDegree: 2 },
-                { name: 'node8', x: 550, y: 1100, symbolSize: 20, itemStyle: { color: '#707BFF' }, inDegree: 1, outDegree: 2 },
-                { name: 'node9', x: 550, y: 1300, symbolSize: 20, itemStyle: { color: '#807BFF' }, inDegree: 1, outDegree: 2 },
-                { name: 'node10', x: 550, y: 1500, symbolSize: 20, itemStyle: { color: '#907BFF' }, inDegree: 1, outDegree: 2 },
-                { name: 'node11', x: 550, y: 1700, symbolSize: 20, itemStyle: { color: '#A07BFF' }, inDegree: 1, outDegree: 2 },
-                { name: 'node12', x: 550, y: 1900, symbolSize: 20, itemStyle: { color: '#B07BFF' }, inDegree: 1, outDegree: 2 },
-                { name: 'node13', x: 550, y: 2100, symbolSize: 20, itemStyle: { color: '#C07BFF' }, inDegree: 1, outDegree: 2 },
-                { name: 'node14', x: 550, y: 2300, symbolSize: 20, itemStyle: { color: '#D07BFF' }, inDegree: 1, outDegree: 2 },
-                { name: 'node15', x: 550, y: 2500, symbolSize: 20, itemStyle: { color: '#E07BFF' }, inDegree: 1, outDegree: 2 },
-                { name: 'node16', x: 550, y: 2700, symbolSize: 20, itemStyle: { color: '#F07BFF' }, inDegree: 1, outDegree: 2 },
+                { "name": 'node1', "symbolSize": 5, "itemStyle": { color: 'black' }, inDegree: 2, outDegree: 3, adjacency: ['node2', 'node3', 'node4'] },
+                { name: 'node2', symbolSize: 7, itemStyle: { color: 'yellow' }, inDegree: 3, outDegree: 4 },
+                { name: 'node3', symbolSize: 4, itemStyle: { color: 'green' }, inDegree: 2, outDegree: 2 },
+                { name: 'node4', symbolSize: 5, itemStyle: { color: 'black' }, inDegree: 4, outDegree: 1 },
+                { name: 'node5', symbolSize: 3, itemStyle: { color: 'blue' }, inDegree: 1, outDegree: 2 },
+                { name: 'node6', symbolSize: 3, itemStyle: { color: 'blue' }, inDegree: 1, outDegree: 2 },
 
             ],
             edges: [
-                { source: 'node1', target: 'node2', lineStyle: { width: 5.5, color: 'red' } },
-                { source: 0, target: 2, lineStyle: { width: 3.5, color: 'red' } },
-                { source: 0, target: 3, lineStyle: { width: 2.5, color: 'red' } },
-                { source: 1, target: 0, lineStyle: { width: 4.5, color: 'yellow' } },
-                { source: 2, target: 0, lineStyle: { width: 7.5, color: 'green' } },
-                { source: 1, target: 0, lineStyle: { width: 3.5, color: 'yellow' } },
-                { source: 1, target: 2, lineStyle: { width: 8.5, color: 'yellow' } },
-                { source: 1, target: 3, lineStyle: { width: 1.5, color: 'yellow' } },
-                { source: 1, target: 4, lineStyle: { width: 2.5, color: 'yellow' } },
-                { source: 2, target: 1, lineStyle: { width: 3.5, color: 'green' } },
-                { source: 3, target: 1, lineStyle: { width: 4.5, color: 'black' } },
-                { source: 4, target: 1, lineStyle: { width: 5.5, color: 'blue' } }
+                { source: 'node1', target: 'node2', lineStyle: { width: 9.5, color: 'red' } },
+                { source: 'node1', target: 'node3', lineStyle: { width: 0.1, color: 'red' } },
+                { source: 'node1', target: 'node4', lineStyle: { width: 2.5, color: 'red' } },
+                { source: 'node2', target: 'node1', lineStyle: { width: 4.5, color: 'yellow' } },
+                { source: 'node3', target: 'node1', lineStyle: { width: 7.5, color: 'green' } },
+                { source: 'node2', target: 'node1', lineStyle: { width: 3.5, color: 'yellow' } },
+                { source: 'node2', target: 'node3', lineStyle: { width: 8.5, color: 'yellow' } },
+                { source: 'node2', target: 'node4', lineStyle: { width: 1.5, color: 'yellow' } },
+                { source: 'node2', target: 'node5', lineStyle: { width: 2.5, color: 'yellow' } },
+                { source: 'node3', target: 'node2', lineStyle: { width: 3.5, color: 'green' } },
+                { source: 'node4', target: 'node2', lineStyle: { width: 4.5, color: 'black' } },
+                { source: 'node5', target: 'node2', lineStyle: { width: 5.5, color: 'blue' } },
+
+            ]
+        };
+        var graph3 = {
+            nodes: [
+                { "name": 'node1', "symbolSize": 5, "itemStyle": { color: 'black' }, inDegree: 2, outDegree: 3, adjacency: ['node2', 'node3', 'node4'] },
+                { name: 'node2', symbolSize: 7, itemStyle: { color: 'yellow' }, inDegree: 3, outDegree: 4 },
+                { name: 'node3', symbolSize: 4, itemStyle: { color: 'green' }, inDegree: 2, outDegree: 2 },
+                { name: 'node4', symbolSize: 5, itemStyle: { color: 'black' }, inDegree: 4, outDegree: 1 },
+                { name: 'node5', symbolSize: 3, itemStyle: { color: 'blue' }, inDegree: 1, outDegree: 2 },
+                { name: 'node6', symbolSize: 3, itemStyle: { color: 'blue' }, inDegree: 1, outDegree: 2 },
+
+
+            ],
+            edges: [
+                { source: 'node1', target: 'node2', lineStyle: { width: 9.5, color: 'red' } },
+                { source: 'node1', target: 'node3', lineStyle: { width: 0.1, color: 'red' } },
+                { source: 'node1', target: 'node2', lineStyle: { width: 9.5, color: 'red' } },
+                { source: 'node1', target: 'node3', lineStyle: { width: 0.1, color: 'red' } },
+                { source: 'node1', target: 'node4', lineStyle: { width: 2.5, color: 'red' } },
+                { source: 'node2', target: 'node1', lineStyle: { width: 4.5, color: 'yellow' } },
+                { source: 'node3', target: 'node1', lineStyle: { width: 7.5, color: 'green' } },
+                { source: 'node2', target: 'node1', lineStyle: { width: 3.5, color: 'yellow' } },
+                { source: 'node2', target: 'node3', lineStyle: { width: 8.5, color: 'yellow' } },
+                { source: 'node2', target: 'node4', lineStyle: { width: 1.5, color: 'yellow' } },
+                { source: 'node2', target: 'node5', lineStyle: { width: 2.5, color: 'yellow' } },
+                { source: 'node3', target: 'node2', lineStyle: { width: 3.5, color: 'green' } },
+                { source: 'node4', target: 'node2', lineStyle: { width: 4.5, color: 'black' } },
+                { source: 'node5', target: 'node2', lineStyle: { width: 5.5, color: 'blue' } },
+                { source: 'node2', target: 'node6', lineStyle: { width: 4.5, color: 'yellow' } },
+                { source: 'node1', target: 'node6', lineStyle: { width: 4.5, color: 'yellow' } },
+                { source: 'node3', target: 'node6', lineStyle: { width: 4.5, color: 'yellow' } },
+                { source: 'node4', target: 'node6', lineStyle: { width: 4.5, color: 'yellow' } },
+                { source: 'node5', target: 'node6', lineStyle: { width: 4.5, color: 'yellow' } },
+            ]
+        };
+        var graph4 = {
+            nodes: [
+
+                { name: 'node2', symbolSize: 7, itemStyle: { color: 'yellow' }, inDegree: 3, outDegree: 4 },
+                { name: 'node3', symbolSize: 4, itemStyle: { color: 'green' }, inDegree: 2, outDegree: 2 },
+                { name: 'node4', symbolSize: 5, itemStyle: { color: 'black' }, inDegree: 4, outDegree: 1 },
+                { name: 'node5', symbolSize: 3, itemStyle: { color: 'blue' }, inDegree: 1, outDegree: 2 },
+                { name: 'node6', symbolSize: 3, itemStyle: { color: 'blue' }, inDegree: 1, outDegree: 2 },
+                { name: 'node7', symbolSize: 0.3, itemStyle: { color: 'blue' }, inDegree: 1, outDegree: 2 },
+                { name: 'node8', symbolSize: 0.3, itemStyle: { color: 'blue' }, inDegree: 1, outDegree: 2 },
+                { name: 'node9', symbolSize: 0.3, itemStyle: { color: 'blue' }, inDegree: 1, outDegree: 2 },
+                { name: 'node10', symbolSize: 0.13, itemStyle: { color: 'blue' }, inDegree: 1, outDegree: 2 },
+                { name: 'node11', symbolSize: 0.13, itemStyle: { color: 'blue' }, inDegree: 1, outDegree: 2 },
+                { name: 'node12', symbolSize: 0.13, itemStyle: { color: 'blue' }, inDegree: 1, outDegree: 2 },
+                { name: 'node13', symbolSize: 0.13, itemStyle: { color: 'blue' }, inDegree: 1, outDegree: 2 },
+                { name: 'node14', symbolSize: 0.13, itemStyle: { color: 'blue' }, inDegree: 1, outDegree: 2 },
+                { name: 'node15', symbolSize: 0.13, itemStyle: { color: 'blue' }, inDegree: 1, outDegree: 2 },
+                { name: 'node16', symbolSize: 0.13, itemStyle: { color: 'blue' }, inDegree: 1, outDegree: 2 },
+
+
+            ],
+            edges: [
+
+                { source: 'node2', target: 'node3', lineStyle: { width: 8.5, color: 'yellow' } },
+                { source: 'node2', target: 'node4', lineStyle: { width: 1.5, color: 'yellow' } },
+                { source: 'node2', target: 'node5', lineStyle: { width: 2.5, color: 'yellow' } },
+                { source: 'node3', target: 'node2', lineStyle: { width: 3.5, color: 'green' } },
+                { source: 'node4', target: 'node2', lineStyle: { width: 4.5, color: 'black' } },
+                { source: 'node5', target: 'node2', lineStyle: { width: 5.5, color: 'blue' } },
+                { source: 'node2', target: 'node6', lineStyle: { width: 4.5, color: 'yellow' } },
+                { source: 'node1', target: 'node6', lineStyle: { width: 4.5, color: 'yellow' } },
+                { source: 'node3', target: 'node6', lineStyle: { width: 4.5, color: 'yellow' } },
+                { source: 'node4', target: 'node6', lineStyle: { width: 4.5, color: 'yellow' } },
+                { source: 'node5', target: 'node6', lineStyle: { width: 4.5, color: 'yellow' } },
+                { source: 'node6', target: 'node7', lineStyle: { width: 4.5, color: 'yellow' } },
+                { source: 'node6', target: 'node8', lineStyle: { width: 4.5, color: 'yellow' } },
+                { source: 'node6', target: 'node9', lineStyle: { width: 4.5, color: 'yellow' } },
+                { source: 'node6', target: 'node10', lineStyle: { width: 4.5, color: 'yellow' } },
+                { source: 'node6', target: 'node11', lineStyle: { width: 4.5, color: 'yellow' } },
+                { source: 'node6', target: 'node12', lineStyle: { width: 4.5, color: 'yellow' } },
+                { source: 'node6', target: 'node13', lineStyle: { width: 4.5, color: 'yellow' } },
+                { source: 'node6', target: 'node14', lineStyle: { width: 4.5, color: 'yellow' } },
+                { source: 'node6', target: 'node15', lineStyle: { width: 4.5, color: 'yellow' } },
+                { source: 'node6', target: 'node16', lineStyle: { width: 4.5, color: 'yellow' } },
             ]
         };
 
-
-        option = {
+        var option = {
             tooltip: {},
             // legend: [
             //   {
@@ -126,9 +227,14 @@
                 {
                     name: 'Les Miserables',
                     type: 'graph',
-                    layout: 'none',
-                    data: graph.nodes,
-                    links: graph.edges,
+                    layout: 'force',
+                    // force: {
+                    //     // repulsion: 1550,
+                    //     // edgeLength: 1350,
+                    //     gravity: 0
+                    // },
+                    data: graph2.nodes,
+                    links: graph2.edges,
                     // categories: graph.categories,
                     roam: true,
                     // draggable: true,
@@ -152,6 +258,8 @@
                     emphasis: {
                         focus: 'adjacency',
                     },
+                    selectedMode: true,
+                    zoom: 10,
                     itemStyle: {
                         normal: {
                             borderColor: '#ffffff',
@@ -169,9 +277,392 @@
                 }
             ]
         };
-        myChart.setOption(option);
+        myChart1.setOption(option);
+        myChart1.on('click', function (params) {
+            console.log(params);
+            if (params.name == 'node6') {
+                myChart1.setOption(
+                    {
+                        series: [
+                            {
+                                data: graph3.nodes,
+                                links: graph3.edges,
+                            }
+                        ]
+                    }
+                );
+            }
+            if (params.name == 'node2') {
+                myChart1.setOption(
+                    {
+                        series: [
+                            {
+                                data: graph4.nodes,
+                                links: graph4.edges,
+                            }
+                        ]
+                    }
+                );
+            }
+
+        });
+
+
     </script>
 
+
+    <script>
+        //Sony have 20 hex colors that represent their brand, and they are 000000, 7c8285, bfbdb0, b1b134, bbd634, dbe3b6, b2c8bd, 165b65, 697d99, 96b8db, 00a4e8, a4dbdb, fdd666, dc9018, e31a22, df8f2d, b24f3f, b51f29, f58268, f4979c.
+        // More4 have 17 hex colors that represent their brand, and they are 949483, f47b7b, 9f1f5c, ef9020, 00af3e, 85b7e2, 29245c, ffd616, e5352b, e990ab, 0081b4, 96cbb3, 91be3e, 39a6dd, eb0973, dde2e0, 333c41
+        // Mapbox have 13 hex colors that represent their brand, and they are 3bb2d0, 3887be, 8a8acb, 56b881, 50667f, 41afa5, f9886c, e55e5e, ed6498, fbb03b, 142736, 28353d, 222b30.
+
+
+        async function fetchGraphData() {
+            const url = 'http://127.0.0.1:8080/searchDatabase/getGraphJSON';  // URL指向Django服务器中的视图函数
+            try {
+                const response = await fetch(url); // 发送GET请求
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json(); // 解析JSON格式的响应体
+                return data // 在控制台输出数据，或者你可以在这里处理数据，比如更新DOM
+            } catch (error) {
+                console.error('There was a problem with the fetch operation:', error);
+            }
+        }
+
+        // var loader = document.getElementById('loading_container');
+        // loader.style.display = 'block';
+        // graph = await fetchGraphData();
+        // loader.style.display = 'none';
+
+        // async function run() {
+        //     var loader = document.getElementById('loading_container');
+        //     loader.style.display = 'block';
+        //     // graph = await fetchGraphData();
+        //     loader.style.display = 'none';
+        //     console.log(graph);
+        //     myChart.setOption(option);
+        //     myChart.on('click', function (params) {
+        //         console.log(params);
+        //     });
+        // }
+        // run();
+
+        // $.getJSON('http://127.0.0.1:8080/searchDatabase/getGraphJSON', function (data) {
+        //     // graph = data;
+        //     console.log(graph);
+        //     myChart.setOption(option);
+        //     myChart.on('click', function (params) {
+        //         console.log(params);
+        //     });
+        // });
+        // myChart.setOption(option);
+        // myChart.on('click', function (params) {
+        //     console.log(params);
+        // });
+
+        // var loader = document.getElementById('loading_container');
+        // loader.style.display = 'block';
+        // fetchGraphData().then(data => {
+        //     loader.style.display = 'none';
+        //     console.log(data);
+        //     // graph = graph;
+        //     // console.log(graph);
+        //     myChart.setOption(option);
+        //     myChart.on('click', function (params) {
+        //         console.log(params);
+        //     });
+        // }).catch(error => {
+        //     console.error('There was a problem with the fetch operation:', error);
+        // });
+
+        // myChart.setOption(option);
+        // myChart.on('click', function (params) {
+        //     console.log(params);
+        // });
+
+        function initNetworkChart(graph) {
+            console.log('initChart');
+            var dom = document.getElementById('network_container');
+            var myChart = echarts.init(dom, null, {
+                renderer: 'canvas',
+                useDirtyRect: false
+            });
+
+            var option = {
+                tooltip: {},
+                // legend: [
+                //   {
+                //     data: graph.categories.map(function (a) {
+                //       return a.name;
+                //     })
+                //   }
+                // ],
+                series: [
+                    {
+                        name: 'Les Miserables',
+                        type: 'graph',
+                        layout: 'force',
+                        force: {
+                            // repulsion: 1550,
+                            // edgeLength: 1350,
+                            gravity: 0.01
+                        },
+                        data: graph.nodes,
+                        links: graph.edges,
+                        // categories: graph.categories,
+                        roam: true,
+                        // draggable: true,
+                        edgeSymbol: ['circle', 'arrow'],
+                        edgeSymbolSize: [15, 15],
+                        nodeScaleRatio: 0.3,
+                        label: {
+                            show: false,
+                            position: 'right',
+                            formatter: '{b}'
+                        },
+                        labelLayout: {
+                            hideOverlap: true
+                        },
+
+                        lineStyle: {
+                            // color: 'source',
+                            curveness: 0.3,
+                            width: 1,
+
+
+                        },
+                        emphasis: {
+                            scale: 1.01,
+                            itemStyle: {
+
+                                borderColor: '#b1e4ff',
+                                borderWidth: 2,
+                                shadowBlur: 20,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            },
+                            lineStyle: {
+
+                                width: 3,
+                                shadowBlur: 20,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        },
+                        selectedMode: false,
+                        itemStyle: {
+
+                            borderColor: '#ffffff',
+                            borderWidth: 1,
+                            shadowBlur: 10,
+                            shadowColor: 'rgba(0, 0, 0, 0.3)'
+
+                        }
+                    }
+                ]
+            };
+
+            var option2 = { // 绘制出来的点
+                series: [
+                    {
+                        name: 'Les Miserables',
+                        type: 'graphGL',
+                        layout: 'forceAtlas2',
+                        forceAtlas2: {
+                            GPU: true,
+                            steps: 10,
+                            stopThreshold: 1,
+                            repulsionByDegree: true,
+                            linLogMode: true,
+                            preventOverlap: true
+
+                        },
+
+                        data: graph.nodes,
+                        links: graph.edges,
+
+                    }
+                ]
+            };
+
+            console.log(option);
+            if (option && typeof option === 'object') {
+                console.log(option);
+                myChart.setOption(option);
+            }
+
+        }
+        async function main() {
+            const graph = await fetchGraphData();
+            console.log(graph);
+            initNetworkChart(graph);
+        }
+        main();
+
+        // var dom = document.getElementById('network_container');
+        // var myChart = echarts.init(dom, null, {
+        //     renderer: 'canvas',
+        //     useDirtyRect: false
+        // });
+        // var app = {};
+        // var option = {};
+        // var graph = {};
+
+        // graph = {
+        //     nodes: [
+        //         { "name": 'node1', "x": 0.9999999992688378, "y": -2.3313930002592627e-09, "symbolSize": 5, "itemStyle": { color: 'black' }, inDegree: 2, outDegree: 3, adjacency: ['node2', 'node3', 'node4'] },
+        //         { name: 'node2', x: 800, y: 300, symbolSize: 7, itemStyle: { color: 'yellow' }, inDegree: 3, outDegree: 4 },
+        //         { name: 'node3', x: 550, y: 100, symbolSize: 4, itemStyle: { color: 'green' }, inDegree: 2, outDegree: 2 },
+        //         { name: 'node4', x: 550, y: 500, symbolSize: 5, itemStyle: { color: 'black' }, inDegree: 4, outDegree: 1 },
+        //         { name: 'node5', x: 550, y: 300, symbolSize: 3, itemStyle: { color: 'blue' }, inDegree: 1, outDegree: 2 },
+
+        //         { name: 'node6', x: 550, y: 700, symbolSize: 20, itemStyle: { color: '#507BFF' }, inDegree: 1, outDegree: 2 },
+        //         { name: 'node7', x: 550, y: 900, symbolSize: 20, itemStyle: { color: '#607BFF' }, inDegree: 1, outDegree: 2 },
+        //         { name: 'node8', x: 550, y: 1100, symbolSize: 20, itemStyle: { color: '#707BFF' }, inDegree: 1, outDegree: 2 },
+        //         { name: 'node9', x: 550, y: 1300, symbolSize: 20, itemStyle: { color: '#807BFF' }, inDegree: 1, outDegree: 2 },
+        //         { name: 'node10', x: 550, y: 1500, symbolSize: 20, itemStyle: { color: '#907BFF' }, inDegree: 1, outDegree: 2 },
+        //         { name: 'node11', x: 550, y: 1700, symbolSize: 20, itemStyle: { color: '#A07BFF' }, inDegree: 1, outDegree: 2 },
+        //         { name: 'node12', x: 550, y: 1900, symbolSize: 20, itemStyle: { color: '#B07BFF' }, inDegree: 1, outDegree: 2 },
+        //         { name: 'node13', x: 550, y: 2100, symbolSize: 20, itemStyle: { color: '#C07BFF' }, inDegree: 1, outDegree: 2 },
+        //         { name: 'node14', x: 550, y: 2300, symbolSize: 20, itemStyle: { color: '#D07BFF' }, inDegree: 1, outDegree: 2 },
+        //         { name: 'node15', x: 550, y: 2500, symbolSize: 20, itemStyle: { color: '#E07BFF' }, inDegree: 1, outDegree: 2 },
+        //         { name: 'node16', x: 550, y: 2700, symbolSize: 20, itemStyle: { color: '#F07BFF' }, inDegree: 1, outDegree: 2 },
+
+        //     ],
+        //     edges: [
+        //         { source: 'node1', target: 'node2', lineStyle: { width: 9.5, color: 'red' } },
+        //         { source: 0, target: 2, lineStyle: { width: 0.1, color: 'red' } },
+        //         { source: 0, target: 3, lineStyle: { width: 2.5, color: 'red' } },
+        //         { source: 1, target: 0, lineStyle: { width: 4.5, color: 'yellow' } },
+        //         { source: 2, target: 0, lineStyle: { width: 7.5, color: 'green' } },
+        //         { source: 1, target: 0, lineStyle: { width: 3.5, color: 'yellow' } },
+        //         { source: 1, target: 2, lineStyle: { width: 8.5, color: 'yellow' } },
+        //         { source: 1, target: 3, lineStyle: { width: 1.5, color: 'yellow' } },
+        //         { source: 1, target: 4, lineStyle: { width: 2.5, color: 'yellow' } },
+        //         { source: 2, target: 1, lineStyle: { width: 3.5, color: 'green' } },
+        //         { source: 3, target: 1, lineStyle: { width: 4.5, color: 'black' } },
+        //         { source: 4, target: 1, lineStyle: { width: 5.5, color: 'blue' } }
+        //     ]
+        // };
+        //         option = {
+        //                 tooltip: {},
+        //                 // legend: [
+        //                 //   {
+        //                 //     data: graph.categories.map(function (a) {
+        //                 //       return a.name;
+        //                 //     })
+        //                 //   }
+        //                 // ],
+        //                 series: [
+        //                     {
+        //                         name: 'Les Miserables',
+        //                         type: 'graph',
+        //                         layout: 'none',
+        //                         data: graph.nodes,
+        //                         links: graph.edges,
+        //                         // categories: graph.categories,
+        //                         roam: true,
+        //                         // draggable: true,
+        //                         edgeSymbol: ['circle', 'arrow'],
+        //                         edgeSymbolSize: [10, 10],
+        //                         nodeScaleRatio: 0.6,
+        //                         label: {
+        //                             show: true,
+        //                             position: 'right',
+        //                             formatter: '{b}'
+        //                         },
+        //                         labelLayout: {
+        //                             hideOverlap: true
+        //                         },
+
+        //                         lineStyle: {
+        //                             // color: 'source',
+        //                             curveness: 0.3,
+
+        //                         },
+        //                         emphasis: {
+        //                             focus: 'adjacency',
+        //                         },
+        //                         itemStyle: {
+        //                             normal: {
+        //                                 borderColor: '#ffffff',
+        //                                 borderWidth: 1,
+        //                                 shadowBlur: 10,
+        //                                 shadowColor: 'rgba(0, 0, 0, 0.3)'
+        //                             },
+        //                             emphasis: {
+        //                                 borderColor: '#b1e4ff',
+        //                                 borderWidth: 2,
+        //                                 shadowBlur: 20,
+        //                                 shadowColor: 'rgba(0, 0, 0, 0.5)'
+        //                             }
+        //                         }
+        //                     }
+        //                 ]
+        //             };
+
+        //             option2 = { // 绘制出来的点
+        //                 series: [
+        //                     {
+        //                         name: 'Les Miserables',
+        //                         type: 'graphGL',
+        //                         layout: 'forceAtlas2',
+        //                         forceAtlas2: {
+        //                             GPU: true,
+        //                             steps: 10,
+        //                             stopThreshold: 1,
+        //                             repulsionByDegree: true,
+        //                             linLogMode: true,
+        //                             preventOverlap: true
+
+        //                         },
+        //                         symbolSize: function (data, params) {
+        //                             return params.data.symbolSize;
+        //                         },
+        //                         data: graph.nodes,
+        //                         links: graph.edges,
+        //                         // categories: graph.categories,
+        //                         roam: true,
+        //                         // draggable: true,
+        //                         edgeSymbol: ['circle', 'arrow'],
+        //                         edgeSymbolSize: [10, 10],
+        //                         nodeScaleRatio: 0.6,
+        //                         label: {
+        //                             show: true,
+        //                             position: 'right',
+        //                             formatter: '{b}'
+        //                         },
+        //                         labelLayout: {
+        //                             hideOverlap: true
+        //                         },
+
+        //                         lineStyle: {
+        //                             // color: 'source',
+        //                             curveness: 0.3,
+
+        //                         },
+        //                         emphasis: {
+        //                             focus: 'adjacency',
+        //                         },
+        //                         itemStyle: {
+        //                             normal: {
+        //                                 borderColor: '#ffffff',
+        //                                 borderWidth: 1,
+        //                                 shadowBlur: 10,
+        //                                 shadowColor: 'rgba(0, 0, 0, 0.3)'
+        //                             },
+        //                             emphasis: {
+        //                                 borderColor: '#b1e4ff',
+        //                                 borderWidth: 2,
+        //                                 shadowBlur: 20,
+        //                                 shadowColor: 'rgba(0, 0, 0, 0.5)'
+        //                             }
+        //                         }
+        //                     }
+        //                 ]
+        //             };
+
+    </script>
 
     <script type="text/javascript">
 
@@ -1441,6 +1932,7 @@
 
         window.addEventListener('resize', myChart.resize);
     </script>
+
 
 
 
