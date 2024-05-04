@@ -20,6 +20,12 @@
 
     <!-- 引入select2下拉框组件 -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <script>
+        function openInNewTab(url) {
+            window.open(url, '_blank');
+        }
+    </script>
     <style>
 
     </style>
@@ -40,11 +46,11 @@
             </div>
             <div class="menu_box">
                 <div class="menu_button" onclick="location.href='./index.html'">Home</div>
-                <div class="menu_button" onclick="location.href='./fullLengthTranscriptome.html'">Full Length
+                <div class="menu_button" onclick="openInNewTab('./fullLengthTranscriptome.html')">Full Length
                     Transcriptome</div>
-                <div class="menu_button" onclick="location.href='./geneExpressionProfile.html'">Gene Expression Profile
+                <div class="menu_button" onclick="openInNewTab('./geneExpressionProfile.html')">Gene Expression Profile
                 </div>
-                <div class="menu_button" onclick="location.href='./coExpressionNetwork.html'">Co-expression Network
+                <div class="menu_button" onclick="openInNewTab('./coExpressionNetwork.html')">Co-expression Network
                 </div>
             </div>
         </div>
@@ -108,7 +114,6 @@
                 <summary>Click to view the orthologous results</summary>
 
                 <div id="drawOrthologousHeatmap" style="width: 100%;height: 160px;"></div>
-                <div id="drawOrthologousDynamicCharts" style="width: 100%;height: 1600px;"></div>
                 <!-- 套用该模式需要修改：1. id="haplotype_table_container"；2. <thead>；3. id="download_haplotype_table"-->
                 <details class="TPM_data_table">
                     <summary>Click to view the data table</summary>

@@ -318,7 +318,7 @@
 
 
         async function fetchGraphData() {
-            const url = 'http://127.0.0.1:8080/searchDatabase/getGraphJSON';  // URL指向Django服务器中的视图函数
+            const url = 'http://127.0.0.1:8080/searchDatabase/getNetworkGraphJSONFile/?type=mosaic';  // URL指向Django服务器中的视图函数
             try {
                 const response = await fetch(url); // 发送GET请求
                 if (!response.ok) {
@@ -490,6 +490,9 @@
                 console.log(option);
                 myChart.setOption(option);
             }
+            myChart.on('click', function (params) {
+                console.log(params);
+            });
 
         }
         async function main() {

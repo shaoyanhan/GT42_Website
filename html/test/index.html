@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <title>ECharts</title>
+    <link rel="stylesheet" href="../../css/reset.css">
     <!-- 引入 echarts.js -->
     <script src="https://cdn.jsdelivr.net/npm/echarts@latest/dist/echarts.min.js"></script>
     <!-- 引入 lodash.js 用于 data.js 的数据深拷贝 -->
@@ -27,14 +28,116 @@
             /* height: 100%; */
             background-color: #FAFFF2;
         }
+
+        .container {
+            position: relative;
+        }
+
+        details {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 250px;
+            z-index: 2000;
+        }
+
+        details summary {
+            font-size: 20px;
+            font-weight: bold;
+            background: #8bc2d0;
+            color: #fff;
+            padding: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+
+        }
+
+        .selector-container {
+            display: flex;
+            position: relative;
+            top: 10px;
+            left: 10px;
+            justify-content: space-between;
+            width: 420px;
+            height: 70px;
+            /* border: 1px solid #ccc; */
+            background-color: rgba(179, 236, 202, 0.73);
+            ;
+            border-radius: 10px;
+        }
+
+        .option {
+            flex: 1;
+            height: 50px;
+            background: none;
+            border: none;
+            margin: 10px;
+            padding: 0;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            z-index: 1000;
+            font-size: 20px;
+            border-radius: 10px;
+        }
+
+
+        .option:hover {
+            background-color: rgba(123, 231, 166, 0.73);
+            ;
+        }
+
+        .highlight-slider {
+            position: absolute;
+            top: 10px;
+            height: 50px;
+            width: 120px;
+            background-color: #5ed88f;
+            transition: left 0.3s ease-out;
+            z-index: 999;
+            border-radius: 10px;
+        }
+
+        /* 默认高亮第一个选项 */
+        .highlight-slider {
+            left: 10px;
+        }
     </style>
+
+
 </head>
 
 <body>
     <div class="center_container">
 
+
+
+
+
         <div style="height: 100px;background-color: bisque;"></div>
-        <div id="network_container" style="height: 1000px; width: 100%;"></div>
+        <div class="container">
+            <div class="selector-container">
+                <div class="highlight-slider"></div>
+                <button class="option" data-index="0">Mosaic</button>
+                <button class="option" data-index="1">Xenologous</button>
+                <button class="option" data-index="2">Gene</button>
+            </div>
+            <script>
+                document.querySelectorAll('.option').forEach(option => {
+                    option.addEventListener('click', function () {
+                        // 移动滑块到被点击的选项
+                        const index = this.getAttribute('data-index');
+                        const slider = document.querySelector('.highlight-slider');
+                        slider.style.left = `${index * 120 + (2 * index + 1) * 10}px`; // button的margin是10px
+                    });
+                });
+            </script>
+            <details>
+                <summary>数据</summary>
+                <div id="data_container" style="height: 100px; width: 100%; background-color: #8bc2d0;"></div>
+            </details>
+            <div id="network_container" style="height: 1000px; width: 100%;"></div>
+        </div>
+
 
 
     </div>

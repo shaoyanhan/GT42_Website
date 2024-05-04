@@ -12,9 +12,15 @@ async function fetchData(url) {
 
 
 async function drawNetwork() {
-    let dataRequest = await fetchData('http://127.0.0.1:8080/searchDatabase/getMosaicNetwork/?genome=GT42&searchKeyword=GT42G010076');
+    let dataRequest = await fetchData('http://127.0.0.1:8080/searchDatabase/getNetworkGraphJSON/?type=mosaic&searchKeyword=GT42G014520');
     console.log(dataRequest);
     let graph = dataRequest.data;
+
+    // graph.edges.forEach(element => {
+    //     if (element.lineStyle.width < 2) {
+    //         element.lineStyle.width = 0;
+    //     }
+    // });
 
     var dom = document.getElementById('network_container');
     var myChart1 = echarts.init(dom, null, {
@@ -31,6 +37,11 @@ async function drawNetwork() {
         //     })
         //   }
         // ],
+        title: {
+            text: 'Profile',
+            left: 'center',
+            top: 20,
+        },
         series: [
             {
                 name: 'Les Miserables',
@@ -63,8 +74,20 @@ async function drawNetwork() {
                     curveness: 0.3,
 
                 },
+
                 emphasis: {
                     focus: 'adjacency',
+                    scale: 1.01,
+                    itemStyle: {
+                        borderColor: '#b1e4ff',
+                        borderWidth: 2,
+                        shadowBlur: 20,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    },
+                    lineStyle: {
+                        shadowBlur: 20,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
                 },
                 selectedMode: true,
                 zoom: 10,
