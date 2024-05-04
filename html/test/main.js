@@ -89,7 +89,7 @@ async function drawNetwork() {
 
 
     myChart1.setOption(option);
-    console.log('drawNetwork');
+    // console.log('drawNetwork');
 
     myChart1.on('click', function (params) {
         console.log(params);
