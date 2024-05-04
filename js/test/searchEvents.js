@@ -72,8 +72,8 @@ async function submitSearchForm(container) {
             // console.log(module);
             await module.initalContentArea(searchKeyword, response.type);
         } else {
-            console.error('Validation failed', response);
-            showAlert(container, 'Validation failed. Please try again.');
+            console.error('Genome ID validation failed', response);
+            showAlert(container, 'Genome ID validation failed. Please try again.');
         }
     } else {
         console.error('Invalid search keyword');
