@@ -15,7 +15,7 @@ function getHubCoExpressionNetworkOption(graph) {
         // ],
         series: [
             {
-                name: 'Single Co-expression Network',
+                name: 'Hub Co-expression Network',
                 type: 'graph',
                 layout: 'force',
                 force: {

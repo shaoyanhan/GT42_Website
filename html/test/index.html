@@ -33,25 +33,6 @@
             position: relative;
         }
 
-        details {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            width: 250px;
-            z-index: 2000;
-        }
-
-        details summary {
-            font-size: 20px;
-            font-weight: bold;
-            background: #8bc2d0;
-            color: #fff;
-            padding: 10px;
-            border-radius: 10px;
-            cursor: pointer;
-
-        }
-
         .selector-container {
             display: flex;
             position: relative;
@@ -64,6 +45,7 @@
             background-color: rgba(179, 236, 202, 0.73);
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-radius: 10px;
+            z-index: 1000;
         }
 
         .option {
@@ -102,6 +84,156 @@
         .highlight-slider {
             left: 10px;
         }
+
+
+
+        details {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 360px;
+            z-index: 2000;
+            border-radius: 10px;
+            box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
+            background-color: #FAFFF2;
+        }
+
+        details summary {
+            font-size: 20px;
+            font-weight: bold;
+            background: #8bc2d0;
+            color: #fff;
+            padding: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+
+        }
+
+        .result_details_container {
+            /* height: 100px;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            border: 1px solid #ccc; */
+
+            width: 100%;
+            /* height: 280px; */
+            /* max-height: 100px; */
+
+            background: linear-gradient(to right, #C0DDE4, #F6EDD3);
+            border-radius: 10px;
+            /* position: relative; */
+
+            /* 防止margin塌陷 */
+            overflow: hidden;
+
+            box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .result_details_container .content_box {
+            /* width: calc(100% - 40px); */
+            /* 矩形框的宽度，减去间隔的两倍 */
+            /* height: calc(100% - 40px); */
+            /* 矩形框的高度，减去间隔的两倍 */
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 5px;
+            /* 矩形框的圆角大小 */
+            /* position: absolute; */
+            /* 绝对定位，相对于圆角框定位 */
+            /* top: 20px; */
+            /* 矩形框距离圆角框顶部的距离 */
+            /* left: 20px; */
+            /* 矩形框距离圆角框左侧的距离 */
+            overflow-y: auto;
+            /* 垂直方向出现滚动条 */
+            overflow-x: auto;
+            min-height: 200px;
+            max-height: 340px;
+
+            /* 让出背景的渐变使其成为其渐变色的border */
+            margin: 20px;
+        }
+
+        .result_details_container .content_box .result_details {
+            padding: 10px;
+            text-align: left;
+            /* 文本内容两端对齐 */
+            font-size: 18px;
+            /* color: #dce6d7; */
+        }
+
+        .result_details_container .content_box .result_details .header_container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            background-color: #bcdfec;
+            border-bottom: 1px solid #b3cdd6;
+        }
+
+        .result_details_container .content_box .result_details .header_container .header_text {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .result_details_container .content_box .result_details .header_container .color_line {
+            width: 30%;
+            height: 3px;
+            margin-left: 20px;
+            background-color: #5ed88f;
+        }
+
+        .result_details_container .content_box .result_details .header_container .color_node {
+
+            width: 20px;
+            height: 20px;
+            margin-left: 20px;
+            border-radius: 50%;
+            background-color: #b84592;
+        }
+
+        .result_details_container .content_box .item_container {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+        }
+
+        .result_details_container .content_box .item_container .item_title {
+            font-weight: bold;
+            margin-right: 10px;
+            font-size: 18px;
+            background-color: #eae7e7;
+            border-bottom: 1px solid #929191;
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+        .result_details_container .content_box .item_container .item_content {
+            font-size: 18px;
+        }
+
+        .result_details_container .content_box .item_container a {
+            text-decoration: none;
+            background:
+                linear-gradient(to right,
+                    rgba(100, 200, 200, 1),
+                    rgba(100, 200, 200, 1)),
+                linear-gradient(to right,
+                    rgba(255, 0, 0, 1),
+                    rgba(255, 0, 180, 1),
+                    rgba(0, 100, 200, 1));
+            background-size: 100% 3px, 0 3px;
+            background-position: 100% 100%, 0 100%;
+            background-repeat: no-repeat;
+            transition: background-size 400ms;
+        }
+
+
+        .result_details_container .content_box .item_container a:hover {
+            background-size: 0 3px, 100% 3px;
+            cursor: pointer;
+        }
     </style>
 
 
@@ -116,6 +248,7 @@
 
         <div style="height: 100px;background-color: bisque;"></div>
         <div class="container">
+            <!-- 滑块选择框 -->
             <div class="selector-container">
                 <div class="highlight-slider"></div>
                 <button class="option" data-index="0">Mosaic</button>
@@ -132,10 +265,66 @@
                     });
                 });
             </script>
-            <details>
-                <summary>数据</summary>
-                <div id="data_container" style="height: 100px; width: 100%; background-color: #8bc2d0;"></div>
+
+            <!-- 结果详情框 -->
+            <details open>
+                <summary>Clicked Result Details</summary>
+                <div class="result_details_container" id="hub_network_result_details_container">
+                    <div class="content_box">
+                        <!-- <div class="result_details">
+                            <div class="header_container">
+                                <p class="header_text">Edge</p>
+                                <div class="color_line"></div>
+                            </div>
+                            <div class="item_container">
+                                <h1 class="item_title">Weight</h1>
+                                <p class="item_content">4.2341</p>
+                            </div>
+
+                            <div class="item_container">
+                                <h1 class="item_title">Source</h1>
+                                <a class="item_content"
+                                    title="Click to draw its single network">GT42G000005.SS.3.112</a>
+                            </div>
+                            <div class="item_container">
+                                <h1 class="item_title">Target</h1>
+                                <a class="item_content"
+                                    title="Click to draw its single network">GT42G000005.SS.123.112</a>
+                            </div>
+
+                        </div> -->
+                        <div class="result_details">
+                            <div class="header_container">
+                                <p class="header_text">Node</p>
+                                <div class="color_node"></div>
+                            </div>
+                            <div class="item_container">
+                                <h1 class="item_title">ID</h1>
+                                <a class="item_content" title="Click to draw its single network">GT42G000932.SS.3</a>
+                            </div>
+                            <div class="item_container">
+                                <h1 class="item_title">symbolSize</h1>
+                                <p class="item_content">5.0689</p>
+                            </div>
+                            <div class="item_container">
+                                <h1 class="item_title">totalDegree</h1>
+                                <p class="item_content">159</p>
+                            </div>
+                            <div class="item_container">
+                                <h1 class="item_title">inDegree</h1>
+                                <p class="item_content">9</p>
+                            </div>
+                            <div class="item_container">
+                                <h1 class="item_title">outDegree</h1>
+                                <p class="item_content">150</p>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
             </details>
+
             <div id="network_container" style="height: 1000px; width: 100%;"></div>
         </div>
 

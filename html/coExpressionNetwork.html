@@ -73,17 +73,23 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 20%;
-            display: none;
+            width: 100%;
+            height: 100%;
+
+            /* display: none; */
             /* height: 100px;  */
-            /* background-color: rgba(255, 255, 255, 1); */
+            background-color: #FAFFF2;
             /* 半透明背景 */
             z-index: 1000;
             /* 确保在最上层 */
         }
 
         .loading_container img {
-            width: 100%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20%;
         }
     </style>
 
@@ -173,9 +179,11 @@
                 <summary>Click to Show Hub Co-expression Network</summary>
 
                 <div class="network_content_container">
+                    <!-- 过渡动画 -->
                     <div class="loading_container" id="hub_network_loading_container">
                         <img src="../img/networkLoading3.gif" alt="network loading...">
                     </div>
+
                     <div id="drawHubCoExpressionNetwork" style="height: 1500px; width: 100%;"></div>
                 </div>
 
@@ -185,9 +193,11 @@
                 <summary>Click to Show Single Co-expression Network</summary>
 
                 <div class="network_content_container">
+                    <!-- 过渡动画 -->
                     <div class="loading_container" id="single_network_loading_container">
                         <img src="../img/networkLoading3.gif" alt="network loading...">
                     </div>
+
                     <div id="drawSingleCoExpressionNetwork" style="height: 1500px; width: 100%;"></div>
                 </div>
 

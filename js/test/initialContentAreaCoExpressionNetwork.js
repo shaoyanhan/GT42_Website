@@ -33,15 +33,16 @@ async function fetchData(url) {
 }
 
 async function getSingleGraphData() {
-    const response = await fetchData('http://127.0.0.1:8080/searchDatabase/getNetworkGraphJSON/?type=mosaic&searchKeyword=GT42G000001');
+    const response = await fetchData('http://127.0.0.1:8080/searchDatabase/getNetworkGraphJSON/?type=mosaic&searchKeyword=GT42G013405');
     console.log(response);
     return response.data;
 }
 
 
 async function initalContentArea(searchKeyword = 'GT42G000001', keywordType = 'mosaic') {
-
-    initialHubCoExpressionNetwork(keywordType);
+    // hub网络的初始化较为卡顿，因此只能在页面载入时初始化，为了兼容searchEvents.js中的代码，
+    // 当搜索事件发生时调用initialContentArea方法时，只调用initialSingleCoExpressionNetwork方法
+    // initialHubCoExpressionNetwork(keywordType); 
     initialSingleCoExpressionNetwork(searchKeyword, keywordType);
     // loadingElement.style.display = 'none';
 }
@@ -53,7 +54,11 @@ async function initialHubCoExpressionNetwork(networkResolution = 'mosaic') {
     const graph = await getHubGraphData();
     drawHubCoExpressionNetwork(graph);
 
-    loadingElement.style.display = 'none';
+    // loadingElement.style.display = 'none';
+    // 过渡动画，设置延迟时间之后隐藏loading动画，防止初始网络加载卡顿
+    setTimeout(() => {
+        loadingElement.style.display = 'none';
+    }, 3000);
 }
 
 async function initialSingleCoExpressionNetwork(searchKeyword = "GT42G000001", networkResolution = 'mosaic') {
@@ -63,8 +68,13 @@ async function initialSingleCoExpressionNetwork(searchKeyword = "GT42G000001", n
     const graph = await getSingleGraphData();
     drawSingleCoExpressionNetwork(graph);
 
-    loadingElement.style.display = 'none';
+    // loadingElement.style.display = 'none';
+
+    // 过渡动画，设置延迟时间之后隐藏loading动画，防止初始网络加载卡顿
+    setTimeout(() => {
+        loadingElement.style.display = 'none';
+    }, 1000);
 }
 
 
-export { initalContentArea };
+export { initalContentArea, initialHubCoExpressionNetwork };

@@ -19,7 +19,7 @@ function getSingleCoExpressionNetworkOption(graph) {
         // },
         series: [
             {
-                name: 'Les Miserables',
+                name: 'Single Co-expression Network',
                 type: 'graph',
                 layout: 'force',
                 // force: {
@@ -64,7 +64,7 @@ function getSingleCoExpressionNetworkOption(graph) {
                         shadowColor: 'rgba(0, 0, 0, 0.5)'
                     }
                 },
-                selectedMode: true,
+                selectedMode: false,
                 zoom: 10,
                 itemStyle: {
 
