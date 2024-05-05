@@ -117,6 +117,7 @@
             border: 1px solid #ccc; */
 
             width: 100%;
+            /* 由内框撑起高度 */
             /* height: 280px; */
             /* max-height: 100px; */
 
@@ -234,6 +235,52 @@
             background-size: 0 3px, 100% 3px;
             cursor: pointer;
         }
+
+        .result_details_container .content_box .table_container {
+            margin: 15px 0;
+            border-radius: 5px;
+            box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .result_details_container .content_box .table_container .table_header table {
+            width: 100%;
+            border-collapse: collapse;
+            border-spacing: 0;
+            background-color: #bbe1bb;
+            border-radius: 5px 5px 0 0;
+            border-width: 0;
+        }
+
+        .result_details_container .content_box .table_container .table_header table th {
+            /* padding: 10px; */
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            border-width: 0;
+        }
+
+        .result_details_container .content_box .table_container .table_content {
+            height: auto;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .result_details_container .content_box .table_container .table_content table {
+            width: 100%;
+            border-collapse: collapse;
+            border-spacing: 0;
+            border-width: 0;
+            /* border-radius: 0 0 5px 5px; */
+        }
+
+        .result_details_container .content_box .table_container .table_content table td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+            font-size: 18px;
+            border-width: 1px 0;
+
+        }
     </style>
 
 
@@ -283,24 +330,24 @@
 
                             <div class="item_container">
                                 <h1 class="item_title">Source</h1>
-                                <a class="item_content"
+                                <a class="item_content click_to_draw_single_network"
                                     title="Click to draw its single network">GT42G000005.SS.3.112</a>
                             </div>
                             <div class="item_container">
                                 <h1 class="item_title">Target</h1>
-                                <a class="item_content"
+                                <a class="item_content click_to_draw_single_network"
                                     title="Click to draw its single network">GT42G000005.SS.123.112</a>
                             </div>
-
                         </div> -->
-                        <div class="result_details">
+
+                        <!-- <div class="result_details">
                             <div class="header_container">
                                 <p class="header_text">Node</p>
                                 <div class="color_node"></div>
                             </div>
                             <div class="item_container">
                                 <h1 class="item_title">ID</h1>
-                                <a class="item_content" title="Click to draw its single network">GT42G000932.SS.3</a>
+                                <a class="item_content click_to_draw_single_network" title="Click to draw its single network">GT42G000932.SS.3</a>
                             </div>
                             <div class="item_container">
                                 <h1 class="item_title">symbolSize</h1>
@@ -318,9 +365,97 @@
                                 <h1 class="item_title">outDegree</h1>
                                 <p class="item_content">150</p>
                             </div>
+                        </div> -->
 
+                        <!-- <div class="result_details">
+                            <div class="header_container">
+                                <p class="header_text">Node</p>
+                                <div class="color_node"></div>
+                            </div>
+                            <div class="item_container">
+                                <h1 class="item_title">ID</h1>
+                                <a class="item_content click_to_draw_single_network"
+                                    title="Click to draw its single network">GT42G000932.SS.3</a>
+                            </div>
+                            <div class="item_container">
+                                <h1 class="item_title">symbolSize</h1>
+                                <p class="item_content">5.0689</p>
+                            </div>
+                            <div class="item_container">
+                                <h1 class="item_title">totalDegree</h1>
+                                <p class="item_content">159</p>
+                            </div>
+                            <div class="item_container">
+                                <h1 class="item_title">inDegree</h1>
+                                <p class="item_content">9</p>
+                            </div>
+                            <div class="item_container">
+                                <h1 class="item_title">outDegree</h1>
+                                <p class="item_content">150</p>
+                            </div>
+                        </div> -->
 
+                        <div class="result_details">
+                            <div class="header_container">
+                                <p class="header_text">Node</p>
+                                <div class="color_node"></div>
+                            </div>
+                            <div class="item_container">
+                                <h1 class="item_title">ID</h1>
+                                <p class="item_content">GT42G000932.SS.3</p>
+                            </div>
+                            <div class="item_container">
+                                <h1 class="item_title">symbolSize</h1>
+                                <p class="item_content">5.0689</p>
+                            </div>
+                            <div class="item_container">
+                                <h1 class="item_title">totalDegree</h1>
+                                <p class="item_content">159</p>
+                            </div>
+                            <div class="item_container">
+                                <h1 class="item_title">inDegree</h1>
+                                <p class="item_content">9</p>
+                            </div>
+                            <div class="item_container">
+                                <h1 class="item_title">outDegree</h1>
+                                <p class="item_content">150</p>
+                            </div>
+                            <div class="table_container">
+                                <div class="table_header">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Adjacent Nodes</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                                <div class="table_content">
+                                    <table>
+
+                                        <tbody>
+                                            <tr>
+                                                <td>GT42G000932.SS.3</td>
+                                            </tr>
+                                            <tr>
+                                                <td>GT42G000932.SS.3</td>
+                                            </tr>
+                                            <tr>
+                                                <td>GT42G000932.SS.3</td>
+                                            </tr>
+                                            <tr>
+                                                <td>GT42G000932.SS.3</td>
+                                            </tr>
+                                            <tr>
+                                                <td>GT42G000932.SS.3</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
                         </div>
+
                     </div>
                 </div>
             </details>

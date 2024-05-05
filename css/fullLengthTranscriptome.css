@@ -215,45 +215,41 @@
 .content_container .transcript_result_container {
     display: flex;
     justify-content: space-between;
+    align-items: flex-start;
 
 }
 
 .content_container .result_details_container {
     width: 400px;
-    height: auto;
-    /* max-height: 1000px; */
+
     margin: 20px;
     background: linear-gradient(to right, #C0DDE4, #F6EDD3);
     border-radius: 10px;
-    position: relative;
+    /* 防止margin塌陷 */
     overflow: hidden;
     box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
 }
 
-.content_container #haplotype_SNP_result_details_container {
-    max-height: 900px;
-}
 
-.content_container #transcript_result_details_container {
-    max-height: 1100px;
-}
 
 .content_container .result_details_container .content_box {
-    width: calc(100% - 40px);
-    /* 矩形框的宽度，减去间隔的两倍 */
-    height: calc(100% - 40px);
-    /* 矩形框的高度，减去间隔的两倍 */
+
     background: rgba(255, 255, 255, 0.8);
     border-radius: 5px;
-    /* 矩形框的圆角大小 */
-    position: absolute;
-    /* 绝对定位，相对于圆角框定位 */
-    top: 20px;
-    /* 矩形框距离圆角框顶部的距离 */
-    left: 20px;
-    /* 矩形框距离圆角框左侧的距离 */
-    overflow-y: auto;
+
     /* 垂直方向出现滚动条 */
+    overflow-y: auto;
+
+    /* 让出背景的渐变使其成为其渐变色的border */
+    margin: 20px;
+}
+
+.content_container #haplotype_SNP_result_details_container .content_box {
+    max-height: 1000px;
+}
+
+.content_container #transcript_result_details_container .content_box {
+    max-height: 1200px;
 }
 
 .content_container .result_details_container .content_box .result_details {
@@ -269,7 +265,8 @@
     font-weight: bold;
     margin: 10px;
     display: block;
-    background-color: #8bc2d0;
+    background-color: #bcdfec;
+    border-bottom: 1px solid #b3cdd6;
     text-align: center;
     border-radius: 5px;
 }

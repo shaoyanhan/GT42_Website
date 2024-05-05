@@ -1,5 +1,6 @@
 import { initalContentArea, initialHubCoExpressionNetwork } from "./initialContentAreaCoExpressionNetwork.js"
 import { setUpSearchEventListeners } from "./searchEvents.js";
+import { setupClickToDrawSingleNetworkEventListeners } from "./clickToDrawSingleNetwork.js";
 
 export let hubCoExpressionNetworkDOM = document.getElementById('drawHubCoExpressionNetwork');
 export let singleCoExpressionNetworkDOM = document.getElementById('drawSingleCoExpressionNetwork');
@@ -12,5 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initialHubCoExpressionNetwork('mosaic');
     initalContentArea();
     setUpSearchEventListeners('.search_container');
+    setupClickToDrawSingleNetworkEventListeners();
 
 });
