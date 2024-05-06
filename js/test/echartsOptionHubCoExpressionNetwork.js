@@ -51,7 +51,7 @@ function getHubCoExpressionNetworkOption(graph) {
                     scale: 1.01,
                     itemStyle: {
 
-                        borderColor: '#b1e4ff',
+                        borderColor: '#202020',
                         borderWidth: 2,
                         shadowBlur: 20,
                         shadowColor: 'rgba(0, 0, 0, 0.5)'

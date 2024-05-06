@@ -14,7 +14,9 @@ document.addEventListener('DOMContentLoaded', () => {
     initialHubCoExpressionNetwork('mosaic');
     initalContentArea('GT42G000001', 'mosaic');
     setUpSearchEventListeners('.search_container');
-    setupClickToDrawSingleNetworkEventListeners();
+
+    // 为链接添加点击事件监听器应该在每次更新result details container之后重新设置，因为每次填充新的链接都会将之前的事件监听器清空
+    // setupClickToDrawSingleNetworkEventListeners();
 
     hubCoExpressionNetworkChart.on('click', clickHubCoExpressionNetworkEventsHandler);
     singleCoExpressionNetworkChart.on('click', clickSingleCoExpressionNetworkEventsHandler);

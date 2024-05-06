@@ -29,7 +29,7 @@ body {
     padding: 20px;
     border-radius: 10px;
     /* 圆角边框 */
-    z-index: 1000;
+    z-index: 3000;
     /* 确保它在页面上的其他元素之上 */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     /* 轻微的阴影效果 */

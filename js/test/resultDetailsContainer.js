@@ -7,8 +7,10 @@ let updateResultDetailsContainerFunctions = {
     haplotype: updateHaplotypeResultDetailsContainer,
     SNP: updateSNPResultDetailsContainer,
     transcript: updateTranscriptResultDetailsContainer,
+
     hubNetworkNode: updateHubNetworkNodeResultDetailsContainer,
     hubNetworkEdge: updateHubNetworkEdgeResultDetailsContainer,
+
     singleNetworkNode: updateSingleNetworkNodeResultDetailsContainer,
     singleNetworkEdge: updateSingleNetworkEdgeResultDetailsContainer
 };

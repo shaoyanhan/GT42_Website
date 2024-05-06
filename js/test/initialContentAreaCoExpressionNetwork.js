@@ -1,6 +1,7 @@
 import { drawHubCoExpressionNetwork, drawSingleCoExpressionNetwork } from "./echartsEventsCoExpressionNetwork.js";
 import { getData, updateData, fetchHubNetworkGraphJSON, fetchSingleNetworkGraphJSON } from "./data.js";
 import { updateResultDetailsContainer } from "./resultDetailsContainer.js";
+import { setupClickToDrawSingleNetworkEventListeners } from "./clickToDrawSingleNetwork.js";
 
 
 // async function fetchGraphData() {
@@ -153,6 +154,8 @@ async function initialSingleCoExpressionNetwork(searchKeyword = 'GT42G000001', n
     updateResultDetailsContainer(singleNetworkResultDetailsData, singleNetworkResultDetailsContainer); // 初始化result details容器
     detailsContainer.open = true; // 数据已经到达，打开detailsContainer
 
+    // 每次修改result details container之后，都需要重新设置链接的点击事件监听器，因为每次填充新的链接都会将之前的事件监听器清空
+    setupClickToDrawSingleNetworkEventListeners(singleNetworkResultDetailsContainer);
 
     // 关闭loading动画
     loadingElement.style.display = 'none';
@@ -161,6 +164,8 @@ async function initialSingleCoExpressionNetwork(searchKeyword = 'GT42G000001', n
     // setTimeout(() => {
     //     loadingElement.style.display = 'none';
     // }, 1000);
+
+
 }
 
 

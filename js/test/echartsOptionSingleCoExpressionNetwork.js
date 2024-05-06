@@ -54,7 +54,7 @@ function getSingleCoExpressionNetworkOption(graph) {
                     focus: 'adjacency',
                     scale: 1.01,
                     itemStyle: {
-                        borderColor: '#b1e4ff',
+                        borderColor: '#202020',
                         borderWidth: 2,
                         shadowBlur: 20,
                         shadowColor: 'rgba(0, 0, 0, 0.5)'
@@ -68,7 +68,7 @@ function getSingleCoExpressionNetworkOption(graph) {
                 zoom: 10,
                 itemStyle: {
 
-                    borderColor: '#ffffff',
+                    borderColor: '#505050',
                     borderWidth: 1,
                     shadowBlur: 10,
                     shadowColor: 'rgba(0, 0, 0, 0.3)'

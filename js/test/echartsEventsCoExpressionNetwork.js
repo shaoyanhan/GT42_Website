@@ -3,6 +3,7 @@ import { getHubCoExpressionNetworkOption } from "./echartsOptionHubCoExpressionN
 import { getSingleCoExpressionNetworkOption } from "./echartsOptionSingleCoExpressionNetwork.js";
 import { getData } from "./data.js";
 import { updateResultDetailsContainer } from "./resultDetailsContainer.js";
+import { setupClickToDrawSingleNetworkEventListeners } from "./clickToDrawSingleNetwork.js";
 
 function drawHubCoExpressionNetwork(graph) {
     hubCoExpressionNetworkChart.setOption(getHubCoExpressionNetworkOption(graph));
@@ -27,6 +28,8 @@ function clickHubCoExpressionNetworkEventsHandler(params) {
     let hubNetworkResultDetailsData = { type: updateFunctionType, data: params.data };
     updateResultDetailsContainer(hubNetworkResultDetailsData, hubNetworkResultDetailsContainer); // 初始化result details容器
 
+    // 每次修改result details container之后，都需要重新设置链接的点击事件监听器，因为每次填充新的链接都会将之前的事件监听器清空
+    setupClickToDrawSingleNetworkEventListeners(hubNetworkResultDetailsContainer);
 }
 
 function clickSingleCoExpressionNetworkEventsHandler(params) {
@@ -41,6 +44,9 @@ function clickSingleCoExpressionNetworkEventsHandler(params) {
 
     let singleNetworkResultDetailsData = { type: updateFunctionType, data: params.data };
     updateResultDetailsContainer(singleNetworkResultDetailsData, singleNetworkResultDetailsContainer); // 初始化result details容器
+
+    // 每次修改result details container之后，都需要重新设置链接的点击事件监听器，因为每次填充新的链接都会将之前的事件监听器清空
+    setupClickToDrawSingleNetworkEventListeners(singleNetworkResultDetailsContainer);
 }
 
 export { drawHubCoExpressionNetwork, drawSingleCoExpressionNetwork, clickHubCoExpressionNetworkEventsHandler, clickSingleCoExpressionNetworkEventsHandler };
