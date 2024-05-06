@@ -122,6 +122,20 @@ let currentIDIndex = 1; // 记录当前ID在next_id_table中的索引
 let nextSearchID = 'GT42G000001'; // 记录next_id_table中currentIDIndex索引所对应的ID
 let previousSearchID = 'GT42G000001'; // 记录上一个搜索的ID
 
+let mosaicHubNetworkGraphJSON = {};
+let xenologousHubNetworkGraphJSON = {};
+let geneHubNetworkGraphJSON = {};
+
+let mosaicSingleNetworkGraphJSON = {};
+let xenologousSingleNetworkGraphJSON = {};
+let geneSingleNetworkGraphJSON = {};
+
+let currentHubNetworkType = '';
+let currentSingleNetworkType = '';
+let mosaicCurrentSearchKeyword = '';
+let xenologousCurrentSearchKeyword = '';
+let geneCurrentSearchKeyword = '';
+
 
 // 定义API请求的前缀
 let apiPrefix = {
@@ -149,11 +163,15 @@ let apiPrefix = {
 
     GT42NextID: 'getGT42NextID/',
 
+    hubNetworkGraphJSON: 'getNetworkGraphJSONFile/',
+    singleNetworkGraphJSON: 'getNetworkGraphJSON/',
+
     parameter: {
         searchKeyword: 'searchKeyword=',
         page: 'page=',
         genomeID: 'genomeID=',
         currentIDIndex: 'currentIDIndex=',
+        networkType: 'type=',
     }
 }
 // 定义更新函数的映射关系, 从名称映射到函数
@@ -184,6 +202,20 @@ const updateDataFunctions = {
     currentGenome: updateCurrentGenome,
     currentIDIndex: updateCurrentIDIndex,
     nextSearchID: updateNextSearchID,
+
+    mosaicHubNetworkGraphJSON: updateMosaicHubNetworkGraphJSON,
+    xenologousHubNetworkGraphJSON: updateXenologousHubNetworkGraphJSON,
+    geneHubNetworkGraphJSON: updateGeneHubNetworkGraphJSON,
+
+    mosaicSingleNetworkGraphJSON: updateMosaicSingleNetworkGraphJSON,
+    xenologousSingleNetworkGraphJSON: updateXenologousSingleNetworkGraphJSON,
+    geneSingleNetworkGraphJSON: updateGeneSingleNetworkGraphJSON,
+
+    currentHubNetworkType: updateCurrentHubNetworkType,
+    currentSingleNetworkType: updateCurrentSingleNetworkType,
+    mosaicCurrentSearchKeyword: updateMosaicCurrentSearchKeyword,
+    xenologousCurrentSearchKeyword: updateXenologousCurrentSearchKeyword,
+    geneCurrentSearchKeyword: updateGeneCurrentSearchKeyword,
 };
 
 // 定义获取数据的映射关系, 从名称映射到函数
@@ -230,6 +262,20 @@ const getDataFunctions = {
     currentIDIndex: getCurrentIDIndex,
     nextSearchID: getNextSearchID,
     previousSearchID: getPreviousSearchID,
+
+    mosaicHubNetworkGraphJSON: getMosaicHubNetworkGraphJSON,
+    xenologousHubNetworkGraphJSON: getXenologousHubNetworkGraphJSON,
+    geneHubNetworkGraphJSON: getGeneHubNetworkGraphJSON,
+
+    mosaicSingleNetworkGraphJSON: getMosaicSingleNetworkGraphJSON,
+    xenologousSingleNetworkGraphJSON: getXenologousSingleNetworkGraphJSON,
+    geneSingleNetworkGraphJSON: getGeneSingleNetworkGraphJSON,
+
+    currentHubNetworkType: getCurrentHubNetworkType,
+    currentSingleNetworkType: getCurrentSingleNetworkType,
+    mosaicCurrentSearchKeyword: getMosaicCurrentSearchKeyword,
+    xenologousCurrentSearchKeyword: getXenologousCurrentSearchKeyword,
+    geneCurrentSearchKeyword: getGeneCurrentSearchKeyword,
 
 };
 
@@ -332,6 +378,43 @@ function updateNextIDData(newData) {
     previousSearchID = nextSearchID; // 保存上一个搜索的ID
     nextSearchID = newData.nextID; // 更新下一个搜索的ID
 }
+
+function updateMosaicHubNetworkGraphJSON(newData) {
+    mosaicHubNetworkGraphJSON = newData;
+}
+function updateXenologousHubNetworkGraphJSON(newData) {
+    xenologousHubNetworkGraphJSON = newData;
+}
+function updateGeneHubNetworkGraphJSON(newData) {
+    geneHubNetworkGraphJSON = newData;
+}
+
+function updateMosaicSingleNetworkGraphJSON(newData) {
+    mosaicSingleNetworkGraphJSON = newData.data;
+}
+function updateXenologousSingleNetworkGraphJSON(newData) {
+    xenologousSingleNetworkGraphJSON = newData.data;
+}
+function updateGeneSingleNetworkGraphJSON(newData) {
+    geneSingleNetworkGraphJSON = newData.data;
+}
+
+function updateCurrentHubNetworkType(newData) {
+    currentHubNetworkType = newData;
+}
+function updateCurrentSingleNetworkType(newData) {
+    currentSingleNetworkType = newData;
+}
+function updateMosaicCurrentSearchKeyword(newData) {
+    mosaicCurrentSearchKeyword = newData;
+}
+function updateXenologousCurrentSearchKeyword(newData) {
+    xenologousCurrentSearchKeyword = newData;
+}
+function updateGeneCurrentSearchKeyword(newData) {
+    geneCurrentSearchKeyword = newData;
+}
+
 
 
 
@@ -456,6 +539,44 @@ function getPreviousSearchID() {
     return _.cloneDeep(previousSearchID);
 }
 
+// 获取hub网络图数据
+function getMosaicHubNetworkGraphJSON() {
+    return _.cloneDeep(mosaicHubNetworkGraphJSON);
+}
+function getXenologousHubNetworkGraphJSON() {
+    return _.cloneDeep(xenologousHubNetworkGraphJSON);
+}
+function getGeneHubNetworkGraphJSON() {
+    return _.cloneDeep(geneHubNetworkGraphJSON);
+}
+
+function getMosaicSingleNetworkGraphJSON() {
+    return _.cloneDeep(mosaicSingleNetworkGraphJSON);
+}
+function getXenologousSingleNetworkGraphJSON() {
+    return _.cloneDeep(xenologousSingleNetworkGraphJSON);
+}
+function getGeneSingleNetworkGraphJSON() {
+    return _.cloneDeep(geneSingleNetworkGraphJSON);
+}
+
+function getCurrentHubNetworkType() {
+    return _.cloneDeep(currentHubNetworkType);
+}
+function getCurrentSingleNetworkType() {
+    return _.cloneDeep(currentSingleNetworkType);
+}
+function getMosaicCurrentSearchKeyword() {
+    return _.cloneDeep(mosaicCurrentSearchKeyword);
+}
+function getXenologousCurrentSearchKeyword() {
+    return _.cloneDeep(xenologousCurrentSearchKeyword);
+}
+function getGeneCurrentSearchKeyword() {
+    return _.cloneDeep(geneCurrentSearchKeyword);
+}
+
+
 
 
 // 数据请求, 相当于axios.get(url).then(response => response.data).catch(error => console.error('数据请求失败:', error));
@@ -529,6 +650,35 @@ async function fetchNextSearchIDData(type, currentIDIndex) {
     }
 }
 
+// 请求hub网络数据
+async function fetchHubNetworkGraphJSON(type) {
+    try {
+        const dataRequestUrl = apiPrefix.IP + apiPrefix.app + apiPrefix['hubNetworkGraphJSON'] + '?' +
+            apiPrefix.parameter.networkType + type;
+        console.log(dataRequestUrl);
+        const data = await fetchData(dataRequestUrl);
+        return data;
+    } catch (error) {
+        console.error('hub网络数据加载失败:', error);
+        return {}; // 返回一个空数据结构
+    }
+}
+
+// 请求single网络数据
+async function fetchSingleNetworkGraphJSON(type, searchKeyword) {
+    try {
+        const dataRequestUrl = apiPrefix.IP + apiPrefix.app + apiPrefix['singleNetworkGraphJSON'] + '?' +
+            apiPrefix.parameter.networkType + type + '&' +
+            apiPrefix.parameter.searchKeyword + searchKeyword;
+        console.log(dataRequestUrl);
+        const data = await fetchData(dataRequestUrl);
+        return data;
+    } catch (error) {
+        console.error('single网络数据加载失败:', error);
+        return {}; // 返回一个空数据结构
+    }
+}
+
 function updateData(type, data) {
     // 从映射中获取数据集对应的更新函数并调用它
     const func = updateDataFunctions[type];
@@ -584,4 +734,4 @@ function getCurrentPageName() {
 }
 
 
-export { fetchRawData, fetchPaginationData, fetchGenomeIDList, fetchNextSearchIDData, updateData, getData, validateGenomeID, getCurrentPageName };
+export { fetchRawData, fetchPaginationData, fetchGenomeIDList, fetchNextSearchIDData, fetchHubNetworkGraphJSON, fetchSingleNetworkGraphJSON, updateData, getData, validateGenomeID, getCurrentPageName };

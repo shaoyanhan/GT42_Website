@@ -161,7 +161,7 @@
     border-radius: 8px;
     padding: 15px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    z-index: 1000;
+    z-index: 2001;
     display: none;
     /* 默认不显示，由JS控制 */
 }
@@ -208,4 +208,303 @@
     /* 根据需要调整宽度 */
     text-align: center;
     font-size: 18px;
+}
+
+
+.content_container .details_of_network_content {
+    margin: 40px 0;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    /* 防止内部details标签的margin塌陷问题 */
+}
+
+.content_container .details_of_network_content>summary {
+    font-size: 20px;
+    font-weight: bold;
+    background: rgba(179, 236, 202, 0.73);
+    color: black;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.content_container .details_of_network_content .network_content_container {
+    /* margin-top: 20px; */
+    border-radius: 10px;
+    /* background-color: #ddefc1; */
+    position: relative;
+}
+
+.content_container .details_of_network_content .network_content_container .loading_container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+
+    /* display: none; */
+    /* height: 100px;  */
+    background-color: #FAFFF2;
+    /* 半透明背景 */
+    z-index: 1000;
+    /* 确保在最上层 */
+}
+
+.content_container .details_of_network_content .network_content_container .loading_container img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 20%;
+}
+
+.content_container .details_of_network_content .network_content_container .selector_container {
+    display: flex;
+    position: relative;
+    top: 10px;
+    left: 10px;
+    justify-content: space-between;
+    width: 420px;
+    height: 70px;
+    /* border: 1px solid #ccc; */
+    background-color: rgba(179, 236, 202, 1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    z-index: 2000;
+}
+
+.content_container .details_of_network_content .network_content_container .selector_container .option {
+    flex: 1;
+    height: 50px;
+    background: none;
+    border: none;
+    margin: 10px;
+    padding: 0;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    z-index: 2002;
+    font-size: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+
+.content_container .details_of_network_content .network_content_container .selector_container .option:hover {
+    background-color: rgba(123, 231, 166, 0.73);
+}
+
+.content_container .details_of_network_content .network_content_container .selector_container .highlight_slider {
+    position: absolute;
+    top: 10px;
+    height: 50px;
+    width: 120px;
+    background-color: #5ed88f;
+    transition: left 0.3s ease-out;
+    z-index: 2001;
+    border-radius: 10px;
+}
+
+/* 默认高亮第一个选项 */
+.content_container .details_of_network_content .network_content_container .selector_container .highlight_slider {
+    left: 10px;
+}
+
+.content_container .details_of_network_content .network_content_container .clicked_details_container {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 360px;
+    z-index: 2000;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
+    background-color: #FAFFF2;
+}
+
+.content_container .details_of_network_content .network_content_container .clicked_details_container summary {
+    font-size: 20px;
+    font-weight: bold;
+    background: #8bc2d0;
+    color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+
+}
+
+.content_container .details_of_network_content .network_content_container .clicked_details_container .result_details_container {
+    /* height: 100px;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            border: 1px solid #ccc; */
+
+    width: 100%;
+    /* 由内框撑起高度 */
+    /* height: 280px; */
+    /* max-height: 100px; */
+
+    background: linear-gradient(to right, #C0DDE4, #F6EDD3);
+    border-radius: 10px;
+    /* position: relative; */
+
+    /* 防止margin塌陷 */
+    overflow: hidden;
+
+    box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
+}
+
+.content_container .details_of_network_content .network_content_container .clicked_details_container .result_details_container .content_box {
+    /* width: calc(100% - 40px); */
+    /* 矩形框的宽度，减去间隔的两倍 */
+    /* height: calc(100% - 40px); */
+    /* 矩形框的高度，减去间隔的两倍 */
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 5px;
+    /* 矩形框的圆角大小 */
+    /* position: absolute; */
+    /* 绝对定位，相对于圆角框定位 */
+    /* top: 20px; */
+    /* 矩形框距离圆角框顶部的距离 */
+    /* left: 20px; */
+    /* 矩形框距离圆角框左侧的距离 */
+    overflow-y: auto;
+    /* 垂直方向出现滚动条 */
+    overflow-x: auto;
+    min-height: 0;
+    max-height: 340px;
+
+    /* 让出背景的渐变使其成为其渐变色的border */
+    margin: 20px;
+}
+
+.content_container .details_of_network_content .network_content_container .clicked_details_container .result_details_container .content_box .result_details {
+    padding: 10px;
+    text-align: left;
+    /* 文本内容两端对齐 */
+    font-size: 18px;
+    /* color: #dce6d7; */
+}
+
+.content_container .details_of_network_content .network_content_container .clicked_details_container .result_details_container .content_box .result_details .header_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    background-color: #bcdfec;
+    border-bottom: 1px solid #b3cdd6;
+}
+
+.content_container .details_of_network_content .network_content_container .clicked_details_container .result_details_container .content_box .result_details .header_container .header_text {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.content_container .details_of_network_content .network_content_container .clicked_details_container .result_details_container .content_box .result_details .header_container .color_line {
+    width: 30%;
+    height: 3px;
+    margin-left: 20px;
+    background-color: #5ed88f;
+}
+
+.content_container .details_of_network_content .network_content_container .clicked_details_container .result_details_container .content_box .result_details .header_container .color_node {
+
+    width: 20px;
+    height: 20px;
+    margin-left: 20px;
+    border-radius: 50%;
+    background-color: #b84592;
+}
+
+.content_container .details_of_network_content .network_content_container .clicked_details_container .result_details_container .content_box .item_container {
+    display: flex;
+    align-items: center;
+    margin: 15px 0;
+}
+
+.content_container .details_of_network_content .network_content_container .clicked_details_container .result_details_container .content_box .item_container .item_title {
+    font-weight: bold;
+    margin-right: 10px;
+    font-size: 18px;
+    background-color: #eae7e7;
+    border-bottom: 1px solid #929191;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.content_container .details_of_network_content .network_content_container .clicked_details_container .result_details_container .content_box .item_container .item_content {
+    font-size: 18px;
+}
+
+.content_container .details_of_network_content .network_content_container .clicked_details_container .result_details_container .content_box .item_container a,
+.content_container .details_of_network_content .network_content_container .clicked_details_container .result_details_container .content_box .table_container .table_content a {
+    text-decoration: none;
+    color: rgb(71, 71, 71);
+    background:
+        linear-gradient(to right,
+            rgba(100, 200, 200, 1),
+            rgba(100, 200, 200, 1)),
+        linear-gradient(to right,
+            rgba(255, 0, 0, 1),
+            rgba(255, 0, 180, 1),
+            rgba(0, 100, 200, 1));
+    background-size: 100% 3px, 0 3px;
+    background-position: 100% 100%, 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 400ms;
+}
+
+
+.content_container .details_of_network_content .network_content_container .clicked_details_container .result_details_container .content_box .item_container a:hover,
+.content_container .details_of_network_content .network_content_container .clicked_details_container .result_details_container .content_box .table_container .table_content a:hover {
+    background-size: 0 3px, 100% 3px;
+    cursor: pointer;
+}
+
+.content_container .details_of_network_content .network_content_container .clicked_details_container .result_details_container .content_box .table_container {
+    margin: 15px 0;
+    border-radius: 5px;
+    box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
+}
+
+.content_container .details_of_network_content .network_content_container .clicked_details_container .result_details_container .content_box .table_container .table_header table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    background-color: #bbe1bb;
+    border-radius: 5px 5px 0 0;
+    border-width: 0;
+}
+
+.content_container .details_of_network_content .network_content_container .clicked_details_container .result_details_container .content_box .table_container .table_header table th {
+    /* padding: 10px; */
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    border-width: 0;
+}
+
+.content_container .details_of_network_content .network_content_container .clicked_details_container .result_details_container .content_box .table_container .table_content {
+    height: auto;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.content_container .details_of_network_content .network_content_container .clicked_details_container .result_details_container .content_box .table_container .table_content table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    border-width: 0;
+    /* border-radius: 0 0 5px 5px; */
+}
+
+.content_container .details_of_network_content .network_content_container .clicked_details_container .result_details_container .content_box .table_container .table_content table td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+    font-size: 18px;
+    border-width: 1px 0;
+
 }

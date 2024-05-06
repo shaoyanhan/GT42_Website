@@ -33,7 +33,7 @@
             position: relative;
         }
 
-        .selector-container {
+        .selector_container {
             display: flex;
             position: relative;
             top: 10px;
@@ -45,10 +45,10 @@
             background-color: rgba(179, 236, 202, 0.73);
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-radius: 10px;
-            z-index: 1000;
+            z-index: 2000;
         }
 
-        .option {
+        .selector_container .option {
             flex: 1;
             height: 50px;
             background: none;
@@ -57,37 +57,35 @@
             padding: 0;
             cursor: pointer;
             transition: background-color 0.3s;
-            z-index: 1000;
+            z-index: 2002;
             font-size: 20px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
 
-        .option:hover {
+        .selector_container .option:hover {
             background-color: rgba(123, 231, 166, 0.73);
-            ;
         }
 
-        .highlight-slider {
+        .selector_container .highlight_slider {
             position: absolute;
             top: 10px;
             height: 50px;
             width: 120px;
             background-color: #5ed88f;
             transition: left 0.3s ease-out;
-            z-index: 999;
+            z-index: 2001;
             border-radius: 10px;
         }
 
         /* 默认高亮第一个选项 */
-        .highlight-slider {
+        .selector_container .highlight_slider {
             left: 10px;
         }
 
 
-
-        details {
+        .clicked_details_container {
             position: absolute;
             top: 10px;
             right: 10px;
@@ -98,7 +96,7 @@
             background-color: #FAFFF2;
         }
 
-        details summary {
+        .clicked_details_container summary {
             font-size: 20px;
             font-weight: bold;
             background: #8bc2d0;
@@ -109,7 +107,7 @@
 
         }
 
-        .result_details_container {
+        .clicked_details_container .result_details_container {
             /* height: 100px;
             width: 100%;
             background-color: rgba(255, 255, 255, 0.8);
@@ -131,7 +129,7 @@
             box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
         }
 
-        .result_details_container .content_box {
+        .clicked_details_container .result_details_container .content_box {
             /* width: calc(100% - 40px); */
             /* 矩形框的宽度，减去间隔的两倍 */
             /* height: calc(100% - 40px); */
@@ -155,7 +153,7 @@
             margin: 20px;
         }
 
-        .result_details_container .content_box .result_details {
+        .clicked_details_container .result_details_container .content_box .result_details {
             padding: 10px;
             text-align: left;
             /* 文本内容两端对齐 */
@@ -163,7 +161,7 @@
             /* color: #dce6d7; */
         }
 
-        .result_details_container .content_box .result_details .header_container {
+        .clicked_details_container .result_details_container .content_box .result_details .header_container {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -173,19 +171,19 @@
             border-bottom: 1px solid #b3cdd6;
         }
 
-        .result_details_container .content_box .result_details .header_container .header_text {
+        .clicked_details_container .result_details_container .content_box .result_details .header_container .header_text {
             font-size: 20px;
             font-weight: bold;
         }
 
-        .result_details_container .content_box .result_details .header_container .color_line {
+        .clicked_details_container .result_details_container .content_box .result_details .header_container .color_line {
             width: 30%;
             height: 3px;
             margin-left: 20px;
             background-color: #5ed88f;
         }
 
-        .result_details_container .content_box .result_details .header_container .color_node {
+        .clicked_details_container .result_details_container .content_box .result_details .header_container .color_node {
 
             width: 20px;
             height: 20px;
@@ -194,13 +192,13 @@
             background-color: #b84592;
         }
 
-        .result_details_container .content_box .item_container {
+        .clicked_details_container .result_details_container .content_box .item_container {
             display: flex;
             align-items: center;
             margin: 15px 0;
         }
 
-        .result_details_container .content_box .item_container .item_title {
+        .clicked_details_container .result_details_container .content_box .item_container .item_title {
             font-weight: bold;
             margin-right: 10px;
             font-size: 18px;
@@ -210,12 +208,14 @@
             border-radius: 5px;
         }
 
-        .result_details_container .content_box .item_container .item_content {
+        .clicked_details_container .result_details_container .content_box .item_container .item_content {
             font-size: 18px;
         }
 
-        .result_details_container .content_box .item_container a {
+        .clicked_details_container .result_details_container .content_box .item_container a,
+        .clicked_details_container .result_details_container .content_box .table_container .table_content a {
             text-decoration: none;
+            color: rgb(71, 71, 71);
             background:
                 linear-gradient(to right,
                     rgba(100, 200, 200, 1),
@@ -231,18 +231,19 @@
         }
 
 
-        .result_details_container .content_box .item_container a:hover {
+        .clicked_details_container .result_details_container .content_box .item_container a:hover,
+        .clicked_details_container .result_details_container .content_box .table_container .table_content a:hover {
             background-size: 0 3px, 100% 3px;
             cursor: pointer;
         }
 
-        .result_details_container .content_box .table_container {
+        .clicked_details_container .result_details_container .content_box .table_container {
             margin: 15px 0;
             border-radius: 5px;
             box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
         }
 
-        .result_details_container .content_box .table_container .table_header table {
+        .clicked_details_container .result_details_container .content_box .table_container .table_header table {
             width: 100%;
             border-collapse: collapse;
             border-spacing: 0;
@@ -251,7 +252,7 @@
             border-width: 0;
         }
 
-        .result_details_container .content_box .table_container .table_header table th {
+        .clicked_details_container .result_details_container .content_box .table_container .table_header table th {
             /* padding: 10px; */
             text-align: center;
             font-size: 18px;
@@ -259,13 +260,13 @@
             border-width: 0;
         }
 
-        .result_details_container .content_box .table_container .table_content {
+        .clicked_details_container .result_details_container .content_box .table_container .table_content {
             height: auto;
             max-height: 300px;
             overflow-y: auto;
         }
 
-        .result_details_container .content_box .table_container .table_content table {
+        .clicked_details_container .result_details_container .content_box .table_container .table_content table {
             width: 100%;
             border-collapse: collapse;
             border-spacing: 0;
@@ -273,7 +274,7 @@
             /* border-radius: 0 0 5px 5px; */
         }
 
-        .result_details_container .content_box .table_container .table_content table td {
+        .clicked_details_container .result_details_container .content_box .table_container .table_content table td {
             border: 1px solid #ccc;
             padding: 10px;
             text-align: center;
@@ -296,25 +297,25 @@
         <div style="height: 100px;background-color: bisque;"></div>
         <div class="container">
             <!-- 滑块选择框 -->
-            <div class="selector-container">
-                <div class="highlight-slider"></div>
-                <button class="option" data-index="0">Mosaic</button>
-                <button class="option" data-index="1">Xenologous</button>
-                <button class="option" data-index="2">Gene</button>
+            <div class="selector_container">
+                <div class="highlight_slider"></div>
+                <button class="option" data_index="0">Mosaic</button>
+                <button class="option" data_index="1">Xenologous</button>
+                <button class="option" data_index="2">Gene</button>
             </div>
             <script>
                 document.querySelectorAll('.option').forEach(option => {
                     option.addEventListener('click', function () {
                         // 移动滑块到被点击的选项
-                        const index = this.getAttribute('data-index');
-                        const slider = document.querySelector('.highlight-slider');
+                        const index = this.getAttribute('data_index');
+                        const slider = document.querySelector('.highlight_slider');
                         slider.style.left = `${index * 120 + (2 * index + 1) * 10}px`; // button的margin是10px
                     });
                 });
             </script>
 
             <!-- 结果详情框 -->
-            <details open>
+            <details class="clicked_details_container" open>
                 <summary>Clicked Result Details</summary>
                 <div class="result_details_container" id="hub_network_result_details_container">
                     <div class="content_box">
@@ -402,7 +403,8 @@
                             </div>
                             <div class="item_container">
                                 <h1 class="item_title">ID</h1>
-                                <p class="item_content">GT42G000932.SS.3</p>
+                                <a class="item_content click_to_draw_single_network"
+                                    title="Click to draw its single network">GT42G000932.SS.3</a>
                             </div>
                             <div class="item_container">
                                 <h1 class="item_title">symbolSize</h1>
@@ -435,19 +437,39 @@
 
                                         <tbody>
                                             <tr>
-                                                <td>GT42G000932.SS.3</td>
+                                                <td><a class="click_to_draw_single_network"
+                                                        title="Click to draw its single network">GT42G000932.SS.3</a>
+                                                </td>
                                             </tr>
                                             <tr>
-                                                <td>GT42G000932.SS.3</td>
+                                                <td><a class="click_to_draw_single_network"
+                                                        title="Click to draw its single network">GT42G000932.SS.3</a>
+                                                </td>
                                             </tr>
                                             <tr>
-                                                <td>GT42G000932.SS.3</td>
+                                                <td><a class="click_to_draw_single_network"
+                                                        title="Click to draw its single network">GT42G000932.SS.3</a>
+                                                </td>
                                             </tr>
                                             <tr>
-                                                <td>GT42G000932.SS.3</td>
+                                                <td><a class="click_to_draw_single_network"
+                                                        title="Click to draw its single network">GT42G000932.SS.3</a>
+                                                </td>
                                             </tr>
                                             <tr>
-                                                <td>GT42G000932.SS.3</td>
+                                                <td><a class="click_to_draw_single_network"
+                                                        title="Click to draw its single network">GT42G000932.SS.3</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><a class="click_to_draw_single_network"
+                                                        title="Click to draw its single network">GT42G000932.SS.3</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><a class="click_to_draw_single_network"
+                                                        title="Click to draw its single network">GT42G000932.SS.3</a>
+                                                </td>
                                             </tr>
                                         </tbody>
                                     </table>

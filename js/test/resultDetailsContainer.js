@@ -7,6 +7,10 @@ let updateResultDetailsContainerFunctions = {
     haplotype: updateHaplotypeResultDetailsContainer,
     SNP: updateSNPResultDetailsContainer,
     transcript: updateTranscriptResultDetailsContainer,
+    hubNetworkNode: updateHubNetworkNodeResultDetailsContainer,
+    hubNetworkEdge: updateHubNetworkEdgeResultDetailsContainer,
+    singleNetworkNode: updateSingleNetworkNodeResultDetailsContainer,
+    singleNetworkEdge: updateSingleNetworkEdgeResultDetailsContainer
 };
 
 function updateHaplotypeResultDetailsContainer(data, container) {
@@ -283,6 +287,359 @@ function updateTranscriptResultDetailsContainer(data, container) {
 
     resultDetails.innerHTML = mosaicIDContent + geneIDContent + transcriptIDContent + transcriptIndexContent + areaTypeContent + startContent + endContent + lengthContent + transcriptRangeContent + transcriptLengthContent + nucleotideSequenceContainer + proteinSequenceContainer;
 }
+
+function updateHubNetworkNodeResultDetailsContainer(data, container) {
+    // data 格式
+    // {
+    //     "name": "GT42G027744",
+    //     "symbolSize": 5.3423,
+    //     "itemStyle": {
+    //         "color": "#eb0973"
+    //     },
+    //     "totalDegree": 209,
+    //     "inDegree": 8,
+    //     "outDegree": 201
+    // }
+
+    // 定位到result_details容器
+    const resultDetails = container.querySelector('.result_details');
+
+    // 清空现有内容
+    resultDetails.innerHTML = '';
+
+    // 创建并添加新的内容
+    // <div class="header_container">
+    //     <p class="header_text">Node</p>
+    //     <div class="color_node"></div>
+    // </div>
+    // <div class="item_container">
+    //     <h1 class="item_title">ID</h1>
+    //     <a class="item_content click_to_draw_single_network"
+    //         title="Click to draw its single network">GT42G000932.SS.3</a>
+    // </div>
+    // <div class="item_container">
+    //     <h1 class="item_title">symbolSize</h1>
+    //     <p class="item_content">5.0689</p>
+    // </div>
+    // <div class="item_container">
+    //     <h1 class="item_title">totalDegree</h1>
+    //     <p class="item_content">159</p>
+    // </div>
+    // <div class="item_container">
+    //     <h1 class="item_title">inDegree</h1>
+    //     <p class="item_content">9</p>
+    // </div>
+    // <div class="item_container">
+    //     <h1 class="item_title">outDegree</h1>
+    //     <p class="item_content">150</p>
+    // </div>
+
+    const headerContainer = `
+        <div class="header_container">
+            <p class="header_text">Node</p>
+            <div class="color_node" style="background-color:${data.itemStyle.color}"></div>
+        </div>`;
+    const IDContent = `
+        <div class="item_container">
+            <h1 class="item_title">ID</h1>
+            <a class="item_content click_to_draw_single_network" title="Click to draw its single network">${data.name}</a>
+        </div>`;
+    const symbolSizeContent = `
+        <div class="item_container">
+            <h1 class="item_title">symbolSize</h1>
+            <p class="item_content">${data.symbolSize}</p>
+        </div>`;
+    const totalDegreeContent = `
+        <div class="item_container">
+            <h1 class="item_title">totalDegree</h1>
+            <p class="item_content">${data.totalDegree}</p>
+        </div>`;
+    const inDegreeContent = `
+        <div class="item_container">
+            <h1 class="item_title">inDegree</h1>
+            <p class="item_content">${data.inDegree}</p>
+        </div>`;
+    const outDegreeContent = `
+        <div class="item_container">
+            <h1 class="item_title">outDegree</h1>
+            <p class="item_content">${data.outDegree}</p>
+        </div>`;
+    resultDetails.innerHTML = headerContainer + IDContent + symbolSizeContent + totalDegreeContent + inDegreeContent + outDegreeContent;
+
+}
+
+function updateHubNetworkEdgeResultDetailsContainer(data, container) {
+    // data格式
+    // {
+    //     "source": "GT42G010453",
+    //         "target": "GT42G006919",
+    //             "lineStyle": {
+    //         "color": "#e990ab"
+    //     },
+    //     "weight": 2.9088
+    // }
+
+    // 定位到result_details容器
+    const resultDetails = container.querySelector('.result_details');
+
+    // 清空现有内容
+    resultDetails.innerHTML = '';
+
+    // 创建并添加新的内容
+    // <div class="header_container">
+    //     <p class="header_text">Edge</p>
+    //     <div class="color_line"></div>
+    // </div>
+    // <div class="item_container">
+    //     <h1 class="item_title">Weight</h1>
+    //     <p class="item_content">4.2341</p>
+    // </div>
+
+    // <div class="item_container">
+    //     <h1 class="item_title">Source</h1>
+    //     <a class="item_content click_to_draw_single_network"
+    //         title="Click to draw its single network">GT42G000005.SS.3.112</a>
+    // </div>
+    // <div class="item_container">
+    //     <h1 class="item_title">Target</h1>
+    //     <a class="item_content click_to_draw_single_network"
+    //         title="Click to draw its single network">GT42G000005.SS.123.112</a>
+    // </div>
+
+    const headerContainer = `
+        <div class="header_container">
+            <p class="header_text">Edge</p>
+            <div class="color_line" style="background-color:${data.lineStyle.color}"></div>
+        </div>`;
+    const weightContent = `
+        <div class="item_container">
+            <h1 class="item_title">Weight</h1>
+            <p class="item_content">${data.weight}</p>
+        </div>`;
+    const sourceContent = `
+        <div class="item_container">
+            <h1 class="item_title">Source</h1>
+            <a class="item_content click_to_draw_single_network" title="Click to draw its single network">${data.source}</a>
+        </div>`;
+    const targetContent = `
+        <div class="item_container">
+            <h1 class="item_title">Target</h1>
+            <a class="item_content click_to_draw_single_network" title="Click to draw its single network">${data.target}</a>
+        </div>`;
+    resultDetails.innerHTML = headerContainer + weightContent + sourceContent + targetContent;
+
+}
+
+function updateSingleNetworkNodeResultDetailsContainer(data, container) {
+    // data 格式
+    // {
+    //     "name": "GT42G000001",
+    //     "symbolSize": "1.6094",
+    //         "itemStyle": {
+    //     "color": "#96b8db"
+    //     },
+    //     "totalDegree": 5,
+    //     "inDegree": 5,
+    //     "outDegree": 0,
+    //     "adjacency": [
+    //         "GT42G017113",
+    //         "GT42G019985",
+    //         "GT42G019032",
+    //         "GT42G008514",
+    //         "GT42G013405"
+    //     ]
+    // }
+
+    // 定位到result_details容器
+    const resultDetails = container.querySelector('.result_details');
+
+    // 清空现有内容
+    resultDetails.innerHTML = '';
+
+    // 为adjacency数组中的元素创建列表
+    let tableContent = data.adjacency.map(
+        adjacentNode => `<tr>
+                            <td>
+                                <a class="click_to_draw_single_network" title="Click to draw its single network">${adjacentNode}</a>
+                            </td>
+                        </tr>`
+    ).join('');
+
+    // 创建并添加新的内容
+    // <div class="header_container">
+    //     <p class="header_text">Node</p>
+    //     <div class="color_node"></div>
+    // </div>
+    // <div class="item_container">
+    //     <h1 class="item_title">ID</h1>
+    //     <a class="item_content click_to_draw_single_network"
+    //         title="Click to draw its single network">GT42G000932.SS.3</a>
+    // </div>
+    // <div class="item_container">
+    //     <h1 class="item_title">symbolSize</h1>
+    //     <p class="item_content">5.0689</p>
+    // </div>
+    // <div class="item_container">
+    //     <h1 class="item_title">totalDegree</h1>
+    //     <p class="item_content">159</p>
+    // </div>
+    // <div class="item_container">
+    //     <h1 class="item_title">inDegree</h1>
+    //     <p class="item_content">9</p>
+    // </div>
+    // <div class="item_container">
+    //     <h1 class="item_title">outDegree</h1>
+    //     <p class="item_content">150</p>
+    // </div>
+    // <div class="table_container">
+    //     <div class="table_header">
+    //         <table>
+    //             <thead>
+    //                 <tr>
+    //                     <th>Adjacent Nodes</th>
+    //                 </tr>
+    //             </thead>
+    //         </table>
+    //     </div>
+    //     <div class="table_content">
+    //         <table>
+
+    //             <tbody>
+    //                 <tr>
+    //                     <td><a class="click_to_draw_single_network"
+    //                             title="Click to draw its single network">GT42G000932.SS.3</a>
+    //                     </td>
+    //                 </tr>
+    //                 <tr>
+    //                     <td><a class="click_to_draw_single_network"
+    //                             title="Click to draw its single network">GT42G000932.SS.3</a>
+    //                     </td>
+    //                 </tr>
+    //                 <tr>
+    //                     <td><a class="click_to_draw_single_network"
+    //                             title="Click to draw its single network">GT42G000932.SS.3</a>
+    //                     </td>
+    //                 </tr>
+    //                 <tr>
+    //                     <td><a class="click_to_draw_single_network"
+    //                             title="Click to draw its single network">GT42G000932.SS.3</a>
+    //                     </td>
+    //                 </tr>
+    //                 <tr>
+    //                     <td><a class="click_to_draw_single_network"
+    //                             title="Click to draw its single network">GT42G000932.SS.3</a>
+    //                     </td>
+    //                 </tr>
+    //                 <tr>
+    //                     <td><a class="click_to_draw_single_network"
+    //                             title="Click to draw its single network">GT42G000932.SS.3</a>
+    //                     </td>
+    //                 </tr>
+    //                 <tr>
+    //                     <td><a class="click_to_draw_single_network"
+    //                             title="Click to draw its single network">GT42G000932.SS.3</a>
+    //                     </td>
+    //                 </tr>
+    //             </tbody>
+    //         </table>
+    //     </div>
+
+    const headerContainer = `
+        <div class="header_container">
+            <p class="header_text">Node</p>
+            <div class="color_node" style="background-color:${data.itemStyle.color}"></div>
+        </div>`;
+    const IDContent = `
+        <div class="item_container">
+            <h1 class="item_title">ID</h1>
+            <a class="item_content click_to_draw_single_network" title="Click to draw its single network">${data.name}</a>
+        </div>`;
+    const symbolSizeContent = `
+        <div class="item_container">
+            <h1 class="item_title">symbolSize</h1>
+            <p class="item_content">${data.symbolSize}</p>
+        </div>`;
+    const totalDegreeContent = `
+        <div class="item_container">
+            <h1 class="item_title">totalDegree</h1>
+            <p class="item_content">${data.totalDegree}</p>
+        </div>`;
+    const inDegreeContent = `
+        <div class="item_container">
+            <h1 class="item_title">inDegree</h1>
+            <p class="item_content">${data.inDegree}</p>
+        </div>`;
+    const outDegreeContent = `
+        <div class="item_container">
+            <h1 class="item_title">outDegree</h1>
+            <p class="item_content">${data.outDegree}</p>
+        </div>`;
+    const adjacencyContainer = `
+        <div class="table_container">
+            <div class="table_header">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Adjacent Nodes</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="table_content">
+                <table>
+                    <tbody>
+                        ${tableContent}
+                    </tbody>
+                </table>
+            </div>
+        </div>`;
+    resultDetails.innerHTML = headerContainer + IDContent + symbolSizeContent + totalDegreeContent + inDegreeContent + outDegreeContent + adjacencyContainer;
+
+}
+
+
+function updateSingleNetworkEdgeResultDetailsContainer(data, container) {
+    // data 格式
+    // {
+    //     "source": "GT42G019032",
+    //     "target": "GT42G000001",
+    //     "lineStyle": {
+    //         "width": "3.0414",
+    //         "color": "#39a6dd"
+    //     }
+    // }
+
+    // 定位到result_details容器
+    const resultDetails = container.querySelector('.result_details');
+
+    // 清空现有内容
+    resultDetails.innerHTML = '';
+
+    const headerContainer = `
+        <div class="header_container">
+            <p class="header_text">Edge</p>
+            <div class="color_line" style="background-color:${data.lineStyle.color}"></div>
+        </div>`;
+    const weightContent = `
+        <div class="item_container">
+            <h1 class="item_title">Weight</h1>
+            <p class="item_content">${data.lineStyle.width}</p>
+        </div>`;
+    const sourceContent = `
+        <div class="item_container">
+            <h1 class="item_title">Source</h1>
+            <a class="item_content click_to_draw_single_network" title="Click to draw its single network">${data.source}</a>
+        </div>`;
+    const targetContent = `
+        <div class="item_container">
+            <h1 class="item_title">Target</h1>
+            <a class="item_content click_to_draw_single_network" title="Click to draw its single network">${data.target}</a>
+        </div>`;
+    resultDetails.innerHTML = headerContainer + weightContent + sourceContent + targetContent;
+
+}
+
+
 
 // 这里传入的data是一个对象，包含了type和data两个属性, type用于选择对应的更新函数，data用于传入更新函数的数据
 // 因为haplotype和SNP共用一个result details容器, 所以不能用id映射到更新函数, 而是直接传入type进行分辨

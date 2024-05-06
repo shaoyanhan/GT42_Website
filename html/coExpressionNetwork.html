@@ -43,54 +43,6 @@
             margin-top: 20px;
             font-weight: bold;
         } */
-        .content_container .details_of_network_content {
-            margin: 40px 0;
-            border-radius: 10px;
-            box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            /* 防止内部details标签的margin塌陷问题 */
-        }
-
-        .content_container .details_of_network_content>summary {
-            font-size: 20px;
-            font-weight: bold;
-            background: rgba(179, 236, 202, 0.73);
-            color: black;
-            padding: 10px;
-            border-radius: 10px;
-            cursor: pointer;
-        }
-
-        .content_container .details_of_network_content .network_content_container {
-            margin-top: 20px;
-            border-radius: 10px;
-            /* background-color: #ddefc1; */
-            position: relative;
-        }
-
-        .loading_container {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100%;
-            height: 100%;
-
-            /* display: none; */
-            /* height: 100px;  */
-            background-color: #FAFFF2;
-            /* 半透明背景 */
-            z-index: 1000;
-            /* 确保在最上层 */
-        }
-
-        .loading_container img {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 20%;
-        }
     </style>
 
 </head>
@@ -184,6 +136,61 @@
                         <img src="../img/networkLoading3.gif" alt="network loading...">
                     </div>
 
+
+                    <!-- 滑块选择框 -->
+                    <div class="selector_container" id="hub_network_selector_container">
+                        <div class="highlight_slider"></div>
+                        <button class="option" data_index="0">Mosaic</button>
+                        <button class="option" data_index="1">Xenologous</button>
+                        <button class="option" data_index="2">Gene</button>
+                    </div>
+                    <script>
+                        document.querySelectorAll('.option').forEach(option => {
+                            option.addEventListener('click', function () {
+                                // 移动滑块到被点击的选项
+                                const index = this.getAttribute('data_index');
+                                const slider = document.querySelector('.highlight_slider');
+                                slider.style.left = `${index * 120 + (2 * index + 1) * 10}px`; // button的margin是10px
+                            });
+                        });
+                    </script>
+
+                    <!-- 结果详情框 -->
+                    <details class="clicked_details_container" id="hub_network_details_container">
+                        <summary>Clicked Result Details</summary>
+                        <div class="result_details_container" id="hub_network_result_details_container">
+                            <div class="content_box">
+                                <div class="result_details">
+                                    <!-- <div class="header_container">
+                                        <p class="header_text">Node</p>
+                                        <div class="color_node"></div>
+                                    </div>
+                                    <div class="item_container">
+                                        <h1 class="item_title">ID</h1>
+                                        <a class="item_content click_to_draw_single_network"
+                                            title="Click to draw its single network">GT42G000932.SS.3</a>
+                                    </div>
+                                    <div class="item_container">
+                                        <h1 class="item_title">symbolSize</h1>
+                                        <p class="item_content">5.0689</p>
+                                    </div>
+                                    <div class="item_container">
+                                        <h1 class="item_title">totalDegree</h1>
+                                        <p class="item_content">159</p>
+                                    </div>
+                                    <div class="item_container">
+                                        <h1 class="item_title">inDegree</h1>
+                                        <p class="item_content">9</p>
+                                    </div>
+                                    <div class="item_container">
+                                        <h1 class="item_title">outDegree</h1>
+                                        <p class="item_content">150</p>
+                                    </div> -->
+                                </div>
+                            </div>
+                        </div>
+                    </details>
+
                     <div id="drawHubCoExpressionNetwork" style="height: 1500px; width: 100%;"></div>
                 </div>
 
@@ -197,6 +204,115 @@
                     <div class="loading_container" id="single_network_loading_container">
                         <img src="../img/networkLoading3.gif" alt="network loading...">
                     </div>
+
+                    <!-- 滑块选择框 -->
+                    <div class="selector_container" id="single_network_selector_container">
+                        <div class="highlight_slider"></div>
+                        <button class="option" data_index="0">Mosaic</button>
+                        <button class="option" data_index="1">Xenologous</button>
+                        <button class="option" data_index="2">Gene</button>
+                    </div>
+                    <script>
+                        document.querySelectorAll('.option').forEach(option => {
+                            option.addEventListener('click', function () {
+                                // 移动滑块到被点击的选项
+                                const index = this.getAttribute('data_index');
+                                const slider = document.querySelector('.highlight_slider');
+                                slider.style.left = `${index * 120 + (2 * index + 1) * 10}px`; // button的margin是10px
+                            });
+                        });
+                    </script>
+
+                    <!-- 结果详情框 -->
+                    <details class="clicked_details_container" id="single_network_details_container" open>
+                        <summary>Clicked Result Details</summary>
+                        <div class="result_details_container" id="single_network_result_details_container">
+                            <div class="content_box">
+                                <div class="result_details">
+                                    <div class="header_container">
+                                        <p class="header_text">Node</p>
+                                        <div class="color_node"></div>
+                                    </div>
+                                    <div class="item_container">
+                                        <h1 class="item_title">ID</h1>
+                                        <a class="item_content click_to_draw_single_network"
+                                            title="Click to draw its single network">GT42G000932.SS.3</a>
+                                    </div>
+                                    <div class="item_container">
+                                        <h1 class="item_title">symbolSize</h1>
+                                        <p class="item_content">5.0689</p>
+                                    </div>
+                                    <div class="item_container">
+                                        <h1 class="item_title">totalDegree</h1>
+                                        <p class="item_content">159</p>
+                                    </div>
+                                    <div class="item_container">
+                                        <h1 class="item_title">inDegree</h1>
+                                        <p class="item_content">9</p>
+                                    </div>
+                                    <div class="item_container">
+                                        <h1 class="item_title">outDegree</h1>
+                                        <p class="item_content">150</p>
+                                    </div>
+                                    <div class="table_container">
+                                        <div class="table_header">
+                                            <table>
+                                                <thead>
+                                                    <tr>
+                                                        <th>Adjacent Nodes</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                        </div>
+                                        <div class="table_content">
+                                            <table>
+
+                                                <tbody>
+                                                    <tr>
+                                                        <td><a class="click_to_draw_single_network"
+                                                                title="Click to draw its single network">GT42G000932.SS.3</a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><a class="click_to_draw_single_network"
+                                                                title="Click to draw its single network">GT42G000932.SS.3</a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><a class="click_to_draw_single_network"
+                                                                title="Click to draw its single network">GT42G000932.SS.3</a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><a class="click_to_draw_single_network"
+                                                                title="Click to draw its single network">GT42G000932.SS.3</a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><a class="click_to_draw_single_network"
+                                                                title="Click to draw its single network">GT42G000932.SS.3</a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><a class="click_to_draw_single_network"
+                                                                title="Click to draw its single network">GT42G000932.SS.3</a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><a class="click_to_draw_single_network"
+                                                                title="Click to draw its single network">GT42G000932.SS.3</a>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </details>
+
 
                     <div id="drawSingleCoExpressionNetwork" style="height: 1500px; width: 100%;"></div>
                 </div>

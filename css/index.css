@@ -36,7 +36,7 @@ body {
     text-align: center;
 }
 
-.header_container {
+.center_container>.header_container {
     width: calc(100% - 40px);
     padding: 20px;
     height: 136px;

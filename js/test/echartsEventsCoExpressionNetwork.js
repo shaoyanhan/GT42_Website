@@ -1,6 +1,8 @@
 import { hubCoExpressionNetworkChart, singleCoExpressionNetworkChart } from "./mainCoExpressionNetwork.js";
 import { getHubCoExpressionNetworkOption } from "./echartsOptionHubCoExpressionNetwork.js";
 import { getSingleCoExpressionNetworkOption } from "./echartsOptionSingleCoExpressionNetwork.js";
+import { getData } from "./data.js";
+import { updateResultDetailsContainer } from "./resultDetailsContainer.js";
 
 function drawHubCoExpressionNetwork(graph) {
     hubCoExpressionNetworkChart.setOption(getHubCoExpressionNetworkOption(graph));
@@ -10,4 +12,35 @@ function drawSingleCoExpressionNetwork(graph) {
     singleCoExpressionNetworkChart.setOption(getSingleCoExpressionNetworkOption(graph));
 }
 
-export { drawHubCoExpressionNetwork, drawSingleCoExpressionNetwork };
+function clickHubCoExpressionNetworkEventsHandler(params) {
+    console.log(params);
+    // const currentHubNetworkType = getData('currentHubNetworkType');
+    // console.log(currentHubNetworkType);
+
+    let detailsContainer = document.querySelector('#hub_network_details_container');
+    // 保证用户点击时，details标签是打开的
+    detailsContainer.open = true;
+
+    let hubNetworkResultDetailsContainer = document.querySelector('#hub_network_result_details_container'); // 获取hub网络的result details容器
+    let updateFunctionType = params.dataType === 'node' ? 'hubNetworkNode' : 'hubNetworkEdge'; // 判断用户点击的是节点还是边，并选择相应的更新函数
+
+    let hubNetworkResultDetailsData = { type: updateFunctionType, data: params.data };
+    updateResultDetailsContainer(hubNetworkResultDetailsData, hubNetworkResultDetailsContainer); // 初始化result details容器
+
+}
+
+function clickSingleCoExpressionNetworkEventsHandler(params) {
+    console.log(params);
+
+    let detailsContainer = document.querySelector('#single_network_details_container');
+    // 保证用户点击时，details标签是打开的
+    detailsContainer.open = true;
+
+    let singleNetworkResultDetailsContainer = document.querySelector('#single_network_result_details_container'); // 获取single网络的result details容器
+    let updateFunctionType = params.dataType === 'node' ? 'singleNetworkNode' : 'singleNetworkEdge'; // 判断用户点击的是节点还是边，并选择相应的更新函数
+
+    let singleNetworkResultDetailsData = { type: updateFunctionType, data: params.data };
+    updateResultDetailsContainer(singleNetworkResultDetailsData, singleNetworkResultDetailsContainer); // 初始化result details容器
+}
+
+export { drawHubCoExpressionNetwork, drawSingleCoExpressionNetwork, clickHubCoExpressionNetworkEventsHandler, clickSingleCoExpressionNetworkEventsHandler };
