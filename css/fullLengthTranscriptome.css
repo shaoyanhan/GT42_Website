@@ -469,8 +469,8 @@
     /* 设置单元格的上下padding为10px, 左右padding为30px */
     border: none;
     /* 去除所有边线 */
-    border-top: 1px solid #ccc;
-    /* 添加上边框 */
+    /* border-top: 1px solid #ccc; */
+    /* 添加上边框，不添加更清爽一点，并且避免了色块td的上下边框错位的问题 */
 }
 
 /* SNP表格的IsoSeqEvidence、RNASeqEvidence 两列数据项的内容长度不一，并且存在空格，可能导致换行 */

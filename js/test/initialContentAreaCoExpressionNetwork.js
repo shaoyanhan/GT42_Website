@@ -2,6 +2,7 @@ import { drawHubCoExpressionNetwork, drawSingleCoExpressionNetwork } from "./ech
 import { getData, updateData, fetchHubNetworkGraphJSON, fetchSingleNetworkGraphJSON } from "./data.js";
 import { updateResultDetailsContainer } from "./resultDetailsContainer.js";
 import { setupClickToDrawSingleNetworkEventListeners } from "./clickToDrawSingleNetwork.js";
+import { updateTableContainer, setUpPaginationEventListeners } from "./tablePagination.js";
 
 
 // async function fetchGraphData() {
@@ -151,12 +152,17 @@ async function initialSingleCoExpressionNetwork(searchKeyword = 'GT42G000001', n
     let singleNetworkResultDetailsContainer = document.querySelector('#single_network_result_details_container'); // 获取single网络的result details容器
     let updateFunctionType = 'singleNetworkNode';
     let singleNetworkResultDetailsData = { type: updateFunctionType, data: nodeDetailsData };
-    updateResultDetailsContainer(singleNetworkResultDetailsData, singleNetworkResultDetailsContainer); // 初始化result details容器
+    updateResultDetailsContainer(singleNetworkResultDetailsData, singleNetworkResultDetailsContainer) // 初始化result details容器
+        .then(() => { // 由于result details容器的内容是异步更新的，所以需要在更新完成后再设置链接的点击事件监听器
+            // 每次修改result details container之后，都需要重新设置链接的点击事件监听器，因为每次填充新的链接都会将之前的事件监听器清空
+            setupClickToDrawSingleNetworkEventListeners(singleNetworkResultDetailsContainer);
+        })
+        .catch(error => {
+            console.error('Error:', error);  // 错误处理
+        });
+
+
     detailsContainer.open = true; // 数据已经到达，打开detailsContainer
-
-    // 每次修改result details container之后，都需要重新设置链接的点击事件监听器，因为每次填充新的链接都会将之前的事件监听器清空
-    setupClickToDrawSingleNetworkEventListeners(singleNetworkResultDetailsContainer);
-
     // 关闭loading动画
     loadingElement.style.display = 'none';
 
@@ -165,6 +171,17 @@ async function initialSingleCoExpressionNetwork(searchKeyword = 'GT42G000001', n
     //     loadingElement.style.display = 'none';
     // }, 1000);
 
+    // 更新表格容器
+    let single_network_nodes_table_container_id = '#single_network_nodes_table_container'
+    let single_network_edges_table_container_id = '#single_network_edges_table_container'
+    let single_network_nodes_table_container = document.querySelector(single_network_nodes_table_container_id); // 获取相应id的表格容器
+    let single_network_edges_table_container = document.querySelector(single_network_edges_table_container_id);
+    let networkNodesPaginationType = networkResolution + 'NetworkNodesPagination';
+    let networkEdgesPaginationType = networkResolution + 'NetworkEdgesPagination';
+    updateTableContainer(networkNodesPaginationType, searchKeyword, 1, single_network_nodes_table_container); // 初始化表格
+    updateTableContainer(networkEdgesPaginationType, searchKeyword, 1, single_network_edges_table_container);
+    setUpPaginationEventListeners(single_network_nodes_table_container_id, networkNodesPaginationType + 'Data'); // 设置分页事件监听器
+    setUpPaginationEventListeners(single_network_edges_table_container_id, networkEdgesPaginationType + 'Data');
 
 }
 

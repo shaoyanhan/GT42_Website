@@ -335,12 +335,12 @@
     /* 单元格内容居中对齐 */
     font-size: 18px;
     /* 字号设置为18px */
-    padding: 15px 30px;
+    padding: 20px 30px;
     /* 设置单元格的上下padding为10px, 左右padding为30px */
     border: none;
     /* 去除所有边线 */
-    border-top: 1px solid #ccc;
-    /* 添加上边框 */
+    /* border-top: 1px solid #ccc; */
+    /* 添加上边框，不添加更清爽 */
 }
 
 .content_container .TPM_data_table .table_footer_pagination_container .table_container table tbody tr:nth-child(even) {

@@ -10,6 +10,8 @@ let updateTableFunctions = {
     xenologous_TPM_table_container: updateXenologousTPMTable,
     gene_TPM_table_container: updateGeneTPMTable,
     transcript_TPM_table_container: updateTranscriptTPMTable,
+    single_network_nodes_table_container: updateSingleNetworkNodesTable,
+    single_network_edges_table_container: updateSingleNetworkEdgesTable,
 };
 
 // 更新haplotype表格
@@ -358,6 +360,40 @@ function updateTranscriptTPMTable(data, container) {
                         <td>${row.Le2_1}</td>
                         <td>${row.Le2_2}</td>
                         <td>${row.Le2_3}</td>`;
+        container.appendChild(tr);
+    });
+}
+
+// 更新single network nodes表格
+function updateSingleNetworkNodesTable(data, container) {
+    container.innerHTML = '';  // 清空当前表格
+    data.forEach(row => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${row.name}</td>
+                        <td>${row.totalDegree}</td>
+                        <td>${row.inDegree}</td>
+                        <td>${row.outDegree}</td>
+                        <td>${row.symbolSize}</td>
+                        <td>
+                            <div style="width: 20px; height: 20px; border-radius: 50%; background-color: ${row.color}"></div>
+                        </td>
+                        <td>${row.adjacency}</td>`;
+        container.appendChild(tr);
+    });
+
+}
+
+// 更新single network edges表格
+function updateSingleNetworkEdgesTable(data, container) {
+    container.innerHTML = '';  // 清空当前表格
+    data.forEach(row => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${row.source}</td>
+                        <td>${row.target}</td>
+                        <td>${row.width}</td>
+                        <td>
+                            <div style="width: 20px; height: 20px; border-radius: 50%; background-color: ${row.color}"></div>
+                        </td>`;
         container.appendChild(tr);
     });
 }

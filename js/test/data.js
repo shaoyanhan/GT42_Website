@@ -81,10 +81,18 @@ let transcriptTPMArrayData = [];
 let haplotypePaginationData = [];
 let SNPPaginationData = [];
 let transcriptPaginationData = [];
+
 let mosaicTPMPaginationData = [];
 let xenologousTPMPaginationData = [];
 let geneTPMPaginationData = [];
 let transcriptTPMPaginationData = [];
+
+let mosaicNetworkNodesPaginationData = [];
+let mosaicNetworkEdgesPaginationData = [];
+let xenologousNetworkNodesPaginationData = [];
+let xenologousNetworkEdgesPaginationData = [];
+let geneNetworkNodesPaginationData = [];
+let geneNetworkEdgesPaginationData = [];
 
 
 /*
@@ -158,6 +166,12 @@ let apiPrefix = {
     xenologousTPMPagination: 'getXenologousTPMTableByPage/',
     geneTPMPagination: 'getGeneTPMTableByPage/',
     transcriptTPMPagination: 'getTranscriptTPMTableByPage/',
+    mosaicNetworkNodesPagination: 'getMosaicNetworkNodesTableByPage/',
+    mosaicNetworkEdgesPagination: 'getMosaicNetworkEdgesTableByPage/',
+    xenologousNetworkNodesPagination: 'getXenologousNetworkNodesTableByPage/',
+    xenologousNetworkEdgesPagination: 'getXenologousNetworkEdgesTableByPage/',
+    geneNetworkNodesPagination: 'getGeneNetworkNodesTableByPage/',
+    geneNetworkEdgesPagination: 'getGeneNetworkEdgesTableByPage/',
 
     validateGenomeID: 'validateGenomeID/',
 
@@ -191,6 +205,12 @@ const updateDataFunctions = {
     xenologousTPMPagination: updateXenologousTPMPaginationData,
     geneTPMPagination: updateGeneTPMPaginationData,
     transcriptTPMPagination: updateTranscriptTPMPaginationData,
+    mosaicNetworkNodesPagination: updateMosaicNetworkNodesPaginationData,
+    mosaicNetworkEdgesPagination: updateMosaicNetworkEdgesPaginationData,
+    xenologousNetworkNodesPagination: updateXenologousNetworkNodesPaginationData,
+    xenologousNetworkEdgesPagination: updateXenologousNetworkEdgesPaginationData,
+    geneNetworkNodesPagination: updateGeneNetworkNodesPaginationData,
+    geneNetworkEdgesPagination: updateGeneNetworkEdgesPaginationData,
 
     haplotypeEchartParams: updateHaplotypeEchartParamsData,
     SNPEchartParams: updateSNPEchartParamsData,
@@ -251,6 +271,12 @@ const getDataFunctions = {
     xenologousTPMPaginationData: getXenologousTPMPaginationData,
     geneTPMPaginationData: getGeneTPMPaginationData,
     transcriptTPMPaginationData: getTranscriptTPMPaginationData,
+    mosaicNetworkNodesPaginationData: getMosaicNetworkNodesPaginationData,
+    mosaicNetworkEdgesPaginationData: getMosaicNetworkEdgesPaginationData,
+    xenologousNetworkNodesPaginationData: getXenologousNetworkNodesPaginationData,
+    xenologousNetworkEdgesPaginationData: getXenologousNetworkEdgesPaginationData,
+    geneNetworkNodesPaginationData: getGeneNetworkNodesPaginationData,
+    geneNetworkEdgesPaginationData: getGeneNetworkEdgesPaginationData,
 
     haplotypeEchartParamsData: getHaplotypeEchartParamsData,
     SNPEchartParamsData: getSNPEchartParamsData,
@@ -347,6 +373,26 @@ function updateGeneTPMPaginationData(newData) {
 function updateTranscriptTPMPaginationData(newData) {
     transcriptTPMPaginationData = newData;
 }
+function updateMosaicNetworkNodesPaginationData(newData) {
+    mosaicNetworkNodesPaginationData = newData;
+}
+function updateMosaicNetworkEdgesPaginationData(newData) {
+    mosaicNetworkEdgesPaginationData = newData;
+}
+function updateXenologousNetworkNodesPaginationData(newData) {
+    xenologousNetworkNodesPaginationData = newData;
+}
+function updateXenologousNetworkEdgesPaginationData(newData) {
+    xenologousNetworkEdgesPaginationData = newData;
+}
+function updateGeneNetworkNodesPaginationData(newData) {
+    geneNetworkNodesPaginationData = newData;
+}
+function updateGeneNetworkEdgesPaginationData(newData) {
+    geneNetworkEdgesPaginationData = newData;
+}
+
+
 
 function updateHaplotypeEchartParamsData(newData) {
     haplotypeEchartParamsData = newData;
@@ -509,6 +555,26 @@ function getGeneTPMPaginationData() {
 function getTranscriptTPMPaginationData() {
     return _.cloneDeep(transcriptTPMPaginationData);
 }
+function getMosaicNetworkNodesPaginationData() {
+    return _.cloneDeep(mosaicNetworkNodesPaginationData);
+}
+function getMosaicNetworkEdgesPaginationData() {
+    return _.cloneDeep(mosaicNetworkEdgesPaginationData);
+}
+function getXenologousNetworkNodesPaginationData() {
+    return _.cloneDeep(xenologousNetworkNodesPaginationData);
+}
+function getXenologousNetworkEdgesPaginationData() {
+    return _.cloneDeep(xenologousNetworkEdgesPaginationData);
+}
+function getGeneNetworkNodesPaginationData() {
+    return _.cloneDeep(geneNetworkNodesPaginationData);
+}
+function getGeneNetworkEdgesPaginationData() {
+    return _.cloneDeep(geneNetworkEdgesPaginationData);
+}
+
+
 
 
 // 获取echart参数数据

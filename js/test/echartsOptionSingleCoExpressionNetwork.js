@@ -47,6 +47,7 @@ function getSingleCoExpressionNetworkOption(graph) {
                 lineStyle: {
                     // color: 'source',
                     curveness: 0.3,
+                    // opacity: 0.3,
 
                 },
 

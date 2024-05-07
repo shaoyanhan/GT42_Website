@@ -443,9 +443,7 @@
     text-decoration: none;
     color: rgb(71, 71, 71);
     background:
-        linear-gradient(to right,
-            rgba(100, 200, 200, 1),
-            rgba(100, 200, 200, 1)),
+        linear-gradient(to right, var(--color-gradient-start, rgba(100, 200, 200, 1)), var(--color-gradient-end, rgba(100, 200, 200, 1))),
         linear-gradient(to right,
             rgba(255, 0, 0, 1),
             rgba(255, 0, 180, 1),

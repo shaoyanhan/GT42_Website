@@ -1,5 +1,6 @@
 import { createClickToCopyHandler } from './copyTextToClipboard.js';
 import { showCustomAlert } from './showCustomAlert.js';
+import { getData, validateGenomeID } from './data.js';
 
 // 更新结果详情的函数映射
 // 因为haplotype和SNP共用一个result details容器, 所以不能用id映射到更新函数, 而是直接传入type进行分辨
@@ -341,10 +342,15 @@ function updateHubNetworkNodeResultDetailsContainer(data, container) {
             <p class="header_text">Node</p>
             <div class="color_node" style="background-color:${data.itemStyle.color}"></div>
         </div>`;
+
+    // 利用CSS类和CSS变量（Custom Properties）来控制样式。这样，你可以在CSS文件中定义所有必要的样式，
+    // 并在JavaScript中只修改CSS变量的值，并保持剩余非CSS变量的应用不被内联样式覆盖
     const IDContent = `
         <div class="item_container">
             <h1 class="item_title">ID</h1>
-            <a class="item_content click_to_draw_single_network" title="Click to draw its single network">${data.name}</a>
+            <a class="item_content click_to_draw_single_network"
+                title="Click to draw its single network"
+                style="--color-gradient-start: ${data.itemStyle.color}; --color-gradient-end: ${data.itemStyle.color};">${data.name}</a>
         </div>`;
     const symbolSizeContent = `
         <div class="item_container">
@@ -368,14 +374,16 @@ function updateHubNetworkNodeResultDetailsContainer(data, container) {
         </div>`;
     resultDetails.innerHTML = headerContainer + IDContent + symbolSizeContent + totalDegreeContent + inDegreeContent + outDegreeContent;
 
+    // 为了实现调用方对异步操作的同步，这里个函数虽然没有异步操作，但是也要返回一个空的Promise对象
+    return Promise.resolve();
 }
 
 function updateHubNetworkEdgeResultDetailsContainer(data, container) {
     // data格式
     // {
     //     "source": "GT42G010453",
-    //         "target": "GT42G006919",
-    //             "lineStyle": {
+    //     "target": "GT42G006919",
+    //     "lineStyle": {
     //         "color": "#e990ab"
     //     },
     //     "weight": 2.9088
@@ -418,17 +426,36 @@ function updateHubNetworkEdgeResultDetailsContainer(data, container) {
             <h1 class="item_title">Weight</h1>
             <p class="item_content">${data.weight}</p>
         </div>`;
-    const sourceContent = `
+
+
+    // 先判断当前的网络是那种类型的网络，这里使用.then()方法来处理异步操作，并在调用处也使用.then()方法来对异步操作进行同步
+    return validateGenomeID(data.source)
+        .then(response => {
+            const IDType = response.type;
+            const dataType = IDType + 'HubNetworkGraphJSON';
+            // 从全局变量中获取mosaicHubNetworkGraphJSON数据，并根据source和target的name属性找到对应的itemStyle.color
+            const hubNetworkGraphJSON = getData(dataType);
+            const sourceNodeColor = hubNetworkGraphJSON.nodes.find(node => node.name === data.source).itemStyle.color;
+            const sourceContent = `
         <div class="item_container">
             <h1 class="item_title">Source</h1>
-            <a class="item_content click_to_draw_single_network" title="Click to draw its single network">${data.source}</a>
+            <a class="item_content click_to_draw_single_network" title="Click to draw its single network"
+            style="--color-gradient-start: ${sourceNodeColor}; --color-gradient-end: ${sourceNodeColor};">${data.source}</a>
         </div>`;
-    const targetContent = `
+            const targetNodeColor = hubNetworkGraphJSON.nodes.find(node => node.name === data.target).itemStyle.color;
+            const targetContent = `
         <div class="item_container">
             <h1 class="item_title">Target</h1>
-            <a class="item_content click_to_draw_single_network" title="Click to draw its single network">${data.target}</a>
+            <a class="item_content click_to_draw_single_network" title="Click to draw its single network"
+            style="--color-gradient-start: ${targetNodeColor}; --color-gradient-end: ${targetNodeColor};">${data.target}</a>
         </div>`;
-    resultDetails.innerHTML = headerContainer + weightContent + sourceContent + targetContent;
+
+            resultDetails.innerHTML = headerContainer + weightContent + sourceContent + targetContent;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+
 
 }
 
@@ -458,14 +485,7 @@ function updateSingleNetworkNodeResultDetailsContainer(data, container) {
     // 清空现有内容
     resultDetails.innerHTML = '';
 
-    // 为adjacency数组中的元素创建列表
-    let tableContent = data.adjacency.map(
-        adjacentNode => `<tr>
-                            <td>
-                                <a class="click_to_draw_single_network" title="Click to draw its single network">${adjacentNode}</a>
-                            </td>
-                        </tr>`
-    ).join('');
+
 
     // 创建并添加新的内容
     // <div class="header_container">
@@ -554,7 +574,9 @@ function updateSingleNetworkNodeResultDetailsContainer(data, container) {
     const IDContent = `
         <div class="item_container">
             <h1 class="item_title">ID</h1>
-            <a class="item_content click_to_draw_single_network" title="Click to draw its single network">${data.name}</a>
+            <a class="item_content click_to_draw_single_network"
+                title="Click to draw its single network"
+                style="--color-gradient-start: ${data.itemStyle.color}; --color-gradient-end: ${data.itemStyle.color};">${data.name}</a>
         </div>`;
     const symbolSizeContent = `
         <div class="item_container">
@@ -576,26 +598,70 @@ function updateSingleNetworkNodeResultDetailsContainer(data, container) {
             <h1 class="item_title">outDegree</h1>
             <p class="item_content">${data.outDegree}</p>
         </div>`;
-    const adjacencyContainer = `
-        <div class="table_container">
-            <div class="table_header">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Adjacent Nodes</th>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
-            <div class="table_content">
-                <table>
-                    <tbody>
-                        ${tableContent}
-                    </tbody>
-                </table>
-            </div>
-        </div>`;
-    resultDetails.innerHTML = headerContainer + IDContent + symbolSizeContent + totalDegreeContent + inDegreeContent + outDegreeContent + adjacencyContainer;
+
+
+
+    return validateGenomeID(data.name)
+        .then(response => {
+
+            const IDType = response.type;
+            const dataType = IDType + 'SingleNetworkGraphJSON';
+            // 从全局变量中获取mosaicHubNetworkGraphJSON数据，并根据source和target的name属性找到对应的itemStyle.color
+            const singleNetworkGraphJSON = getData(dataType);
+            const nodes = singleNetworkGraphJSON.nodes;
+
+            // 为adjacency数组中的元素创建列表
+            let tableContent = data.adjacency.map(adjacentNode => {
+                // 从nodes数组中找到匹配的节点
+                let nodeData = nodes.find(node => node.name === adjacentNode);
+
+                if (nodeData) {
+                    // 如果找到相应的节点数据，则使用该数据来设置<a>标签的样式
+                    return `<tr>
+                    <td>
+                        <a class="item_content click_to_draw_single_network"
+                           title="Click to draw its single network"
+                           style="--color-gradient-start: ${nodeData.itemStyle.color}; --color-gradient-end: ${nodeData.itemStyle.color};">${nodeData.name}</a>
+                    </td>
+                </tr>`;
+                } else {
+                    // 如果没有找到匹配的节点数据，可能需要返回一个默认的或错误处理的行
+                    return `<tr>
+                    <td>
+                        <a class="item_content click_to_draw_single_network"
+                           title="Click to draw its single network">${adjacentNode}</a>
+                    </td>
+                </tr>`;
+                }
+            }).join('');
+
+            const adjacencyContainer = `
+                <div class="table_container">
+                    <div class="table_header">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Adjacent Nodes</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <div class="table_content">
+                        <table>
+                            <tbody>
+                                ${tableContent}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>`;
+            resultDetails.innerHTML = headerContainer + IDContent + symbolSizeContent + totalDegreeContent + inDegreeContent + outDegreeContent + adjacencyContainer;
+
+
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+
 
 }
 
@@ -627,17 +693,46 @@ function updateSingleNetworkEdgeResultDetailsContainer(data, container) {
             <h1 class="item_title">Weight</h1>
             <p class="item_content">${data.lineStyle.width}</p>
         </div>`;
-    const sourceContent = `
+    // const sourceContent = `
+    //     <div class="item_container">
+    //         <h1 class="item_title">Source</h1>
+    //         <a class="item_content click_to_draw_single_network" title="Click to draw its single network">${data.source}</a>
+    //     </div>`;
+    // const targetContent = `
+    //     <div class="item_container">
+    //         <h1 class="item_title">Target</h1>
+    //         <a class="item_content click_to_draw_single_network" title="Click to draw its single network">${data.target}</a>
+    //     </div>`;
+
+
+    // 先判断当前的网络是那种类型的网络，这里使用.then()方法来处理异步操作，并在调用处也使用.then()方法来对异步操作进行同步
+    return validateGenomeID(data.source)
+        .then(response => {
+            const IDType = response.type;
+            const dataType = IDType + 'SingleNetworkGraphJSON';
+            // 从全局变量中获取mosaicHubNetworkGraphJSON数据，并根据source和target的name属性找到对应的itemStyle.color
+            const singleNetworkGraphJSON = getData(dataType);
+            const sourceNodeColor = singleNetworkGraphJSON.nodes.find(node => node.name === data.source).itemStyle.color;
+            const sourceContent = `
         <div class="item_container">
             <h1 class="item_title">Source</h1>
-            <a class="item_content click_to_draw_single_network" title="Click to draw its single network">${data.source}</a>
+            <a class="item_content click_to_draw_single_network" title="Click to draw its single network"
+            style="--color-gradient-start: ${sourceNodeColor}; --color-gradient-end: ${sourceNodeColor};">${data.source}</a>
         </div>`;
-    const targetContent = `
+            const targetNodeColor = singleNetworkGraphJSON.nodes.find(node => node.name === data.target).itemStyle.color;
+            const targetContent = `
         <div class="item_container">
             <h1 class="item_title">Target</h1>
-            <a class="item_content click_to_draw_single_network" title="Click to draw its single network">${data.target}</a>
+            <a class="item_content click_to_draw_single_network" title="Click to draw its single network"
+            style="--color-gradient-start: ${targetNodeColor}; --color-gradient-end: ${targetNodeColor};">${data.target}</a>
         </div>`;
-    resultDetails.innerHTML = headerContainer + weightContent + sourceContent + targetContent;
+
+            resultDetails.innerHTML = headerContainer + weightContent + sourceContent + targetContent;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+
 
 }
 
@@ -655,9 +750,10 @@ function updateResultDetailsContainer(data, container) {
     const updateFunction = updateResultDetailsContainerFunctions[dataType];
     console.log(updateFunction);
 
-    // 调用更新函数（如果存在）
+    // 返回更新函数（如果存在），注意这里不能直接执行更新函数，因为有的更新函数是异步的，例如updateSingleNetworkNodeResultDetailsContainer
+    // 对于异步的更新函数，需要在调用的地方进行异步处理而不是在这里进行异步处理
     if (updateFunction) {
-        updateFunction(dataValue, container);
+        return updateFunction(dataValue, container);
     } else {
         console.error(`No update function found for type: ${dataType}`);
     }
