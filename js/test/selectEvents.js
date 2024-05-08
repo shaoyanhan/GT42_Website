@@ -24,6 +24,18 @@ function fillSelect(selectContainer, stringList, selectedIndex = 0) {
     });
 }
 
+// 控制select标签的禁用状态
+function disableSelect(selectContainer, disabled = true) {
+    // 检查是否是有效的 DOM 元素
+    if (!(selectContainer instanceof HTMLSelectElement)) {
+        console.error('Provided container is not a valid select element.');
+        return;
+    }
+
+    // 设置 select 元素的禁用状态
+    selectContainer.disabled = disabled;
+}
+
 // 显示和隐藏全局覆盖层, 用于禁用用户交互
 function showGlobalOverlay() {
     document.querySelector('#global_overlay').style.display = 'block';
@@ -101,4 +113,4 @@ function setUpSelectWithSelect2(selectContainerSelector, callback) {
 // });
 // </script >
 
-export { fillSelect, setUpSelectEventListeners, setUpSelectWithSelect2 };
+export { fillSelect, setUpSelectEventListeners, setUpSelectWithSelect2, disableSelect };

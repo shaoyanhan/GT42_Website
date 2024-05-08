@@ -144,6 +144,24 @@ let mosaicCurrentSearchKeyword = '';
 let xenologousCurrentSearchKeyword = '';
 let geneCurrentSearchKeyword = '';
 
+// 用于存储一个mosaic附属的所有ID
+// {
+//     "mosaic": [
+//         "GT42G000016"
+//     ],
+//     "xenologous": [
+//         "GT42G000016.SO"
+//     ],
+//     "gene": [
+//         "GT42G000016.SO.1"
+//     ],
+//     "transcript": [
+//         "GT42G000016.SO.1.1",
+//         "GT42G000016.SO.1.2",
+//     ]
+// }
+let homologousIDSet = {};
+
 
 // 定义API请求的前缀
 let apiPrefix = {
@@ -179,6 +197,8 @@ let apiPrefix = {
 
     hubNetworkGraphJSON: 'getNetworkGraphJSONFile/',
     singleNetworkGraphJSON: 'getNetworkGraphJSON/',
+
+    homologousIDSet: 'getHomologousIDSet/',
 
     parameter: {
         searchKeyword: 'searchKeyword=',
@@ -236,6 +256,8 @@ const updateDataFunctions = {
     mosaicCurrentSearchKeyword: updateMosaicCurrentSearchKeyword,
     xenologousCurrentSearchKeyword: updateXenologousCurrentSearchKeyword,
     geneCurrentSearchKeyword: updateGeneCurrentSearchKeyword,
+
+    homologousIDSet: updateHomologousIDSet,
 };
 
 // 定义获取数据的映射关系, 从名称映射到函数
@@ -302,6 +324,8 @@ const getDataFunctions = {
     mosaicCurrentSearchKeyword: getMosaicCurrentSearchKeyword,
     xenologousCurrentSearchKeyword: getXenologousCurrentSearchKeyword,
     geneCurrentSearchKeyword: getGeneCurrentSearchKeyword,
+
+    homologousIDSet: getHomologousIDSet,
 
 };
 
@@ -459,6 +483,10 @@ function updateXenologousCurrentSearchKeyword(newData) {
 }
 function updateGeneCurrentSearchKeyword(newData) {
     geneCurrentSearchKeyword = newData;
+}
+
+function updateHomologousIDSet(newData) {
+    homologousIDSet = newData;
 }
 
 
@@ -640,6 +668,10 @@ function getXenologousCurrentSearchKeyword() {
 }
 function getGeneCurrentSearchKeyword() {
     return _.cloneDeep(geneCurrentSearchKeyword);
+}
+
+function getHomologousIDSet() {
+    return _.cloneDeep(homologousIDSet);
 }
 
 
