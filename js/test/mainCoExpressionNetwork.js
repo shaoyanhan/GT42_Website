@@ -4,6 +4,7 @@ import { setupClickToDrawSingleNetworkEventListeners } from "./clickToDrawSingle
 import { clickHubCoExpressionNetworkEventsHandler, clickSingleCoExpressionNetworkEventsHandler } from "./echartsEventsCoExpressionNetwork.js";
 import { setupNetworkSelectorContainerEventsListeners } from "./networkSelectorContainerEvents.js";
 import { setUpSelectEventListeners, setUpSelectWithSelect2 } from "./selectEvents.js";
+import { setupDownloadButton } from "./downloadTable.js";
 
 
 export let hubCoExpressionNetworkDOM = document.getElementById('drawHubCoExpressionNetwork');
@@ -26,6 +27,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // 为链接添加点击事件监听器应该在每次更新result details container之后重新设置，因为每次填充新的链接都会将之前的事件监听器清空
     // setupClickToDrawSingleNetworkEventListeners();
+
+    // 为下载按钮添加点击事件监听器, 不能在initial里添加, 因为updateTableContainer并没有将下载按钮清除, 
+    // 所以只需要在页面加载完成后添加一次即可
+    setupDownloadButton('#download_single_network_nodes_table');
+    setupDownloadButton('#download_single_network_edges_table');
 
     hubCoExpressionNetworkChart.on('click', clickHubCoExpressionNetworkEventsHandler);
     singleCoExpressionNetworkChart.on('click', clickSingleCoExpressionNetworkEventsHandler);

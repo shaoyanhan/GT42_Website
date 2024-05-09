@@ -9,7 +9,9 @@ let idToType = {
     '#download_orthologous_TPM_table': 'mosaicTPMObjectData',
     '#download_xenologous_TPM_table': 'xenologousTPMObjectData',
     '#download_gene_TPM_table': 'geneTPMObjectData',
-    '#download_transcript_TPM_table': 'transcriptTPMObjectData'
+    '#download_transcript_TPM_table': 'transcriptTPMObjectData',
+    '#download_single_network_nodes_table': 'downloadSingleNetworkNodesTable',
+    '#download_single_network_edges_table': 'downloadSingleNetworkEdgesTable',
 
 };
 
@@ -69,9 +71,14 @@ function setupDownloadButton(buttonId) {
         console.log(type);
         const data = getData(type);
         showCustomAlert('Converting started!'); // 目前只有下载完成的一瞬间会显示，需要优化
-        const csv = convertDataToCSV(data);
-        const filename = type + '_table.csv'; // 自定义文件名
-        downloadCSV(csv, filename);
+
+        // const csv = convertDataToCSV(data);
+        // const filename = type + '_table.csv'; // 自定义文件名
+        // downloadCSV(csv, filename);
+
+        const tsv = convertDataToTSV(data);
+        const filename = type + '_table.tsv'; // 自定义文件名
+        downloadCSV(tsv, filename);
     });
 }
 

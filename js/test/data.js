@@ -130,10 +130,69 @@ let currentIDIndex = 1; // 记录当前ID在next_id_table中的索引
 let nextSearchID = 'GT42G000001'; // 记录next_id_table中currentIDIndex索引所对应的ID
 let previousSearchID = 'GT42G000001'; // 记录上一个搜索的ID
 
+
+// {
+//     "nodes": [
+//         {
+//             "name": "GT42G000932.SS.3",
+//             "symbolSize": 5.0689,
+//             "itemStyle": {
+//                 "color": "#b1b134"
+//             },
+//             "totalDegree": 159,
+//             "inDegree": 9,
+//             "outDegree": 150
+//         },
+//         ...
+//     ],
+//     "edges": [
+//         {
+//             "source": "GT42G000932.SS.3",
+//             "target": "GT42G016300.SO.1",
+//             "lineStyle": {
+//                 "color": "#b1b134"
+//             },
+//             "weight": 10.03
+//         },
+//         ...
+//     ]
+// }
 let mosaicHubNetworkGraphJSON = {};
 let xenologousHubNetworkGraphJSON = {};
 let geneHubNetworkGraphJSON = {};
 
+// {
+//     "nodes": [
+//        {
+//             "name": "GT42G000016",
+//             "symbolSize": "1.3863",
+//             "itemStyle": {
+//                 "color": "#eb0973"
+//             },
+//             "totalDegree": 4,
+//             "inDegree": 4,
+//             "outDegree": 0,
+//             "adjacency": [
+//                 "GT42G019959",
+//                 "GT42G009304",
+//                 "GT42G004388",
+//                 "GT42G009995"
+//             ]
+//         },
+//         ...
+//     ],
+//     "edges": [
+//         {
+//             "source": "GT42G004388",
+//             "target": "GT42G014128",
+//             "lineStyle": {
+//                 "width": "6.8989",
+//                 "color": "#96cbb3"
+//             }
+//         },
+//         ...
+//     ]
+// }
 let mosaicSingleNetworkGraphJSON = {};
 let xenologousSingleNetworkGraphJSON = {};
 let geneSingleNetworkGraphJSON = {};
@@ -143,6 +202,13 @@ let currentSingleNetworkType = '';
 let mosaicCurrentSearchKeyword = '';
 let xenologousCurrentSearchKeyword = '';
 let geneCurrentSearchKeyword = '';
+
+// 用于实现将 currentHubNetworkType 的值映射到对应的单网络图JSON数据
+let resolutionToSingleNetworkGraphJSON = {
+    'mosaic': mosaicSingleNetworkGraphJSON,
+    'xenologous': xenologousSingleNetworkGraphJSON,
+    'gene': geneSingleNetworkGraphJSON,
+};
 
 // 用于存储一个mosaic附属的所有ID
 // {
@@ -327,11 +393,27 @@ const getDataFunctions = {
 
     homologousIDSet: getHomologousIDSet,
 
+    downloadSingleNetworkNodesTable: getDownloadSingleNetworkNodesTable,
+    downloadSingleNetworkEdgesTable: getDownloadSingleNetworkEdgesTable,
+
 };
 
 // 将对象数组转换为二维数组
 function objectToArray(data) {
     return data.map(element => Object.values(element));
+}
+
+// 从对象数组中过滤出指定的键以及对应的值
+function filterKeysInObjects(objects, keys) {
+    return objects.map(object => {
+        let filteredObject = {};
+        keys.forEach(key => {
+            if (object.hasOwnProperty(key)) {
+                filteredObject[key] = object[key];
+            }
+        });
+        return filteredObject;
+    });
 }
 
 // 更新数据，因为在ES6模块中，通过import导入的变量是只读的，不能被重新赋值。
@@ -459,14 +541,20 @@ function updateGeneHubNetworkGraphJSON(newData) {
     geneHubNetworkGraphJSON = newData;
 }
 
+
+// 如果使用直接赋值的方式, 由于JavaScript中的对象变量存储的是对象的地址, 这种直接赋值实际上是新建了一个对象，
+// 并进行了地址指向的更新, 而不是更新原来的对象，因此对于本文件中的resolutionToSingleNetworkGraphJSON映射将会一直存储的是空值
 function updateMosaicSingleNetworkGraphJSON(newData) {
-    mosaicSingleNetworkGraphJSON = newData.data;
+    // mosaicSingleNetworkGraphJSON = newData.data;
+    Object.assign(mosaicSingleNetworkGraphJSON, newData.data);
 }
 function updateXenologousSingleNetworkGraphJSON(newData) {
-    xenologousSingleNetworkGraphJSON = newData.data;
+    // xenologousSingleNetworkGraphJSON = newData.data;
+    Object.assign(xenologousSingleNetworkGraphJSON, newData.data);
 }
 function updateGeneSingleNetworkGraphJSON(newData) {
-    geneSingleNetworkGraphJSON = newData.data;
+    // geneSingleNetworkGraphJSON = newData.data;
+    Object.assign(geneSingleNetworkGraphJSON, newData.data);
 }
 
 function updateCurrentHubNetworkType(newData) {
@@ -674,6 +762,66 @@ function getHomologousIDSet() {
     return _.cloneDeep(homologousIDSet);
 }
 
+
+
+
+function getDownloadSingleNetworkNodesTable() {
+    // 这里出现了一个问题，就是resolutionToSingleNetworkGraphJSON[currentSingleNetworkType]的值在这里是空的，
+    // 因为之前写的update方法是直接赋值, 而JavaScript中的对象变量实际上存储的是一个地址, 直接赋值相当于重新创建了一个新对象, 
+    // 然后将新对象的地址赋值给对象变量，而不是更新原来的对象，因此这里的值是空的
+    // console.log('mosaicSingleNetworkGraphJSON: ', mosaicSingleNetworkGraphJSON);
+    // console.log(resolutionToSingleNetworkGraphJSON['mosaic']);
+    // console.log('currentSingleNetworkType: ', currentSingleNetworkType);
+    // console.log('resolutionToSingleNetworkGraphJSON: ', resolutionToSingleNetworkGraphJSON);
+    // console.log('resolutionToSingleNetworkGraphJSON[currentSingleNetworkType]: ', resolutionToSingleNetworkGraphJSON[currentSingleNetworkType]);
+    let nodesObjectList = resolutionToSingleNetworkGraphJSON[currentSingleNetworkType].nodes;
+    console.log('nodesObjectList: ', nodesObjectList);
+    const keysToKeep = ['name', 'symbolSize', 'totalDegree', 'inDegree', 'outDegree', 'adjacency'];
+    let filteredObjectList = filterKeysInObjects(nodesObjectList, keysToKeep);
+    console.log('filteredObjectList: ', filteredObjectList);
+
+    // // 将adjacency列表中的数据合成为一个字符串,使用';'分隔, 如果不执行则直接下载的是数组
+    // filteredObjectList.forEach(element => {
+    //     element.adjacency = element.adjacency.join('; ');
+    // });
+
+    // 重新定义所有的键名
+    const renameKeys = ['ID', 'symbolSize', 'totalDegree', 'inDegree', 'outDegree', 'adjacency'];
+    // 修改键名
+    filteredObjectList = filteredObjectList.map(element => {
+        return renameKeys.reduce((acc, key, index) => {
+            acc[key] = element[keysToKeep[index]];
+            return acc;
+        }, {});
+    });
+    return filteredObjectList;
+}
+
+// 仍然需要优化, 因为下载的是所有点的出入边, 之前这么做是写视图函数的时候误打误撞, 刚好显示出了中心点的邻接点与邻接点之间的联系
+function getDownloadSingleNetworkEdgesTable() {
+    let edgesObjectList = resolutionToSingleNetworkGraphJSON[currentSingleNetworkType].edges;
+    console.log('edgesObjectList: ', edgesObjectList);
+    const keysToKeep = ['source', 'target', 'lineStyle'];
+    let filteredObjectList = filterKeysInObjects(edgesObjectList, keysToKeep);
+    console.log('filteredObjectList: ', filteredObjectList);
+
+    // 将lineStyle对象中的width属性提取出来并替换原来的lineStyle对象
+    filteredObjectList.forEach(element => {
+        element.lineStyle = element.lineStyle.width;
+    });
+
+    // 重新定义所有的键名
+    const renameKeys = ['source', 'target', 'weight'];
+    // 修改键名
+    filteredObjectList = filteredObjectList.map(element => {
+        return renameKeys.reduce((acc, key, index) => {
+            acc[key] = element[keysToKeep[index]];
+            return acc;
+        }, {});
+    });
+
+    return filteredObjectList;
+}
 
 
 

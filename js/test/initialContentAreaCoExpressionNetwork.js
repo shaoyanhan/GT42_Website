@@ -6,6 +6,7 @@ import { updateTableContainer, setUpPaginationEventListeners } from "./tablePagi
 import { moveHighlightSliderByResolution, toggleButtonsDisabled } from "./networkSelectorContainerEvents.js";
 import { fillSelect, disableSelect } from "./selectEvents.js";
 
+
 // async function fetchGraphData() {
 //     const url = 'http://127.0.0.1:8080/searchDatabase/getNetworkGraphJSONFile/?type=mosaic';  // URL指向Django服务器中的视图函数
 //     try {
