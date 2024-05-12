@@ -212,7 +212,7 @@ body {
 .content_container .news_box {
     height: 200px;
     display: flex;
-
+    justify-content: space-evenly;
 
 }
 
@@ -220,15 +220,21 @@ body {
     font-size: 32px;
     font-weight: bold;
     margin-bottom: 20px;
+    margin-left: 40px;
 }
 
 .content_container .news_box ul {
     font-size: 23px;
     font-weight: bold;
     line-height: 1.5;
-    margin-left: 30px;
+    margin-left: 50px;
     padding: 10px 0;
     overflow: auto;
+}
+
+.content_container .news_box ul li span {
+    font-size: 22px;
+    margin-left: 20px;
 }
 
 
@@ -281,6 +287,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
 }
 
 .footer_container .container .logo_box img {
