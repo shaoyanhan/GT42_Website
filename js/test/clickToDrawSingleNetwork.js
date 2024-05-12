@@ -7,6 +7,8 @@ async function clickToDrawSingleNetwork(linkElement) {
     const genomeID = linkElement.textContent;
     const response = await validateGenomeID(genomeID);
     const IDType = response.type;
+
+
     initalContentArea(genomeID, IDType);
 }
 

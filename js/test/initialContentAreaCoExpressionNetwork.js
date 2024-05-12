@@ -103,6 +103,18 @@ function findIndexInArray(array, keyword) {
 
 async function initialSingleCoExpressionNetwork(searchKeyword = 'GT42G000001', networkResolution = 'mosaic') {
 
+    // 如果是第一次初始化，页面不滚动，展示hub网络；如果不是第一次初始化，那么滚动到指定元素
+    let firstInitialCoExpressionNetworkGraph = getData('firstInitialCoExpressionNetworkGraph');
+    if (!firstInitialCoExpressionNetworkGraph) {
+        // 滚动到指定元素
+        let jumpTargetElement = document.getElementById('drawSingleCoExpressionNetwork');
+        //  'smooth' 选项会平滑地滚动到指定元素，而不是瞬间跳转，'center' 选项会将元素滚动到视口的中间( block: 'start' 为顶部 )
+        jumpTargetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    }
+    updateData('firstInitialCoExpressionNetworkGraph', false);
+
+
     // 显示loading动画
     const loadingElement = document.getElementById('single_network_loading_container');
     loadingElement.style.display = 'block';

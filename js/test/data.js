@@ -228,6 +228,8 @@ let resolutionToSingleNetworkGraphJSON = {
 // }
 let homologousIDSet = {};
 
+let firstInitialCoExpressionNetworkGraph = true;
+
 
 // 定义API请求的前缀
 let apiPrefix = {
@@ -324,6 +326,8 @@ const updateDataFunctions = {
     geneCurrentSearchKeyword: updateGeneCurrentSearchKeyword,
 
     homologousIDSet: updateHomologousIDSet,
+
+    firstInitialCoExpressionNetworkGraph: updateFirstInitialCoExpressionNetworkGraph,
 };
 
 // 定义获取数据的映射关系, 从名称映射到函数
@@ -395,6 +399,8 @@ const getDataFunctions = {
 
     downloadSingleNetworkNodesTable: getDownloadSingleNetworkNodesTable,
     downloadSingleNetworkEdgesTable: getDownloadSingleNetworkEdgesTable,
+
+    firstInitialCoExpressionNetworkGraph: getFirstInitialCoExpressionNetworkGraph,
 
 };
 
@@ -575,6 +581,10 @@ function updateGeneCurrentSearchKeyword(newData) {
 
 function updateHomologousIDSet(newData) {
     homologousIDSet = newData;
+}
+
+function updateFirstInitialCoExpressionNetworkGraph(newData) {
+    firstInitialCoExpressionNetworkGraph = newData;
 }
 
 
@@ -760,6 +770,10 @@ function getGeneCurrentSearchKeyword() {
 
 function getHomologousIDSet() {
     return _.cloneDeep(homologousIDSet);
+}
+
+function getFirstInitialCoExpressionNetworkGraph() {
+    return _.cloneDeep(firstInitialCoExpressionNetworkGraph);
 }
 
 
