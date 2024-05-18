@@ -15,6 +15,11 @@
         body {
             width: 100%;
             height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            overflow-x: auto;
+            /* 启用水平滚动 */
         }
 
         body {
@@ -27,260 +32,252 @@
             /* 用内容撑开高度 */
             /* height: 100%; */
             background-color: #FAFFF2;
-        }
-
-        .container {
-            position: relative;
-        }
-
-        .selector_container {
-            display: flex;
-            position: relative;
-            top: 10px;
-            left: 10px;
-            justify-content: space-between;
-            width: 420px;
-            height: 70px;
-            /* border: 1px solid #ccc; */
-            background-color: rgba(179, 236, 202, 0.73);
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-            z-index: 2000;
-        }
-
-        .selector_container .option {
-            flex: 1;
-            height: 50px;
-            background: none;
-            border: none;
-            margin: 10px;
-            padding: 0;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            z-index: 2002;
-            font-size: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-
-        .selector_container .option:hover {
-            background-color: rgba(123, 231, 166, 0.73);
-        }
-
-        .selector_container .highlight_slider {
-            position: absolute;
-            top: 10px;
-            height: 50px;
-            width: 120px;
-            background-color: #5ed88f;
-            transition: left 0.3s ease-out;
-            z-index: 2001;
-            border-radius: 10px;
-        }
-
-        /* 默认高亮第一个选项 */
-        .selector_container .highlight_slider {
-            left: 10px;
-        }
-
-
-        .clicked_details_container {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            width: 360px;
-            z-index: 2000;
-            border-radius: 10px;
-            box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
-            background-color: #FAFFF2;
-        }
-
-        .clicked_details_container summary {
-            font-size: 20px;
-            font-weight: bold;
-            background: #8bc2d0;
-            color: #fff;
-            padding: 10px;
-            border-radius: 10px;
-            cursor: pointer;
-
-        }
-
-        .clicked_details_container .result_details_container {
-            /* height: 100px;
-            width: 100%;
-            background-color: rgba(255, 255, 255, 0.8);
-            border-radius: 10px;
-            border: 1px solid #ccc; */
-
-            width: 100%;
-            /* 由内框撑起高度 */
-            /* height: 280px; */
-            /* max-height: 100px; */
-
-            background: linear-gradient(to right, #C0DDE4, #F6EDD3);
-            border-radius: 10px;
-            /* position: relative; */
-
-            /* 防止margin塌陷 */
             overflow: hidden;
-
-            box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
         }
 
-        .clicked_details_container .result_details_container .content_box {
-            /* width: calc(100% - 40px); */
-            /* 矩形框的宽度，减去间隔的两倍 */
-            /* height: calc(100% - 40px); */
-            /* 矩形框的高度，减去间隔的两倍 */
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 5px;
-            /* 矩形框的圆角大小 */
-            /* position: absolute; */
-            /* 绝对定位，相对于圆角框定位 */
-            /* top: 20px; */
-            /* 矩形框距离圆角框顶部的距离 */
-            /* left: 20px; */
-            /* 矩形框距离圆角框左侧的距离 */
-            overflow-y: auto;
-            /* 垂直方向出现滚动条 */
-            overflow-x: auto;
-            min-height: 200px;
-            max-height: 340px;
 
-            /* 让出背景的渐变使其成为其渐变色的border */
-            margin: 20px;
+        header {
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            /* overflow-x: auto; */
+            /* 启用水平滚动 */
         }
 
-        .clicked_details_container .result_details_container .content_box .result_details {
-            padding: 10px;
-            text-align: left;
-            /* 文本内容两端对齐 */
-            font-size: 18px;
-            /* color: #dce6d7; */
-        }
-
-        .clicked_details_container .result_details_container .content_box .result_details .header_container {
+        .navbar {
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            margin-bottom: 10px;
-            border-radius: 10px;
-            background-color: #bcdfec;
-            border-bottom: 1px solid #b3cdd6;
+            background-color: #333;
+            padding: 0 20px;
+            border-radius: 25px;
+            color: white;
+            /* width: 80%; */
+            /* 固定宽度 */
+            margin: 0 auto;
+            /* 水平居中 */
         }
 
-        .clicked_details_container .result_details_container .content_box .result_details .header_container .header_text {
-            font-size: 20px;
-            font-weight: bold;
-        }
-
-        .clicked_details_container .result_details_container .content_box .result_details .header_container .color_line {
-            width: 30%;
-            height: 3px;
-            margin-left: 20px;
-            background-color: #5ed88f;
-        }
-
-        .clicked_details_container .result_details_container .content_box .result_details .header_container .color_node {
-
-            width: 20px;
-            height: 20px;
-            margin-left: 20px;
-            border-radius: 50%;
-            background-color: #b84592;
-        }
-
-        .clicked_details_container .result_details_container .content_box .item_container {
+        .logo-title {
             display: flex;
             align-items: center;
-            margin: 15px 0;
         }
 
-        .clicked_details_container .result_details_container .content_box .item_container .item_title {
-            font-weight: bold;
+        .logo-title .logo {
+            width: 40px;
+            height: 40px;
             margin-right: 10px;
-            font-size: 18px;
-            background-color: #eae7e7;
-            border-bottom: 1px solid #929191;
+        }
+
+        .logo-title .title {
+            font-size: 16px;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links li {
+
+            margin: 0 15px;
+
+        }
+
+        .nav-links .dropdown {
+            position: relative;
+            font-size: 14px;
+            padding: 13px 0;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
+            display: block;
+            font-size: 14px;
+        }
+
+
+        .nav-links .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .arrow {
+            margin-left: 5px;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #736e6e;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            top: 45px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            min-width: 150px;
+            transition: all 0.3s;
+        }
+
+        .dropdown:hover .dropdown-content,
+        .dropdown-content:hover {
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #575757;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+        }
+
+        .search-box input {
             padding: 5px;
             border-radius: 5px;
+            border: none;
         }
 
-        .clicked_details_container .result_details_container .content_box .item_container .item_content {
+        .search-box button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            margin-left: 5px;
+            color: white;
             font-size: 18px;
         }
 
-        .clicked_details_container .result_details_container .content_box .item_container a,
-        .clicked_details_container .result_details_container .content_box .table_container .table_content a {
-            text-decoration: none;
-            color: rgb(71, 71, 71);
-            background:
-                linear-gradient(to right,
-                    rgba(100, 200, 200, 1),
-                    rgba(100, 200, 200, 1)),
-                linear-gradient(to right,
-                    rgba(255, 0, 0, 1),
-                    rgba(255, 0, 180, 1),
-                    rgba(0, 100, 200, 1));
-            background-size: 100% 3px, 0 3px;
-            background-position: 100% 100%, 0 100%;
-            background-repeat: no-repeat;
-            transition: background-size 400ms;
+        .search-icon {
+            font-size: 18px;
         }
 
 
-        .clicked_details_container .result_details_container .content_box .item_container a:hover,
-        .clicked_details_container .result_details_container .content_box .table_container .table_content a:hover {
-            background-size: 0 3px, 100% 3px;
+        .navbar .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
             cursor: pointer;
         }
 
-        .clicked_details_container .result_details_container .content_box .table_container {
-            margin: 15px 0;
-            border-radius: 5px;
-            box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
+        .navbar .menu-icon {
+            width: 25px;
+            height: 3px;
+            background-color: white;
+            position: relative;
+            display: inline-block;
         }
 
-        .clicked_details_container .result_details_container .content_box .table_container .table_header table {
+        .navbar .menu-icon::before,
+        .navbar .menu-icon::after {
+            content: "";
+            width: 25px;
+            height: 3px;
+            background-color: white;
+            position: absolute;
+            left: 0;
+        }
+
+        .navbar .menu-icon::before {
+            top: -8px;
+        }
+
+        .navbar .menu-icon::after {
+            bottom: -8px;
+        }
+
+        .expanded-nav {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            background-color: #333;
             width: 100%;
-            border-collapse: collapse;
-            border-spacing: 0;
-            background-color: #bbe1bb;
-            border-radius: 5px 5px 0 0;
-            border-width: 0;
+            padding: 10px 0;
         }
 
-        .clicked_details_container .result_details_container .content_box .table_container .table_header table th {
-            /* padding: 10px; */
+        .expanded-nav-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
             text-align: center;
-            font-size: 18px;
-            font-weight: bold;
-            border-width: 0;
         }
 
-        .clicked_details_container .result_details_container .content_box .table_container .table_content {
-            height: auto;
-            max-height: 300px;
-            overflow-y: auto;
+        .expanded-nav-links li {
+            margin: 10px 0;
         }
 
-        .clicked_details_container .result_details_container .content_box .table_container .table_content table {
-            width: 100%;
-            border-collapse: collapse;
-            border-spacing: 0;
-            border-width: 0;
-            /* border-radius: 0 0 5px 5px; */
+        .expanded-nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
+            display: block;
         }
 
-        .clicked_details_container .result_details_container .content_box .table_container .table_content table td {
-            border: 1px solid #ccc;
-            padding: 10px;
-            text-align: center;
-            font-size: 18px;
-            border-width: 1px 0;
+        .accordion .accordion-content {
+            display: none;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
 
+        .accordion .accordion-content li {
+            margin: 5px 0;
+        }
+
+        .accordion .accordion-content a {
+            padding: 8px 15px;
+        }
+
+        .expanded-search-box {
+            margin-top: 10px;
+        }
+
+        /* 响应式布局 */
+        @media (min-width: 1600px) {
+            .navbar {
+                width: 1280px;
+            }
+        }
+
+        @media (min-width: 1150px) and (max-width: 1600px) {
+            .navbar {
+                width: 80%;
+            }
+        }
+
+        @media (max-width: 1150px) {
+            .navbar {
+                width: 80%;
+                justify-content: space-between;
+            }
+
+            .nav-links,
+            .search-box {
+                display: none;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .expanded-nav {
+                display: none;
+            }
+        }
+
+        /* style.css */
+        .expanded-nav.show {
+            display: flex;
+        }
+
+        .accordion .accordion-content {
+            display: none;
         }
     </style>
 
@@ -290,200 +287,103 @@
 <body>
     <div class="center_container">
 
+        <header>
+            <nav class="navbar">
+                <div class="logo-title">
+                    <img src="../../img/sugarcane-logo.jpeg" alt="Logo" class="logo">
+                    <span class="title">My Website</span>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#home">Home</a></li>
+                    <li class="dropdown">Data <span class="arrow">&#9660;</span>
+                        <ul class="dropdown-content">
+                            <li><a href="#data1">Data 1</a></li>
+                            <li><a href="#data2">Data 2</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">Tools <span class="arrow">&#9660;</span>
+                        <ul class="dropdown-content">
+                            <li><a href="#tool1">Tool 1</a></li>
+                            <li><a href="#tool2">Tool 2</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#download">Download</a></li>
+                    <li><a href="#about">About</a></li>
+                </ul>
+                <div class="search-box">
+                    <input type="text" placeholder="Search...">
+                    <button type="submit"><span class="search-icon">&#128269;</span></button>
+                </div>
+                <button class="menu-toggle">
+                    <span class="menu-icon"></span>
+                </button>
 
+            </nav>
 
-
-
-        <div style="height: 100px;background-color: bisque;"></div>
-        <div class="container">
-            <!-- 滑块选择框 -->
-            <div class="selector_container">
-                <div class="highlight_slider"></div>
-                <button class="option" data_index="0">Mosaic</button>
-                <button class="option" data_index="1">Xenologous</button>
-                <button class="option" data_index="2">Gene</button>
+            <div class="expanded-nav">
+                <ul class="expanded-nav-links">
+                    <li><a href="#home">Home</a></li>
+                    <li class="accordion"><a> Data<span class="arrow">&#9660;</span></a>
+                        <ul class="accordion-content">
+                            <li><a href="#data1">Data 1</a></li>
+                            <li><a href="#data2">Data 2</a></li>
+                        </ul>
+                    </li>
+                    <li class="accordion"><a> Tools<span class="arrow">&#9660;</span></a>
+                        <ul class="accordion-content">
+                            <li><a href="#tool1">Tool 1</a></li>
+                            <li><a href="#tool2">Tool 2</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#download">Download</a></li>
+                    <li><a href="#about">About</a></li>
+                </ul>
+                <div class="expanded-search-box">
+                    <input type="text" placeholder="Search...">
+                    <button type="submit"><span class="search-icon">&#128269;</span></button>
+                </div>
             </div>
-            <script>
-                document.querySelectorAll('.option').forEach(option => {
-                    option.addEventListener('click', function () {
-                        // 移动滑块到被点击的选项
-                        const index = this.getAttribute('data_index');
-                        const slider = document.querySelector('.highlight_slider');
-                        slider.style.left = `${index * 120 + (2 * index + 1) * 10}px`; // button的margin是10px
+        </header>
+        <script>
+            // script.js
+            document.addEventListener('DOMContentLoaded', function () {
+                const menuToggle = document.querySelector('.menu-toggle');
+                const expandedNav = document.querySelector('.expanded-nav');
+                const accordions = document.querySelectorAll('.accordion');
+
+                menuToggle.addEventListener('click', () => {
+                    expandedNav.classList.toggle('show');
+                });
+
+                accordions.forEach(accordion => {
+                    const trigger = accordion.querySelector('a');
+                    const content = accordion.querySelector('.accordion-content');
+
+                    trigger.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const isVisible = content.style.display === 'block';
+                        document.querySelectorAll('.accordion .accordion-content').forEach(el => {
+                            el.style.display = 'none';
+                        });
+                        content.style.display = isVisible ? 'none' : 'block';
                     });
                 });
-            </script>
+            });
+        </script>
 
-            <!-- 结果详情框 -->
-            <details class="clicked_details_container" open>
-                <summary>Clicked Result Details</summary>
-                <div class="result_details_container" id="hub_network_result_details_container">
-                    <div class="content_box">
-                        <!-- <div class="result_details">
-                            <div class="header_container">
-                                <p class="header_text">Edge</p>
-                                <div class="color_line"></div>
-                            </div>
-                            <div class="item_container">
-                                <h1 class="item_title">Weight</h1>
-                                <p class="item_content">4.2341</p>
-                            </div>
 
-                            <div class="item_container">
-                                <h1 class="item_title">Source</h1>
-                                <a class="item_content click_to_draw_single_network"
-                                    title="Click to draw its single network">GT42G000005.SS.3.112</a>
-                            </div>
-                            <div class="item_container">
-                                <h1 class="item_title">Target</h1>
-                                <a class="item_content click_to_draw_single_network"
-                                    title="Click to draw its single network">GT42G000005.SS.123.112</a>
-                            </div>
-                        </div> -->
-
-                        <!-- <div class="result_details">
-                            <div class="header_container">
-                                <p class="header_text">Node</p>
-                                <div class="color_node"></div>
-                            </div>
-                            <div class="item_container">
-                                <h1 class="item_title">ID</h1>
-                                <a class="item_content click_to_draw_single_network" title="Click to draw its single network">GT42G000932.SS.3</a>
-                            </div>
-                            <div class="item_container">
-                                <h1 class="item_title">symbolSize</h1>
-                                <p class="item_content">5.0689</p>
-                            </div>
-                            <div class="item_container">
-                                <h1 class="item_title">totalDegree</h1>
-                                <p class="item_content">159</p>
-                            </div>
-                            <div class="item_container">
-                                <h1 class="item_title">inDegree</h1>
-                                <p class="item_content">9</p>
-                            </div>
-                            <div class="item_container">
-                                <h1 class="item_title">outDegree</h1>
-                                <p class="item_content">150</p>
-                            </div>
-                        </div> -->
-
-                        <!-- <div class="result_details">
-                            <div class="header_container">
-                                <p class="header_text">Node</p>
-                                <div class="color_node"></div>
-                            </div>
-                            <div class="item_container">
-                                <h1 class="item_title">ID</h1>
-                                <a class="item_content click_to_draw_single_network"
-                                    title="Click to draw its single network">GT42G000932.SS.3</a>
-                            </div>
-                            <div class="item_container">
-                                <h1 class="item_title">symbolSize</h1>
-                                <p class="item_content">5.0689</p>
-                            </div>
-                            <div class="item_container">
-                                <h1 class="item_title">totalDegree</h1>
-                                <p class="item_content">159</p>
-                            </div>
-                            <div class="item_container">
-                                <h1 class="item_title">inDegree</h1>
-                                <p class="item_content">9</p>
-                            </div>
-                            <div class="item_container">
-                                <h1 class="item_title">outDegree</h1>
-                                <p class="item_content">150</p>
-                            </div>
-                        </div> -->
-
-                        <div class="result_details">
-                            <div class="header_container">
-                                <p class="header_text">Node</p>
-                                <div class="color_node"></div>
-                            </div>
-                            <div class="item_container">
-                                <h1 class="item_title">ID</h1>
-                                <a class="item_content click_to_draw_single_network"
-                                    title="Click to draw its single network">GT42G000932.SS.3</a>
-                            </div>
-                            <div class="item_container">
-                                <h1 class="item_title">symbolSize</h1>
-                                <p class="item_content">5.0689</p>
-                            </div>
-                            <div class="item_container">
-                                <h1 class="item_title">totalDegree</h1>
-                                <p class="item_content">159</p>
-                            </div>
-                            <div class="item_container">
-                                <h1 class="item_title">inDegree</h1>
-                                <p class="item_content">9</p>
-                            </div>
-                            <div class="item_container">
-                                <h1 class="item_title">outDegree</h1>
-                                <p class="item_content">150</p>
-                            </div>
-                            <div class="table_container">
-                                <div class="table_header">
-                                    <table>
-                                        <thead>
-                                            <tr>
-                                                <th>Adjacent Nodes</th>
-                                            </tr>
-                                        </thead>
-                                    </table>
-                                </div>
-                                <div class="table_content">
-                                    <table>
-
-                                        <tbody>
-                                            <tr>
-                                                <td><a class="click_to_draw_single_network"
-                                                        title="Click to draw its single network">GT42G000932.SS.3</a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td><a class="click_to_draw_single_network"
-                                                        title="Click to draw its single network">GT42G000932.SS.3</a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td><a class="click_to_draw_single_network"
-                                                        title="Click to draw its single network">GT42G000932.SS.3</a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td><a class="click_to_draw_single_network"
-                                                        title="Click to draw its single network">GT42G000932.SS.3</a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td><a class="click_to_draw_single_network"
-                                                        title="Click to draw its single network">GT42G000932.SS.3</a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td><a class="click_to_draw_single_network"
-                                                        title="Click to draw its single network">GT42G000932.SS.3</a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td><a class="click_to_draw_single_network"
-                                                        title="Click to draw its single network">GT42G000932.SS.3</a>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </details>
-
-            <div id="network_container" style="height: 1000px; width: 100%;"></div>
-        </div>
+        <div style="height: 1010px;background-color: bisque;font-size: 20px;">Lorem ipsum dolor sit amet consectetur
+            adipisicing elit.
+            Atque voluptates impedit aperiam necessitatibus maxime nam similique a vitae eos accusantium, quos natus ea
+            laudantium enim veritatis possimus exercitationem quidem ipsum?Lorem ipsum dolor sit amet consectetur
+            adipisicing elit. Natus labore quas ipsum voluptatibus magnam minima deleniti voluptas dignissimos nulla
+            exercitationem consequatur delectus eaque, veritatis praesentium ut repellendus sapiente rerum, ex
+            temporibus suscipit ratione ipsa nesciunt consectetur perspiciatis? Neque harum corporis nulla id saepe
+            officia obcaecati quo non nihil ut veniam animi praesentium consequatur, ab quam, placeat reprehenderit,
+            quidem numquam voluptates! Nesciunt tempora, ducimus modi nisi nihil perspiciatis porro rem laudantium
+            dolores maxime atque ut sed. Laudantium similique tempore repellat itaque, excepturi vel! Nam natus, debitis
+            eligendi reprehenderit dolorum veritatis obcaecati cum quia. Aspernatur doloremque ipsam soluta esse maxime
+            saepe possimus.</div>
 
 
 
