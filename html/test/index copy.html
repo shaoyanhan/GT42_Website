@@ -41,7 +41,7 @@
         .nav_header {
             width: 100%;
             position: fixed;
-            top: 0;
+            top: 20px;
             left: 50%;
             transform: translateX(-50%);
             z-index: 1000;
@@ -49,7 +49,12 @@
             /* 启用水平滚动 */
         }
 
+        .nav_container {
+            position: relative;
+        }
+
         .nav_bar {
+            /* position: relative; */
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -61,9 +66,10 @@
             /* 固定宽度 */
             margin: 0 auto;
             /* 水平居中 */
+            box-shadow: 5px 5px 10px 3px rgba(0, 0, 0, 0.1);
         }
 
-        .logo_container {
+        .nav_bar .logo_container {
             /* width: 340px;
     height: 100px; */
             /* background-color: skyblue; */
@@ -72,13 +78,13 @@
             align-items: center;
         }
 
-        .logo_container .logo_box {
+        .nav_bar .logo_container .logo_box {
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
-        .logo_container .logo_box img {
+        .nav_bar .logo_container .logo_box img {
             width: 41px;
             /* height: 100px; */
             border-radius: 50%;
@@ -86,22 +92,22 @@
             box-shadow: 5px 5px 10px 3px rgba(0, 0, 0, 0.1);
         }
 
-        .logo_container .title_box {
+        .nav_bar .logo_container .title_box {
             margin-left: 20px;
         }
 
-        .logo_container .title_box h1 {
+        .nav_bar .logo_container .title_box h1 {
             font-size: 33px;
             font-weight: bold;
             text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
         }
 
-        .menu_container {
+        .nav_bar .menu_container {
             background-color: #e8e8e8;
             border-radius: 30px;
         }
 
-        .menu_container .menu_links {
+        .nav_bar .menu_container .menu_links {
             display: flex;
             justify-content: space-evenly;
             align-items: center;
@@ -110,13 +116,13 @@
             font-size: 16px;
         }
 
-        .menu_container .menu_links .first_level_link {
+        .nav_bar .menu_container .menu_links .first_level_link {
             margin: 0 10px;
 
         }
 
-        .menu_container .menu_links .first_level_link a,
-        .menu_container .menu_links .second_level_link a {
+        .nav_bar .menu_container .menu_links .first_level_link a,
+        .nav_bar .menu_container .menu_links .second_level_link a {
             text-decoration: none;
             color: black;
             transition: all 0.3s;
@@ -124,20 +130,20 @@
             cursor: pointer;
         }
 
-        .menu_container .menu_links .first_level_link a:hover,
-        .menu_container .menu_links .second_level_link a:hover,
-        .menu_container .menu_links .dropdown:hover>a {
+        .nav_bar .menu_container .menu_links .first_level_link a:hover,
+        .nav_bar .menu_container .menu_links .second_level_link a:hover,
+        .nav_bar .menu_container .menu_links .dropdown:hover>a {
             font-weight: bold;
             /* color: palevioletred; */
             background-color: #f4b0b0;
             border-radius: 10px;
         }
 
-        .menu_container .menu_links .dropdown {
+        .nav_bar .menu_container .menu_links .dropdown {
             position: relative;
         }
 
-        .menu_container .menu_links .dropdown .dropdown_content {
+        .nav_bar .menu_container .menu_links .dropdown .dropdown_content {
             display: none;
             position: absolute;
             left: 50%;
@@ -153,11 +159,11 @@
 
         }
 
-        .menu_container .menu_links .dropdown:hover .dropdown_content {
+        .nav_bar .menu_container .menu_links .dropdown:hover .dropdown_content {
             display: block;
         }
 
-        .menu_container .menu_links .dropdown .dropdown_content .second_level_link a {
+        .nav_bar .menu_container .menu_links .dropdown .dropdown_content .second_level_link a {
             display: block;
             padding: 5px;
             width: calc(100% - 10px);
@@ -165,7 +171,7 @@
             text-align: center;
         }
 
-        .search_box_container {
+        .nav_bar .search_box_container {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -174,7 +180,7 @@
             padding: 5px 10px;
         }
 
-        .search_box_container input {
+        .nav_bar .search_box_container input {
             width: 180px;
             height: 30px;
             padding: 0 10px;
@@ -182,14 +188,14 @@
             background: none;
         }
 
-        .search_box_container button {
+        .nav_bar .search_box_container button {
             width: 30px;
             height: 30px;
             background: none;
             cursor: pointer;
         }
 
-        .search_box_container button .search_icon {
+        .nav_bar .search_box_container button .search_icon {
             font-size: 18px;
         }
 
@@ -216,6 +222,123 @@
             color: white;
         }
 
+        .menu_open .menu_toggle {
+            display: none;
+        }
+
+        .menu_open .menu_close {
+            display: block;
+        }
+
+
+
+
+        .expanded_nav {
+            /* display: flex; */
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+
+            z-index: -1;
+            top: 0;
+
+            flex-direction: column;
+            /* justify-content: center; */
+            align-items: center;
+
+            background-color: #dcdcdc;
+            border-radius: 30px 30px 10px 10px;
+            /* height: 100px; */
+            width: 81%;
+            padding: 60px 10px 10px 10px;
+            margin: 0 auto;
+            box-shadow: 5px 5px 10px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .expanded_nav_open .expanded_nav {
+            display: flex;
+        }
+
+
+        .expanded_nav .search_box_container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #e8e8e8;
+            border-radius: 30px;
+            padding: 5px 10px;
+            margin: 10px 0;
+            width: 30%;
+        }
+
+        .expanded_nav .search_box_container input {
+            width: 100%;
+            height: 30px;
+            padding: 0 10px;
+            font-size: 16px;
+            background: none;
+        }
+
+        .expanded_nav .search_box_container button {
+            width: 30px;
+            height: 30px;
+            background: none;
+            cursor: pointer;
+        }
+
+        .expanded_nav .search_box_container button .search_icon {
+            font-size: 18px;
+        }
+
+        .expanded_nav .menu_container {
+            background-color: #e8e8e8;
+            border-radius: 10px;
+            width: 100%;
+        }
+
+        .expanded_nav .menu_container .menu_links {
+            /* display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center; */
+            list-style: none;
+            padding: 10px 10px;
+            font-size: 16px;
+        }
+
+        .expanded_nav .menu_container .menu_links .first_level_link a,
+        .expanded_nav .menu_container .menu_links .second_level_link a {
+
+            display: block;
+            width: calc(100% - 20px);
+            padding: 10px 10px;
+            cursor: pointer;
+            text-decoration: none;
+            color: black;
+            transition: all 0.3s;
+            border-bottom: 1px solid #dcdcdc;
+        }
+
+        .expanded_nav .menu_container .menu_links .first_level_link a:hover,
+        .expanded_nav .menu_container .menu_links .second_level_link a:hover,
+        .expanded_nav .menu_container .menu_links .accordion:hover>a {
+            font-weight: bold;
+            /* color: palevioletred; */
+            background-color: #f4b0b0;
+            border-radius: 10px;
+        }
+
+        .expanded_nav .menu_container .menu_links .accordion>a {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .expanded_nav .menu_container .menu_links .accordion .accordion_content {
+            display: none;
+            margin-left: 10px;
+        }
 
         /* 响应式布局 */
         @media (min-width: 1600px) {
@@ -228,6 +351,11 @@
             .nav_bar {
                 width: 80%;
             }
+
+            .menu_toggle,
+            .menu_close {
+                display: none;
+            }
         }
 
         @media (max-width: 1150px) {
@@ -235,8 +363,8 @@
                 width: 80%;
             }
 
-            .menu_container,
-            .search_box_container {
+            .nav_bar .menu_container,
+            .nav_bar .search_box_container {
                 display: none;
             }
 
@@ -334,12 +462,41 @@
                     </div>
 
                     <button class="menu_toggle"><i class="iconfont icon-liebiao"></i></button>
-                    <button class="menu_close"><i class="iconfont icon-31guanbi"></i></i></button>
+                    <button class="menu_close"><i class="iconfont icon-31guanbi"></i></button>
 
 
 
                 </nav>
+
                 <div class="expanded_nav">
+                    <div class="search_box_container">
+                        <input type="text" placeholder="Search...">
+                        <button type="submit"><span class="search_icon">&#128269;</span></button>
+                    </div>
+                    <div class="menu_container">
+                        <ul class="menu_links">
+                            <li class="first_level_link"><a href="#home">Home</a></li>
+                            <li class="first_level_link accordion"><a>Data <span class="arrow">&#9660;</span></a>
+                                <ul class="accordion_content">
+                                    <li class="second_level_link"><a href="#data1">Full-length Transcriptome</a></li>
+                                    <li class="second_level_link"><a href="#data2">Variation</a></li>
+                                    <li class="second_level_link"><a href="#data3">Haplotype</a></li>
+                                    <li class="second_level_link"><a href="#data4">Gene Expression Profile</a></li>
+                                    <li class="second_level_link"><a href="#data5">Co-expression Network</a></li>
+                                </ul>
+                            </li>
+                            <li class="first_level_link accordion"><a>Tools<span class="arrow">&#9660;</span></a>
+                                <ul class="accordion_content">
+                                    <li class="second_level_link"><a href="#tool1">Annotation</a></li>
+                                    <li class="second_level_link"><a href="#tool2">Transcript Factors</a></li>
+                                    <li class="second_level_link"><a href="#tool3">BLAST</a></li>
+                                </ul>
+                            </li>
+                            <li class="first_level_link"><a href="#download">Download</a></li>
+                            <li class="first_level_link"><a href="#about">About</a></li>
+                        </ul>
+                    </div>
+
 
                 </div>
             </div>
@@ -349,27 +506,69 @@
             document.addEventListener('DOMContentLoaded', function () {
                 const menuToggle = document.querySelector('.menu_toggle');
                 const menuClose = document.querySelector('.menu_close');
-                const menuContainer = document.querySelector('.menu_container');
-                const searchBoxContainer = document.querySelector('.search_box_container');
+                const expandedNav = document.querySelector('.expanded_nav');
                 const searchBox = document.querySelector('.search_box_container input');
                 const searchIcon = document.querySelector('.search_box_container .search_icon');
 
-                menuToggle.addEventListener('click', function () {
-                    // menuContainer.style.display = 'block';
-                    // searchBoxContainer.style.display = 'block';
-                    menuToggle.style.display = 'none';
-                    menuClose.style.display = 'block';
-                });
+                // menuToggle.addEventListener('click', function () {
 
+                //     menuToggle.style.display = 'none';
+                //     menuClose.style.display = 'block';
+                // });
+
+                // menuClose.addEventListener('click', function () {
+
+                //     menuToggle.style.display = 'block';
+                //     menuClose.style.display = 'none';
+                // });
+
+                const navBar = document.querySelector('.nav_bar');
+                const navContainer = document.querySelector('.nav_container');
+
+                // 新增 .menu_open 类，用于控制 .menu_toggle 和 .menu_close 的显示和隐藏。这里不使用改变 display的方法，
+                // 因为会覆盖媒体查询中的 CSS 规则。
+                menuToggle.addEventListener('click', function () {
+                    navBar.classList.add('menu_open');
+                    navContainer.classList.add('expanded_nav_open');
+                });
                 menuClose.addEventListener('click', function () {
-                    // menuContainer.style.display = 'none';
-                    // searchBoxContainer.style.display = 'none';
-                    menuToggle.style.display = 'block';
-                    menuClose.style.display = 'none';
+                    navBar.classList.remove('menu_open');
+                    navContainer.classList.remove('expanded_nav_open');
+                });
+                // 新增 resize 事件监听器。当窗口大小发生变化时，如果宽度大于 1150px，则移除 menu_open 类。否则如果
+                // 没有点击关闭按钮直接调整窗口大小，导致 menu_open 类一直存在，这样会导致菜单一直显示。
+                window.addEventListener('resize', function () {
+                    if (window.innerWidth > 1150) {
+                        navBar.classList.remove('menu_open');
+                        navContainer.classList.remove('expanded_nav_open');
+                    }
                 });
 
                 searchIcon.addEventListener('click', function () {
                     searchBox.focus();
+                });
+            });
+        </script>
+
+        <script>
+            // 用于控制手风琴下拉框的显示和隐藏
+            document.addEventListener('DOMContentLoaded', function () {
+                const accordions = document.querySelectorAll('.accordion');
+                accordions.forEach(accordion => {
+                    const trigger = accordion.querySelector('a');
+                    const content = accordion.querySelector('.accordion_content');
+
+                    trigger.addEventListener('click', (e) => {
+
+
+                        e.preventDefault();
+                        // trigger.style.backgroundColor = '#f4b0b0';
+                        const isVisible = content.style.display === 'block';
+                        document.querySelectorAll('.accordion .accordion_content').forEach(el => {
+                            el.style.display = 'none';
+                        });
+                        content.style.display = isVisible ? 'none' : 'block';
+                    });
                 });
             });
         </script>
