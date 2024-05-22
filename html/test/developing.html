@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>llchen's lab</title>
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            background-color: #E3FCDD;
+        }
+
+        .developing {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .developing img {
+            width: 300px;
+            border-radius: 15px;
+            box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .developing h1 {
+            font-size: 30px;
+            color: #333;
+            font-weight: bold;
+            font-style: normal;
+
+        }
+
+        .developing .lab_title {
+            font-size: 50px;
+        }
+
+        .developing h1 span {
+            animation: blink 2s infinite;
+        }
+
+        .developing a {
+            font-size: 20px;
+            color: #535353;
+            margin-top: 20px;
+            font-weight: bold;
+            font-style: italic;
+            transition: all 0.5s;
+        }
+
+        .developing a:hover {
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.509);
+            color: rgb(0, 0, 0);
+        }
+
+        @keyframes blink {
+            0% {
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="developing">
+        <img src="../../img/programming5.gif" alt="programming...">
+        <h1 class="lab_title">llchen's lab</h1>
+        <h1>Coming soon <span>...</span></h1>
+        <a href="/">link test</a>
+    </div>
+</body>
+
+</html>
