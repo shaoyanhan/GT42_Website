@@ -214,7 +214,16 @@ function getHeatmapOption(dataArray) {
                 fontSize: 16
             },
             itemHeight: 250,
-            // inRange: { color: ['red', 'blue'] }
+            inRange: {
+
+                color: ['#4575b4', '#74add1', '#abd9e9', '#e0f3f8', '#ffffbf', '#fee090', '#fdae61', '#f46d43', '#d73027']
+                // color: ['#3288bd', '#66c2a5', '#abdda4', '#e6f598', '#ffffbf', '#fee08b', '#fdae61', '#f46d43', '#d53e4f']
+                // color: ['#8dd3c7', '#ffffb3', '#bebada', '#fb8072', '#80b1d3', '#fdb462', '#b3de69', '#fccde5', '#d9d9d9']
+                // color: ['#4d9221', '#7fbc41', '#b8e186', '#e6f5d0', '#f7f7f7', '#fde0ef', '#f1b6da', '#de77ae', '#c51b7d']
+                // color: ['#e0f3db', '#ccebc5', '#a8ddb5', '#7bccc4', '#4eb3d3', '#2b8cbe', '#0868ac', '#084081']
+                // color: ['#4E659B', '#8A8CBF', '#B8A8CF', '#E7BCC6', '#FDCF9E', '#EFA484', '#B6766C']
+                // color: ['#8A8CBF', '#B8A8CF', '#E7BCC6', '#FDCF9E', '#EFA484']
+            }
 
         },
         series: [

@@ -9,6 +9,8 @@
     <script src="https://cdn.jsdelivr.net/npm/echarts@latest/dist/echarts.min.js"></script>
     <!-- 引入 lodash.js 用于 data.js 的数据深拷贝 -->
     <script src="../../js/lodash.js"></script>
+    <!-- 引入字体库 -->
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
 
     <style>
         html,
@@ -19,6 +21,7 @@
             padding: 0;
             font-family: Arial, sans-serif;
             overflow-x: auto;
+            font-style: 'Poppins';
             /* 启用水平滚动 */
         }
 
@@ -28,256 +31,169 @@
 
         .center_container {
             margin: 0 auto;
-            width: 1600px;
+            width: 1440px;
             /* 用内容撑开高度 */
             /* height: 100%; */
             background-color: #FAFFF2;
             overflow: hidden;
         }
 
+        .center_container details {
+            margin: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
 
-        header {
-            width: 100%;
-            position: fixed;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 1000;
-            /* overflow-x: auto; */
-            /* 启用水平滚动 */
         }
 
-        .navbar {
+        .center_container details summary {
+            font-size: 20px;
+            font-weight: bold;
+            background: #8bc2d0;
+            color: #fff;
+            padding: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .center_container details .table_footer_pagination_container .table_container {
+            margin-top: 20px;
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .center_container details .table_footer_pagination_container .table_container table {
+            width: 100%;
+            border-collapse: collapse;
+            border: none;
+            border-radius: 10px 10px 0 0;
+            /* 设置表格的左上和右上圆角为10px */
+            overflow: hidden;
+            /* 保持圆角，隐藏溢出的子元素 */
+            table-layout: auto;
+            /* 允许列宽自适应内容宽度 */
+
+        }
+
+        .center_container details .table_footer_pagination_container .table_container table thead {
+            background-color: #bbe1bb;
+        }
+
+        .center_container details .table_footer_pagination_container .table_container table th {
+            text-align: center;
+            /* 标题和单元格内容居中对齐 */
+            font-size: 18px;
+            /* 字号设置为18px */
+            padding: 15px 30px;
+            /* 设置单元格的上下padding为15px, 左右padding为30px */
+            font-weight: bold;
+            /* 标题字体加粗 */
+            border: none;
+            /* 去除所有边线 */
+        }
+
+        .center_container details .table_footer_pagination_container .table_container table td {
+            text-align: center;
+            /* 单元格内容居中对齐 */
+            font-size: 18px;
+            /* 字号设置为18px */
+            padding: 15px 30px;
+            /* 设置单元格的上下padding为10px, 左右padding为30px */
+            border: none;
+            /* 去除所有边线 */
+            /* border-top: 1px solid #ccc; */
+            /* 添加上边框，不添加更清爽一点，并且避免了色块td的上下边框错位的问题 */
+        }
+
+        /* SNP表格的IsoSeqEvidence、RNASeqEvidence 两列数据项的内容长度不一，并且存在空格，可能导致换行 */
+        .center_container details #SNP_table_container_all table td:nth-child(4),
+        .center_container details #SNP_table_container_all table td:nth-child(5),
+        .center_container details #SNP_table_container_iso table td:nth-child(4),
+        .center_container details #SNP_table_container_rna table td:nth-child(4) {
+            white-space: nowrap;
+            /* 防止内容换行 */
+        }
+
+        /* SNP表格的 haplotypeSNP 这一列数据过长，使用左对齐方式，并放置在一行之内*/
+        .center_container details #SNP_table_container_all table td:nth-child(6),
+        .center_container details #SNP_table_container_all table th:nth-child(6),
+        .center_container details #SNP_table_container_iso table td:nth-child(5),
+        .center_container details #SNP_table_container_iso table th:nth-child(5),
+        .center_container details #SNP_table_container_rna table td:nth-child(5),
+        .center_container details #SNP_table_container_rna table th:nth-child(5) {
+            white-space: nowrap;
+            /* 防止内容换行 */
+            text-align: left;
+            /* 设置文本左对齐 */
+            min-width: max-content;
+            /* 列宽至少与内容宽度相同 */
+        }
+
+        /* 为SNP表格中放置颜色点的div容器设置为水平竖直居中 */
+        .center_container details #SNP_table_container table tbody tr td:last-child {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+        }
+
+        .center_container details .table_footer_pagination_container .table_container table tbody tr:nth-child(even) {
+            background-color: #e4f6e4;
+            /* 为tbody中所有奇数行设置浅绿色背景 */
+        }
+
+        .center_container details .table_footer_pagination_container .table_container table tbody tr:hover {
+            background-color: #c7e3ed;
+            /* color: #525252; */
+            /* 鼠标悬停时，背景颜色变为深蓝色，字体颜色变为白色 */
+        }
+
+        .center_container details .table_footer_pagination_container .footer_pagination_container {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: #333;
-            padding: 0 20px;
-            border-radius: 25px;
-            color: white;
-            /* width: 80%; */
-            /* 固定宽度 */
-            margin: 0 auto;
-            /* 水平居中 */
+            padding: 10px;
+            background: #f0f0f0;
+            border-radius: 0 0 10px 10px;
         }
 
-        .logo-title {
+        .center_container details .table_footer_pagination_container .footer_pagination_container .footer_notes {
+            font-size: 15px;
+            margin-left: 10px;
+        }
+
+        .center_container details .table_footer_pagination_container .footer_pagination_container .pagination_container {
             display: flex;
+            justify-content: center;
             align-items: center;
         }
 
-        .logo-title .logo {
-            width: 40px;
-            height: 40px;
-            margin-right: 10px;
-        }
-
-        .logo-title .title {
-            font-size: 16px;
-        }
-
-        .nav-links {
-            list-style: none;
-            display: flex;
-            align-items: center;
-        }
-
-        .nav-links li {
-
-            margin: 0 15px;
-
-        }
-
-        .nav-links .dropdown {
-            position: relative;
-            font-size: 14px;
-            padding: 13px 0;
-        }
-
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            padding: 8px 15px;
-            display: block;
-            font-size: 14px;
-        }
 
 
-        .nav-links .dropdown:hover .dropdown-content {
-            display: block;
-        }
-
-        .arrow {
-            margin-left: 5px;
-        }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #736e6e;
-            border-radius: 10px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            top: 45px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 1000;
-            min-width: 150px;
-            transition: all 0.3s;
-        }
-
-        .dropdown:hover .dropdown-content,
-        .dropdown-content:hover {
-            display: block;
-        }
-
-        .dropdown-content a:hover {
-            background-color: #575757;
-        }
-
-        .search-box {
-            display: flex;
-            align-items: center;
-        }
-
-        .search-box input {
-            padding: 5px;
+        .center_container details .table_footer_pagination_container .footer_pagination_container .download_button,
+        .center_container .result_details_container .download_button,
+        .center_container .result_details_container .copy_button,
+        .center_container details .table_footer_pagination_container .table_container .copy_button,
+        .center_container details .table_footer_pagination_container .footer_pagination_container .pagination_container a {
+            margin: 10px;
+            padding: 5px 10px;
+            border: 1px solid #ccc;
             border-radius: 5px;
-            border: none;
-        }
-
-        .search-box button {
-            background: none;
-            border: none;
-            cursor: pointer;
-            margin-left: 5px;
-            color: white;
-            font-size: 18px;
-        }
-
-        .search-icon {
-            font-size: 18px;
-        }
-
-
-        .navbar .menu-toggle {
-            display: none;
-            background: none;
-            border: none;
-            cursor: pointer;
-        }
-
-        .navbar .menu-icon {
-            width: 25px;
-            height: 3px;
-            background-color: white;
-            position: relative;
-            display: inline-block;
-        }
-
-        .navbar .menu-icon::before,
-        .navbar .menu-icon::after {
-            content: "";
-            width: 25px;
-            height: 3px;
-            background-color: white;
-            position: absolute;
-            left: 0;
-        }
-
-        .navbar .menu-icon::before {
-            top: -8px;
-        }
-
-        .navbar .menu-icon::after {
-            bottom: -8px;
-        }
-
-        .expanded-nav {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            background-color: #333;
-            width: 100%;
-            padding: 10px 0;
-        }
-
-        .expanded-nav-links {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            text-align: center;
-        }
-
-        .expanded-nav-links li {
-            margin: 10px 0;
-        }
-
-        .expanded-nav-links a {
-            color: white;
+            box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
             text-decoration: none;
-            padding: 8px 15px;
-            display: block;
+            color: #333;
+            background: #f0f0f0;
+            cursor: pointer;
+            font-size: 14px;
         }
 
-        .accordion .accordion-content {
-            display: none;
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .accordion .accordion-content li {
-            margin: 5px 0;
-        }
-
-        .accordion .accordion-content a {
-            padding: 8px 15px;
-        }
-
-        .expanded-search-box {
-            margin-top: 10px;
-        }
-
-        /* 响应式布局 */
-        @media (min-width: 1600px) {
-            .navbar {
-                width: 1280px;
-            }
-        }
-
-        @media (min-width: 1150px) and (max-width: 1600px) {
-            .navbar {
-                width: 80%;
-            }
-        }
-
-        @media (max-width: 1150px) {
-            .navbar {
-                width: 80%;
-                justify-content: space-between;
-            }
-
-            .nav-links,
-            .search-box {
-                display: none;
-            }
-
-            .menu-toggle {
-                display: block;
-            }
-
-            .expanded-nav {
-                display: none;
-            }
-        }
-
-        /* style.css */
-        .expanded-nav.show {
-            display: flex;
-        }
-
-        .accordion .accordion-content {
-            display: none;
+        .center_container details .table_footer_pagination_container .footer_pagination_container .download_button:hover,
+        .center_container .result_details_container .download_button:hover,
+        .center_container .result_details_container .copy_button:hover,
+        .center_container details .table_footer_pagination_container .table_container .copy_button:hover,
+        .center_container details .table_footer_pagination_container .footer_pagination_container .pagination_container a:hover,
+        .center_container details .table_footer_pagination_container .footer_pagination_container .pagination_container .active {
+            background: #8bc2d0;
+            color: #fff;
         }
     </style>
 
@@ -286,113 +202,122 @@
 
 <body>
     <div class="center_container">
+        <div id="snp_chart_all" style="width: 1400px;height:800px;"></div>
+        <details>
+            <summary>Click to view the SNP table</summary>
+            <div class="table_footer_pagination_container" id="SNP_table_container_all">
 
-        <header>
-            <nav class="navbar">
-                <div class="logo-title">
-                    <img src="../../img/sugarcane-logo.jpeg" alt="Logo" class="logo">
-                    <span class="title">My Website</span>
+                <div class="table_container">
+                    <table>
+                        <thead>
+                            <!-- 表格头为mosaicID, SNPSite, SNPType, IsoSeqEvidence, RNASeqEvidence, haplotypeSNP -->
+                            <tr>
+                                <th>mosaicID</th>
+                                <th>SNPSite</th>
+                                <th>SNPType</th>
+                                <th>IsoSeqEvidence</th>
+                                <th>RNASeqEvidence</th>
+                                <th>haplotypeSNP</th>
+                                <!-- <th>color</th> -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- 由tablePagination.js 中的 updateTable（data, container）进行填充 -->
+                        </tbody>
+                    </table>
                 </div>
-                <ul class="nav-links">
-                    <li><a href="#home">Home</a></li>
-                    <li class="dropdown">Data <span class="arrow">&#9660;</span>
-                        <ul class="dropdown-content">
-                            <li><a href="#data1">Data 1</a></li>
-                            <li><a href="#data2">Data 2</a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown">Tools <span class="arrow">&#9660;</span>
-                        <ul class="dropdown-content">
-                            <li><a href="#tool1">Tool 1</a></li>
-                            <li><a href="#tool2">Tool 2</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#download">Download</a></li>
-                    <li><a href="#about">About</a></li>
-                </ul>
-                <div class="search-box">
-                    <input type="text" placeholder="Search...">
-                    <button type="submit"><span class="search-icon">&#128269;</span></button>
-                </div>
-                <button class="menu-toggle">
-                    <span class="menu-icon"></span>
-                </button>
-
-            </nav>
-
-            <div class="expanded-nav">
-                <ul class="expanded-nav-links">
-                    <li><a href="#home">Home</a></li>
-                    <li class="accordion"><a> Data<span class="arrow">&#9660;</span></a>
-                        <ul class="accordion-content">
-                            <li><a href="#data1">Data 1</a></li>
-                            <li><a href="#data2">Data 2</a></li>
-                        </ul>
-                    </li>
-                    <li class="accordion"><a> Tools<span class="arrow">&#9660;</span></a>
-                        <ul class="accordion-content">
-                            <li><a href="#tool1">Tool 1</a></li>
-                            <li><a href="#tool2">Tool 2</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#download">Download</a></li>
-                    <li><a href="#about">About</a></li>
-                </ul>
-                <div class="expanded-search-box">
-                    <input type="text" placeholder="Search...">
-                    <button type="submit"><span class="search-icon">&#128269;</span></button>
+                <div class="footer_pagination_container">
+                    <span class="footer_notes">Showing ? to ? of ? entries</span>
+                    <div class="pagination_container">
+                        <a href="#">1</a>
+                        <a href="#">2</a>
+                        <a href="#">3</a>
+                    </div>
+                    <button class="download_button" id="download_SNP_table">Download</button>
                 </div>
             </div>
-        </header>
-        <script>
-            // script.js
-            document.addEventListener('DOMContentLoaded', function () {
-                const menuToggle = document.querySelector('.menu-toggle');
-                const expandedNav = document.querySelector('.expanded-nav');
-                const accordions = document.querySelectorAll('.accordion');
 
-                menuToggle.addEventListener('click', () => {
-                    expandedNav.classList.toggle('show');
-                });
+        </details>
+        <div style="height: 100px;background-color: #E3FCDD;"></div>
 
-                accordions.forEach(accordion => {
-                    const trigger = accordion.querySelector('a');
-                    const content = accordion.querySelector('.accordion-content');
+        <div id="snp_chart_iso" style="width: 1400px;height:800px;"></div>
+        <details>
+            <summary>Click to view the SNP table</summary>
+            <div class="table_footer_pagination_container" id="SNP_table_container_iso">
 
-                    trigger.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        const isVisible = content.style.display === 'block';
-                        document.querySelectorAll('.accordion .accordion-content').forEach(el => {
-                            el.style.display = 'none';
-                        });
-                        content.style.display = isVisible ? 'none' : 'block';
-                    });
-                });
-            });
-        </script>
+                <div class="table_container">
+                    <table>
+                        <thead>
+                            <!-- 表格头为mosaicID, SNPSite, SNPType, IsoSeqEvidence, RNASeqEvidence, haplotypeSNP -->
+                            <tr>
+                                <th>mosaicID</th>
+                                <th>SNPSite</th>
+                                <th>SNPType</th>
+                                <th>IsoSeqEvidence</th>
+                                <!-- <th>RNASeqEvidence</th> -->
+                                <th>haplotypeSNP</th>
+                                <!-- <th>color</th> -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- 由tablePagination.js 中的 updateTable（data, container）进行填充 -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="footer_pagination_container">
+                    <span class="footer_notes">Showing ? to ? of ? entries</span>
+                    <div class="pagination_container">
+                        <a href="#">1</a>
+                        <a href="#">2</a>
+                        <a href="#">3</a>
+                    </div>
+                    <button class="download_button" id="download_SNP_table">Download</button>
+                </div>
+            </div>
+
+        </details>
+        <div style="height: 100px;background-color: #E3FCDD;"></div>
 
 
-        <div style="height: 1010px;background-color: bisque;font-size: 20px;">Lorem ipsum dolor sit amet consectetur
-            adipisicing elit.
-            Atque voluptates impedit aperiam necessitatibus maxime nam similique a vitae eos accusantium, quos natus ea
-            laudantium enim veritatis possimus exercitationem quidem ipsum?Lorem ipsum dolor sit amet consectetur
-            adipisicing elit. Natus labore quas ipsum voluptatibus magnam minima deleniti voluptas dignissimos nulla
-            exercitationem consequatur delectus eaque, veritatis praesentium ut repellendus sapiente rerum, ex
-            temporibus suscipit ratione ipsa nesciunt consectetur perspiciatis? Neque harum corporis nulla id saepe
-            officia obcaecati quo non nihil ut veniam animi praesentium consequatur, ab quam, placeat reprehenderit,
-            quidem numquam voluptates! Nesciunt tempora, ducimus modi nisi nihil perspiciatis porro rem laudantium
-            dolores maxime atque ut sed. Laudantium similique tempore repellat itaque, excepturi vel! Nam natus, debitis
-            eligendi reprehenderit dolorum veritatis obcaecati cum quia. Aspernatur doloremque ipsam soluta esse maxime
-            saepe possimus.</div>
+        <div id="snp_chart_rna" style="width: 1400px;height:800px;"></div>
+        <details>
+            <summary>Click to view the SNP table</summary>
+            <div class="table_footer_pagination_container" id="SNP_table_container_rna">
 
+                <div class="table_container">
+                    <table>
+                        <thead>
+                            <!-- 表格头为mosaicID, SNPSite, SNPType, IsoSeqEvidence, RNASeqEvidence, haplotypeSNP -->
+                            <tr>
+                                <th>mosaicID</th>
+                                <th>SNPSite</th>
+                                <th>SNPType</th>
+                                <!-- <th>IsoSeqEvidence</th> -->
+                                <th>RNASeqEvidence</th>
+                                <th>haplotypeSNP</th>
+                                <!-- <th>color</th> -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- 由tablePagination.js 中的 updateTable（data, container）进行填充 -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="footer_pagination_container">
+                    <span class="footer_notes">Showing ? to ? of ? entries</span>
+                    <div class="pagination_container">
+                        <a href="#">1</a>
+                        <a href="#">2</a>
+                        <a href="#">3</a>
+                    </div>
+                    <button class="download_button" id="download_SNP_table">Download</button>
+                </div>
+            </div>
 
-
+        </details>
     </div>
 
-
-
-
-    <script type="module" src="./main.js"></script>
+    <script src="./main.js"></script>
 </body>
 
 </html>

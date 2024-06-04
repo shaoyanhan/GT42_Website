@@ -159,7 +159,6 @@ function getHaplotypeSNPOption(haplotypeData, SNPData) {
         xAxis:
         {
             min: startbp,
-            scale: true,
             axisLabel: {
                 formatter: function (val) {
                     return Math.round(Math.max(0, val - startbp)) + ' bp';
