@@ -220,7 +220,7 @@ function drawNetwork() {
 
                     name: 'SNP',
                     type: 'scatter',
-                    symbolSize: 20,
+                    // symbolSize: 20,
                     tooltip: {
                         formatter: function (params) {
                             // console.log(params);

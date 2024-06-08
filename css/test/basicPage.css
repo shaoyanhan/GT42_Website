@@ -1,0 +1,573 @@
+/* 让背景充满屏幕*/
+html,
+body {
+    /* 这里不能设置100%高宽，因为会忽略浏览器滚动条，导致window.innerWidth == document.documentElement.clientWidth 
+       只需要设置margin和padding为0即可实现铺满全屏了*/
+    /* width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0; */
+    font-family: 'Poppins';
+    overflow-x: auto;
+    /* 启用水平滚动 */
+    /* color: rgb(15, 150, 218); */
+}
+
+body {
+    /* background-color: #E3FCDD; */
+    background-color: rgb(227 252 221 / 75%);
+}
+
+.center_container {
+    margin: 0 auto;
+    width: 1440px;
+    /* 用内容撑开高度 */
+    /* height: 100%; */
+    background-color: #FAFFF2;
+    overflow: hidden;
+}
+
+.center_container .custom_alert {
+    display: none;
+    /* 初始状态不显示 */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #b8e994;
+    /* 浅绿色背景 */
+    padding: 20px;
+    border-radius: 10px;
+    /* 圆角边框 */
+    z-index: 3000;
+    /* 确保它在页面上的其他元素之上 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* 轻微的阴影效果 */
+    text-align: center;
+}
+
+.nav_header {
+    width: 100%;
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    /* overflow-x: auto; */
+    /* 启用水平滚动 */
+
+
+}
+
+.nav_container {
+    position: relative;
+
+}
+
+.nav_bar {
+    /* position: relative; */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #488a63;
+    padding: 5px 15px;
+    border-radius: 30px;
+    color: white;
+    /* width: 80%; */
+    /* 固定宽度 */
+    margin: 0 auto;
+    /* 水平居中 */
+    box-shadow: 5px 5px 10px 3px rgba(0, 0, 0, 0.1);
+}
+
+.nav_bar .logo_container {
+    /* width: 340px;
+    height: 100px; */
+    /* background-color: skyblue; */
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.nav_bar .logo_container .logo_box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav_bar .logo_container .logo_box img {
+    width: 41px;
+    /* height: 100px; */
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 5px 5px 10px 3px rgba(0, 0, 0, 0.1);
+}
+
+.nav_bar .logo_container .title_box {
+    margin-left: 20px;
+}
+
+.nav_bar .logo_container .title_box h1 {
+    font-size: 33px;
+    font-weight: bold;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+}
+
+.nav_bar .menu_container {
+    background-color: rgb(255, 255, 255, 0.9);
+    border-radius: 30px;
+}
+
+.nav_bar .menu_container .menu_links {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    list-style: none;
+    padding: 10px 10px;
+    font-size: 16px;
+}
+
+.nav_bar .menu_container .menu_links .first_level_link {
+    margin: 0 10px;
+
+}
+
+.nav_bar .menu_container .menu_links .first_level_link a,
+.nav_bar .menu_container .menu_links .second_level_link a {
+    text-decoration: none;
+    color: black;
+    transition: all 0.3s;
+    padding: 10px 10px;
+    cursor: pointer;
+}
+
+.nav_bar .menu_container .menu_links .first_level_link>a:hover,
+.nav_bar .menu_container .menu_links .dropdown:hover>a {
+    font-weight: bold;
+    /* color: palevioletred; */
+    background-color: rgba(97, 181, 132, 0.8);
+    border-radius: 10px;
+}
+
+.nav_bar .menu_container .menu_links .second_level_link a:hover {
+    background-color: rgba(97, 181, 132, 0.8);
+    border-radius: 10px;
+}
+
+.nav_bar .menu_container .menu_links .dropdown {
+    position: relative;
+}
+
+.nav_bar .menu_container .menu_links .dropdown .dropdown_content {
+    display: none;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    /* 宽度根据最长的行自动撑开 */
+    min-width: max-content;
+
+    background-color: rgb(240, 240, 240);
+    border-radius: 10px;
+    margin-top: 9px;
+    padding: 10px;
+    box-shadow: 5px 5px 10px 3px rgba(0, 0, 0, 0.1);
+
+}
+
+.nav_bar .menu_container .menu_links .dropdown:hover .dropdown_content {
+    display: block;
+}
+
+.nav_bar .menu_container .menu_links .dropdown .dropdown_content .second_level_link a {
+    display: block;
+    padding: 5px;
+    width: calc(100% - 10px);
+    border-bottom: 1px solid #dcdcdc;
+    text-align: center;
+}
+
+.nav_bar .search_box_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(255, 255, 255, 0.9);
+    border-radius: 30px;
+    padding: 5px 10px;
+}
+
+.nav_bar .search_box_container input {
+    width: 180px;
+    height: 30px;
+    padding: 0 10px;
+    font-size: 16px;
+    background: none;
+}
+
+.nav_bar .search_box_container button {
+    width: 30px;
+    height: 30px;
+    background: none;
+    cursor: pointer;
+}
+
+.nav_bar .search_box_container button .search_icon {
+    font-size: 18px;
+}
+
+.menu_toggle,
+.menu_close {
+    display: none;
+    background: none;
+    border: 1px solid white;
+    color: #dcdcdc;
+    padding: 8px;
+    margin-right: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.menu_toggle:hover,
+.menu_close:hover {
+    background-color: white;
+    border: #dcdcdc;
+}
+
+.menu_toggle:hover .iconfont,
+.menu_close:hover .iconfont {
+    color: black;
+}
+
+.menu_open .menu_toggle {
+    display: none;
+}
+
+.menu_open .menu_close {
+    display: block;
+}
+
+.expanded_nav {
+    /* display: flex; */
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+
+    z-index: -1;
+    top: 0;
+
+    flex-direction: column;
+    /* justify-content: center; */
+    align-items: center;
+
+    background-color: #488a63;
+    border-radius: 30px 30px 10px 10px;
+    /* height: 100px; */
+    width: 81%;
+    padding: 60px 10px 10px 10px;
+    margin: 0 auto;
+    box-shadow: 5px 5px 10px 3px rgba(0, 0, 0, 0.1);
+}
+
+.expanded_nav_open .expanded_nav {
+    display: flex;
+}
+
+
+.expanded_nav .search_box_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #e8e8e8;
+    border-radius: 30px;
+    padding: 5px 10px;
+    margin: 10px 0;
+    width: 30%;
+}
+
+.expanded_nav .search_box_container input {
+    width: 100%;
+    height: 30px;
+    padding: 0 10px;
+    font-size: 16px;
+    background: none;
+}
+
+.expanded_nav .search_box_container button {
+    width: 30px;
+    height: 30px;
+    background: none;
+    cursor: pointer;
+}
+
+.expanded_nav .search_box_container button .search_icon {
+    font-size: 18px;
+}
+
+.expanded_nav .menu_container {
+    background-color: #e8e8e8;
+    border-radius: 10px;
+    width: 100%;
+}
+
+.expanded_nav .menu_container .menu_links {
+    /* display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center; */
+    list-style: none;
+    padding: 10px 10px;
+    font-size: 16px;
+}
+
+.expanded_nav .menu_container .menu_links .first_level_link a,
+.expanded_nav .menu_container .menu_links .second_level_link a {
+
+    display: block;
+    width: calc(100% - 20px);
+    padding: 10px 10px;
+    cursor: pointer;
+    text-decoration: none;
+    color: black;
+    transition: all 0.3s;
+    border-bottom: 1px solid #dcdcdc;
+}
+
+.expanded_nav .menu_container .menu_links .first_level_link>a:hover,
+.expanded_nav .menu_container .menu_links .accordion:hover>a {
+    font-weight: bold;
+    /* color: palevioletred; */
+    background-color: rgba(97, 181, 132, 0.8);
+    border-radius: 10px;
+}
+
+.expanded_nav .menu_container .menu_links .second_level_link a:hover {
+    background-color: rgba(97, 181, 132, 0.8);
+    border-radius: 10px;
+}
+
+.expanded_nav .menu_container .menu_links .accordion>a {
+    display: flex;
+    justify-content: space-between;
+}
+
+.expanded_nav .menu_container .menu_links .accordion .accordion_content {
+    display: none;
+    margin-left: 10px;
+}
+
+
+
+/* 导航栏中的菜单和关闭图标字体(font-class 引用方式)，来自于 https://www.iconfont.cn/manage/index?manage_type=myprojects&projectId=4552750*/
+@font-face {
+    font-family: "iconfont";
+    /* Project id 4552750 */
+    src: url('//at.alicdn.com/t/c/font_4552750_t8m32k3o3g.woff2?t=1717830003770') format('woff2'),
+        url('//at.alicdn.com/t/c/font_4552750_t8m32k3o3g.woff?t=1717830003770') format('woff'),
+        url('//at.alicdn.com/t/c/font_4552750_t8m32k3o3g.ttf?t=1717830003770') format('truetype');
+}
+
+.iconfont {
+    font-family: "iconfont" !important;
+    font-size: 16px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-liebiao:before {
+    content: "\e600";
+}
+
+.icon-31guanbi:before {
+    content: "\e601";
+}
+
+/* 导航栏中的回到顶部图标(symbol 引用）*/
+.icon {
+    width: 1em;
+    height: 1em;
+    vertical-align: -0.15em;
+    fill: currentColor;
+    overflow: hidden;
+}
+
+
+.scroll_to_top_button {
+    /* 当视口在顶部时隐藏按钮，后续搭配js进行页面滚动距离的图标展现 */
+    display: none;
+    background-color: transparent;
+    /* 按钮背景透明 */
+    border: none;
+    /* 无边框 */
+    cursor: pointer;
+    /* 鼠标悬停时变成手指形状 */
+    position: fixed;
+    right: 10px;
+    bottom: 25%;
+    z-index: 3000;
+}
+
+.scroll_to_top_button svg {
+    font-size: 50px;
+}
+
+.scroll_to_top_button:hover svg {
+    animation: bounce 1.3s infinite;
+}
+
+/* 为回到顶部图标设置动画，在40%和60%这两个时间点向上位移，模拟跳跃两次的效果 */
+@keyframes bounce {
+
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+        transform: translateY(0);
+    }
+
+    40% {
+        transform: translateY(-30px);
+    }
+
+    60% {
+        transform: translateY(-15px);
+    }
+}
+
+
+/* 导航栏响应式布局 */
+@media (min-width: 1440px) {
+    .nav_bar {
+        /* width: 1280px; */
+        width: 1370px;
+    }
+}
+
+@media (min-width: 1150px) and (max-width: 1440px) {
+    .nav_bar {
+        width: 95%;
+    }
+
+    .menu_toggle,
+    .menu_close {
+        display: none;
+    }
+}
+
+@media (max-width: 1150px) {
+    .nav_bar {
+        width: 95%;
+    }
+
+    .nav_bar .menu_container,
+    .nav_bar .search_box_container {
+        display: none;
+    }
+
+    .menu_toggle {
+        display: block;
+    }
+
+    /* .nav-links,
+            .search-box {
+                display: none;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .expanded-nav {
+                display: none;
+            } */
+}
+
+.content_container {
+    width: calc(100% - 40px);
+    /* 保证内容不溢出 */
+    /* height: 1130px;  */
+    /* 由内容自动撑起 */
+    padding: 20px;
+    margin-top: 90px;
+}
+
+.footer_container {
+    width: 100%;
+    padding: 10px 0;
+    /* height: 225px; */
+    background-color: #00411A;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    overflow: hidden;
+}
+
+.footer_container .logo_container {
+    width: 100%;
+    margin: 5px 0;
+    /* height: 130px; */
+    /* background-color: skyblue; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+.footer_container .logo_container .logo_box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin: 0 15px;
+}
+
+.footer_container .logo_container .logo_box img {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.footer_container .logo_container ul {
+    font-size: 18px;
+    line-height: 1.5;
+    color: white;
+}
+
+
+.footer_container .development_info {
+    font-size: 15px;
+
+    color: white;
+    text-align: center;
+    line-height: 30px;
+}
+
+.footer_container .copyright_revolvermap_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.footer_container .copyright_revolvermap_container .copyright_container {
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+}
+
+.footer_container .copyright_revolvermap_container .copyright_container h1 {
+    font-size: 15px;
+
+    color: white;
+    margin-right: 20px;
+}
+
+.footer_container .copyright_revolvermap_container .revolver_maps {
+    width: 110px;
+}

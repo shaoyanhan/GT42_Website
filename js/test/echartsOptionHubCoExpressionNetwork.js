@@ -21,7 +21,9 @@ function getHubCoExpressionNetworkOption(graph) {
                 force: {
                     // repulsion: 1550,
                     // edgeLength: 1350,
-                    gravity: 0.01
+                    gravity: 0.01,
+                    // layoutAnimation: false
+                    // initLayout: 'circular',
                 },
                 data: graph.nodes,
                 links: graph.edges,
