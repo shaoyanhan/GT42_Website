@@ -78,10 +78,10 @@ function getTranscriptCountOption(data) {
             top: 10,
             right: 0,
             pieces: [
-                { min: 0, max: 50, color: 'blue' },
-                { min: 50, max: 100, color: 'green' },
-                { min: 100, max: 150, color: 'yellow' },
-                { min: 150, color: 'red' },
+                { min: 0, max: 50, color: "#73c0de" },
+                { min: 50, max: 100, color: "#91cc75" },
+                { min: 100, max: 150, color: "#fac858" },
+                { min: 150, color: '#ee6666' },
             ],
             selectedMode: false // 选中模式会发生bug
         },
@@ -89,7 +89,7 @@ function getTranscriptCountOption(data) {
             {
                 // name: 'transcript count',
                 type: 'scatter',
-                symbolSize: 2,
+                symbolSize: 5,
 
                 // itemStyle: {
                 //     color: function (params) {
@@ -188,7 +188,7 @@ function getSNPTypeCountOption(data) {
                     { name: 'A/C/G/T', value: 791 },
                 ],
                 animationType: "expansion",
-                animationDuration: 3000,
+                animationDuration: 2000,
                 animationEasing: "quarticInOut",
 
             }
@@ -204,7 +204,7 @@ function drawTranscriptCount(transcriptCount) {
         renderer: 'canvas',
         useDirtyRect: false
     });
-    console.log('transcriptCount:', transcriptCount);
+    // console.log('transcriptCount:', transcriptCount);
     transcriptCountChart.setOption(getTranscriptCountOption(transcriptCount));
     transcriptCountChart.on('click', function (params) {
         console.log(params);
@@ -217,7 +217,7 @@ function drawSNPTypeCount(snpTypeCount) {
         renderer: 'canvas',
         useDirtyRect: false
     });
-    console.log('snpTypeCount:', snpTypeCount);
+    // console.log('snpTypeCount:', snpTypeCount);
     snpTypeCountChart.setOption(getSNPTypeCountOption(snpTypeCount));
     snpTypeCountChart.on('click', function (params) {
         console.log(params);

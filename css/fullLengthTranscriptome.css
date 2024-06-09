@@ -69,6 +69,7 @@
     font-size: 20px;
     font-weight: bold;
     padding: 0 10px;
+    border-radius: 5px;
 }
 
 .content_container .search_container .search_id_form_group .submit_box button {
