@@ -15,7 +15,7 @@
 
     <!-- 引入 lodash.js 用于 data.js 的数据深拷贝 -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
     <script src="../../js/test2/basic.js"></script>
     <style>
@@ -157,12 +157,16 @@
                 <div class="statistic_container">
                     <div class="statistic_item">
                         <div class="statistic_text">
-                            <h1>
+                            <div class="statistic_title">
+                                <img src="../../img/statistic_icon_FLT.png" alt="Full-length Transcriptome">
+                                <h1>Full-length Transcriptome</h1>
+                            </div>
+                            <!-- <h1>
                                 <svg class="icon" aria-hidden="true">
                                     <use xlink:href="#icon-a-8-DNA"></use>
                                 </svg>
-                                Full-length Transcriptome
-                            </h1>
+                                
+                            </h1> -->
                             <ul>
                                 <li>Number of Genome: 1</li>
                                 <li>Number of Species: 4</li>
@@ -177,20 +181,31 @@
                     </div>
                     <div class="statistic_item">
                         <div class="statistic_text">
-                            <h1><i class="iconfont icon-liebiao"> </i>Variation</h1>
+                            <div class="statistic_title">
+                                <img src="../../img/statistic_icon_SNP.png" alt="SNP">
+                                <h1>Variation</h1>
+                            </div>
+
+
                             <ul>
-                                <li>Number of SNPs: 123456</li>
-                                <li>Number of Indels: 123456</li>
-                                <li>Number of SVs: 123456</li>
+                                <li>SNP Type: 11</li>
+                                <li>Number of SNPs: 1293235</li>
+                                <li>ISO-Seq Evidence: 483993</li>
+                                <li>RNA-Seq Evidence: 1253950</li>
+                                <li>ISO-Seq && RNA-Seq Evidence: 444708</li>
                             </ul>
                         </div>
-                        <div class="statistic_img">
-                            <img src="../../img/co-expression.png" alt="image">
+                        <div class="statistic_img" id="SNP_type_count" style="width: 250px;height: 200px;">
+                            <!-- <img src="../../img/co-expression.png" alt="image"> -->
                         </div>
                     </div>
                     <div class="statistic_item">
                         <div class="statistic_text">
-                            <h1><i class="iconfont icon-liebiao"> </i>Haplotype</h1>
+                            <div class="statistic_title">
+                                <img src="../../img/statistic_icon_SNP.png" alt="SNP">
+                                <h1>Haplotype</h1>
+                            </div>
+                            <!-- <h1><i class="iconfont icon-liebiao"> </i>Haplotype</h1> -->
                             <ul>
                                 <li>Number of Haplotypes: 123456</li>
                                 <li>Number of SNPs: 123456</li>
@@ -203,7 +218,11 @@
                     </div>
                     <div class="statistic_item">
                         <div class="statistic_text">
-                            <h1><i class="iconfont icon-liebiao"> </i>Gene Expression Profile</h1>
+                            <div class="statistic_title">
+                                <img src="../../img/statistic_icon_SNP.png" alt="SNP">
+                                <h1>Gene Expression Profile</h1>
+                            </div>
+                            <!-- <h1><i class="iconfont icon-liebiao"> </i>Gene Expression Profile</h1> -->
                             <ul>
                                 <li>Number of Genes: 123456</li>
                                 <li>Number of Samples: 123456</li>
@@ -214,32 +233,7 @@
                             <img src="../../img/co-expression.png" alt="image">
                         </div>
                     </div>
-                    <div class="statistic_item">
-                        <div class="statistic_text">
-                            <h1><i class="iconfont icon-liebiao"> </i>Co-expression Network</h1>
-                            <ul>
-                                <li>Number of Genes: 123456</li>
-                                <li>Number of Edges: 123456</li>
-                                <li>Number of Modules: 123456</li>
-                            </ul>
-                        </div>
-                        <div class="statistic_img">
-                            <img src="../../img/co-expression.png" alt="image">
-                        </div>
-                    </div>
-                    <div class="statistic_item">
-                        <div class="statistic_text">
-                            <h1><i class="iconfont icon-liebiao"> </i>Co-expression Network</h1>
-                            <ul>
-                                <li>Number of Genes: 123456</li>
-                                <li>Number of Edges: 123456</li>
-                                <li>Number of Modules: 123456</li>
-                            </ul>
-                        </div>
-                        <div class="statistic_img">
-                            <img src="../../img/co-expression.png" alt="image">
-                        </div>
-                    </div>
+
 
 
                 </div>
