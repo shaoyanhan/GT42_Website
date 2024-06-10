@@ -81,7 +81,7 @@ function getTranscriptCountOption(data) {
                 { min: 0, max: 50, color: "#73c0de" },
                 { min: 50, max: 100, color: "#91cc75" },
                 { min: 100, max: 150, color: "#fac858" },
-                { min: 150, color: '#ee6666' },
+                { min: 150, color: '#e65c5e' },
             ],
             selectedMode: false // 选中模式会发生bug
         },

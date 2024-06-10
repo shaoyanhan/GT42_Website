@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="../../css/reset.css">
     <link rel="stylesheet" href="../../css/test/basicPage.css">
     <link rel="stylesheet" href="../../css/test/singleCoExpressionNetwork.css">
+    <!-- 引入select2下拉框组件的css -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
     <!-- 引入字体库 -->
     <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
@@ -18,6 +20,8 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+    <!-- 引入select2下拉框组件 -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="../../js/test2/basic.js"></script>
 
 </head>
@@ -125,7 +129,7 @@
         </header>
 
         <div class="content_container">
-            <div class="search_container">
+            <div class="search_container" id="content_area_search_container">
                 <!-- 基因组选择框 -->
                 <div class="select_genome_form_group">
                     <!-- label标签的for属性必须与相关联的表单控件的id属性值完全匹配，才能确保切换焦点的功能正常工作。 -->
@@ -313,7 +317,7 @@
                     <div class="loading_container" id="single_network_loading_container">
                         <img src="../../img/networkLoading3.gif" alt="network loading...">
                     </div>
-                    <div id="drawSingleCoExpressionNetwork" style="height: 1500px; width: 100%;"></div>
+                    <div id="drawSingleCoExpressionNetwork" style="height: 900px; width: 100%;"></div>
                 </div>
 
                 <details class="single_network_data_table">
@@ -438,7 +442,7 @@
             style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0, 0, 0, 0); z-index: 1000;">
         </div>
 
-        <script type="module" src="../js/test/mainCoExpressionNetwork.js"></script>
+        <script type="module" src="../../js/test2/mainSingleCoExpressionNetwork.js"></script>
     </div>
 
 

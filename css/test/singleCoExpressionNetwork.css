@@ -73,9 +73,9 @@
 .content_container .details_of_network_content .network_content_navigation_container .selector_container {
     display: flex;
     position: relative;
-    justify-content: space-between;
+    justify-content: space-evenly;
     width: 420px;
-    height: 70px;
+    height: 60px;
     /* border: 1px solid #ccc; */
     background-color: rgba(179, 236, 202, 0.95);
     box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
@@ -84,8 +84,9 @@
 }
 
 .content_container .details_of_network_content .network_content_navigation_container .selector_container .option {
-    flex: 1;
-    height: 50px;
+    /* flex: 1; */
+    /* height: 50px; */
+    width: 120px;
     background: none;
     border: none;
     margin: 10px;
@@ -106,7 +107,7 @@
 .content_container .details_of_network_content .network_content_navigation_container .selector_container .highlight_slider {
     position: absolute;
     top: 10px;
-    height: 50px;
+    height: 40px;
     width: 120px;
     background-color: #5ed88f;
     transition: left 0.3s ease-out;
@@ -220,7 +221,7 @@
 
 .select2-container--default .select2-selection--single .select2-selection__rendered,
 .select2-container--default .select2-selection--multiple .select2-selection__rendered {
-    font-size: 18px;
+    font-size: 16px;
     /* 选择框内文本的字体大小 */
     z-index: 2200;
 
@@ -228,8 +229,7 @@
 
 
 .content_container .details_of_network_content .network_content_navigation_container .clicked_details_container {
-
-    width: 360px;
+    width: 300px;
     z-index: 2000;
     border-radius: 10px;
     box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
@@ -290,7 +290,7 @@
     max-height: 340px;
 
     /* 让出背景的渐变使其成为其渐变色的border */
-    margin: 20px;
+    margin: 10px;
 }
 
 .content_container .details_of_network_content .network_content_navigation_container .clicked_details_container .result_details_container .content_box .result_details {
@@ -312,7 +312,7 @@
 }
 
 .content_container .details_of_network_content .network_content_navigation_container .clicked_details_container .result_details_container .content_box .result_details .header_container .header_text {
-    font-size: 20px;
+    font-size: 16px;
     font-weight: bold;
 }
 
@@ -341,7 +341,7 @@
 .content_container .details_of_network_content .network_content_navigation_container .clicked_details_container .result_details_container .content_box .item_container .item_title {
     font-weight: bold;
     margin-right: 10px;
-    font-size: 18px;
+    font-size: 16px;
     background-color: #eae7e7;
     border-bottom: 1px solid #929191;
     padding: 5px;
@@ -349,7 +349,7 @@
 }
 
 .content_container .details_of_network_content .network_content_navigation_container .clicked_details_container .result_details_container .content_box .item_container .item_content {
-    font-size: 18px;
+    font-size: 16px;
 }
 
 .content_container .details_of_network_content .network_content_navigation_container .clicked_details_container .result_details_container .content_box .item_container a,
@@ -393,7 +393,7 @@
 .content_container .details_of_network_content .network_content_navigation_container .clicked_details_container .result_details_container .content_box .table_container .table_header table th {
     /* padding: 10px; */
     text-align: center;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: bold;
     border-width: 0;
 }
@@ -416,7 +416,7 @@
     border: 1px solid #ccc;
     padding: 10px;
     text-align: center;
-    font-size: 18px;
+    font-size: 16px;
     border-width: 1px 0;
 
 }
@@ -430,7 +430,7 @@
 }
 
 .content_container .details_of_network_content .single_network_data_table>summary {
-    font-size: 20px;
+    font-size: 16px;
     font-weight: bold;
     background: #8bc2d0;
     color: #fff;
@@ -465,7 +465,7 @@
 .content_container .details_of_network_content .single_network_data_table .table_footer_pagination_container .table_container table th {
     text-align: center;
     /* 标题和单元格内容居中对齐 */
-    font-size: 18px;
+    font-size: 16px;
     /* 字号设置为18px */
     padding: 15px 30px;
     /* 设置单元格的上下padding为15px, 左右padding为30px */

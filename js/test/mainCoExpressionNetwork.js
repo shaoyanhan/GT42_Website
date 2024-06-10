@@ -1,6 +1,5 @@
 import { initalContentArea, initialHubCoExpressionNetwork } from "./initialContentAreaCoExpressionNetwork.js"
 import { setUpSearchEventListeners } from "./searchEvents.js";
-import { setupClickToDrawSingleNetworkEventListeners } from "./clickToDrawSingleNetwork.js";
 import { clickHubCoExpressionNetworkEventsHandler, clickSingleCoExpressionNetworkEventsHandler } from "./echartsEventsCoExpressionNetwork.js";
 import { setupNetworkSelectorContainerEventsListeners } from "./networkSelectorContainerEvents.js";
 import { setUpSelectEventListeners, setUpSelectWithSelect2 } from "./selectEvents.js";
