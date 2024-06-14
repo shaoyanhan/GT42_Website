@@ -1,5 +1,7 @@
 import { getHeatmapOption } from "./echartsOptionHeatmap.js";
-import { orthologousHeatmapDOM, xenologousHeatmapDOM, geneHeatmapDOM, transcriptHeatmapDOM, orthologousHeatmapChart, xenologousHeatmapChart, geneHeatmapChart, transcriptHeatmapChart } from "./mainGeneExpressionProfile.js";
+import { getDevelopmentStageSunburstOption } from "./echartsOptionDevelopmentStageSunburst.js";
+import { getIDTreeOption } from "./echartsOptionIDTree.js";
+import { orthologousHeatmapDOM, xenologousHeatmapDOM, geneHeatmapDOM, transcriptHeatmapDOM, orthologousHeatmapChart, xenologousHeatmapChart, geneHeatmapChart, transcriptHeatmapChart, developmentStageSunburstChart, IDTreeChart } from "./mainGeneExpressionProfile.js";
 
 // 根据数据的行数，动态地调整DOM元素的高度、图表的高度
 function resizeChartAndDOMHeight(chart, container, dataLength, dataHeight) {
@@ -31,7 +33,7 @@ function resizeChartAndDOMHeight(chart, container, dataLength, dataHeight) {
 function drawOrthologousHeatmap(data) {
     // resizeDOMHeight(orthologousHeatmapDOM, data.length, 80, 1);
     orthologousHeatmapChart.setOption(getHeatmapOption(data));
-    resizeChartAndDOMHeight(orthologousHeatmapChart, orthologousHeatmapDOM, data.length, 80);
+    resizeChartAndDOMHeight(orthologousHeatmapChart, orthologousHeatmapDOM, data.length, 30);
     // console.log(data.length, orthologousHeatmapChart, orthologousHeatmapDOM);
 
     orthologousHeatmapChart.setOption({ // 由于mosaic只有一行数据，隐藏y轴的axisPointer
@@ -50,7 +52,7 @@ function drawOrthologousHeatmap(data) {
 function drawXenologousHeatmap(data) {
     // resizeDOMHeight(xenologousHeatmapDOM, data.length, 80, 1);
     xenologousHeatmapChart.setOption(getHeatmapOption(data));
-    resizeChartAndDOMHeight(xenologousHeatmapChart, xenologousHeatmapDOM, data.length, 60);
+    resizeChartAndDOMHeight(xenologousHeatmapChart, xenologousHeatmapDOM, data.length, 30);
     // console.log(data.length, xenologousHeatmapChart, xenologousHeatmapDOM);
 
     xenologousHeatmapChart.setOption({
@@ -89,5 +91,63 @@ function drawTranscriptHeatmap(data) {
 }
 
 
+function buildTree(data) {
+    const tree = {};
 
-export { drawOrthologousHeatmap, drawXenologousHeatmap, drawGeneHeatmap, drawTranscriptHeatmap };
+    Object.keys(data).forEach(key => {
+        data[key].forEach(id => {
+            const parts = id.split('.');
+            let currentLevel = tree;
+            let path = '';
+
+            parts.forEach((part, index) => {
+                path = path ? `${path}.${part}` : part;
+
+                if (!currentLevel[part]) {
+                    currentLevel[part] = {
+                        name: path,
+                        children: {}
+                    };
+                }
+
+                if (index === parts.length - 1) {
+                    currentLevel[part].children = null;
+                } else {
+                    if (currentLevel[part].children === null) {
+                        currentLevel[part].children = {};
+                    }
+                    currentLevel = currentLevel[part].children;
+                }
+            });
+        });
+    });
+
+    function convertToTreeArray(obj) {
+        return Object.values(obj).map(node => {
+            if (node.children && Object.keys(node.children).length > 0) {
+                return {
+                    name: node.name,
+                    children: convertToTreeArray(node.children)
+                };
+            }
+            return {
+                name: node.name
+            };
+        });
+    }
+
+    return convertToTreeArray(tree);
+}
+
+function drawDevelopmentStageSunburstChart() {
+    developmentStageSunburstChart.setOption(getDevelopmentStageSunburstOption());
+}
+
+function drawIDTree(data) {
+    // console.log('IDTree Data: ', data);
+    treeData = buildTree(data);
+    IDTreeChart.setOption(getIDTreeOption(treeData));
+}
+
+
+export { drawOrthologousHeatmap, drawXenologousHeatmap, drawGeneHeatmap, drawTranscriptHeatmap, drawDevelopmentStageSunburstChart, drawIDTree };

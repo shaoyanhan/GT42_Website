@@ -61,7 +61,7 @@ function getHaplotypeSNPOption(haplotypeData, SNPData) {
                 ].join('<br>');
             },
             textStyle: {
-                fontSize: 18
+                fontSize: 16
             },
         },
         title: {
@@ -87,7 +87,7 @@ function getHaplotypeSNPOption(haplotypeData, SNPData) {
                 borderWidth: 2
             },
             textStyle: {
-                fontSize: 18
+                fontSize: 15
             },
             left: 'left'
         },
@@ -98,20 +98,21 @@ function getHaplotypeSNPOption(haplotypeData, SNPData) {
                 type: 'slider',
                 // filterMode: 'weakFilter',
                 filterMode: 'none',
-                showDataShadow: true,
+                showDataShadow: false,
                 labelFormatter: function (value) {
                     return Math.round(value) + 'bp';
                 },
                 textStyle: {
-                    fontSize: 18
+                    fontSize: 15
                 },
-                bottom: 50,
-                height: 100,
+                bottom: 20,
+                height: 30,
                 start: 0,
                 end: 100,
                 fillerColor: "rgba(36, 114, 218, 0.4)",
                 borderRadius: 8,
-                moveHandleSize: 20,
+                moveHandleSize: 15, //横向柄条
+                handleSize: 50, //纵向柄条
                 showDetail: true
 
             },
@@ -120,15 +121,16 @@ function getHaplotypeSNPOption(haplotypeData, SNPData) {
                 yAxisIndex: [0],
                 type: 'slider',
                 filterMode: 'weakFilter',
-                showDataShadow: true,
+                showDataShadow: false,
                 right: 50, // 如果不设置会导致右侧的滑块头部无法显示
                 labelFormatter: '',
-                width: 100,
+                width: 30,
                 start: 0,
                 end: 100,
                 fillerColor: "rgba(36, 114, 218, 0.4)",
                 borderRadius: 8,
-                moveHandleSize: 20,
+                moveHandleSize: 15,
+                handleSize: 50,
                 showDetail: true
             },
             {
@@ -152,7 +154,7 @@ function getHaplotypeSNPOption(haplotypeData, SNPData) {
         // 注意这里与 dataZoomX 高度以及外部div容器一起调整
         // 目前设置为可以展示10个 haplotype 和1个 mosaic 的高度，已经测试过最多138个haplotype的情况, 大部分集中于10-20个
         grid: {
-            height: 720,
+            height: 620,
             width: 800,
             containLabel: true
         },
@@ -163,7 +165,7 @@ function getHaplotypeSNPOption(haplotypeData, SNPData) {
                 formatter: function (val) {
                     return Math.round(Math.max(0, val - startbp)) + ' bp';
                 },
-                fontSize: 18
+                fontSize: 15
             },
 
             // axisPointer: { // 设置之后，鼠标移动到元素上，tooltip无法显示元素的信息，只会显示最近碰到的元素的信息
@@ -178,47 +180,14 @@ function getHaplotypeSNPOption(haplotypeData, SNPData) {
             inverse: true,
             axisLabel: {
                 show: true,
-                fontSize: 18
+                fontSize: 15,
+                // formatter: function (value) {
+                //     // 先以.为分隔符对字符串进行分割，然后取分割后的最后一个元素，判断是否为0，如果为0，说明是mosaic，返回分割后的第一个元素，否则是haplotype，直接返回ID
+                //     return value.split('.')[value.split('.').length - 1] == 0 ? value.split('.')[0] : value;
+                // }
             }
         },
         series: [
-            { // 先画SNP，再画haplotype，并将，这样可以防止点击SNP的时候误触haplotype导致比例尺刷新
-                name: 'SNP',
-                // type: 'custom',
-                type: 'scatter',
-                // renderItem: renderItem,
-                itemStyle: {
-                    color: function (value) {
-                        return value.value[7]; // 空间换时间，直接使用颜色值
-                    }
-                },
-                symbolSize: 20,
-                // symbol:
-                //     function (value) {
-                //         if (value[0] == 1) {
-                //             return "rect";
-                //         }
-                //         return "circle";
-                //     },
-                encode: {
-                    x: 2,
-                    y: 1,
-
-                },
-
-                data: SNPData,
-
-                // SNP选择存在bug,会一次性选择所有SNP位点，无法单独选择
-                // select: {
-                //     disabled: false,
-                //     itemStyle: {
-                //         borderColor: "rgba(250, 3, 3, 1)",
-                //         borderWidth: 3
-                //     }
-                // },
-                // selectedMode: 'single',
-
-            },
             {
                 name: 'haplotype',
                 type: 'bar',
@@ -239,10 +208,29 @@ function getHaplotypeSNPOption(haplotypeData, SNPData) {
 
                 },
                 data: haplotypeData,
-                colorBy: "data",
+                // colorBy: "data",
+
                 itemStyle: {
                     opacity: 0.9,
-                    borderRadius: 5
+                    borderRadius: 5,
+                    color: function (params) {
+
+                        // 对params.value[1]以.为分隔符进行拆分，取第二个元素，如果为'SO',则返回'#AED581'
+                        let species = params.value[1].split('.')[1];
+                        if (species == 'SO') {
+                            console.log(params);
+                            return '#AED581';
+                        } else if (species == 'SS') {
+                            return '#4DB6AC';
+                        } else if (species == 'CO') {
+                            return '#F48FB1';
+                        } else if (species == 'UK') {
+                            return '#A1887F';
+                        } else {
+                            return '#657FCB';
+                        }
+
+                    },
 
                 },
 

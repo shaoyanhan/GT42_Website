@@ -10,6 +10,7 @@ let idToType = {
     '#download_xenologous_TPM_table': 'xenologousTPMObjectData',
     '#download_gene_TPM_table': 'geneTPMObjectData',
     '#download_transcript_TPM_table': 'transcriptTPMObjectData',
+    '#download_all_transcript_TPM_table': 'allTranscriptTPMObjectData',
     '#download_single_network_nodes_table': 'downloadSingleNetworkNodesTable',
     '#download_single_network_edges_table': 'downloadSingleNetworkEdgesTable',
     '#download_hub_network_nodes_table': 'downloadHubNetworkNodesTable',

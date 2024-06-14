@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -9,7 +9,7 @@
     <link rel="icon" href="../img/sugarcane-logo.jpeg" type="image/x-icon">
     <link rel="stylesheet" href="../../css/reset.css">
     <link rel="stylesheet" href="../../css/test/basicPage.css">
-    <link rel="stylesheet" href="../../css/test/snp.css">
+    <link rel="stylesheet" href="../../css/test/fullLengthTranscriptome.css">
 
     <!-- 引入字体库 -->
     <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
@@ -23,7 +23,6 @@
     <style>
 
     </style>
-
 
 </head>
 
@@ -56,15 +55,13 @@
                             <li class="first_level_link dropdown"><a>Data <span class="arrow">&#9660;</span></a>
                                 <ul class="dropdown_content">
                                     <li class="second_level_link"><a href="./fullLengthTranscriptome.html"
-                                            target="_blank">Full-length Transcriptome</a>
-                                    </li>
+                                            target="_blank">Full-length Transcriptome</a></li>
                                     <li class="second_level_link"><a href="./snp.html" target="_blank">Haplotype &&
                                             SNP</a></li>
                                     <li class="second_level_link"><a href="./geneExpressionProfile.html"
                                             target="_blank">Gene Expression Profile</a></li>
                                     <li class="second_level_link"><a href="./singleCoExpressionNetwork.html"
-                                            target="_blank">Single Co-expression
-                                            Network</a></li>
+                                            target="_blank">Single Co-expression Network</a></li>
                                     <li class="second_level_link"><a href="./hubCoExpressionNetwork.html"
                                             target="_blank">Hub Co-expression Network</a></li>
                                 </ul>
@@ -192,243 +189,141 @@
 
             </div>
 
-            <!-- <div id="snp_chart_all" style="width: 1400px;height:300px;"></div>
-
-            <div style="height: 100px;background-color: #E3FCDD;"></div>
-
-            <div id="snp_chart_iso" style="width: 1400px;height:300px;"></div>
-
-            <div style="height: 100px;background-color: #E3FCDD;"></div>
-
-
-            <div id="snp_chart_rna" style="width: 1400px;height:300px;"></div>
-
-            <div style="height: 100px;background-color: #E3FCDD;"></div> -->
-
-            <details class="haplotype_snp_result_container" open>
-                <summary>Click to View the Haplotype SNP Results</summary>
-
-                <div class="haplotype_result_container">
-                    <!-- 容器的大小一定要包裹住 echart 的option配置中的 grid + dataZoomX 的大小 -->
-                    <div id="drawHaplotypeSNP" style="width: 1010px;height:760px;"></div>
-                    <div class="result_details_container" id="haplotype_SNP_result_details_container">
-                        <!-- 下面必须使用两个div嵌套才能实现内容溢出的时候不会覆盖圆角框和矩形框之间的底部间隔 -->
-                        <div class="content_box">
-                            <h1 class="main_title">Result Details</h1>
-                            <div class="result_details">
-                                <!-- 该结构内的内容使用 updateResultDetailsContainer(data, container)填充-->
-                                <div class="item_container">
-                                    <h1 class="item_title">mosaicID</h1>
-                                    <p class="item_content">GT42G000001</p>
+            <div class="haplotype_result_container">
+                <!-- 容器的大小一定要包裹住 echart 的option配置中的 grid + dataZoomX 的大小 -->
+                <div id="drawHaplotype" style="width: 1010px;height:760px;"></div>
+                <div class="result_details_container" id="haplotype_SNP_result_details_container">
+                    <!-- 下面必须使用两个div嵌套才能实现内容溢出的时候不会覆盖圆角框和矩形框之间的底部间隔 -->
+                    <div class="content_box">
+                        <h1 class="main_title">Result Details</h1>
+                        <div class="result_details">
+                            <!-- 该结构内的内容使用 updateResultDetailsContainer(data, container)填充-->
+                            <div class="item_container">
+                                <h1 class="item_title">mosaicID</h1>
+                                <p class="item_content">GT42G000001</p>
+                            </div>
+                            <div class="item_container">
+                                <h1 class="item_title">geneID</h1>
+                                <p class="item_content">GT42G000001.SO.1</p>
+                            </div>
+                            <div class="item_container">
+                                <h1 class="item_title">areaType</h1>
+                                <p class="item_content">mosaic</p>
+                            </div>
+                            <div class="item_container">
+                                <h1 class="item_title">length</h1>
+                                <p class="item_content">5420</p>
+                            </div>
+                            <div class="sequence_item_container">
+                                <div class="sequence_container_header">
+                                    <h1 class="item_title">nucleotideSequence</h1>
+                                    <button class="copy_button" data_sequence="ATCG">Click to Copy</button>
                                 </div>
-                                <div class="item_container">
-                                    <h1 class="item_title">geneID</h1>
-                                    <p class="item_content">GT42G000001.SO.1</p>
-                                </div>
-                                <div class="item_container">
-                                    <h1 class="item_title">areaType</h1>
-                                    <p class="item_content">mosaic</p>
-                                </div>
-                                <div class="item_container">
-                                    <h1 class="item_title">length</h1>
-                                    <p class="item_content">5420</p>
-                                </div>
-                                <div class="sequence_item_container">
-                                    <div class="sequence_container_header">
-                                        <h1 class="item_title">nucleotideSequence</h1>
-                                        <button class="copy_button" data_sequence="ATCG">Click to Copy</button>
-                                    </div>
-                                    <div class="sequence_container">
-                                        <p class="item_content">ATCG</p>
-                                    </div>
+                                <div class="sequence_container">
+                                    <p class="item_content">ATCG</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- 套用该模式需要修改：1. id="haplotype_table_container"；2. <thead>；3. id="download_haplotype_table"-->
-                <details>
-                    <summary>Click to view the haplotype table</summary>
-                    <div class="table_footer_pagination_container" id="haplotype_table_container">
+            <!-- 套用该模式需要修改：1. id="haplotype_table_container"；2. <thead>；3. id="download_haplotype_table"-->
+            <details>
+                <summary>Click to view the haplotype table</summary>
+                <div class="table_footer_pagination_container" id="haplotype_table_container">
 
-                        <div class="table_container">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>mosaicID</th>
-                                        <th>geneID</th>
-                                        <th>areaType</th>
-                                        <th>length</th>
-                                        <th>nucleotide sequence</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!-- 由tablePagination.js 中的 updateTable（data, container）进行填充 -->
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="footer_pagination_container">
-                            <span class="footer_notes">Showing ? to ? of ? entries</span>
-                            <div class="pagination_container">
-                                <a href="#">1</a>
-                                <a href="#">2</a>
-                                <a href="#">3</a>
-                            </div>
-                            <button class="download_button" id="download_haplotype_table">Download</button>
-                        </div>
+                    <div class="table_container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>mosaicID</th>
+                                    <th>geneID</th>
+                                    <th>areaType</th>
+                                    <th>length</th>
+                                    <th>nucleotide sequence</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- 由tablePagination.js 中的 updateTable（data, container）进行填充 -->
+                            </tbody>
+                        </table>
                     </div>
-
-                </details>
-
-                <details>
-                    <summary>Click to view the SNP table</summary>
-                    <div class="table_footer_pagination_container" id="SNP_table_container">
-
-                        <div class="table_container">
-                            <table>
-                                <thead>
-                                    <!-- 表格头为mosaicID, SNPSite, SNPType, IsoSeqEvidence, RNASeqEvidence, haplotypeSNP -->
-                                    <tr>
-                                        <th>mosaicID</th>
-                                        <th>SNPSite</th>
-                                        <th>SNPType</th>
-                                        <th>IsoSeqEvidence</th>
-                                        <th>RNASeqEvidence</th>
-                                        <th>haplotypeSNP</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!-- 由tablePagination.js 中的 updateTable（data, container）进行填充 -->
-                                </tbody>
-                            </table>
+                    <div class="footer_pagination_container">
+                        <span class="footer_notes">Showing ? to ? of ? entries</span>
+                        <div class="pagination_container">
+                            <a href="#">1</a>
+                            <a href="#">2</a>
+                            <a href="#">3</a>
                         </div>
-                        <div class="footer_pagination_container">
-                            <span class="footer_notes">Showing ? to ? of ? entries</span>
-                            <div class="pagination_container">
-                                <a href="#">1</a>
-                                <a href="#">2</a>
-                                <a href="#">3</a>
-                            </div>
-                            <button class="download_button" id="download_SNP_table">Download</button>
-                        </div>
+                        <button class="download_button" id="download_haplotype_table">Download</button>
                     </div>
-
-                </details>
+                </div>
 
             </details>
 
-            <details class="snp_evidence_result_container" open>
-                <summary>Click to View the SNP && Evidence Results</summary>
 
 
+            <div class="transcript_result_container">
+                <div id="drawTranscript" style="width: 1010px;height:1100px;"></div>
+                <div class="result_details_container" id="transcript_result_details_container">
+                    <!-- 下面必须使用两个div嵌套才能实现内容溢出的时候不会覆盖圆角框和矩形框之间的底部间隔 -->
+                    <div class="content_box">
+                        <h1 class="main_title">Result Details</h1>
+                        <div class="result_details">
 
-                <div id="snp_chart_three" style="width: 100%;height:1050px;"></div>
-                <details>
-                    <summary>Click to view the ISO-Seq && RNA-Seq Evidence SNP table</summary>
-                    <div class="table_footer_pagination_container" id="SNP_table_container_all">
-
-                        <div class="table_container">
-                            <table>
-                                <thead>
-                                    <!-- 表格头为mosaicID, SNPSite, SNPType, IsoSeqEvidence, RNASeqEvidence, haplotypeSNP -->
-                                    <tr>
-                                        <th>mosaicID</th>
-                                        <th>SNPSite</th>
-                                        <th>SNPType</th>
-                                        <th>IsoSeqEvidence</th>
-                                        <th>RNASeqEvidence</th>
-                                        <th>haplotypeSNP</th>
-                                        <!-- <th>color</th> -->
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!-- 由tablePagination.js 中的 updateTable（data, container）进行填充 -->
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="footer_pagination_container">
-                            <span class="footer_notes">Showing 1 to 10 of 10 entries</span>
-                            <div class="pagination_container">
-                                <a href="#">1</a>
-                                <a href="#">2</a>
-                                <a href="#">3</a>
+                            <div class="item_container">
+                                <h1 class="item_title">mosaicID</h1>
+                                <p class="item_content">GT42G000001</p>
                             </div>
-                            <button class="download_button" id="download_SNP_table">Download</button>
+
+
                         </div>
                     </div>
+                </div>
 
-                </details>
-                <details>
-                    <summary>Click to view the ISO-Seq Evidence SNP table</summary>
-                    <div class="table_footer_pagination_container" id="SNP_table_container_iso">
 
-                        <div class="table_container">
-                            <table>
-                                <thead>
-                                    <!-- 表格头为mosaicID, SNPSite, SNPType, IsoSeqEvidence, RNASeqEvidence, haplotypeSNP -->
-                                    <tr>
-                                        <th>mosaicID</th>
-                                        <th>SNPSite</th>
-                                        <th>SNPType</th>
-                                        <th>IsoSeqEvidence</th>
-                                        <!-- <th>RNASeqEvidence</th> -->
-                                        <th>haplotypeSNP</th>
-                                        <!-- <th>color</th> -->
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!-- 由tablePagination.js 中的 updateTable（data, container）进行填充 -->
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="footer_pagination_container">
-                            <span class="footer_notes">Showing 1 to 10 of 10 entries</span>
-                            <div class="pagination_container">
-                                <a href="#">1</a>
-                                <a href="#">2</a>
-                                <a href="#">3</a>
-                            </div>
-                            <button class="download_button" id="download_SNP_table">Download</button>
-                        </div>
+            </div>
+
+            <details>
+                <summary>Click to view the Transcript table</summary>
+                <div class="table_footer_pagination_container" id="transcript_table_container">
+
+                    <div class="table_container">
+                        <table>
+                            <thead>
+                                <!-- 表格头为mosaicID, geneID, transcriptID, transcriptIndex, isExon, start, end, length, transcriptRange, transcriptLength, proteinSequence, nucleotideSequence -->
+                                <tr>
+                                    <th>mosaicID</th>
+                                    <th>geneID</th>
+                                    <th>transcriptID</th>
+                                    <th>transcriptIndex</th>
+                                    <th>areaType</th>
+                                    <th>start</th>
+                                    <th>end</th>
+                                    <th>length</th>
+                                    <th>transcriptRange</th>
+                                    <th>transcriptLength</th>
+                                    <th>nucleotideSequence</th>
+                                    <th>proteinSequence</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- 由tablePagination.js 中的 updateTable（data, container）进行填充 -->
+                            </tbody>
+                        </table>
                     </div>
-
-                </details>
-                <details>
-                    <summary>Click to view the RNA-Seq Evidence SNP table</summary>
-                    <div class="table_footer_pagination_container" id="SNP_table_container_rna">
-
-                        <div class="table_container">
-                            <table>
-                                <thead>
-                                    <!-- 表格头为mosaicID, SNPSite, SNPType, IsoSeqEvidence, RNASeqEvidence, haplotypeSNP -->
-                                    <tr>
-                                        <th>mosaicID</th>
-                                        <th>SNPSite</th>
-                                        <th>SNPType</th>
-                                        <!-- <th>IsoSeqEvidence</th> -->
-                                        <th>RNASeqEvidence</th>
-                                        <th>haplotypeSNP</th>
-                                        <!-- <th>color</th> -->
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!-- 由tablePagination.js 中的 updateTable（data, container）进行填充 -->
-                                </tbody>
-                            </table>
+                    <div class="footer_pagination_container">
+                        <span class="footer_notes">Showing ? to ? of ? entries</span>
+                        <div class="pagination_container">
+                            <a href="#">1</a>
+                            <a href="#">2</a>
+                            <a href="#">3</a>
                         </div>
-                        <div class="footer_pagination_container">
-                            <span class="footer_notes">Showing 1 to 10 of 10 entries</span>
-                            <div class="pagination_container">
-                                <a href="#">1</a>
-                                <a href="#">2</a>
-                                <a href="#">3</a>
-                            </div>
-                            <button class="download_button" id="download_SNP_table">Download</button>
-                        </div>
+                        <button class="download_button" id="download_transcript_table">Download</button>
                     </div>
+                </div>
 
-                </details>
             </details>
 
         </div>
@@ -475,9 +370,13 @@
 
         <!-- 全局提示框，触发showCustomAlert方法之后才显示（copy、download） -->
         <div id="customAlert" class="custom_alert"></div>
+
+
+        <script type="module" src="../../js/test2/mainFullLengthTranscriptome.js"></script>
+
+
     </div>
 
-    <script src="../../js/test2/snp.js"></script>
 </body>
 
 </html>

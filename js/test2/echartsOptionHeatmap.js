@@ -112,6 +112,9 @@ function getHeatmapOption(dataArray) {
             text: 'Profile',
             left: 'center',
             top: 20,
+            textStyle: {
+                fontSize: 16
+            },
         },
         tooltip: {
             formatter: function (params) {
@@ -125,7 +128,7 @@ function getHeatmapOption(dataArray) {
                 ].join('<br>');
             },
             textStyle: {
-                fontSize: 18,
+                fontSize: 16,
                 fontWeight: "bolder"
             },
             // position: function (pos, params, el, elRect, size) {
@@ -133,6 +136,8 @@ function getHeatmapOption(dataArray) {
             //     obj[['left', 'right'][+(pos[0] < size.viewSize[0] / 2)]] = 30;
             //     return obj;
             // },
+            // 将提示框限制在图表区域内，因为现在为绘图区域设置了自动生成竖直滚动条，会导致提示框被遮挡
+            confine: true,
 
         },
         grid: {
@@ -147,6 +152,21 @@ function getHeatmapOption(dataArray) {
             left: 40,
             containLabel: true // 图像框架包含坐标轴的刻度标签，这样可以整体调整防止文字溢出
         },
+        toolbox: {
+            feature: {
+                // dataZoom: { show: true },
+                // dataView: { show: true, readOnly: true },
+                // restore: { show: true },
+                saveAsImage: { show: true },
+                // magicType: {
+                //     type: ['line', 'bar', 'stack']
+                // }
+
+            },
+            itemSize: 20,
+            top: 10,
+            left: 10,
+        },
         xAxis: {
 
             type: 'category',
@@ -157,7 +177,7 @@ function getHeatmapOption(dataArray) {
             axisLabel: {
                 show: true,
                 rotate: 80,
-                fontSize: 17,
+                fontSize: 16,
                 interval: 0
             },
             axisPointer: {
@@ -165,7 +185,7 @@ function getHeatmapOption(dataArray) {
                 show: true,
                 triggerEmphasis: false, // 是否触发强调
                 label: {
-                    fontSize: 20,
+                    fontSize: 18,
                 },
                 lineStyle: {
                     width: 3,
@@ -181,14 +201,14 @@ function getHeatmapOption(dataArray) {
             },
             axisLabel: {
                 show: true,
-                fontSize: 17,
+                fontSize: 16,
             },
             axisPointer: {
                 type: 'line',
                 show: true,
                 triggerEmphasis: false, // 是否触发强调
                 label: {
-                    fontSize: 20,
+                    fontSize: 18,
                     // overflow: "break",
                     // width: 170
                 },
@@ -205,7 +225,7 @@ function getHeatmapOption(dataArray) {
             type: 'continuous', // 定义为连续型 visualMap
             calculable: true,
             orient: 'horizontal',
-            right: 0,
+            right: 10,
             top: 10,
             precision: 2,
             hoverLink: true,

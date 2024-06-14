@@ -64,7 +64,7 @@ function getTranscriptOption(transcriptData) {
                 ].join('<br>');
             },
             textStyle: {
-                fontSize: 18
+                fontSize: 16
             },
         },
         title: {
@@ -90,20 +90,21 @@ function getTranscriptOption(transcriptData) {
                 type: 'slider',
                 // filterMode: 'weakFilter',
                 filterMode: 'none',
-                showDataShadow: true,
+                showDataShadow: false,
                 labelFormatter: function (value) {
                     return Math.round(value) + 'bp';
                 },
                 textStyle: {
-                    fontSize: 18
+                    fontSize: 15
                 },
-                bottom: 50,
-                height: 100,
+                bottom: 20,
+                height: 30,
                 start: 0,
                 end: 100,
                 fillerColor: "rgba(36, 114, 218, 0.4)",
                 borderRadius: 8,
-                moveHandleSize: 20,
+                moveHandleSize: 15, //横向柄条
+                handleSize: 50, //纵向柄条
                 showDetail: true
 
             },
@@ -112,15 +113,16 @@ function getTranscriptOption(transcriptData) {
                 yAxisIndex: [0],
                 type: 'slider',
                 filterMode: 'weakFilter',
-                showDataShadow: true,
+                showDataShadow: false,
                 right: 50, // 如果不设置会导致右侧的滑块头部无法显示
                 labelFormatter: '',
-                width: 100,
+                width: 30,
                 start: 0,
                 end: 100,
                 fillerColor: "rgba(36, 114, 218, 0.4)",
                 borderRadius: 8,
-                moveHandleSize: 20,
+                moveHandleSize: 15,
+                handleSize: 50,
                 showDetail: true
             },
             {
@@ -142,7 +144,7 @@ function getTranscriptOption(transcriptData) {
         },
         // 最多 66 个转录本，平均值10-20个
         grid: {
-            height: 1000,
+            height: 950,
             width: 800,
             containLabel: true
         },
@@ -154,7 +156,7 @@ function getTranscriptOption(transcriptData) {
                 formatter: function (val) {
                     return Math.round(Math.max(0, val - startbp)) + ' bp';
                 },
-                fontSize: 18
+                fontSize: 15
             },
             // axisPointer: {
             //     show: true,
@@ -166,7 +168,7 @@ function getTranscriptOption(transcriptData) {
             inverse: true,
             axisLabel: {
                 show: true,
-                fontSize: 18
+                fontSize: 15
             }
             // data: categories
         },

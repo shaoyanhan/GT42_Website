@@ -22,6 +22,7 @@ let mosaicTPMRawData = [];
 let xenologousTPMRawData = [];
 let geneTPMRawData = [];
 let transcriptTPMRawData = [];
+let allTranscriptTPMRawData = [];
 
 
 // [
@@ -40,6 +41,7 @@ let mosaicTPMObjectData = [];
 let xenologousTPMObjectData = [];
 let geneTPMObjectData = [];
 let transcriptTPMObjectData = [];
+let allTranscriptTPMObjectData = [];
 
 
 // [
@@ -49,6 +51,7 @@ let haplotypeArrayData = [];
 let SNPArrayData = [];
 let transcriptArrayData = [];
 
+
 // [
 //     ["ID", num, num ...],
 // ]
@@ -56,6 +59,7 @@ let mosaicTPMArrayData = [];
 let xenologousTPMArrayData = [];
 let geneTPMArrayData = [];
 let transcriptTPMArrayData = [];
+let allTranscriptTPMArrayData = [];
 
 
 /*
@@ -86,6 +90,7 @@ let mosaicTPMPaginationData = [];
 let xenologousTPMPaginationData = [];
 let geneTPMPaginationData = [];
 let transcriptTPMPaginationData = [];
+let allTranscriptTPMPaginationData = [];
 
 let mosaicNetworkNodesPaginationData = [];
 let mosaicNetworkEdgesPaginationData = [];
@@ -244,6 +249,7 @@ let apiPrefix = {
     xenologousTPM: 'getXenologousTPMTable/',
     geneTPM: 'getGeneTPMTable/',
     transcriptTPM: 'getTranscriptTPMTable/',
+    allTranscriptTPM: 'getAllTranscriptTPMTable/',
 
     haplotypePagination: 'getHaplotypeTableByPage/',
     SNPPagination: 'getSNPTableByPage/',
@@ -252,6 +258,7 @@ let apiPrefix = {
     xenologousTPMPagination: 'getXenologousTPMTableByPage/',
     geneTPMPagination: 'getGeneTPMTableByPage/',
     transcriptTPMPagination: 'getTranscriptTPMTableByPage/',
+    allTranscriptTPMPagination: 'getAllTranscriptTPMTableByPage/',
     mosaicNetworkNodesPagination: 'getMosaicNetworkNodesTableByPage/',
     mosaicNetworkEdgesPagination: 'getMosaicNetworkEdgesTableByPage/',
     xenologousNetworkNodesPagination: 'getXenologousNetworkNodesTableByPage/',
@@ -285,6 +292,7 @@ const updateDataFunctions = {
     xenologousTPM: updateXenologousTPMData,
     geneTPM: updateGeneTPMData,
     transcriptTPM: updateTranscriptTPMData,
+    allTranscriptTPM: updateAllTranscriptTPMData,
 
     haplotypePagination: updateHaplotypePaginationData,
     SNPPagination: updateSNPPaginationData,
@@ -293,6 +301,7 @@ const updateDataFunctions = {
     xenologousTPMPagination: updateXenologousTPMPaginationData,
     geneTPMPagination: updateGeneTPMPaginationData,
     transcriptTPMPagination: updateTranscriptTPMPaginationData,
+    allTranscriptTPMPagination: updateAllTranscriptTPMPaginationData,
     mosaicNetworkNodesPagination: updateMosaicNetworkNodesPaginationData,
     mosaicNetworkEdgesPagination: updateMosaicNetworkEdgesPaginationData,
     xenologousNetworkNodesPagination: updateXenologousNetworkNodesPaginationData,
@@ -339,6 +348,7 @@ const getDataFunctions = {
     xenologousTPMRawData: getXenologousTPMRawData,
     geneTPMRawData: getGeneTPMRawData,
     transcriptTPMRawData: getTranscriptTPMRawData,
+    allTranscriptTPMRawData: getAllTranscriptTPMRawData,
 
     haplotypeObjectData: getHaplotypeObjectData,
     SNPObjectData: getSNPObjectData,
@@ -347,6 +357,7 @@ const getDataFunctions = {
     xenologousTPMObjectData: getXenologousTPMObjectData,
     geneTPMObjectData: getGeneTPMObjectData,
     transcriptTPMObjectData: getTranscriptTPMObjectData,
+    allTranscriptTPMObjectData: getAllTranscriptTPMObjectData,
 
     haplotypeArrayData: getHaplotypeArrayData,
     SNPArrayData: getSNPArrayData,
@@ -355,6 +366,7 @@ const getDataFunctions = {
     xenologousTPMArrayData: getXenologousTPMArrayData,
     geneTPMArrayData: getGeneTPMArrayData,
     transcriptTPMArrayData: getTranscriptTPMArrayData,
+    allTranscriptTPMArrayData: getAllTranscriptTPMArrayData,
 
     haplotypePaginationData: getHaplotypePaginationData,
     SNPPaginationData: getSNPPaginationData,
@@ -363,6 +375,7 @@ const getDataFunctions = {
     xenologousTPMPaginationData: getXenologousTPMPaginationData,
     geneTPMPaginationData: getGeneTPMPaginationData,
     transcriptTPMPaginationData: getTranscriptTPMPaginationData,
+    allTranscriptTPMPaginationData: getAllTranscriptTPMPaginationData,
     mosaicNetworkNodesPaginationData: getMosaicNetworkNodesPaginationData,
     mosaicNetworkEdgesPaginationData: getMosaicNetworkEdgesPaginationData,
     xenologousNetworkNodesPaginationData: getXenologousNetworkNodesPaginationData,
@@ -462,6 +475,11 @@ function updateTranscriptTPMData(newData) {
     // 将object转换为数组并去除每个元素的mosaicID、xenologous和gene列
     transcriptTPMArrayData = objectToArray(newData.data).map(element => element.slice(3));
 }
+function updateAllTranscriptTPMData(newData) {
+    allTranscriptTPMRawData = newData;
+    allTranscriptTPMObjectData = newData.data;
+    allTranscriptTPMArrayData = objectToArray(newData.data).map(element => element.slice(3));
+}
 
 
 function updateHaplotypePaginationData(newData) {
@@ -484,6 +502,9 @@ function updateGeneTPMPaginationData(newData) {
 }
 function updateTranscriptTPMPaginationData(newData) {
     transcriptTPMPaginationData = newData;
+}
+function updateAllTranscriptTPMPaginationData(newData) {
+    allTranscriptTPMPaginationData = newData;
 }
 function updateMosaicNetworkNodesPaginationData(newData) {
     mosaicNetworkNodesPaginationData = newData;
@@ -612,6 +633,9 @@ function getGeneTPMRawData() {
 function getTranscriptTPMRawData() {
     return _.cloneDeep(transcriptTPMRawData);
 }
+function getAllTranscriptTPMRawData() {
+    return _.cloneDeep(allTranscriptTPMRawData);
+}
 
 // 获取对象数据
 function getHaplotypeObjectData() {
@@ -634,6 +658,9 @@ function getGeneTPMObjectData() {
 }
 function getTranscriptTPMObjectData() {
     return _.cloneDeep(transcriptTPMObjectData);
+}
+function getAllTranscriptTPMObjectData() {
+    return _.cloneDeep(allTranscriptTPMObjectData);
 }
 
 // 获取二维数组数据
@@ -658,6 +685,9 @@ function getGeneTPMArrayData() {
 function getTranscriptTPMArrayData() {
     return _.cloneDeep(transcriptTPMArrayData);
 }
+function getAllTranscriptTPMArrayData() {
+    return _.cloneDeep(allTranscriptTPMArrayData);
+}
 
 // 获取分页数据
 function getHaplotypePaginationData() {
@@ -680,6 +710,9 @@ function getGeneTPMPaginationData() {
 }
 function getTranscriptTPMPaginationData() {
     return _.cloneDeep(transcriptTPMPaginationData);
+}
+function getAllTranscriptTPMPaginationData() {
+    return _.cloneDeep(allTranscriptTPMPaginationData);
 }
 function getMosaicNetworkNodesPaginationData() {
     return _.cloneDeep(mosaicNetworkNodesPaginationData);
