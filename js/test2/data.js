@@ -275,6 +275,9 @@ let apiPrefix = {
 
     homologousIDSet: 'getHomologousIDSet/',
 
+    // 该数据并没有进行任何存储操作，只是用于下载表格
+    homePageStatisticData: 'getHomePageStatisticData/',
+
     parameter: {
         searchKeyword: 'searchKeyword=',
         page: 'page=',

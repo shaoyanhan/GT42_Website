@@ -8,7 +8,7 @@ import { moveHighlightSliderByResolution, toggleButtonsDisabled } from "./single
 import { fillSelect, disableSelect } from "./selectEvents.js";
 
 
-async function initalContentArea(searchKeyword, keywordType) { // 这里没有为keywordType设置默认值，请查看函数中的解释
+async function initialContentArea(searchKeyword, keywordType) { // 这里没有为keywordType设置默认值，请查看函数中的解释
     // hub网络的初始化较为卡顿，因此只能在页面载入时初始化，为了兼容searchEvents.js中的代码，
     // 当搜索事件发生时调用initialContentArea方法时，只调用initialSingleCoExpressionNetwork方法
     // initialHubCoExpressionNetwork(keywordType); 
@@ -186,4 +186,4 @@ async function initialSingleCoExpressionNetwork(searchKeyword = 'GT42G000001', n
 }
 
 
-export { initalContentArea };
+export { initialContentArea };

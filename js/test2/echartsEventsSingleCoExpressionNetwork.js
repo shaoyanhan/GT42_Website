@@ -3,12 +3,9 @@ import { getSingleCoExpressionNetworkOption } from "./echartsOptionSingleCoExpre
 import { updateResultDetailsContainer } from "./resultDetailsContainer.js";
 import { setupClickToDrawSingleNetworkEventListeners } from "./clickToDrawSingleNetwork.js";
 
-
-
 function drawSingleCoExpressionNetwork(graph) {
     singleCoExpressionNetworkChart.setOption(getSingleCoExpressionNetworkOption(graph));
 }
-
 
 
 function clickSingleCoExpressionNetworkEventsHandler(params) {
@@ -22,8 +19,6 @@ function clickSingleCoExpressionNetworkEventsHandler(params) {
     let updateFunctionType = params.dataType === 'node' ? 'singleNetworkNode' : 'singleNetworkEdge'; // 判断用户点击的是节点还是边，并选择相应的更新函数
 
     let singleNetworkResultDetailsData = { type: updateFunctionType, data: params.data };
-
-
 
     updateResultDetailsContainer(singleNetworkResultDetailsData, singleNetworkResultDetailsContainer) // 初始化result details容器
         .then(() => { // 由于result details容器的内容是异步更新的，所以需要在更新完成后再设置链接的点击事件监听器

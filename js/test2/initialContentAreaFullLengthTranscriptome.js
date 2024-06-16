@@ -1,8 +1,8 @@
-import { drawHaplotypeSNPChart, drawTranscriptChart, setDispatchAction, setDownplayAction } from "./echartsEventsFullLengthTranscriptome.js";
+import { drawHaplotypeChart, drawTranscriptChart, setDispatchAction, setDownplayAction } from "./echartsEventsFullLengthTranscriptome.js";
 import { fetchRawData, updateData, getData } from "./data.js";
 import { updateTableContainer } from "./tablePagination.js";
 import { updateResultDetailsContainer } from "./resultDetailsContainer.js";
-import { haplotypeSNPChart, transcriptChart } from "./mainFullLengthTranscriptome.js";
+import { haplotypeChart, transcriptChart } from "./mainFullLengthTranscriptome.js";
 
 // 从对象数组中查找指定key和value的对象的行索引
 function findIndexInObjectArray(objectArray, key, value) {
@@ -49,14 +49,14 @@ async function initalContentArea(searchKeyword, keywordType) {
 
     // 请求原始数据并保存
     let haplotypeRawData = await fetchRawData('haplotype', searchKeywordMosaic);
-    let SNPRawData = await fetchRawData('SNP', searchKeywordMosaic);
+    // let SNPRawData = await fetchRawData('SNP', searchKeywordMosaic);
     console.log(haplotypeRawData);
-    console.log(SNPRawData);
+    // console.log(SNPRawData);
     updateData('haplotype', haplotypeRawData);
-    updateData('SNP', SNPRawData);
+    // updateData('SNP', SNPRawData);
 
     let haplotypeObjectData = getData('haplotypeObjectData');
-    let SNPObjectData = getData('SNPObjectData');
+    // let SNPObjectData = getData('SNPObjectData');
     // console.log(haplotypeObjectData);
     // console.log(SNPObjectData);
 
@@ -86,7 +86,7 @@ async function initalContentArea(searchKeyword, keywordType) {
     // 获取二维数组数据
     let haplotypeArrayData = getData('haplotypeArrayData');
     console.log(haplotypeArrayData);
-    let SNPArrayData = getData('SNPArrayData');
+    // let SNPArrayData = getData('SNPArrayData');
     let transcriptArrayData = getData('transcriptArrayData');
 
 
@@ -109,19 +109,19 @@ async function initalContentArea(searchKeyword, keywordType) {
     // console.log(transcriptArrayData);
 
     // 绘制图像
-    drawHaplotypeSNPChart(haplotypeSNPChart, haplotypeArrayData, SNPArrayData);
+    drawHaplotypeChart(haplotypeArrayData);
 
     // 在每次绘制转录本图像之前，取消前一个高亮元素的聚焦效果，因为formerHighlightIndex存储的是上一个高亮元素的dataIndex，但是绘制转录本图像之后，transcript数据会切换为另外一组数据，导致formerHighlightIndex对应的dataIndex元素不再是高亮元素
     let formerHighlightIndex = getData('formerTranscriptHighlightIndex'); // 获取旧的高亮元素的dataIndex
     setDownplayAction(transcriptChart, formerHighlightIndex); // 取消前一个高亮元素的聚焦效果
 
-    drawTranscriptChart(transcriptChart, transcriptArrayData);
+    drawTranscriptChart(transcriptArrayData);
 
-    //setDispatchAction(haplotypeSNPChart, 'select', geneIDIndex);
+    //setDispatchAction(haplotypeChart, 'select', geneIDIndex);
     // 为用户搜索的单倍型设置聚焦，请注意haplotype使用的是标准bar图，因此可以配置select属性并设置selectMode为single，因此无需手动进行聚焦操作的取消和设置
-    haplotypeSNPChart.dispatchAction({
+    haplotypeChart.dispatchAction({
         type: 'select',
-        seriesIndex: 1,
+        seriesIndex: 0,
         dataIndex: geneIDIndex
     });
 
@@ -136,9 +136,9 @@ async function initalContentArea(searchKeyword, keywordType) {
     updateTableContainer('haplotypePagination', searchKeywordMosaic, 1, haplotype_table_container); // 初始化表格
 
 
-    let SNP_table_container = document.querySelector('#SNP_table_container'); // 获取相应id的表格容器
-    // console.log(SNP_table_container);
-    updateTableContainer('SNPPagination', searchKeywordMosaic, 1, SNP_table_container); // 初始化表格
+    // let SNP_table_container = document.querySelector('#SNP_table_container'); // 获取相应id的表格容器
+    // // console.log(SNP_table_container);
+    // updateTableContainer('SNPPagination', searchKeywordMosaic, 1, SNP_table_container); // 初始化表格
 
     let transcript_table_container = document.querySelector('#transcript_table_container'); // 获取相应id的表格容器
     // console.log(transcript_table_container);

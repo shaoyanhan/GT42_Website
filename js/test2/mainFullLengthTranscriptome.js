@@ -1,7 +1,7 @@
 // 这里在页面加载时就导入了echartsEvents.js，如果echartsEvents.js中导入了其他的main文件，那么这些文件也会被加载，也就是说，
 // 如果其他main文件中初始化了echarts实例，那么由于其他页面并没有载入，所以会产生其他页面的echarts实例未定义的错误
 import { setUpPaginationEventListeners } from "./tablePagination.js";
-import { clickHaplotypeSNPChartsEvents, clickTranscriptChartEvents } from "./echartsEventsFullLengthTranscriptome.js";
+import { clickHaplotypeChartsEvents, clickTranscriptChartEvents } from "./echartsEventsFullLengthTranscriptome.js";
 import { setupDownloadButton } from "./downloadTable.js";
 import { setUpResultDetailsContainerEventListeners } from "./resultDetailsContainer.js";
 import { initalContentArea } from "./initialContentAreaFullLengthTranscriptome.js";
@@ -10,7 +10,7 @@ import { setUpSearchEventListeners } from "./searchEvents.js";
 
 
 // 初始化ECharts实例
-export let haplotypeSNPChart = echarts.init(document.getElementById('drawHaplotype'), null, { renderer: 'svg' });
+export let haplotypeChart = echarts.init(document.getElementById('drawHaplotype'), null, { renderer: 'svg' });
 export let transcriptChart = echarts.init(document.getElementById('drawTranscript'), null, { renderer: 'svg' });
 
 
@@ -29,6 +29,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     setUpResultDetailsContainerEventListeners('#transcript_result_details_container'); // 为结果详情容器添加事件监听器
     setUpSearchEventListeners('.search_container'); // 为搜索容器添加事件监听器
-    haplotypeSNPChart.on('click', clickHaplotypeSNPChartsEvents); // 为单倍型图像添加事件监听器
+    haplotypeChart.on('click', clickHaplotypeChartsEvents); // 为单倍型图像添加事件监听器
     transcriptChart.on('click', clickTranscriptChartEvents); // 为转录本图像添加事件监听器
 });

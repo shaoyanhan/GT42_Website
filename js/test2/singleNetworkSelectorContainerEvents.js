@@ -1,4 +1,4 @@
-import { initalContentArea } from "./initialContentAreaSingleCoExpressionNetwork.js";
+import { initialContentArea } from "./initialContentAreaSingleCoExpressionNetwork.js";
 import { getData } from "./data.js";
 
 const IDToHandlerMap = {
@@ -48,7 +48,7 @@ function singleNetworkSelectorContainerEventsHandlers(event) {
     // 按照点击按钮中存储的精度类型重新绘制网络，首先获取homologousIDSet，然后根据data_resolution获取这个精度下的第一个ID
     let homologousIDSet = getData('homologousIDSet');
     const data_resolution = target.getAttribute('data_resolution');
-    initalContentArea(homologousIDSet[data_resolution][0], data_resolution);
+    initialContentArea(homologousIDSet[data_resolution][0], data_resolution);
 }
 
 

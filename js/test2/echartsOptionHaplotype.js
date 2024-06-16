@@ -34,7 +34,7 @@ let startbp = 0;
 //     );
 // }
 
-function getHaplotypeSNPOption(haplotypeData, SNPData) {
+function getHaplotypeOption(haplotypeData) {
     return {
         tooltip: {
             // trigger: 'axis', // 设置之后与formatter冲突
@@ -254,4 +254,4 @@ function getHaplotypeSNPOption(haplotypeData, SNPData) {
     };
 }
 
-export { getHaplotypeSNPOption };
+export { getHaplotypeOption };

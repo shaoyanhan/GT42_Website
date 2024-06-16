@@ -1,15 +1,19 @@
-import { initalContentArea } from "./initialContentAreaSingleCoExpressionNetwork.js";
-import { showCustomAlert } from "./showCustomAlert.js";
-import { validateGenomeID } from "./data.js"
+import { submitSearchForm } from "./searchEvents.js";
 
 async function clickToDrawSingleNetwork(linkElement) {
     // 获取链接标签所夹的文本，并调用validateGenomeID函数验证genomeID的类型
     const genomeID = linkElement.textContent;
-    const response = await validateGenomeID(genomeID);
-    const IDType = response.type;
+    // const response = await validateGenomeID(genomeID);
+    // const IDType = response.type;
 
+    // initalContentArea(genomeID, IDType);
 
-    initalContentArea(genomeID, IDType);
+    const searchContainer = document.querySelector('#content_area_search_container');
+    // 将genomeID填充到搜索框中
+    let searchInput = searchContainer.querySelector('#search_input');
+    searchInput.value = genomeID;
+    // 提交搜索表单
+    submitSearchForm(searchContainer);
 }
 
 function createLinkClickHandler() {

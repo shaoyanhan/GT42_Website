@@ -1,4 +1,4 @@
-import { initalContentArea } from "./initialContentAreaSingleCoExpressionNetwork.js"
+import { initialContentArea } from "./initialContentAreaSingleCoExpressionNetwork.js"
 import { setUpSearchEventListeners } from "./searchEvents.js";
 import { clickSingleCoExpressionNetworkEventsHandler } from "./echartsEventsSingleCoExpressionNetwork.js";
 import { setupNetworkSelectorContainerEventsListeners } from "./singleNetworkSelectorContainerEvents.js";
@@ -25,14 +25,19 @@ function initialBasedOnURLSearchKeyword() {
     if (checkURLSearchKeyword()) {
         // 如果URL中有searchKeyword参数，那么使用searchKeyword参数初始化页面
         let searchKeyword = new URLSearchParams(window.location.search).get('searchKeyword');
-        // 将searchKeyword填充到搜索框中
-        let searchInput = document.getElementById('search_input');
-        searchInput.value = searchKeyword;
-        // 提交搜索表单
-        submitSearchForm(document.querySelector('#content_area_search_container'));
 
+        // 找到搜索框组件
+        const searchContainer = document.querySelector('#content_area_search_container');
+
+        // 将searchKeyword填充到搜索框中
+        let searchInput = searchContainer.querySelector('#search_input');
+        searchInput.value = searchKeyword;
+
+        // 提交搜索表单
+        submitSearchForm(searchContainer);
     } else {
-        initalContentArea('GT42G000001', 'mosaic');
+        // 如果URL中没有searchKeyword参数，那么使用默认的mosaicID初始化页面
+        initialContentArea('GT42G000001', 'mosaic');
     }
 }
 
@@ -48,7 +53,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 
     // setUpSelectEventListeners('#homologous_id_select', initalContentArea);
-    setUpSelectWithSelect2('#homologous_id_select', initalContentArea);
+    setUpSelectWithSelect2('#homologous_id_select', initialContentArea);
 
     // 为链接添加点击事件监听器应该在每次更新result details container之后重新设置，因为每次填充新的链接都会将之前的事件监听器清空
     // setupClickToDrawSingleNetworkEventListeners();

@@ -66,7 +66,8 @@
             <div id="network_container2" style="height: 1000px; width: 100%;"></div>
         </div> -->
 
-
+        <div style="height: 100px;background-color: bisque;"></div>
+        <div id="container4" style="height: 1000px; width: 100%;"></div>
 
         <div style="height: 100px;background-color: bisque;"></div>
         <div id="map_container" style="height: 1000px; width: 100%;"></div>
@@ -79,6 +80,8 @@
 
         <div style="height: 100px;background-color: bisque;"></div>
         <div id="container3" style="height: 1000px; width: 100%;"></div>
+
+
 
     </div>
 
@@ -101,6 +104,44 @@
   <script type="text/javascript" src="https://api.map.baidu.com/api?v=3.0&ak=YOUR_API_KEY"></script>
   <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.5.0/dist/extension/bmap.min.js"></script>
   -->
+
+    <script>
+        let container4dom = document.getElementById('container4');
+        let myChart4 = echarts.init(container4dom, null, {
+            renderer: 'canvas',
+            useDirtyRect: false
+        });
+        let barChartData = [['--', 12, 'g0'], ['g1', 13, 'g11'], ['g2', 14, 'g12']];
+        let option4 = {
+            xAxis: {
+                type: 'value',
+            },
+            yAxis: {
+                type: 'category',
+                axisLabel: {
+                    formatter: function (params, index) {
+                        console.log(params);
+                        console.log(index);
+                        return barChartData[index][2];
+                    }
+                }
+            },
+            series: {
+                type: 'bar',
+                data: barChartData,
+                encode: {
+                    y: 0,
+                    x: 1
+                }
+            }
+        };
+        myChart4.setOption(option4);
+        myChart4.on('click', function (params) {
+            console.log(params);
+        });
+
+
+    </script>
 
     <script>
         var dom = document.getElementById('network_container2');

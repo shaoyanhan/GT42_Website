@@ -1,20 +1,20 @@
 
 import { updateResultDetailsContainer } from './resultDetailsContainer.js';
-import { getHaplotypeSNPOption } from "./echartsOptionHaplotype.js";
+import { getHaplotypeOption } from "./echartsOptionHaplotype.js";
 import { getTranscriptOption } from "./echartsOptionTranscript.js";
 // import { getHeatmapOption } from "./echartsOptionHeatmap.js"; 
-import { haplotypeSNPChart, transcriptChart } from './mainFullLengthTranscriptome.js';
+import { haplotypeChart, transcriptChart } from './mainFullLengthTranscriptome.js';
 // import { orthologHeatmapChart } from "./mainGeneExpressionProfile.js"; 不能导入, 会产生实例未定义的错误
 import { fetchRawData, fetchPaginationData, updateData, getData } from "./data.js";
 import { updateTableContainer, setUpPaginationEventListeners } from "./tablePagination.js";
 
 
 
-function drawHaplotypeSNPChart(haplotypeSNPChart, haplotypeData, SNPData) {
-    haplotypeSNPChart.setOption(getHaplotypeSNPOption(haplotypeData, SNPData));
+function drawHaplotypeChart(haplotypeData) {
+    haplotypeChart.setOption(getHaplotypeOption(haplotypeData));
 }
 
-function drawTranscriptChart(transcriptChart, transcriptData) {
+function drawTranscriptChart(transcriptData) {
     transcriptChart.setOption(getTranscriptOption(transcriptData));
 }
 
@@ -101,10 +101,10 @@ function setDownplayAction(echartsInstance, dataIndex) {
 }
 
 
-async function clickHaplotypeSNPChartsEvents(params) {
+async function clickHaplotypeChartsEvents(params) {
 
 
-    console.log('clickHaplotypeSNPChartsEvents events');
+    console.log('clickHaplotypeChartsEvents events');
     console.log(params);
 
     let seriesName = params.seriesName; // 与option中的series.name对应
@@ -160,7 +160,7 @@ async function clickHaplotypeSNPChartsEvents(params) {
             let formerHighlightIndex = getData('formerTranscriptHighlightIndex');
             setDownplayAction(transcriptChart, formerHighlightIndex);
 
-            drawTranscriptChart(transcriptChart, transcriptArrayData);
+            drawTranscriptChart(transcriptArrayData);
 
             // 设置transcriptChart中第一个exon高亮
             let currentHighlightIndex = 1;
@@ -239,4 +239,4 @@ function clickTranscriptChartEvents(params) {
 
 }
 
-export { drawHaplotypeSNPChart, drawTranscriptChart, setBarFocus, setBarColor, clickHaplotypeSNPChartsEvents, clickTranscriptChartEvents, setDispatchAction, setDownplayAction };
+export { drawHaplotypeChart, drawTranscriptChart, setBarFocus, setBarColor, clickHaplotypeChartsEvents, clickTranscriptChartEvents, setDispatchAction, setDownplayAction };
