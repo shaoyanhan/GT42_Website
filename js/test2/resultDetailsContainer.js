@@ -8,6 +8,7 @@ let updateResultDetailsContainerFunctions = {
     haplotype: updateHaplotypeResultDetailsContainer,
     SNP: updateSNPResultDetailsContainer,
     transcript: updateTranscriptResultDetailsContainer,
+    allTranscript: updateTranscriptResultDetailsContainer,
 
     hubNetworkNode: updateHubNetworkNodeResultDetailsContainer,
     hubNetworkEdge: updateHubNetworkEdgeResultDetailsContainer,

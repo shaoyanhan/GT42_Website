@@ -286,7 +286,7 @@ function drawHaplotypeSNPChart() {
                     bottom: 20,
                     height: 30,
                     start: 0,
-                    end: 100,
+                    end: 99,
                     fillerColor: "rgba(36, 114, 218, 0.4)",
                     borderRadius: 8,
                     moveHandleSize: 15, //横向柄条
@@ -321,7 +321,7 @@ function drawHaplotypeSNPChart() {
                     dataZoom: { show: true },
                     // dataView: { show: true, readOnly: false },
                     restore: { show: true },
-                    saveAsImage: { show: true },
+                    saveAsImage: { show: true, name: "Haplotypes && SNPs" },
                     // magicType: {
                     //     type: ['line', 'bar', 'stack']
                     // }
@@ -1363,6 +1363,18 @@ function drawNetwork() {
                     filterMode: 'none'
                 }
             ],
+            toolbox: {
+                feature: {
+                    dataZoom: { show: true },
+                    // dataView: { show: true, readOnly: false },
+                    restore: { show: true },
+                    saveAsImage: { show: true, name: "SNPs && Evidences" },
+                    // magicType: {
+                    //     type: ['line', 'bar', 'stack']
+                    // }
+
+                }
+            },
             series: [
                 {
                     xAxisIndex: 0,

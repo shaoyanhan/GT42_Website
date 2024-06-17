@@ -219,6 +219,33 @@ function getHeatmapOption(dataArray) {
             },
             inverse: true
         },
+        // dataZoom 与 axisPointer 无法共存
+        // dataZoom: [
+
+        //     {
+        //         id: 'dataZoomY',
+        //         yAxisIndex: [0],
+        //         type: 'slider',
+        //         filterMode: 'weakFilter',
+        //         showDataShadow: false,
+        //         left: 50, // 如果不设置会导致右侧的滑块头部无法显示
+
+        //         width: 30,
+        //         start: 0,
+        //         end: 100,
+        //         fillerColor: "rgba(36, 114, 218, 0.4)",
+        //         borderRadius: 8,
+        //         moveHandleSize: 15,
+        //         handleSize: 50,
+        //         showDetail: true
+        //     },
+        //     {
+        //         type: 'inside',
+        //         filterMode: 'none',
+        //         orient: "vertical" // 设置为纵向控制柱状条的数量
+        //     }
+        // ],
+
         visualMap: {
             min: 0,
             max: 20,

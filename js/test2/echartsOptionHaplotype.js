@@ -44,16 +44,16 @@ function getHaplotypeOption(haplotypeData) {
             formatter: function (params) {
                 // console.log(params);
                 // 设置不同图形的提示信息，不知道为什么不能在series里面单独设置
-                if (params.seriesType == 'scatter') {
-                    return [
-                        params.marker + params.seriesName,
-                        'Mosaic ID: ' + params.value[1],
-                        'Site: ' + params.value[2] + ' bp',
-                        'Type: ' + params.value[3],
-                    ].join('<br>');
-                }
+                // if (params.seriesType == 'scatter') {
+                //     return [
+                //         params.marker + params.seriesName,
+                //         'Mosaic ID: ' + params.value[1],
+                //         'Site: ' + params.value[2] + ' bp',
+                //         'Type: ' + params.value[3],
+                //     ].join('<br>');
+                // }
                 return [
-                    params.marker + params.name,
+                    params.marker + (params.name === '--' ? params.value[0] : params.name),
                     'Mosaic ID: ' + params.value[0],
                     'Gene ID: ' + params.value[1],
                     'Gene Type: ' + params.value[2],
@@ -92,30 +92,30 @@ function getHaplotypeOption(haplotypeData) {
             left: 'left'
         },
         dataZoom: [
-            {
-                id: 'dataZoomX',
-                xAxisIndex: [0],
-                type: 'slider',
-                // filterMode: 'weakFilter',
-                filterMode: 'none',
-                showDataShadow: false,
-                labelFormatter: function (value) {
-                    return Math.round(value) + 'bp';
-                },
-                textStyle: {
-                    fontSize: 15
-                },
-                bottom: 20,
-                height: 30,
-                start: 0,
-                end: 100,
-                fillerColor: "rgba(36, 114, 218, 0.4)",
-                borderRadius: 8,
-                moveHandleSize: 15, //横向柄条
-                handleSize: 50, //纵向柄条
-                showDetail: true
+            // {
+            //     id: 'dataZoomX',
+            //     xAxisIndex: [0],
+            //     type: 'slider',
+            //     // filterMode: 'weakFilter',
+            //     filterMode: 'none',
+            //     showDataShadow: false,
+            //     labelFormatter: function (value) {
+            //         return Math.round(value) + 'bp';
+            //     },
+            //     textStyle: {
+            //         fontSize: 15
+            //     },
+            //     bottom: 20,
+            //     height: 30,
+            //     start: 0,
+            //     end: 100,
+            //     fillerColor: "rgba(36, 114, 218, 0.4)",
+            //     borderRadius: 8,
+            //     moveHandleSize: 15, //横向柄条
+            //     handleSize: 50, //纵向柄条
+            //     showDetail: true
 
-            },
+            // },
             {
                 id: 'dataZoomY',
                 yAxisIndex: [0],
@@ -135,7 +135,8 @@ function getHaplotypeOption(haplotypeData) {
             },
             {
                 type: 'inside',
-                filterMode: 'none'
+                filterMode: 'none',
+                orient: "vertical" // 设置为纵向控制柱状条的数量
             }
         ],
         toolbox: {
@@ -160,10 +161,10 @@ function getHaplotypeOption(haplotypeData) {
         },
         xAxis:
         {
-            min: startbp,
+            min: 0,
             axisLabel: {
                 formatter: function (val) {
-                    return Math.round(Math.max(0, val - startbp)) + ' bp';
+                    return Math.round(Math.max(0, val)) + ' bp';
                 },
                 fontSize: 15
             },
@@ -181,10 +182,9 @@ function getHaplotypeOption(haplotypeData) {
             axisLabel: {
                 show: true,
                 fontSize: 15,
-                // formatter: function (value) {
-                //     // 先以.为分隔符对字符串进行分割，然后取分割后的最后一个元素，判断是否为0，如果为0，说明是mosaic，返回分割后的第一个元素，否则是haplotype，直接返回ID
-                //     return value.split('.')[value.split('.').length - 1] == 0 ? value.split('.')[0] : value;
-                // }
+                formatter: function (value, index) {
+                    return value === '--' ? haplotypeData[index][0] : value;
+                }
             }
         },
         series: [
@@ -198,7 +198,7 @@ function getHaplotypeOption(haplotypeData) {
                 // },
                 encode: {
                     x: 3,
-                    y: 2,
+                    y: 1,
                     // tooltip: {
                     //     formatter: function (params) {
 

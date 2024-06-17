@@ -69,7 +69,7 @@ async function drawTranscriptHeatmapByGeneID(geneID) {
 }
 
 
-async function initalContentArea(searchKeyword = 'GT42G000001', keywordType = 'mosaic') {
+async function initialContentArea(searchKeyword = 'GT42G000001', keywordType = 'mosaic') {
 
     // 根据用户输入的搜索关键词，拆分得到mosaicID、xenologousID、geneID、transcriptID
     let [mosaicID, xenologousID, geneID, transcriptID] = splitGenomeID(searchKeyword, keywordType);
@@ -141,4 +141,4 @@ async function initalContentArea(searchKeyword = 'GT42G000001', keywordType = 'm
 
 }
 
-export { initalContentArea, drawTranscriptHeatmapByGeneID };
+export { initialContentArea, drawTranscriptHeatmapByGeneID };

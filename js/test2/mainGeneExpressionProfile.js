@@ -1,4 +1,4 @@
-import { initalContentArea, drawTranscriptHeatmapByGeneID } from "./initialContentAreaGeneExpressionProfile.js";
+import { initialContentArea, drawTranscriptHeatmapByGeneID } from "./initialContentAreaGeneExpressionProfile.js";
 import { drawDevelopmentStageSunburstChart } from "./echartsEventsGeneExpressionProfile.js";
 import { setUpSearchEventListeners } from "./searchEvents.js";
 // import { setUpSelectEventListeners, setUpSelectWithSelect2 } from "./selectEvents.js";
@@ -22,7 +22,7 @@ export let IDTreeChart = echarts.init(IDTreeDOM, null, { renderer: 'canvas' });
 
 // 确保文档加载完成后再执行初始化
 document.addEventListener('DOMContentLoaded', () => {
-    initalContentArea();
+    initialContentArea();
 
     setUpSearchEventListeners('.search_container');
     // setUpSelectEventListeners('#haplotype_select', drawTranscriptHeatmapByGeneID);

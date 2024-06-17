@@ -3,6 +3,7 @@ import { fetchRawData, updateData, getData } from "./data.js";
 import { updateTableContainer } from "./tablePagination.js";
 import { updateResultDetailsContainer } from "./resultDetailsContainer.js";
 import { haplotypeChart, transcriptChart } from "./mainFullLengthTranscriptome.js";
+import { setUpPaginationEventListeners } from "./tablePagination.js";
 
 // 从对象数组中查找指定key和value的对象的行索引
 function findIndexInObjectArray(objectArray, key, value) {
@@ -32,12 +33,12 @@ function splitGenomeID(genomeID, keywordType) {
 
 // 页面初始化，传入两个参数：genomeID和genomeID的类型，其实就是validateGenomeID成功之后的其中两个返回值
 // keywordType是一个字符串，表示genomeID的类型，有三种可能的值：mosaic、gene、transcript
-async function initalContentArea(searchKeyword, keywordType) {
+async function initialContentArea(searchKeyword, keywordType) {
 
     console.log(searchKeyword);
     console.log(keywordType);
 
-    let geneIDIndex; // 用于保存某个geneID在haplotypeObjectData中的行索引
+    let haplotypeTableIndex; // 用于保存mosaic或某个单倍型在haplotypeObjectData中的行索引
     let transcriptIDIndex; // 用于保存某个transcriptID在transcriptObjectData中的行索引
 
     // 根据关键词的类型，分别获取mosaicID、geneID、transcriptID，
@@ -61,16 +62,24 @@ async function initalContentArea(searchKeyword, keywordType) {
     // console.log(SNPObjectData);
 
 
+    let transcriptTableType;
+    let transcriptPaginationTableType;
+    let transcriptSearchKeyword;
     let transcriptRawData;
     let transcriptObjectData;
-    if (searchKeywordGene === '') { // 如果searchKeywordGene为空，证明用户搜索的是mosaicID，那么默认显示第一条单倍型的转录本
-        searchKeywordGene = haplotypeObjectData[1].geneID;
-        geneIDIndex = 1;
-    } else { // 如果searchKeywordGene不为空，那么查找这个geneID在haplotypeObjectData中的行索引
-        geneIDIndex = findIndexInObjectArray(haplotypeObjectData, 'geneID', searchKeywordGene);
+    if (searchKeywordGene === '') { // 如果searchKeywordGene为空，证明用户搜索的是mosaicID，那么展示所有的转录本
+        transcriptTableType = 'allTranscript';
+        transcriptPaginationTableType = 'allTranscriptPagination';
+        haplotypeTableIndex = 0; // 单倍型表格的第一行是mosaic
+        transcriptSearchKeyword = searchKeywordMosaic;
+    } else { // 如果searchKeywordGene不为空，那么查找这个geneID在haplotypeObjectData中的行索引，并只展示这个geneID的转录本
+        transcriptTableType = 'transcript';
+        transcriptPaginationTableType = 'transcriptPagination';
+        haplotypeTableIndex = findIndexInObjectArray(haplotypeObjectData, 'geneID', searchKeywordGene);
+        transcriptSearchKeyword = searchKeywordGene;
     }
     // console.log(searchKeywordGene);
-    transcriptRawData = await fetchRawData('transcript', searchKeywordGene);
+    transcriptRawData = await fetchRawData(transcriptTableType, transcriptSearchKeyword);
     // console.log(transcriptRawData);
     updateData('transcript', transcriptRawData);
     transcriptObjectData = getData('transcriptObjectData');
@@ -122,7 +131,7 @@ async function initalContentArea(searchKeyword, keywordType) {
     haplotypeChart.dispatchAction({
         type: 'select',
         seriesIndex: 0,
-        dataIndex: geneIDIndex
+        dataIndex: haplotypeTableIndex
     });
 
     // 为用户搜索的转录本的第一个外显子设置高亮
@@ -142,9 +151,11 @@ async function initalContentArea(searchKeyword, keywordType) {
 
     let transcript_table_container = document.querySelector('#transcript_table_container'); // 获取相应id的表格容器
     // console.log(transcript_table_container);
-    updateTableContainer('transcriptPagination', searchKeywordGene, 1, transcript_table_container); // 初始化表格
+    updateTableContainer(transcriptPaginationTableType, transcriptSearchKeyword, 1, transcript_table_container); // 初始化表格
+    let transcriptPaginationDataType = transcriptPaginationTableType + 'Data';
+    setUpPaginationEventListeners('#transcript_table_container', transcriptPaginationDataType); // 根据transcript表格的类型为transcript表格容器添加事件监听器
 
-    let haplotypeResultDetailsData = { type: haplotypeRawData.type, data: haplotypeRawData.data[geneIDIndex] }; // 根据用户搜索的geneID的索引，获取第一条待展示的haplotype的信息
+    let haplotypeResultDetailsData = { type: haplotypeRawData.type, data: haplotypeRawData.data[haplotypeTableIndex] }; // 根据用户搜索的geneID的索引，获取第一条待展示的haplotype的信息
     let haplotype_result_details_container = document.querySelector('#haplotype_SNP_result_details_container'); // 获取haplotype_SNP的result details容器
     updateResultDetailsContainer(haplotypeResultDetailsData, haplotype_result_details_container); // 初始化result details容器
 
@@ -166,4 +177,4 @@ async function initalContentArea(searchKeyword, keywordType) {
     }
 }
 
-export { initalContentArea };
+export { initialContentArea };

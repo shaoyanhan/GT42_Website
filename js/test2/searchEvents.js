@@ -70,7 +70,8 @@ async function submitSearchForm(container) {
             const module = await import(`./initialContentArea${currentPageName}.js`);
             // console.log(currentPageName)
             // console.log(module);
-            await module.initalContentArea(searchKeyword, response.type);
+            await module.initialContentArea(searchKeyword, response.type);
+
         } else {
             console.error('Genome ID validation failed', response);
             showAlert(container, 'Genome ID validation failed. Please try again.');

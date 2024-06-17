@@ -3,7 +3,8 @@ let startbp = 0;
 function renderItem(params, api) {
     // console.log(params);
     // console.log(api);
-    var categoryIndex = api.value(3);
+    // var categoryIndex = api.value(3);
+    var categoryIndex = api.value(2);
     var areaType = api.value(4);
     var start = api.coord([api.value(5), categoryIndex]); // x, y
     var end = api.coord([api.value(6), categoryIndex]);
@@ -46,9 +47,9 @@ function getTranscriptOption(transcriptData) {
             formatter: function (params) {
                 // console.log(params);
                 // 设置不同图形的提示信息，不知道为什么不能在series里面单独设置
-                if (params.name == 'haplotype') {
+                if (params.name == '--') {
                     return [
-                        params.marker + params.name,
+                        params.marker + params.value[1],
                         'Mosaic ID: ' + params.value[0],
                         'Gene ID: ' + params.value[1],
                         'Gene Range: ' + params.value[8],
@@ -168,7 +169,10 @@ function getTranscriptOption(transcriptData) {
             inverse: true,
             axisLabel: {
                 show: true,
-                fontSize: 15
+                fontSize: 15,
+                formatter: function (value, index) {
+                    return value === '--' ? transcriptData[index][1] : value;
+                }
             }
             // data: categories
         },
@@ -194,7 +198,8 @@ function getTranscriptOption(transcriptData) {
                 borderRadius: 5,
                 encode: {
                     x: [5, 6],
-                    y: 3,
+                    // y: 3,
+                    y: 2,
                     // tooltip: {
                     //     formatter: function (params) {
 

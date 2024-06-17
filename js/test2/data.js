@@ -15,14 +15,14 @@
 //             },
 //         ]
 // }
-let haplotypeRawData = [];
-let SNPRawData = [];
-let transcriptRawData = [];
-let mosaicTPMRawData = [];
-let xenologousTPMRawData = [];
-let geneTPMRawData = [];
-let transcriptTPMRawData = [];
-let allTranscriptTPMRawData = [];
+let haplotypeRawData = {};
+let SNPRawData = {};
+let transcriptRawData = {};
+let mosaicTPMRawData = {};
+let xenologousTPMRawData = {};
+let geneTPMRawData = {};
+let transcriptTPMRawData = {};
+let allTranscriptTPMRawData = {};
 
 
 // [
@@ -85,6 +85,7 @@ let allTranscriptTPMArrayData = [];
 let haplotypePaginationData = [];
 let SNPPaginationData = [];
 let transcriptPaginationData = [];
+let allTranscriptPaginationData = [];
 
 let mosaicTPMPaginationData = [];
 let xenologousTPMPaginationData = [];
@@ -244,7 +245,10 @@ let apiPrefix = {
 
     haplotype: 'getHaplotypeTable/',
     SNP: 'getSNPTable/',
+    // transcript 和 allTranscript共用一套存储变量，因为fullLengthTranscriptome.html同一时间只会出现一种transcript数据
+    // pagination数据也是一样的
     transcript: 'getTranscriptTable/',
+    allTranscript: 'getAllTranscriptTable/',
     mosaicTPM: 'getMosaicTPMTable/',
     xenologousTPM: 'getXenologousTPMTable/',
     geneTPM: 'getGeneTPMTable/',
@@ -254,6 +258,7 @@ let apiPrefix = {
     haplotypePagination: 'getHaplotypeTableByPage/',
     SNPPagination: 'getSNPTableByPage/',
     transcriptPagination: 'getTranscriptTableByPage/',
+    allTranscriptPagination: 'getAllTranscriptTableByPage/',
     mosaicTPMPagination: 'getMosaicTPMTableByPage/',
     xenologousTPMPagination: 'getXenologousTPMTableByPage/',
     geneTPMPagination: 'getGeneTPMTableByPage/',
@@ -300,6 +305,7 @@ const updateDataFunctions = {
     haplotypePagination: updateHaplotypePaginationData,
     SNPPagination: updateSNPPaginationData,
     transcriptPagination: updateTranscriptPaginationData,
+    allTranscriptPagination: updateAllTranscriptPaginationData,
     mosaicTPMPagination: updateMosaicTPMPaginationData,
     xenologousTPMPagination: updateXenologousTPMPaginationData,
     geneTPMPagination: updateGeneTPMPaginationData,
@@ -374,6 +380,7 @@ const getDataFunctions = {
     haplotypePaginationData: getHaplotypePaginationData,
     SNPPaginationData: getSNPPaginationData,
     transcriptPaginationData: getTranscriptPaginationData,
+    allTranscriptPaginationData: getAllTranscriptPaginationData,
     mosaicTPMPaginationData: getMosaicTPMPaginationData,
     xenologousTPMPaginationData: getXenologousTPMPaginationData,
     geneTPMPaginationData: getGeneTPMPaginationData,
@@ -493,6 +500,9 @@ function updateSNPPaginationData(newData) {
 }
 function updateTranscriptPaginationData(newData) {
     transcriptPaginationData = newData;
+}
+function updateAllTranscriptPaginationData(newData) {
+    allTranscriptPaginationData = newData;
 }
 function updateMosaicTPMPaginationData(newData) {
     mosaicTPMPaginationData = newData;
@@ -701,6 +711,9 @@ function getSNPPaginationData() {
 }
 function getTranscriptPaginationData() {
     return _.cloneDeep(transcriptPaginationData);
+}
+function getAllTranscriptPaginationData() {
+    return _.cloneDeep(allTranscriptPaginationData);
 }
 function getMosaicTPMPaginationData() {
     return _.cloneDeep(mosaicTPMPaginationData);

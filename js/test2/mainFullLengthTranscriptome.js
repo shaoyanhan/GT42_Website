@@ -4,7 +4,7 @@ import { setUpPaginationEventListeners } from "./tablePagination.js";
 import { clickHaplotypeChartsEvents, clickTranscriptChartEvents } from "./echartsEventsFullLengthTranscriptome.js";
 import { setupDownloadButton } from "./downloadTable.js";
 import { setUpResultDetailsContainerEventListeners } from "./resultDetailsContainer.js";
-import { initalContentArea } from "./initialContentAreaFullLengthTranscriptome.js";
+import { initialContentArea } from "./initialContentAreaFullLengthTranscriptome.js";
 import { setUpSearchEventListeners } from "./searchEvents.js";
 
 
@@ -17,10 +17,13 @@ export let transcriptChart = echarts.init(document.getElementById('drawTranscrip
 
 // 确保文档加载完成后再执行初始化
 document.addEventListener('DOMContentLoaded', () => {
-    initalContentArea('GT42G000001', 'mosaic');
+    initialContentArea('GT42G000001', 'mosaic');
     setUpPaginationEventListeners('#haplotype_table_container', 'haplotypePaginationData'); // 为haplotype表格容器添加事件监听器
     // setUpPaginationEventListeners('#SNP_table_container', 'SNPPaginationData'); // 为SNP表格容器添加事件监听器
-    setUpPaginationEventListeners('#transcript_table_container', 'transcriptPaginationData'); // 为transcript表格容器添加事件监听器
+
+    // 由于transcript的表格分为 transcriptPagination 和 allTranscriptPagination，所以只能在每一次updateTableContainer时，根据transcriptPaginationTableType的值来设定容器事件
+    // setUpPaginationEventListeners('#transcript_table_container', 'transcriptPaginationData'); // 为transcript表格容器添加事件监听器
+
     setupDownloadButton('#download_haplotype_table'); // 为haplotype表格下载按钮添加事件监听器
     // setupDownloadButton('#download_SNP_table'); // 为SNP表格下载按钮添加事件监听器
     setupDownloadButton('#download_transcript_table'); // 为transcript表格下载按钮添加事件监听器
