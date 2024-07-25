@@ -143,7 +143,8 @@ function getHaplotypeOption(haplotypeData) {
             feature: {
                 dataZoom: { show: true },
                 // dataView: { show: true, readOnly: false },
-                restore: { show: true },
+                //  restore功能有bug，在切换数据之后，点击restore会自动绘制GT42000001的图像
+                // restore: { show: true },
                 saveAsImage: { show: true },
                 // magicType: {
                 //     type: ['line', 'bar', 'stack']
@@ -182,6 +183,7 @@ function getHaplotypeOption(haplotypeData) {
             axisLabel: {
                 show: true,
                 fontSize: 15,
+                // 这里由于mosaic在第一行，所以index一定为0，不会出现transcript中其它haplotype无法替换的情况
                 formatter: function (value, index) {
                     return value === '--' ? haplotypeData[index][0] : value;
                 }
@@ -218,7 +220,7 @@ function getHaplotypeOption(haplotypeData) {
                         // 对params.value[1]以.为分隔符进行拆分，取第二个元素，如果为'SO',则返回'#AED581'
                         let species = params.value[1].split('.')[1];
                         if (species == 'SO') {
-                            console.log(params);
+                            // console.log(params);
                             return '#AED581';
                         } else if (species == 'SS') {
                             return '#4DB6AC';

@@ -108,76 +108,77 @@ async function clickHaplotypeChartsEvents(params) {
     console.log(params);
 
     let seriesName = params.seriesName; // 与option中的series.name对应
-    let areaType = params.name; // 与option中的y轴名称对应
-
-
+    let geneID = params.name; // 与option中的y轴名称对应
+    let areaType = params.value[2]; // 点击的是mosaic还是haplotype
 
     let haplotypeObjectData = getData('haplotypeObjectData');
-    let SNPObjectData = getData('SNPObjectData');
 
-    let ObjectData = seriesName === 'haplotype' ? haplotypeObjectData : SNPObjectData;
-    // console.log(ObjectData);
     let currentClickedData;
 
-    if (seriesName === 'haplotype') { // filter 会返回一个包含查询结果的对象数组，用[0]取出查询数据：[{...}] => {...}
-        currentClickedData = ObjectData.filter(item => item.areaType === areaType)[0]; // 取出与当前点击的haplotypeID对应的数据
-    } else { // 取出前点击的SNP位点的SNPSite对应的SNP数据，这里使用value而不用data是因为data可能会成为一个对象数组附加其他绘图属性，但是value就是纯粹的绘图数据，另外，这里不使用mosaicID && SNPSite的方式是因为ObjectData只会存储当前mosaicID的数据
-        currentClickedData = ObjectData.filter(item => item.SNPSite === params.value[2])[0];
-    }
-    // console.log(data);
+    // 匹配当前点击的geneID对应的行，得到结果格式为：[{}]，然后将结果对象取出
+    currentClickedData = haplotypeObjectData.filter(item => item.geneID === geneID)[0]; // 取出与当前点击的haplotypeID对应的数据
 
-    // 不管点击的是haplotype(包括mosaic)还是SNP，都需要更新result details container
+
+    // 更新haplotype result details container
     let ResultDetailsData = { type: seriesName, data: currentClickedData };
     let haplotype_SNP_result_details_container = document.querySelector('#haplotype_SNP_result_details_container');
     updateResultDetailsContainer(ResultDetailsData, haplotype_SNP_result_details_container);
 
-    let haplotypeArrayData = getData('haplotypeArrayData');
-    console.log(haplotypeArrayData);
-    let transcriptArrayData = getData('transcriptArrayData');
-    console.log(transcriptArrayData);
-    // 如果点击的是haplotype的柱子(且不是mosaic)，还需要更新transcriptChart以及transcript的表格和details container
-    if (seriesName === 'haplotype') {
-        if (areaType !== 'mosaic') {
-            // 如果点击的是haplotype的柱子，那么需要将transcriptChart的焦点和柱颜色进行更新，
-            // 更新transcript的数据集，更新transcript的pagination，更新details container
+    // let haplotypeArrayData = getData('haplotypeArrayData');
+    // console.log(haplotypeArrayData);
+    // let transcriptArrayData = getData('transcriptArrayData');
+    // console.log(transcriptArrayData);
 
-            // 将当前点击的ECharts的参数保存到haplotypeEchartParams中
-            // 注意：只有点击的是haplotype的柱子时，才会更新haplotypeEchartParams，否则如果点击mosaic时也更新，那么当再次点击可变剪接时，可变剪接图像中的单倍型颜色就会变成与mosaic一样
-            updateData('haplotypeEchartParams', params);
 
-            let searchKeywordGene = currentClickedData.geneID; // 根据点击的haplotype数据获取geneID，然后根据geneID获取transcript数据
-            // console.log(searchKeywordGene);
-            let transcriptRawData = await fetchRawData('transcript', searchKeywordGene);
-            // console.log(transcriptRawData);
-            updateData('transcript', transcriptRawData);
+    // 更新transcript的数据集，更新transcript的pagination，更新details container
 
-            transcriptArrayData = getData('transcriptArrayData'); // 获取更新之后的数组
-            console.log(transcriptArrayData);
+    // 将当前点击的ECharts的参数保存到haplotypeEchartParams中
+    // 注意：只有点击的是haplotype的柱子时，才会更新haplotypeEchartParams，否则如果点击mosaic时也更新，那么当再次点击可变剪接时，可变剪接图像中的单倍型颜色就会变成与mosaic一样
+    // updateData('haplotypeEchartParams', params);
 
-            transcriptArrayData = setBarColor(transcriptArrayData, 0, params.color);
-
-            // 在每次绘制转录本图像之前，取消前一个高亮元素的聚焦效果，因为formerHighlightIndex存储的是上一个高亮元素的dataIndex，但是绘制转录本图像之后，transcript数据会切换为另外一组数据，导致formerHighlightIndex对应的dataIndex元素不再是高亮元素
-            let formerHighlightIndex = getData('formerTranscriptHighlightIndex');
-            setDownplayAction(transcriptChart, formerHighlightIndex);
-
-            drawTranscriptChart(transcriptArrayData);
-
-            // 设置transcriptChart中第一个exon高亮
-            let currentHighlightIndex = 1;
-            setDispatchAction(transcriptChart, 'highlight', currentHighlightIndex);
-            updateData('formerTranscriptHighlightIndex', currentHighlightIndex); // 更新旧的高亮元素的dataIndex
-
-            // 更新transcript的pagination
-            let transcript_table_container = document.querySelector('#transcript_table_container'); // 获取相应id的表格容器
-            // console.log(transcript_table_container);
-            updateTableContainer('transcriptPagination', searchKeywordGene, 1, transcript_table_container); // 初始化表格
-
-            // 更新transcript 的details container
-            let transcriptResultDetailsData = { type: transcriptRawData.type, data: transcriptRawData.data[1] }; // 获取第一个可变剪接的信息
-            let transcript_result_details_container = document.querySelector('#transcript_result_details_container'); // 获取transcript的result details容器
-            updateResultDetailsContainer(transcriptResultDetailsData, transcript_result_details_container); // 初始化result details容器
-        }
+    // 根据点击的区域类型，取出需要展示的transcript数据；对于mosaic展示所有transcript，对于haplotype展示该haplotype对应的transcript
+    let transcriptTableType;
+    let transcriptPaginationTableType;
+    let transcriptSearchKeyword;
+    if (areaType === 'mosaic') {
+        transcriptTableType = 'allTranscript';
+        transcriptPaginationTableType = 'allTranscriptPagination';
+        transcriptSearchKeyword = currentClickedData.mosaicID;
+    } else {
+        transcriptTableType = 'transcript';
+        transcriptPaginationTableType = 'transcriptPagination';
+        transcriptSearchKeyword = currentClickedData.geneID;
     }
+    let transcriptRawData = await fetchRawData(transcriptTableType, transcriptSearchKeyword);
+    // console.log(transcriptRawData);
+    updateData('transcript', transcriptRawData);
+
+    // 获取更新之后的transcript数组
+    let transcriptArrayData = getData('transcriptArrayData');
+    // console.log(transcriptArrayData);
+
+    // transcriptArrayData = setBarColor(transcriptArrayData, 0, params.color);
+
+    // 在每次绘制转录本图像之前，取消前一个高亮元素的聚焦效果，因为formerHighlightIndex存储的是上一个高亮元素的dataIndex，但是绘制转录本图像之后，transcript数据会切换为另外一组数据，导致formerHighlightIndex对应的dataIndex元素不再是高亮元素
+    let formerHighlightIndex = getData('formerTranscriptHighlightIndex');
+    setDownplayAction(transcriptChart, formerHighlightIndex);
+
+    drawTranscriptChart(transcriptArrayData);
+
+    // 设置transcriptChart中第一个exon高亮
+    let currentHighlightIndex = 1;
+    setDispatchAction(transcriptChart, 'highlight', currentHighlightIndex);
+    updateData('formerTranscriptHighlightIndex', currentHighlightIndex); // 更新旧的高亮元素的dataIndex
+
+    // 更新transcript 的result details container
+    let transcriptResultDetailsData = { type: transcriptRawData.type, data: transcriptRawData.data[1] }; // 获取第一个可变剪接的信息
+    let transcript_result_details_container = document.querySelector('#transcript_result_details_container'); // 获取transcript的result details容器
+    updateResultDetailsContainer(transcriptResultDetailsData, transcript_result_details_container); // 初始化result details容器
+
+    // 更新transcript的pagination
+    let transcript_table_container = document.querySelector('#transcript_table_container'); // 获取相应id的表格容器
+    // console.log(transcript_table_container);
+    updateTableContainer(transcriptPaginationTableType, transcriptSearchKeyword, 1, transcript_table_container); // 初始化表格
 
 }
 
@@ -189,13 +190,16 @@ function clickTranscriptChartEvents(params) {
 
 
     let seriesName = params.seriesName; // 与option中的series.name对应
-    let transcriptIndex = params.name; // 与option中的y轴名称对应
+    let yLable = params.name; // 与option中的y轴名称对应
+    // 由于绘图的时候为了y轴统一在haplotype末尾添加了'.0'，在这里需要与原始数据矩阵对应
+    let splitArray = yLable.split('.');
+    let transcriptID = (splitArray[splitArray.length - 1] === '0') ? '--' : yLable;
     let startSite = params.value[5];
     let endSite = params.value[6];
 
     let transcriptObjectData = getData('transcriptObjectData');
 
-    let exonAndIntronData = transcriptObjectData.filter(item => item.transcriptIndex === transcriptIndex); // 取出与当前点击的transcriptIndex对应的数据(一个transcriptIndex可能对应多个数据，因为一个可变剪接展示了外显子和内含子)
+    let exonAndIntronData = transcriptObjectData.filter(item => item.transcriptID === transcriptID); // 取出与当前点击的transcriptID对应的数据(一个transcriptID可能对应多个数据，因为一个可变剪接展示了外显子和内含子)
     console.log(exonAndIntronData);
 
     let clickedAreaData = exonAndIntronData.filter(item => item.start === startSite && item.end === endSite)[0]; // 取出与当前点击的区域对应的数据
@@ -207,9 +211,9 @@ function clickTranscriptChartEvents(params) {
     updateResultDetailsContainer(ResultDetailsData, transcript_result_details_container);
 
     // 修改transcriptChart的焦点
-    // 按照transcriptIndex、startSite、endSite来查找该数据在transcriptObjectData中的下标
+    // 按照transcriptID、startSite、endSite来查找该数据在transcriptObjectData中的下标
     const clickedAreaIndex = transcriptObjectData.findIndex(item =>
-        item.transcriptIndex === transcriptIndex &&
+        item.transcriptID === transcriptID &&
         item.start === startSite &&
         item.end === endSite
     );

@@ -4,18 +4,22 @@ function renderItem(params, api) {
     // console.log(params);
     // console.log(api);
     // var categoryIndex = api.value(3);
-    var categoryIndex = api.value(2);
-    var areaType = api.value(4);
-    var start = api.coord([api.value(5), categoryIndex]); // x, y
-    var end = api.coord([api.value(6), categoryIndex]);
+    // let geneID = api.value(1);
+    let transcriptID = api.value(2);
+    let areaType = api.value(4);
+    // let yLable = (areaType == 'haplotype' ? geneID : transcriptID);
+    let yLable = transcriptID;
+    let start = api.coord([api.value(5), yLable]); // x, y
+    let end = api.coord([api.value(6), yLable]);
+    let height = 0;
 
     if (areaType == 'exon' || areaType == 'haplotype') {
-        var height = api.size([0, 1])[1] * 0.6;
+        height = api.size([0, 1])[1] * 0.6;
     } else {
-        var height = api.size([0, 1])[1] * 0.1;
+        height = api.size([0, 1])[1] * 0.1;
     }
 
-    var rectShape = echarts.graphic.clipRectByRect(
+    let rectShape = echarts.graphic.clipRectByRect(
         {
             x: start[0],
             y: start[1] - height / 2,
@@ -40,14 +44,31 @@ function renderItem(params, api) {
     );
 }
 
+// 为了绘制图像时y轴统一使用transcriptID列，所以要使用.0后缀为haplotype添加一个虚拟的transcriptID
+function insertTranscriptID(transcriptData) {
+    // 遍历transcriptData
+    for (let i = 0; i < transcriptData.length; i++) {
+        let geneID = transcriptData[i][1];
+        let areaType = transcriptData[i][4];
+        if (areaType == 'haplotype') {
+            // haplotype添加一个虚拟的transcriptID
+            transcriptData[i][2] = geneID + '.0';
+        }
+    }
+    return transcriptData;
+}
+
 function getTranscriptOption(transcriptData) {
+    transcriptData = insertTranscriptID(transcriptData);
+    console.log(transcriptData);
     return {
         tooltip: {
 
             formatter: function (params) {
                 // console.log(params);
                 // 设置不同图形的提示信息，不知道为什么不能在series里面单独设置
-                if (params.name == '--') {
+                let areaType = params.value[4];
+                if (areaType == 'haplotype') {
                     return [
                         params.marker + params.value[1],
                         'Mosaic ID: ' + params.value[0],
@@ -135,7 +156,8 @@ function getTranscriptOption(transcriptData) {
             feature: {
                 dataZoom: { show: true },
                 // dataView: { show: true, readOnly: false },
-                restore: { show: true },
+                // restore功能有bug，在切换数据之后，点击restore会自动绘制GT42000001的图像
+                // restore: { show: true }, 
                 saveAsImage: { show: true },
                 // magicType: {
                 //     type: ['line', 'bar', 'stack']
@@ -170,8 +192,22 @@ function getTranscriptOption(transcriptData) {
             axisLabel: {
                 show: true,
                 fontSize: 15,
+                // 这里不能使用index改变单倍型的ID标签，因为index是当前画幅中的index，而不是数据中的index，一旦画幅改变，那么index也会改变
                 formatter: function (value, index) {
-                    return value === '--' ? transcriptData[index][1] : value;
+                    // 对value以'.'进行分割，如果最后一个元素是0，那么说明是haplotype，将末尾的.0去掉
+                    let valueArray = value.split('.');
+
+                    // console.log('value: ', value);
+                    // console.log('index: ', index);
+                    // console.log('transcriptData[index]: ', transcriptData[index]);
+                    // console.log('valueArray: ', valueArray);
+
+                    if (valueArray[valueArray.length - 1] == '0') {
+                        return valueArray.slice(0, valueArray.length - 1).join('.');
+                    } else {
+                        return value;
+                    }
+
                 }
             }
             // data: categories
@@ -183,13 +219,28 @@ function getTranscriptOption(transcriptData) {
                 renderItem: renderItem,
                 itemStyle: {
                     opacity: 1,
-                    color: function (value) {
-                        if (value.data[3] == 'haplotype') {
-                            return '#dce6d7';
+                    color: function (params) {
+                        let areaType = params.data[4];
+                        if (areaType == 'haplotype') {
+                            // console.log('itemStyle: ', params);
+                            // 对params.value[1]以.为分隔符进行拆分，取第二个元素判断物种信息
+                            let species = params.value[1].split('.')[1];
+                            if (species == 'SO') {
+                                // console.log(params);
+                                return '#AED581';
+                            } else if (species == 'SS') {
+                                return '#4DB6AC';
+                            } else if (species == 'CO') {
+                                return '#F48FB1';
+                            } else if (species == 'UK') {
+                                return '#A1887F';
+                            } else {
+                                return 'black';
+                            }
                         } else {
-                            if (value.data[4] == 'exon') {
+                            if (areaType == 'exon') {
                                 return '#a8e1f5';
-                            } else if (value.data[4] == 'intron') {
+                            } else {
                                 return '#D2DE32';
                             }
                         }
@@ -206,7 +257,6 @@ function getTranscriptOption(transcriptData) {
                     //         return params[0].value[0] + ': ';
                     //     }
                     // }
-
                 },
 
                 data: transcriptData,
