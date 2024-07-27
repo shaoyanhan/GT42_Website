@@ -140,7 +140,7 @@
         </header>
 
         <div class="content_container">
-            <div class="search_container">
+            <div class="search_container" id="content_area_search_container">
                 <!-- 基因组选择框 -->
                 <div class="select_genome_form_group">
                     <!-- label标签的for属性必须与相关联的表单控件的id属性值完全匹配，才能确保切换焦点的功能正常工作。 -->
@@ -323,7 +323,7 @@
 
 
 
-                <div id="snp_chart_three" style="width: 100%;height:1050px;"></div>
+                <div id="drawThreeSNP" style="width: 100%;height:1050px;"></div>
                 <details>
                     <summary>Click to view the ISO-Seq && RNA-Seq Evidence SNP table</summary>
                     <div class="table_footer_pagination_container" id="SNP_table_container_all">
@@ -477,7 +477,9 @@
         <div id="customAlert" class="custom_alert"></div>
     </div>
 
-    <script src="../../js/test2/snp.js"></script>
+    <!-- <script src="../../js/test2/snp.js"></script> -->
+    <script type="module" src="../../js/test2/mainHaplotypeSNP.js"></script>
+
 </body>
 
 </html>

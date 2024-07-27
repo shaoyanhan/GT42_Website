@@ -14,7 +14,10 @@ let updateResultDetailsContainerFunctions = {
     hubNetworkEdge: updateHubNetworkEdgeResultDetailsContainer,
 
     singleNetworkNode: updateSingleNetworkNodeResultDetailsContainer,
-    singleNetworkEdge: updateSingleNetworkEdgeResultDetailsContainer
+    singleNetworkEdge: updateSingleNetworkEdgeResultDetailsContainer,
+
+    haplotypeSNPChartHaplotype: updateHaplotypeSNPChartHaplotypeResultDetailsContainer,
+    haplotypeSNPChartSNP: updateHaplotypeSNPChartSNPResultDetailsContainer,
 };
 
 function updateHaplotypeResultDetailsContainer(data, container) {
@@ -741,8 +744,157 @@ function updateSingleNetworkEdgeResultDetailsContainer(data, container) {
         .catch(error => {
             console.error('Error:', error);
         });
+}
 
+function updateHaplotypeSNPChartHaplotypeResultDetailsContainer(data, container) {
+    console.log('data:', data);
+    console.log('container:', container);
 
+    // 定位到result_details容器
+    const resultDetails = container.querySelector('.result_details');
+
+    // 清空现有内容
+    resultDetails.innerHTML = '';
+
+    let tableContent = data.SNPTable.map(item => { return `<tr><td>${item[0]}</td><td>${item[1]}</td></tr>` }).join('');
+
+    const areaTypeContent = `
+                <div class="item_container">
+                    <h1 class="item_title">areaType</h1>
+                    <p class="item_content">${data.areaType}</p>
+                </div>`;
+    const mosaicIDContent = `
+                <div class="item_container">
+                    <h1 class="item_title">mosaicID</h1>
+                    <p class="item_content">${data.mosaicID}</p>
+                </div>`;
+    const geneIDContent = `
+                <div class="item_container">
+                    <h1 class="item_title">geneID</h1>
+                    <p class="item_content">${data.geneID}</p>
+                </div>`;
+    const lengthContent = `
+                <div class="item_container">
+                    <h1 class="item_title">length</h1>
+                    <p class="item_content">${data.length}</p>
+                </div>`;
+    const haplotypeSNPTableContent = `
+                <div class="table_item_container">
+                    <div class="table_header_container">
+                        <h1 class="item_title">haplotypeSNP</h1>
+                        <button class="download_button">Download</button>
+                    </div>
+                    <div class="table_content_container">
+                        <div class="table_header">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>SNP Site</th>
+                                        <th>Type</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div class="table_content">
+                            <table>
+                                <tbody>
+                                    ${tableContent}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>`;
+    const nucleotideSequenceContent = `
+                <div class="sequence_item_container">
+                    <div class="sequence_container_header">
+                        <h1 class="item_title">nucleotideSequence</h1>
+                        <button class="copy_button" data_sequence="${data.nucleotideSequence}">Copy</button>
+                    </div>
+                    <div class="sequence_container">
+                        <p class="item_content">${data.nucleotideSequence}</p>
+                    </div>
+                </div>`;
+
+    resultDetails.innerHTML = areaTypeContent + mosaicIDContent + geneIDContent + lengthContent + haplotypeSNPTableContent + nucleotideSequenceContent;
+
+}
+
+function updateHaplotypeSNPChartSNPResultDetailsContainer(data, container) {
+    console.log('data:', data);
+    console.log('container:', container);
+
+    // 定位到result_details容器
+    const resultDetails = container.querySelector('.result_details');
+
+    // 清空现有内容
+    resultDetails.innerHTML = '';
+
+    let tableContent = data.SNPTable.map(item => { return `<tr><td>${item[0]}</td><td>${item[1]}</td></tr>` }).join('');
+
+    const areaTypeContent = `
+                <div class="item_container">
+                    <h1 class="item_title">areaType</h1>
+                    <p class="item_content">${data.areaType}</p>
+                </div>`;
+    const baseContent = `
+                <div class="item_container">
+                    <h1 class="item_title">base</h1>
+                    <div style="width: 10px; height: 10px; margin: 10px; border-radius: 50%; background-color: ${data.selectedSNPBaseColor}"></div>
+                    <p class="item_content">${data.selectedSNPBase}</p>
+                </div>`;
+    const mosaicIDContent = `
+                <div class="item_container">
+                    <h1 class="item_title">mosaicID</h1>
+                    <p class="item_content">${data.mosaicID}</p>
+                </div>`;
+    const SNPSiteContent = `
+                <div class="item_container">
+                    <h1 class="item_title">SNPSite</h1>
+                    <p class="item_content">${data.SNPSite}</p>
+                </div>`;
+    const SNPTypeContent = `
+                <div class="item_container">
+                    <h1 class="item_title">SNPType</h1>
+                    <p class="item_content">${data.SNPType}</p>
+                </div>`;
+    const IsoSeqEvidenceContent = `
+                <div class="item_container">
+                    <h1 class="item_title">IsoSeqEvidence</h1>
+                    <p class="item_content">${data.IsoSeqEvidence}</p>
+                </div>`;
+    const RNASeqEvidenceContent = `
+                <div class="item_container">
+                    <h1 class="item_title">RNASeqEvidence</h1>
+                    <p class="item_content">${data.RNASeqEvidence}</p>
+                </div>`;
+    const haplotypeSNPTableContent = `
+                <div class="table_item_container">
+                    <div class="table_header_container">
+                        <h1 class="item_title">haplotypeSNP</h1>
+                        <button class="download_button">Download</button>
+                    </div>
+                    <div class="table_content_container">
+                        <div class="table_header">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>haplotype ID</th>
+                                        <th>Type</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div class="table_content">
+                            <table>
+                                <tbody>
+                                    ${tableContent}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>`;
+
+    resultDetails.innerHTML = areaTypeContent + baseContent + mosaicIDContent + SNPSiteContent + SNPTypeContent + IsoSeqEvidenceContent + RNASeqEvidenceContent + haplotypeSNPTableContent;
 }
 
 

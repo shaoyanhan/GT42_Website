@@ -225,7 +225,7 @@ function drawHaplotypeSNPChart() {
                             params.marker + params.seriesName,
                             'Type: ' + params.value[3],
                             'Mosaic ID: ' + params.value[0],
-                            'Haplotype ID: ' + params.value[0],
+                            'Haplotype ID: ' + params.value[2],
                             'Site: ' + params.value[1] + ' bp',
 
                         ].join('<br>');
@@ -608,7 +608,7 @@ function drawHaplotypeSNPChart() {
                 </div>`;
         } else if (dataType == 'haplotype') {
             container.innerHTML = `
-            <div class="item_container">
+                <div class="item_container">
                     <h1 class="item_title">mosaicID</h1>
                     <p class="item_content">GT42G000001</p>
                 </div>

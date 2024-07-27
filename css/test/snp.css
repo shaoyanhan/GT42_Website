@@ -223,7 +223,8 @@
     padding: 10px 5px;
     text-align: center;
     font-size: 15px;
-    white-space: nowrap;
+    /* 这里如果设置不换行会导致'no exon evidence'数据项溢出td，鉴于不影响美观，使用换行以保证表项的整体居中效果 */
+    /* white-space: nowrap; */
     border-width: 1px 0;
     /* width: 200px; */
 

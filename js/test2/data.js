@@ -452,7 +452,7 @@ function updateHaplotypeData(newData) {
     haplotypeArrayData = objectToArray(newData.data);
 }
 function updateSNPData(newData) {
-    console.log(newData);
+    // console.log(newData);
     SNPRawData = newData;
     SNPObjectData = newData.data;
     SNPArrayData = objectToArray(newData.data);
@@ -1037,6 +1037,8 @@ function getCurrentPageName() {
         return 'GeneExpressionProfile';
     } else if (pathName.includes('singleCoExpressionNetwork.html')) {
         return 'SingleCoExpressionNetwork';
+    } else if (pathName.includes('haplotypeSNP.html')) {
+        return 'HaplotypeSNP';
     } else {
         return 'default';
     }
