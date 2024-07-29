@@ -236,6 +236,8 @@ let homologousIDSet = {};
 
 let firstInitialCoExpressionNetworkGraph = true;
 
+// mosaicID	Ca1_1	Ca1_2	Ca1_3	Ca2_1	Ca2_2	Ca2_3	Ca3_1	Ca3_2	Ca3_3	Ro1_1	Ro1_2	Ro1_3	Ro2_1	Ro2_2	Ro2_3	Le1_1	Le1_2	Le1_3	LS1_1	LS1_2	LS1_3	Bu1_1	Bu1_2	Bu1_3	In1_1	In1_2	In1_3	NR1_1	NR1_2	NR1_3	AM_1	AM_2	AM_3	Bu2_1	Bu2_2	Bu2_3	Sp_1	Sp_2	Sp_3	Br_1	Br_2	Br_3	St_1	St_2	St_3	Pi_1	Pi_2	Pi_3	Gl_2	Gl_3	LS2_2	LS2_3	In2_1	In2_3	No2_1	No2_2	No2_3	Bu3_1	Bu3_3	Le2_1	Le2_2	Le2_3
+let TPM_data_table_download_keys_to_keep = ['mosaicID', 'Ca1_1', 'Ca1_2', 'Ca1_3', 'Ca2_1', 'Ca2_2', 'Ca2_3', 'Ca3_1', 'Ca3_2', 'Ca3_3', 'Ro1_1', 'Ro1_2', 'Ro1_3', 'Ro2_1', 'Ro2_2', 'Ro2_3', 'Le1_1', 'Le1_2', 'Le1_3', 'LS1_1', 'LS1_2', 'LS1_3', 'Bu1_1', 'Bu1_2', 'Bu1_3', 'In1_1', 'In1_2', 'In1_3', 'NR1_1', 'NR1_2', 'NR1_3', 'AM_1', 'AM_2', 'AM_3', 'Bu2_1', 'Bu2_2', 'Bu2_3', 'Sp_1', 'Sp_2', 'Sp_3', 'Br_1', 'Br_2', 'Br_3', 'St_1', 'St_2', 'St_3', 'Pi_1', 'Pi_2', 'Pi_3', 'Gl_2', 'Gl_3', 'LS2_2', 'LS2_3', 'In2_1', 'In2_3', 'No2_1', 'No2_2', 'No2_3', 'Bu3_1', 'Bu3_3', 'Le2_1', 'Le2_2', 'Le2_3'];
 
 // 定义API请求的前缀
 let apiPrefix = {
@@ -420,8 +422,16 @@ const getDataFunctions = {
 
     homologousIDSet: getHomologousIDSet,
 
-    downloadSingleNetworkNodesTable: getDownloadSingleNetworkNodesTable,
-    downloadSingleNetworkEdgesTable: getDownloadSingleNetworkEdgesTable,
+    haplotype_data_table_download: getDownloadHaplotypeTable,
+    SNP_data_table_download: getDownloadSNPTable,
+    transcript_data_table_download: getDownloadTranscriptTable,
+    mosaic_TPM_data_table_download: getDownloadMosaicTPMTable,
+    xenologous_TPM_data_table_download: getDownloadXenologousTPMTable,
+    gene_TPM_data_table_download: getDownloadGeneTPMTable,
+    transcript_TPM_data_table_download: getDownloadTranscript,
+    all_transcript_TPM_data_table_download: getDownloadAllTranscriptTPMTable,
+    single_network_nodes_table_download: getDownloadSingleNetworkNodesTable,
+    single_network_edges_table_download: getDownloadSingleNetworkEdgesTable,
 
     firstInitialCoExpressionNetworkGraph: getFirstInitialCoExpressionNetworkGraph,
 
@@ -886,6 +896,48 @@ function getDownloadSingleNetworkEdgesTable() {
     return filteredObjectList;
 }
 
+function getDownloadHaplotypeTable() {
+    const keysToKeep = ['mosaicID', 'geneID', 'areaType', 'length', 'nucleotideSequence'];
+    let filteredObjectList = filterKeysInObjects(haplotypeObjectData, keysToKeep);
+    return filteredObjectList;
+}
+
+function getDownloadSNPTable() {
+    const keysToKeep = ['mosaicID', 'SNPSite', 'SNPType', 'IsoSeqEvidence', 'RNASeqEvidence', 'haplotypeSNP'];
+    let filteredObjectList = filterKeysInObjects(SNPObjectData, keysToKeep);
+    return filteredObjectList;
+}
+
+function getDownloadTranscriptTable() {
+    const keysToKeep = ['mosaicID', 'geneID', 'transcriptID', 'transcriptIndex', 'areaType', 'start', 'end', 'length', 'transcriptRange', 'transcriptLength', 'nucleotideSequence', 'proteinSequence'];
+    let filteredObjectList = filterKeysInObjects(transcriptObjectData, keysToKeep);
+    return filteredObjectList;
+}
+
+function getDownloadMosaicTPMTable() {
+    let filteredObjectList = filterKeysInObjects(mosaicTPMObjectData, TPM_data_table_download_keys_to_keep);
+    return filteredObjectList;
+}
+
+function getDownloadXenologousTPMTable() {
+    let filteredObjectList = filterKeysInObjects(xenologousTPMObjectData, TPM_data_table_download_keys_to_keep);
+    return filteredObjectList;
+}
+
+function getDownloadGeneTPMTable() {
+    let filteredObjectList = filterKeysInObjects(geneTPMObjectData, TPM_data_table_download_keys_to_keep);
+    return filteredObjectList;
+}
+
+function getDownloadTranscript() {
+    let filteredObjectList = filterKeysInObjects(transcriptTPMObjectData, TPM_data_table_download_keys_to_keep);
+    return filteredObjectList;
+}
+
+function getDownloadAllTranscriptTPMTable() {
+    let filteredObjectList = filterKeysInObjects(allTranscriptTPMObjectData, TPM_data_table_download_keys_to_keep);
+    return filteredObjectList;
+}
 
 
 // 数据请求, 相当于axios.get(url).then(response => response.data).catch(error => console.error('数据请求失败:', error));

@@ -3,16 +3,16 @@ import { showCustomAlert } from "./showCustomAlert.js";
 
 // 建立buttonID到getData函数的参数的映射
 let idToType = {
-    '#download_haplotype_table': 'haplotypeObjectData',
-    '#download_SNP_table': 'SNPObjectData',
-    '#download_transcript_table': 'transcriptObjectData',
-    '#download_orthologous_TPM_table': 'mosaicTPMObjectData',
-    '#download_xenologous_TPM_table': 'xenologousTPMObjectData',
-    '#download_gene_TPM_table': 'geneTPMObjectData',
-    '#download_transcript_TPM_table': 'transcriptTPMObjectData',
-    '#download_all_transcript_TPM_table': 'allTranscriptTPMObjectData',
-    '#download_single_network_nodes_table': 'downloadSingleNetworkNodesTable',
-    '#download_single_network_edges_table': 'downloadSingleNetworkEdgesTable',
+    '#download_haplotype_table': 'haplotype_data_table_download',
+    '#download_SNP_table': 'SNP_data_table_download',
+    '#download_transcript_table': 'transcript_data_table_download',
+    '#download_orthologous_TPM_table': 'mosaic_TPM_data_table_download',
+    '#download_xenologous_TPM_table': 'xenologous_TPM_data_table_download',
+    '#download_gene_TPM_table': 'gene_TPM_data_table_download',
+    '#download_transcript_TPM_table': 'transcript_TPM_data_table_download',
+    '#download_all_transcript_TPM_table': 'all_transcript_TPM_data_table_download',
+    '#download_single_network_nodes_table': 'single_network_nodes_table_download',
+    '#download_single_network_edges_table': 'single_network_edges_table_download',
     '#download_hub_network_nodes_table': 'downloadHubNetworkNodesTable',
     '#download_hub_network_edges_table': 'downloadHubNetworkEdgesTable',
 
@@ -85,7 +85,7 @@ function setupDownloadButton(buttonId) {
         // downloadCSV(csv, filename);
 
         const tsv = convertDataToTSV(data);
-        const filename = type + '_table.tsv'; // 自定义文件名
+        const filename = type + '.tsv'; // 自定义文件名
         downloadCSV(tsv, filename);
     });
 }

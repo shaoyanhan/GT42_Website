@@ -817,6 +817,18 @@ function updateHaplotypeSNPChartHaplotypeResultDetailsContainer(data, container)
 
     resultDetails.innerHTML = areaTypeContent + mosaicIDContent + geneIDContent + lengthContent + haplotypeSNPTableContent + nucleotideSequenceContent;
 
+    // 为这部分的表格结构中的下载按钮单独添加下载按钮事件监听器，这个地方可以类似于copyTextToClipboards.js使用工厂函数独立，但是前提是要将haplotypeSNPs提前存储起来
+    container.querySelector('.download_button').addEventListener('click', function () {
+        const csvContent = "data:text/csv;charset=utf-8," + data.SNPTable.map(snp => snp.join(',')).join('\n');
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", "snp_table.csv");
+        document.body.appendChild(link); // Required for FF
+        link.click();
+        document.body.removeChild(link);
+        showCustomAlert('SNP table downloaded!');
+    });
 }
 
 function updateHaplotypeSNPChartSNPResultDetailsContainer(data, container) {
@@ -895,6 +907,19 @@ function updateHaplotypeSNPChartSNPResultDetailsContainer(data, container) {
                 </div>`;
 
     resultDetails.innerHTML = areaTypeContent + baseContent + mosaicIDContent + SNPSiteContent + SNPTypeContent + IsoSeqEvidenceContent + RNASeqEvidenceContent + haplotypeSNPTableContent;
+
+    // 为这部分的表格结构中的下载按钮单独添加下载按钮事件监听器，这个地方可以类似于copyTextToClipboards.js使用工厂函数独立，但是前提是要将haplotypeSNPs提前存储起来
+    container.querySelector('.download_button').addEventListener('click', function () {
+        const csvContent = "data:text/csv;charset=utf-8," + data.SNPTable.map(snp => snp.join(',')).join('\n');
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", "snp_table.csv");
+        document.body.appendChild(link); // Required for FF
+        link.click();
+        document.body.removeChild(link);
+        showCustomAlert('SNP table downloaded!');
+    });
 }
 
 

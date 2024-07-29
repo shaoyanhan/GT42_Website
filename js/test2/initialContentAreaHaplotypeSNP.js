@@ -2,6 +2,7 @@ import { fetchRawData, updateData, getData } from "./data.js";
 import { haplotypeSNPChart } from "./mainHaplotypeSNP.js";
 import { drawHaplotypeSNPChart, drawThreeSNPChart } from "./echartsEventsHaplotypeSNP.js";
 import { updateResultDetailsContainer } from "./resultDetailsContainer.js";
+import { updateTableContainer } from "./tablePagination.js";
 
 async function initialHaplotypeSNP(haplotypeArrayData, SNPArrayData) {
     // 生成haplotypeData用于绘制bar
@@ -124,6 +125,16 @@ async function initialContentArea(searchKeyword, keywordType) {
 
     initialHaplotypeSNP(haplotypeArrayData, SNPArrayData);
     initialThreeSNP(haplotypeArrayData, SNPArrayData);
+
+    // 填充haplotype表格
+    let haplotype_table_container = document.querySelector('#haplotype_table_container'); // 获取相应id的表格容器
+    // console.log(haplotype_table_container);
+    updateTableContainer('haplotypePagination', searchKeywordMosaic, 1, haplotype_table_container); // 初始化表格
+
+    let SNP_table_container = document.querySelector('#SNP_table_container'); // 获取相应id的表格容器
+    // console.log(SNP_table_container);
+    updateTableContainer('SNPPagination', searchKeywordMosaic, 1, SNP_table_container); // 初始化表格
+
 }
 
 export { initialContentArea }

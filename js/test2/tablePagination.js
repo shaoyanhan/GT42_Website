@@ -37,15 +37,21 @@ function updateSNPTable(data, container) {
     data.forEach(row => {
         const tr = document.createElement('tr');
         // 给核苷酸序列设置为点击复制按钮，附带自定义的data_属性，用于存储实际要复制的数据。
+        // tr.innerHTML = `<td>${row.mosaicID}</td>
+        //                 <td>${row.SNPSite}</td>
+        //                 <td>${row.SNPType}</td>
+        //                 <td>${row.IsoSeqEvidence}</td>
+        //                 <td>${row.RNASeqEvidence}</td>
+        //                 <td>${row.haplotypeSNP}</td>
+        //                 <td>
+        //                     <div style="width: 20px; height: 20px; border-radius: 50%; background-color: ${row.color}"></div>
+        //                 </td>`;
         tr.innerHTML = `<td>${row.mosaicID}</td>
                         <td>${row.SNPSite}</td>
                         <td>${row.SNPType}</td>
                         <td>${row.IsoSeqEvidence}</td>
                         <td>${row.RNASeqEvidence}</td>
-                        <td>${row.haplotypeSNP}</td>
-                        <td>
-                            <div style="width: 20px; height: 20px; border-radius: 50%; background-color: ${row.color}"></div>
-                        </td>`;
+                        <td>${row.haplotypeSNP}</td>`;
         container.appendChild(tr);
     });
 }
