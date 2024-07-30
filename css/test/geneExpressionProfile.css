@@ -166,3 +166,51 @@
     background: #8bc2d0;
     color: #fff;
 }
+
+
+.content_container .heatmap_color_picker_container {
+    /* width: 80%; */
+    /* max-width: 800px; */
+    margin: 40px 20px;
+    border: 2px solid #ccc;
+    border-radius: 50px;
+    overflow: hidden;
+    background-color: rgba(179, 236, 202, 0.73);
+    box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
+}
+
+.content_container .heatmap_color_picker_container .heatmap_color_picker_window {
+    display: flex;
+    overflow-x: auto;
+    justify-content: space-evenly;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 30px;
+    background-color: #FAFFF2;
+}
+
+.content_container .heatmap_color_picker_container .heatmap_color_picker_window .color_option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 20px;
+}
+
+.content_container .heatmap_color_picker_container .heatmap_color_picker_window .color_option input[type="radio"] {
+    display: none;
+}
+
+.content_container .heatmap_color_picker_container .heatmap_color_picker_window .color_option label {
+    cursor: pointer;
+}
+
+.content_container .heatmap_color_picker_container .heatmap_color_picker_window .color_option img {
+    border: 2px solid rgb(202, 202, 202);
+    border-radius: 5px;
+    width: 120px;
+    object-fit: cover;
+}
+
+.content_container .heatmap_color_picker_container .heatmap_color_picker_window .color_option input[type="radio"]:checked+label img {
+    border-color: #007BFF;
+}

@@ -248,7 +248,7 @@ function getHeatmapOption(dataArray) {
 
         visualMap: {
             min: 0,
-            max: 20,
+            max: 15,
             type: 'continuous', // 定义为连续型 visualMap
             calculable: true,
             orient: 'horizontal',
@@ -268,7 +268,7 @@ function getHeatmapOption(dataArray) {
             //     // color: ['#f7fcf0', '#e0f3db', '#ccebc5', '#a8ddb5', '#7bccc4', '#4eb3d3', '#2b8cbe', '#0868ac', '#084081']
             //     // color: ['#ffffd9', '#edf8b1', '#c7e9b4', '#7fcdbb', '#41b6c4', '#1d91c0', '#225ea8', '#253494', '#081d58']
             //     // color: ['#fff7f3', '#fde0dd', '#fcc5c0', '#fa9fb5', '#f768a1', '#dd3497', '#ae017e', '#7a0177', '#49006a']
-            //     color: ['#92c5de', '#d1e5f0', '#f7f7f7', '#fddbc7', '#f4a582']
+            //     // color: ['#92c5de', '#d1e5f0', '#f7f7f7', '#fddbc7', '#f4a582']
             //     // color: ['#4575b4', '#74add1', '#abd9e9', '#e0f3f8', '#ffffbf', '#fee090', '#fdae61', '#f46d43', '#d73027']
             //     // color: ['#3288bd', '#66c2a5', '#abdda4', '#e6f598', '#ffffbf', '#fee08b', '#fdae61', '#f46d43', '#d53e4f']
             //     // color: ['#8dd3c7', '#ffffb3', '#bebada', '#fb8072', '#80b1d3', '#fdb462', '#b3de69', '#fccde5', '#d9d9d9']
@@ -276,6 +276,7 @@ function getHeatmapOption(dataArray) {
             //     // color: ['#e0f3db', '#ccebc5', '#a8ddb5', '#7bccc4', '#4eb3d3', '#2b8cbe', '#0868ac', '#084081']
             //     // color: ['#4E659B', '#8A8CBF', '#B8A8CF', '#E7BCC6', '#FDCF9E', '#EFA484', '#B6766C']
             //     // color: ['#8A8CBF', '#B8A8CF', '#E7BCC6', '#FDCF9E', '#EFA484']
+            //     color: ['#d8b365', '#f5f5f5', '#5ab4ac']
             // }
 
         },

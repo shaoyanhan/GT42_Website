@@ -1,5 +1,5 @@
 import { initialContentArea, drawTranscriptHeatmapByGeneID } from "./initialContentAreaGeneExpressionProfile.js";
-import { drawDevelopmentStageSunburstChart } from "./echartsEventsGeneExpressionProfile.js";
+import { drawDevelopmentStageSunburstChart, changeHeatmapColorEventHandler } from "./echartsEventsGeneExpressionProfile.js";
 import { setUpSearchEventListeners } from "./searchEvents.js";
 // import { setUpSelectEventListeners, setUpSelectWithSelect2 } from "./selectEvents.js";
 import { setUpPaginationEventListeners } from "./tablePagination.js";
@@ -42,4 +42,13 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log(params);
     });
     drawDevelopmentStageSunburstChart();
+
+    // 为heatmap颜色选择器添加事件监听器
+    const heatmapColorPickerContainer = document.querySelector('.heatmap_color_picker_container');
+    const colorRadios = heatmapColorPickerContainer.querySelectorAll('input[type="radio"]');
+    colorRadios.forEach(radio => {
+        radio.addEventListener('change', function () {
+            changeHeatmapColorEventHandler(this);
+        });
+    });
 });

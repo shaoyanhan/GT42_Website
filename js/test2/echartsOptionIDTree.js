@@ -17,7 +17,7 @@ function getIDTreeOption(data) {
             feature: {
                 // dataZoom: { show: true },
                 // dataView: { show: true, readOnly: false },
-                restore: { show: true },
+                // restore: { show: true },
                 saveAsImage: { show: true },
                 // magicType: {
                 //     type: ['line', 'bar', 'stack']
