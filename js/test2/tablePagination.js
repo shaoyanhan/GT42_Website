@@ -14,6 +14,9 @@ let updateTableFunctions = {
     single_network_edges_table_container: updateSingleNetworkEdgesTable,
     hub_network_nodes_table_container: updateSingleNetworkNodesTable,
     hub_network_edges_table_container: updateSingleNetworkEdgesTable,
+    SNP_evidence_table_container_both: updateSNPEvidenceTable,
+    SNP_evidence_table_container_iso: updateSNPEvidenceTable,
+    SNP_evidence_table_container_rna: updateSNPEvidenceTable,
 };
 
 // 更新haplotype表格
@@ -403,6 +406,28 @@ function updateSingleNetworkEdgesTable(data, container) {
                             <div style="width: 20px; height: 20px; border-radius: 50%; background-color: ${row.color}"></div>
                         </td>`;
         container.appendChild(tr);
+    });
+}
+
+// 更新SNP evidence表格
+function updateSNPEvidenceTable(data, container) {
+    container.innerHTML = '';  // 清空当前表格
+
+    // 根据关键字判断数据类型
+    const hasIsoSeq = data.some(item => item.hasOwnProperty('IsoSeqEvidence'));
+    const hasRNASeq = data.some(item => item.hasOwnProperty('RNASeqEvidence'));
+
+    // 填充表格
+    data.forEach(row => {
+        let tr = '<tr>';
+        tr += `<td>${row.mosaicID}</td>`;
+        tr += `<td>${row.SNPSite}</td>`;
+        tr += `<td>${row.SNPType}</td>`;
+        if (hasIsoSeq) tr += `<td>${row.IsoSeqEvidence || ''}</td>`;
+        if (hasRNASeq) tr += `<td>${row.RNASeqEvidence || ''}</td>`;
+        tr += `<td>${row.haplotypeSNP}</td>`;
+        tr += '</tr>';
+        container.innerHTML += tr;
     });
 }
 

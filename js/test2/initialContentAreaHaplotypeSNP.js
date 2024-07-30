@@ -71,7 +71,7 @@ async function initialThreeSNP(haplotypeArrayData, SNPArrayData) {
     console.log('REFData: ', REFData);
 
     // 生成三个SNP数据用于绘制三个SNP图
-    let SNPDataAll = [];
+    let SNPDataBoth = [];
     let SNPDataISO = [];
     let SNPDataRNA = [];
     // 遍历SNPArrayData，判断第五列和第六列的值是否为'none'，如果第五列为'none'，则将数据存入SNPDataRNA，如果第六列为'none'，则将数据存入SNPDataISO，如果都不为'none'，则存入SNPDataAll
@@ -94,7 +94,7 @@ async function initialThreeSNP(haplotypeArrayData, SNPArrayData) {
         }
         if (IsoSeqEvidence !== 'none' && RNASeqEvidence !== 'none') {
             SNPDataToScatter(item).forEach(function (element) {
-                SNPDataAll.push(element);
+                SNPDataBoth.push(element);
             });
         }
     }
@@ -102,7 +102,7 @@ async function initialThreeSNP(haplotypeArrayData, SNPArrayData) {
     // console.log('SNPDataISO: ', SNPDataISO);
     // console.log('SNPDataRNA: ', SNPDataRNA);
 
-    drawThreeSNPChart(REFData, SNPDataAll, SNPDataISO, SNPDataRNA);
+    drawThreeSNPChart(REFData, SNPDataBoth, SNPDataISO, SNPDataRNA);
 
 }
 
@@ -126,6 +126,14 @@ async function initialContentArea(searchKeyword, keywordType) {
     initialHaplotypeSNP(haplotypeArrayData, SNPArrayData);
     initialThreeSNP(haplotypeArrayData, SNPArrayData);
 
+    // 请求SNP证据数据并保存，用于后续表格数据的下载
+    let SNPEvidenceBothRawData = await fetchRawData('SNPEvidenceBoth', searchKeywordMosaic);
+    let SNPEvidenceIsoSeqRawData = await fetchRawData('SNPEvidenceIsoSeq', searchKeywordMosaic);
+    let SNPEvidenceRNASeqRawData = await fetchRawData('SNPEvidenceRNASeq', searchKeywordMosaic);
+    updateData('SNPEvidenceBoth', SNPEvidenceBothRawData);
+    updateData('SNPEvidenceIsoSeq', SNPEvidenceIsoSeqRawData);
+    updateData('SNPEvidenceRNASeq', SNPEvidenceRNASeqRawData);
+
     // 填充haplotype表格
     let haplotype_table_container = document.querySelector('#haplotype_table_container'); // 获取相应id的表格容器
     // console.log(haplotype_table_container);
@@ -134,6 +142,18 @@ async function initialContentArea(searchKeyword, keywordType) {
     let SNP_table_container = document.querySelector('#SNP_table_container'); // 获取相应id的表格容器
     // console.log(SNP_table_container);
     updateTableContainer('SNPPagination', searchKeywordMosaic, 1, SNP_table_container); // 初始化表格
+
+    let SNP_evidence_table_container_both = document.querySelector('#SNP_evidence_table_container_both'); // 获取相应id的表格容器
+    // console.log(SNP_evidence_table_container_both);
+    updateTableContainer('SNPEvidenceBothPagination', searchKeywordMosaic, 1, SNP_evidence_table_container_both); // 初始化表格
+
+    let SNP_evidence_table_container_iso = document.querySelector('#SNP_evidence_table_container_iso'); // 获取相应id的表格容器
+    // console.log(SNP_evidence_table_container_iso);
+    updateTableContainer('SNPEvidenceIsoSeqPagination', searchKeywordMosaic, 1, SNP_evidence_table_container_iso); // 初始化表格
+
+    let SNP_evidence_table_container_rna = document.querySelector('#SNP_evidence_table_container_rna'); // 获取相应id的表格容器
+    // console.log(SNP_evidence_table_container_rna);
+    updateTableContainer('SNPEvidenceRNASeqPagination', searchKeywordMosaic, 1, SNP_evidence_table_container_rna); // 初始化表格
 
 }
 

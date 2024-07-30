@@ -287,10 +287,10 @@
 }
 
 /* SNP表格的IsoSeqEvidence、RNASeqEvidence 两列数据项的内容长度不一，并且存在空格，可能导致换行 */
-.center_container .content_container .snp_evidence_result_container details #SNP_table_container_all table td:nth-child(4),
-.center_container .content_container .snp_evidence_result_container details #SNP_table_container_all table td:nth-child(5),
-.center_container .content_container .snp_evidence_result_container details #SNP_table_container_iso table td:nth-child(4),
-.center_container .content_container .snp_evidence_result_container details #SNP_table_container_rna table td:nth-child(4),
+.center_container .content_container .snp_evidence_result_container details #SNP_evidence_table_container_both table td:nth-child(4),
+.center_container .content_container .snp_evidence_result_container details #SNP_evidence_table_container_both table td:nth-child(5),
+.center_container .content_container .snp_evidence_result_container details #SNP_evidence_table_container_iso table td:nth-child(4),
+.center_container .content_container .snp_evidence_result_container details #SNP_evidence_table_container_rna table td:nth-child(4),
 .center_container .content_container .haplotype_snp_result_container details #SNP_table_container table td:nth-child(4),
 .center_container .content_container .haplotype_snp_result_container details #SNP_table_container table td:nth-child(5) {
     white-space: nowrap;
@@ -298,12 +298,12 @@
 }
 
 /* SNP表格的 haplotypeSNP 这一列数据过长，使用左对齐方式，并放置在一行之内*/
-.center_container .content_container .snp_evidence_result_container details #SNP_table_container_all table td:nth-child(6),
-.center_container .content_container .snp_evidence_result_container details #SNP_table_container_all table th:nth-child(6),
-.center_container .content_container .snp_evidence_result_container details #SNP_table_container_iso table td:nth-child(5),
-.center_container .content_container .snp_evidence_result_container details #SNP_table_container_iso table th:nth-child(5),
-.center_container .content_container .snp_evidence_result_container details #SNP_table_container_rna table td:nth-child(5),
-.center_container .content_container .snp_evidence_result_container details #SNP_table_container_rna table th:nth-child(5),
+.center_container .content_container .snp_evidence_result_container details #SNP_evidence_table_container_both table td:nth-child(6),
+.center_container .content_container .snp_evidence_result_container details #SNP_evidence_table_container_both table th:nth-child(6),
+.center_container .content_container .snp_evidence_result_container details #SNP_evidence_table_container_iso table td:nth-child(5),
+.center_container .content_container .snp_evidence_result_container details #SNP_evidence_table_container_iso table th:nth-child(5),
+.center_container .content_container .snp_evidence_result_container details #SNP_evidence_table_container_rna table td:nth-child(5),
+.center_container .content_container .snp_evidence_result_container details #SNP_evidence_table_container_rna table th:nth-child(5),
 .center_container .content_container .haplotype_snp_result_container details #SNP_table_container table td:nth-child(6),
 .center_container .content_container .haplotype_snp_result_container details #SNP_table_container table th:nth-child(6) {
     white-space: nowrap;

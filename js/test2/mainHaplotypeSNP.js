@@ -43,12 +43,22 @@ function initialBasedOnURLSearchKeyword() {
 // 确保文档加载完成后再执行初始化
 document.addEventListener('DOMContentLoaded', async () => {
     initialBasedOnURLSearchKeyword();
+
     setUpSearchEventListeners('#content_area_search_container');
+
     setUpPaginationEventListeners('#haplotype_table_container', 'haplotypePaginationData'); // 为haplotype表格容器添加事件监听器
     setUpPaginationEventListeners('#SNP_table_container', 'SNPPaginationData'); // 为SNP表格容器添加事件监听器
+    setUpPaginationEventListeners('#SNP_evidence_table_container_both', 'SNPEvidenceBothPaginationData'); // 为SNP evidence表格容器添加事件监听器
+    setUpPaginationEventListeners('#SNP_evidence_table_container_iso', 'SNPEvidenceIsoSeqPaginationData');
+    setUpPaginationEventListeners('#SNP_evidence_table_container_rna', 'SNPEvidenceRNASeqPaginationData');
+
     setupDownloadButton('#download_haplotype_table'); // 为haplotype表格下载按钮添加事件监听器
     setupDownloadButton('#download_SNP_table'); // 为SNP表格下载按钮添加事件监听器
+    setupDownloadButton('#download_SNP_evidence_table_both'); // 为SNP evidence表格下载按钮添加事件监听器
+    setupDownloadButton('#download_SNP_evidence_table_iso');
+    setupDownloadButton('#download_SNP_evidence_table_rna');
+
     setUpResultDetailsContainerEventListeners('#haplotype_SNP_result_details_container'); // 为结果详情容器添加事件监听器
-    setUpResultDetailsContainerEventListeners('#transcript_result_details_container'); // 为结果详情容器添加事件监听器
+
     haplotypeSNPChart.on('click', clickHaplotypeSNPEventsHandler);
 });

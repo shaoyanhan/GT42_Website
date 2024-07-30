@@ -16,6 +16,10 @@ let idToType = {
     '#download_hub_network_nodes_table': 'downloadHubNetworkNodesTable',
     '#download_hub_network_edges_table': 'downloadHubNetworkEdgesTable',
 
+    '#download_SNP_evidence_table_both': 'SNP_evidence_table_both_download',
+    '#download_SNP_evidence_table_iso': 'SNP_evidence_table_iso_download',
+    '#download_SNP_evidence_table_rna': 'SNP_evidence_table_rna_download',
+
 };
 
 // 将数据转换为CSV格式

@@ -1,4 +1,4 @@
-function getThreeSNPOption(REFData, SNPDataAll, SNPDataISO, SNPDataRNA) {
+function getThreeSNPOption(REFData, SNPDataBoth, SNPDataISO, SNPDataRNA) {
     let yAxisCategory = ['T', 'G', 'C', 'A', 'REF'];
     return {
         tooltip: {
@@ -331,7 +331,7 @@ function getThreeSNPOption(REFData, SNPDataAll, SNPDataISO, SNPDataRNA) {
                         }
                     }
                 },
-                data: SNPDataAll,
+                data: SNPDataBoth,
                 encode: {
                     x: 1,
                     y: 0

@@ -82,23 +82,27 @@ let allTranscriptTPMArrayData = [];
     ]
 }
 */
-let haplotypePaginationData = [];
-let SNPPaginationData = [];
-let transcriptPaginationData = [];
-let allTranscriptPaginationData = [];
+let haplotypePaginationData = {};
+let SNPPaginationData = {};
+let transcriptPaginationData = {};
+let allTranscriptPaginationData = {};
 
-let mosaicTPMPaginationData = [];
-let xenologousTPMPaginationData = [];
-let geneTPMPaginationData = [];
-let transcriptTPMPaginationData = [];
-let allTranscriptTPMPaginationData = [];
+let mosaicTPMPaginationData = {};
+let xenologousTPMPaginationData = {};
+let geneTPMPaginationData = {};
+let transcriptTPMPaginationData = {};
+let allTranscriptTPMPaginationData = {};
 
-let mosaicNetworkNodesPaginationData = [];
-let mosaicNetworkEdgesPaginationData = [];
-let xenologousNetworkNodesPaginationData = [];
-let xenologousNetworkEdgesPaginationData = [];
-let geneNetworkNodesPaginationData = [];
-let geneNetworkEdgesPaginationData = [];
+let mosaicNetworkNodesPaginationData = {};
+let mosaicNetworkEdgesPaginationData = {};
+let xenologousNetworkNodesPaginationData = {};
+let xenologousNetworkEdgesPaginationData = {};
+let geneNetworkNodesPaginationData = {};
+let geneNetworkEdgesPaginationData = {};
+
+let SNPEvidenceBothPaginationData = {};
+let SNPEvidenceIsoSeqPaginationData = {};
+let SNPEvidenceRNASeqPaginationData = {};
 
 
 /*
@@ -239,6 +243,11 @@ let firstInitialCoExpressionNetworkGraph = true;
 // mosaicID	Ca1_1	Ca1_2	Ca1_3	Ca2_1	Ca2_2	Ca2_3	Ca3_1	Ca3_2	Ca3_3	Ro1_1	Ro1_2	Ro1_3	Ro2_1	Ro2_2	Ro2_3	Le1_1	Le1_2	Le1_3	LS1_1	LS1_2	LS1_3	Bu1_1	Bu1_2	Bu1_3	In1_1	In1_2	In1_3	NR1_1	NR1_2	NR1_3	AM_1	AM_2	AM_3	Bu2_1	Bu2_2	Bu2_3	Sp_1	Sp_2	Sp_3	Br_1	Br_2	Br_3	St_1	St_2	St_3	Pi_1	Pi_2	Pi_3	Gl_2	Gl_3	LS2_2	LS2_3	In2_1	In2_3	No2_1	No2_2	No2_3	Bu3_1	Bu3_3	Le2_1	Le2_2	Le2_3
 let TPM_data_table_download_keys_to_keep = ['mosaicID', 'Ca1_1', 'Ca1_2', 'Ca1_3', 'Ca2_1', 'Ca2_2', 'Ca2_3', 'Ca3_1', 'Ca3_2', 'Ca3_3', 'Ro1_1', 'Ro1_2', 'Ro1_3', 'Ro2_1', 'Ro2_2', 'Ro2_3', 'Le1_1', 'Le1_2', 'Le1_3', 'LS1_1', 'LS1_2', 'LS1_3', 'Bu1_1', 'Bu1_2', 'Bu1_3', 'In1_1', 'In1_2', 'In1_3', 'NR1_1', 'NR1_2', 'NR1_3', 'AM_1', 'AM_2', 'AM_3', 'Bu2_1', 'Bu2_2', 'Bu2_3', 'Sp_1', 'Sp_2', 'Sp_3', 'Br_1', 'Br_2', 'Br_3', 'St_1', 'St_2', 'St_3', 'Pi_1', 'Pi_2', 'Pi_3', 'Gl_2', 'Gl_3', 'LS2_2', 'LS2_3', 'In2_1', 'In2_3', 'No2_1', 'No2_2', 'No2_3', 'Bu3_1', 'Bu3_3', 'Le2_1', 'Le2_2', 'Le2_3'];
 
+let SNPEvidenceBothObjectData = [];
+let SNPEvidenceIsoSeqObjectData = [];
+let SNPEvidenceRNASeqObjectData = [];
+
+
 // 定义API请求的前缀
 let apiPrefix = {
     IP: 'http://127.0.0.1:8080/',
@@ -256,6 +265,9 @@ let apiPrefix = {
     geneTPM: 'getGeneTPMTable/',
     transcriptTPM: 'getTranscriptTPMTable/',
     allTranscriptTPM: 'getAllTranscriptTPMTable/',
+    SNPEvidenceBoth: 'getSNPEvidenceBothTable/',
+    SNPEvidenceIsoSeq: 'getSNPEvidenceIsoSeqTable/',
+    SNPEvidenceRNASeq: 'getSNPEvidenceRNASeqTable/',
 
     haplotypePagination: 'getHaplotypeTableByPage/',
     SNPPagination: 'getSNPTableByPage/',
@@ -272,6 +284,9 @@ let apiPrefix = {
     xenologousNetworkEdgesPagination: 'getXenologousNetworkEdgesTableByPage/',
     geneNetworkNodesPagination: 'getGeneNetworkNodesTableByPage/',
     geneNetworkEdgesPagination: 'getGeneNetworkEdgesTableByPage/',
+    SNPEvidenceBothPagination: 'getSNPEvidenceBothTableByPage/',
+    SNPEvidenceIsoSeqPagination: 'getSNPEvidenceIsoSeqTableByPage/',
+    SNPEvidenceRNASeqPagination: 'getSNPEvidenceRNASeqTableByPage/',
 
     validateGenomeID: 'validateGenomeID/',
 
@@ -303,6 +318,9 @@ const updateDataFunctions = {
     geneTPM: updateGeneTPMData,
     transcriptTPM: updateTranscriptTPMData,
     allTranscriptTPM: updateAllTranscriptTPMData,
+    SNPEvidenceBoth: updateSNPEvidenceBothData,
+    SNPEvidenceIsoSeq: updateSNPEvidenceIsoSeqData,
+    SNPEvidenceRNASeq: updateSNPEvidenceRNASeqData,
 
     haplotypePagination: updateHaplotypePaginationData,
     SNPPagination: updateSNPPaginationData,
@@ -319,6 +337,9 @@ const updateDataFunctions = {
     xenologousNetworkEdgesPagination: updateXenologousNetworkEdgesPaginationData,
     geneNetworkNodesPagination: updateGeneNetworkNodesPaginationData,
     geneNetworkEdgesPagination: updateGeneNetworkEdgesPaginationData,
+    SNPEvidenceBothPagination: updateSNPEvidenceBothPaginationData,
+    SNPEvidenceIsoSeqPagination: updateSNPEvidenceIsoSeqPaginationData,
+    SNPEvidenceRNASeqPagination: updateSNPEvidenceRNASeqPaginationData,
 
     haplotypeEchartParams: updateHaplotypeEchartParamsData,
     SNPEchartParams: updateSNPEchartParamsData,
@@ -369,6 +390,9 @@ const getDataFunctions = {
     geneTPMObjectData: getGeneTPMObjectData,
     transcriptTPMObjectData: getTranscriptTPMObjectData,
     allTranscriptTPMObjectData: getAllTranscriptTPMObjectData,
+    SNPEvidenceBothObjectData: getSNPEvidenceBothObjectData,
+    SNPEvidenceIsoSeqObjectData: getSNPEvidenceIsoSeqObjectData,
+    SNPEvidenceRNASeqObjectData: getSNPEvidenceRNASeqObjectData,
 
     haplotypeArrayData: getHaplotypeArrayData,
     SNPArrayData: getSNPArrayData,
@@ -394,6 +418,9 @@ const getDataFunctions = {
     xenologousNetworkEdgesPaginationData: getXenologousNetworkEdgesPaginationData,
     geneNetworkNodesPaginationData: getGeneNetworkNodesPaginationData,
     geneNetworkEdgesPaginationData: getGeneNetworkEdgesPaginationData,
+    SNPEvidenceBothPaginationData: getSNPEvidenceBothPaginationData,
+    SNPEvidenceIsoSeqPaginationData: getSNPEvidenceIsoSeqPaginationData,
+    SNPEvidenceRNASeqPaginationData: getSNPEvidenceRNASeqPaginationData,
 
     haplotypeEchartParamsData: getHaplotypeEchartParamsData,
     SNPEchartParamsData: getSNPEchartParamsData,
@@ -432,6 +459,9 @@ const getDataFunctions = {
     all_transcript_TPM_data_table_download: getDownloadAllTranscriptTPMTable,
     single_network_nodes_table_download: getDownloadSingleNetworkNodesTable,
     single_network_edges_table_download: getDownloadSingleNetworkEdgesTable,
+    SNP_evidence_table_both_download: getDownloadSNPEvidenceBothTable,
+    SNP_evidence_table_iso_download: getDownloadSNPEvidenceIsoSeqTable,
+    SNP_evidence_table_rna_download: getDownloadSNPEvidenceRNASeqTable,
 
     firstInitialCoExpressionNetworkGraph: getFirstInitialCoExpressionNetworkGraph,
 
@@ -500,6 +530,15 @@ function updateAllTranscriptTPMData(newData) {
     allTranscriptTPMObjectData = newData.data;
     allTranscriptTPMArrayData = objectToArray(newData.data).map(element => element.slice(3));
 }
+function updateSNPEvidenceBothData(newData) {
+    SNPEvidenceBothObjectData = newData.data;
+}
+function updateSNPEvidenceIsoSeqData(newData) {
+    SNPEvidenceIsoSeqObjectData = newData.data;
+}
+function updateSNPEvidenceRNASeqData(newData) {
+    SNPEvidenceRNASeqObjectData = newData.data;
+}
 
 
 function updateHaplotypePaginationData(newData) {
@@ -546,6 +585,15 @@ function updateGeneNetworkNodesPaginationData(newData) {
 }
 function updateGeneNetworkEdgesPaginationData(newData) {
     geneNetworkEdgesPaginationData = newData;
+}
+function updateSNPEvidenceBothPaginationData(newData) {
+    SNPEvidenceBothPaginationData = newData;
+}
+function updateSNPEvidenceIsoSeqPaginationData(newData) {
+    SNPEvidenceIsoSeqPaginationData = newData;
+}
+function updateSNPEvidenceRNASeqPaginationData(newData) {
+    SNPEvidenceRNASeqPaginationData = newData;
 }
 
 
@@ -685,6 +733,15 @@ function getTranscriptTPMObjectData() {
 function getAllTranscriptTPMObjectData() {
     return _.cloneDeep(allTranscriptTPMObjectData);
 }
+function getSNPEvidenceBothObjectData() {
+    return _.cloneDeep(SNPEvidenceBothObjectData);
+}
+function getSNPEvidenceIsoSeqObjectData() {
+    return _.cloneDeep(SNPEvidenceIsoSeqObjectData);
+}
+function getSNPEvidenceRNASeqObjectData() {
+    return _.cloneDeep(SNPEvidenceRNASeqObjectData);
+}
 
 // 获取二维数组数据
 function getHaplotypeArrayData() {
@@ -758,7 +815,15 @@ function getGeneNetworkNodesPaginationData() {
 function getGeneNetworkEdgesPaginationData() {
     return _.cloneDeep(geneNetworkEdgesPaginationData);
 }
-
+function getSNPEvidenceBothPaginationData() {
+    return _.cloneDeep(SNPEvidenceBothPaginationData);
+}
+function getSNPEvidenceIsoSeqPaginationData() {
+    return _.cloneDeep(SNPEvidenceIsoSeqPaginationData);
+}
+function getSNPEvidenceRNASeqPaginationData() {
+    return _.cloneDeep(SNPEvidenceRNASeqPaginationData);
+}
 
 
 
@@ -936,6 +1001,24 @@ function getDownloadTranscript() {
 
 function getDownloadAllTranscriptTPMTable() {
     let filteredObjectList = filterKeysInObjects(allTranscriptTPMObjectData, TPM_data_table_download_keys_to_keep);
+    return filteredObjectList;
+}
+
+function getDownloadSNPEvidenceBothTable() {
+    const keysToKeep = ['mosaicID', 'SNPSite', 'SNPType', 'IsoSeqEvidence', 'RNASeqEvidence', 'haplotypeSNP'];
+    let filteredObjectList = filterKeysInObjects(SNPEvidenceBothObjectData, keysToKeep);
+    return filteredObjectList;
+}
+
+function getDownloadSNPEvidenceIsoSeqTable() {
+    const keysToKeep = ['mosaicID', 'SNPSite', 'SNPType', 'IsoSeqEvidence', 'haplotypeSNP'];
+    let filteredObjectList = filterKeysInObjects(SNPEvidenceIsoSeqObjectData, keysToKeep);
+    return filteredObjectList;
+}
+
+function getDownloadSNPEvidenceRNASeqTable() {
+    const keysToKeep = ['mosaicID', 'SNPSite', 'SNPType', 'RNASeqEvidence', 'haplotypeSNP'];
+    let filteredObjectList = filterKeysInObjects(SNPEvidenceRNASeqObjectData, keysToKeep);
     return filteredObjectList;
 }
 

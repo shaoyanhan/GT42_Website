@@ -9,9 +9,9 @@ function drawHaplotypeSNPChart(haplotypeData, SNPData) {
     haplotypeSNPChart.setOption(getHaplotypeSNPOption(haplotypeData, SNPData));
 }
 
-function drawThreeSNPChart(REFData, SNPDataAll, SNPDataISO, SNPDataRNA) {
+function drawThreeSNPChart(REFData, SNPDataBoth, SNPDataISO, SNPDataRNA) {
     console.log('drawThreeSNPChart');
-    threeSNPChart.setOption(getThreeSNPOption(REFData, SNPDataAll, SNPDataISO, SNPDataRNA));
+    threeSNPChart.setOption(getThreeSNPOption(REFData, SNPDataBoth, SNPDataISO, SNPDataRNA));
 }
 
 function findObjectWithKey(array, key, value) {
