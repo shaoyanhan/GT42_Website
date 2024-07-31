@@ -149,31 +149,23 @@ function drawIDTree(data) {
     IDTreeChart.setOption(getIDTreeOption(treeData));
 }
 
-
+// 热图配色方案
 const heatmapColorMap = {
-    'color1': ['#f6efa6', '#bf444c'],
-    'color2': ['#fa9fb5', '#f7f7f7', '#2c7fb8'],
-    'color3': ['#e9a3c9', '#f7f7f7', '#a1d76a'],
-    'color4': ['#af8dc3', '#f7f7f7', '#7fbf7b'],
-    'color5': ['#f1a340', '#f7f7f7', '#998ec3'],
-    'color6': ['#ef8a62', '#f7f7f7', '#67a9cf'],
-    'color7': ['#d8b365', '#f5f5f5', '#5ab4ac'],
-    // 'color1': ['#4E659B', '#8A8CBF', '#B8A8CF', '#E7BCC6', '#FDCF9E', '#EFA484', '#B6766C'],
-    // 'color2': ['#8dd3c7', '#ffffb3', '#bebada', '#fb8072', '#80b1d3', '#fdb462', '#b3de69', '#fccde5', '#d9d9d9'],
-    // 'color3': ['#f7fcf0', '#e0f3db', '#ccebc5', '#a8ddb5', '#7bccc4', '#4eb3d3', '#2b8cbe', '#0868ac', '#084081'],
-    // color: ['#ffffd9', '#edf8b1', '#c7e9b4', '#7fcdbb', '#41b6c4', '#1d91c0', '#225ea8', '#253494', '#081d58']
-    // color: ['#fff7f3', '#fde0dd', '#fcc5c0', '#fa9fb5', '#f768a1', '#dd3497', '#ae017e', '#7a0177', '#49006a']
-    // 'color4': ['#92c5de', '#d1e5f0', '#f7f7f7', '#fddbc7', '#f4a582'],
-    // color: ['#4575b4', '#74add1', '#abd9e9', '#e0f3f8', '#ffffbf', '#fee090', '#fdae61', '#f46d43', '#d73027']
-    // color: ['#3288bd', '#66c2a5', '#abdda4', '#e6f598', '#ffffbf', '#fee08b', '#fdae61', '#f46d43', '#d53e4f']
-    // color: ['#8dd3c7', '#ffffb3', '#bebada', '#fb8072', '#80b1d3', '#fdb462', '#b3de69', '#fccde5', '#d9d9d9']
-    // color: ['#4d9221', '#7fbc41', '#b8e186', '#e6f5d0', '#f7f7f7', '#fde0ef', '#f1b6da', '#de77ae', '#c51b7d']
-    // color: ['#e0f3db', '#ccebc5', '#a8ddb5', '#7bccc4', '#4eb3d3', '#2b8cbe', '#0868ac', '#084081']
-    // color: ['#4E659B', '#8A8CBF', '#B8A8CF', '#E7BCC6', '#FDCF9E', '#EFA484', '#B6766C']
-    // 'color5': ['#8A8CBF', '#B8A8CF', '#E7BCC6', '#FDCF9E', '#EFA484'],
-    // 'color6': ['#d8b365', '#f5f5f5', '#5ab4ac'],
+    'sequential_color1': ['#f6efa6', '#bf444c'],
+    'sequential_color2': ['#e0f3db', '#a8ddb5', '#43a2ca'],
+    'sequential_color3': ['#CDE0F1', '#6BAED6', '#084387'],
+    'sequential_color4': ['#D3F1D7', '#8FE0A6', '#37d07d'],
+    'diverging_color1': ['#5c5cff', '#f7f7f7', '#ff7676'],
+    'diverging_color2': ['#fa9fb5', '#f7f7f7', '#2c7fb8'],
+    'diverging_color3': ['#e9a3c9', '#f7f7f7', '#a1d76a'],
+    'diverging_color4': ['#af8dc3', '#f7f7f7', '#7fbf7b'],
+    'diverging_color5': ['#f1a340', '#f7f7f7', '#998ec3'],
+    'diverging_color6': ['#ef8a62', '#f7f7f7', '#67a9cf'],
+    'diverging_color7': ['#d8b365', '#f5f5f5', '#5ab4ac'],
+    'diverging_color8': ['#63BE7B', '#FFE784', '#f9726d'],
 };
 
+// 更改热图的颜色
 function changeHeatmapColor(colorScheme) {
     orthologousHeatmapChart.setOption({
         visualMap: {
@@ -206,6 +198,7 @@ function changeHeatmapColor(colorScheme) {
 
 }
 
+// 热图颜色选择器的事件处理函数
 function changeHeatmapColorEventHandler(radio) {
     const selectedColor = radio.value;
     const colorScheme = heatmapColorMap[selectedColor];

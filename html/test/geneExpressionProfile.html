@@ -94,7 +94,8 @@
                                     <li class="second_level_link"><a href="./fullLengthTranscriptome.html"
                                             target="_blank">Full-length Transcriptome</a>
                                     </li>
-                                    <li class="second_level_link"><a href="./snp.html" target="_blank">Haplotype &&
+                                    <li class="second_level_link"><a href="./haplotypeSNP.html"
+                                            target="_blank">Haplotype &&
                                             SNP</a></li>
                                     <li class="second_level_link"><a href="./geneExpressionProfile.html"
                                             target="_blank">Gene Expression Profile</a></li>
@@ -146,7 +147,8 @@
                                     <li class="second_level_link"><a href="./fullLengthTranscriptome.html"
                                             target="_blank">Full-length Transcriptome</a>
                                     </li>
-                                    <li class="second_level_link"><a href="./snp.html" target="_blank">Haplotype &&
+                                    <li class="second_level_link"><a href="./haplotypeSNP.html"
+                                            target="_blank">Haplotype &&
                                             SNP</a></li>
                                     <li class="second_level_link"><a href="./geneExpressionProfile.html"
                                             target="_blank">Gene Expression Profile</a></li>
@@ -241,36 +243,70 @@
 
             <!-- <script src="../../js/test2/sunburst_id_tree.js"></script> -->
 
+            <!-- 热图配色切换，注意name必须为同一个才能实现单选 -->
             <div class="heatmap_color_picker_container">
                 <div class="heatmap_color_picker_window">
                     <div class="color_option">
-                        <input type="radio" id="color1" name="color" value="color1" checked>
-                        <label for="color1"><img src="/img/heatmap_color1.png" alt="Color 1"></label>
+                        <input type="radio" id="sequential_color1" name="heatmap_color" value="sequential_color1"
+                            checked>
+                        <label for="sequential_color1"><img src="/img/heatmap_sequential_color1.png"
+                                alt="sequential_color1"></label>
+                    </div>
+                    <div class="color_option">
+                        <input type="radio" id="sequential_color2" name="heatmap_color" value="sequential_color2">
+                        <label for="sequential_color2"><img src="/img/heatmap_sequential_color2.png"
+                                alt="sequential_color2"></label>
+                    </div>
+                    <div class="color_option">
+                        <input type="radio" id="sequential_color3" name="heatmap_color" value="sequential_color3">
+                        <label for="sequential_color3"><img src="/img/heatmap_sequential_color3.png"
+                                alt="sequential_color3"></label>
+                    </div>
+                    <div class="color_option">
+                        <input type="radio" id="sequential_color4" name="heatmap_color" value="sequential_color4">
+                        <label for="sequential_color4"><img src="/img/heatmap_sequential_color4.png"
+                                alt="sequential_color4"></label>
                     </div>
 
                     <div class="color_option">
-                        <input type="radio" id="color2" name="color" value="color2">
-                        <label for="color2"><img src="/img/heatmap_color2.png" alt="Color 2"></label>
+                        <input type="radio" id="diverging_color1" name="heatmap_color" value="diverging_color1">
+                        <label for="diverging_color1"><img src="/img/heatmap_diverging_color1.png"
+                                alt="diverging_color1"></label>
                     </div>
                     <div class="color_option">
-                        <input type="radio" id="color3" name="color" value="color3">
-                        <label for="color3"><img src="/img/heatmap_color3.png" alt="Color 3"></label>
+                        <input type="radio" id="diverging_color2" name="heatmap_color" value="diverging_color2">
+                        <label for="diverging_color2"><img src="/img/heatmap_diverging_color2.png"
+                                alt="diverging_color2"></label>
                     </div>
                     <div class="color_option">
-                        <input type="radio" id="color4" name="color" value="color4">
-                        <label for="color4"><img src="/img/heatmap_color4.png" alt="Color 4"></label>
+                        <input type="radio" id="diverging_color3" name="heatmap_color" value="diverging_color3">
+                        <label for="diverging_color3"><img src="/img/heatmap_diverging_color3.png"
+                                alt="diverging_color3"></label>
                     </div>
                     <div class="color_option">
-                        <input type="radio" id="color5" name="color" value="color5">
-                        <label for="color5"><img src="/img/heatmap_color5.png" alt="Color 5"></label>
+                        <input type="radio" id="diverging_color4" name="heatmap_color" value="diverging_color4">
+                        <label for="diverging_color4"><img src="/img/heatmap_diverging_color4.png"
+                                alt="diverging_color4"></label>
                     </div>
                     <div class="color_option">
-                        <input type="radio" id="color6" name="color" value="color6">
-                        <label for="color6"><img src="/img/heatmap_color6.png" alt="Color 6"></label>
+                        <input type="radio" id="diverging_color5" name="heatmap_color" value="diverging_color5">
+                        <label for="diverging_color5"><img src="/img/heatmap_diverging_color5.png"
+                                alt="diverging_color5"></label>
                     </div>
                     <div class="color_option">
-                        <input type="radio" id="color7" name="color" value="color7">
-                        <label for="color7"><img src="/img/heatmap_color7.png" alt="Color 7"></label>
+                        <input type="radio" id="diverging_color6" name="heatmap_color" value="diverging_color6">
+                        <label for="diverging_color6"><img src="/img/heatmap_diverging_color6.png"
+                                alt="diverging_color6"></label>
+                    </div>
+                    <div class="color_option">
+                        <input type="radio" id="diverging_color7" name="heatmap_color" value="diverging_color7">
+                        <label for="diverging_color7"><img src="/img/heatmap_diverging_color7.png"
+                                alt="diverging_color7"></label>
+                    </div>
+                    <div class="color_option">
+                        <input type="radio" id="diverging_color8" name="heatmap_color" value="diverging_color8">
+                        <label for="diverging_color8"><img src="/img/heatmap_diverging_color8.png"
+                                alt="diverging_color8"></label>
                     </div>
                     <!-- 添加更多颜色选项 -->
                 </div>

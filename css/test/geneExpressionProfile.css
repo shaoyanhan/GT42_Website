@@ -175,7 +175,7 @@
     border: 2px solid #ccc;
     border-radius: 50px;
     overflow: hidden;
-    background-color: rgba(179, 236, 202, 0.73);
+    background-color: #8bc2d0;
     box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
 }
 
@@ -207,7 +207,7 @@
 .content_container .heatmap_color_picker_container .heatmap_color_picker_window .color_option img {
     border: 2px solid rgb(202, 202, 202);
     border-radius: 5px;
-    width: 120px;
+    width: 60px;
     object-fit: cover;
 }
 
