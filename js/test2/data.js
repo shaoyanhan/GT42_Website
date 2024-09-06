@@ -248,6 +248,59 @@ let SNPEvidenceIsoSeqObjectData = [];
 let SNPEvidenceRNASeqObjectData = [];
 
 
+// blastResults 的结构：
+// {
+//     "format0": "BLASTP 2.16.0+\n\n\nReference: Stephen F. Altschul, Thomas L. Madden, Alejandro A.\nSchaffer, Jinghui Zhang, Zheng Zhang, Webb Miller, and David J.\nLipman (1997), \"Gapped BLAST and PSI-BLAST: a new generation of\nprotein database search programs\", Nucleic Acids Res. 25:3389-3402.\n\n\nReference for composition-based statistics: Alejandro A. Schaffer,\nL. Aravind, Thomas L. Madden, Sergei Shavirin, John L. Spouge, Yuri\nI. Wolf, Eugene V. Koonin, and Stephen F. Altschul (2001),\n\"Improving the accuracy of PSI-BLAST protein database searches with\ncomposition-based statistics and other refinements\", Nucleic Acids\nRes. 29:2994-3005.\n\n\n\nDatabase: D:\\研究生项目\\GT42_Website\\data\\transcriptome\\transcriptome.final.pe\np\n           292,099 sequences; 131,431,772 total letters\n\n\n\nQuery= q1\n\nLength=8\n\n\n***** No hits found *****\n\n\n\nLambda      K        H        a         alpha\n   0.322    0.138    0.462    0.792     4.96 \n\nGapped\nLambda      K        H        a         alpha    sigma\n   0.267   0.0410    0.140     1.90     42.6     43.6 \n\nEffective search space used: 1051454176\n\n\n  Database: D:\\研究生项目\\GT42_Website\\data\\transcriptome\\transcriptome.final.pe\np\n    Posted date:  Aug 5, 2024  9:48 PM\n  Number of letters in database: 131,431,772\n  Number of sequences in database:  292,099\n\n\n\nMatrix: BLOSUM62\nGap Penalties: Existence: 11, Extension: 1\nNeighboring words threshold: 11\nWindow for multiple hits: 40\n",
+//     "format7": "# BLASTP 2.16.0+\n# Query: q1\n# Database: transcript_peptide\n# 0 hits found\n# BLAST processed 1 queries\n",
+//     "format15": [
+//         {
+//             "report": {
+//                 "program": "blastp",
+//                 "version": "BLASTP 2.16.0+",
+//                 "reference": "Stephen F. Altschul, Thomas L. Madden, Alejandro A. Sch&auml;ffer, Jinghui Zhang, Zheng Zhang, Webb Miller, and David J. Lipman (1997), \"Gapped BLAST and PSI-BLAST: a new generation of protein database search programs\", Nucleic Acids Res. 25:3389-3402.",
+//                 "search_target": {
+//                     "db": "transcript_peptide"
+//                 },
+//                 "params": {
+//                     "matrix": "BLOSUM62",
+//                     "expect": 10,
+//                     "gap_open": 11,
+//                     "gap_extend": 1,
+//                     "filter": "F",
+//                     "cbs": 2
+//                 },
+//                 "results": {
+//                     "search": {
+//                         "query_id": "Query_1",
+//                         "query_title": "q1",
+//                         "query_len": 8,
+//                         "hits": [],
+//                         "stat": {
+//                             "db_num": 292099,
+//                             "db_len": 131431772,
+//                             "hsp_len": 0,
+//                             "eff_space": 1051454176,
+//                             "kappa": 0.041,
+//                             "lambda": 0.267,
+//                             "entropy": 0.14
+//                         },
+//                         "message": "No hits found"
+//                     }
+//                 }
+//             }
+//         }
+//     ]
+// }
+let blastResultPairwiseAlignment = "";
+let blastResultDetailedTable = "";
+let blastResultSingleJSON = [];
+let blastResultQueryTableStringList = [];
+let blastQueryIDList = [];
+let currentBlastQuerySeqType = 'nucleotide';
+let currentBlastResultQueryIndex = 0;
+let blastResultSeqType = 'nucleotide';
+
+
 // 定义API请求的前缀
 let apiPrefix = {
     IP: 'http://127.0.0.1:8080/',
@@ -299,6 +352,8 @@ let apiPrefix = {
 
     // 该数据并没有进行任何存储操作，只是用于下载表格
     homePageStatisticData: 'getHomePageStatisticData/',
+
+    blastResults: 'getBlastResults/',
 
     parameter: {
         searchKeyword: 'searchKeyword=',
@@ -369,6 +424,12 @@ const updateDataFunctions = {
     homologousIDSet: updateHomologousIDSet,
 
     firstInitialCoExpressionNetworkGraph: updateFirstInitialCoExpressionNetworkGraph,
+
+    blastResult: updateBlastResult,
+    currentBlastQuerySeqType: updateCurrentBlastQuerySeqType,
+    currentBlastResultQueryIndex: updateCurrentBlastResultQueryIndex,
+    blastResultSeqType: updateBlastResultSeqType,
+
 };
 
 // 定义获取数据的映射关系, 从名称映射到函数
@@ -465,6 +526,15 @@ const getDataFunctions = {
 
     firstInitialCoExpressionNetworkGraph: getFirstInitialCoExpressionNetworkGraph,
 
+    blastResultPairwiseAlignment: getBlastResultPairwiseAlignment,
+    blastResultDetailedTable: getBlastResultDetailedTable,
+    blastResultSingleJSON: getBlastResultSingleJSON,
+    blastResultQueryTableStringList: getBlastResultQueryTableStringList,
+    blastQueryIDList: getBlastQueryIDList,
+    currentBlastQuerySeqType: getCurrentBlastQuerySeqType,
+    currentBlastResultQueryIndex: getCurrentBlastResultQueryIndex,
+    blastResultSeqType: getBlastResultSeqType,
+
 };
 
 // 将对象数组转换为二维数组
@@ -483,6 +553,76 @@ function filterKeysInObjects(objects, keys) {
         });
         return filteredObject;
     });
+}
+
+function extractTableFromBlastResultFormat7(resultString) {
+    // format7的BLAST结果字符串如下
+    // const result_str = `# BLASTP 2.16.0+
+    // # Query: q1
+    // # Database: transcript_peptide
+    // # Fields: query id, subject id, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score, query/sbjct frames
+    // # 18 hits found
+    // q1	GT42G017641.SO.1.1	100.000	186	0	0	1	186	1	186	2.84e-127	357	1/1
+    // q1	GT42G004718.SO.4.5	36.471	85	42	5	71	150	52	129	2.2	32.0	1/1
+    // # BLASTP 2.16.0+
+    // # Query: q2
+    // # Database: transcript_peptide
+    // # Fields: query id, subject id, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score, query/sbjct frames
+    // # 0 hits found
+    // # BLAST processed 2 queries`;
+
+
+    // 第一步：按 "# Query:" 进行切割
+    let queryResults = resultString.split(/# Query:/);
+
+
+    // 第二步：跳过第一个切割结果并处理每个独立的query内容
+    let queryTableStringList = queryResults.slice(1).map(result => {
+        // 查找 "# n hits found" 注释行
+        let hitCountLine = result.split('\n').find(line => line.includes('hits found'));
+
+        // 如果是 "# 0 hits found"，直接返回 "", 这里必须加上#，否则10 hits found之类也会被匹配到
+        if (hitCountLine.includes('# 0 hits found')) {
+            return '';
+        } else {
+            // 否则处理 "n hits found" 的情况
+            let hitsInfo = result.split('hits found')[1].split('#')[0].trim();
+            return hitsInfo;
+        }
+    });
+
+    return queryTableStringList;
+}
+
+function extractQueryIDListFromBlastResultFormat7(resultString) {
+    // format7的BLAST结果字符串如下
+    // // # BLASTP 2.16.0+
+    // // # Query: q1
+    // // # Database: transcript_peptide
+    // // # 0 hits found
+    // // # BLASTP 2.16.0+
+    // // # Query: q2
+    // // # Database: transcript_peptide
+    // // # 0 hits found
+    // // # BLAST processed 2 queries`;
+
+    // 获取 Query_id 列表
+    let queryIDList = [];
+    let queryLines = resultString.split('\n');
+
+    // 遍历每一行，找到以 "# Query:" 开头的行，提取其中的 Query ID，如果没有则使用 "Query_" + index 作为 Query ID
+    queryLines.forEach((line, index) => {
+        if (line.startsWith('# Query:')) {
+            let queryID = line.split('# Query:')[1].trim();
+            if (queryID) {
+                queryIDList.push(queryID);
+            } else {
+                queryIDList.push('Query_' + index);
+            }
+        }
+    });
+
+    return queryIDList;
 }
 
 // 更新数据，因为在ES6模块中，通过import导入的变量是只读的，不能被重新赋值。
@@ -677,6 +817,28 @@ function updateHomologousIDSet(newData) {
 
 function updateFirstInitialCoExpressionNetworkGraph(newData) {
     firstInitialCoExpressionNetworkGraph = newData;
+}
+
+function updateBlastResult(newData) {
+    let blastResultData = newData.data;
+    blastResultPairwiseAlignment = blastResultData.format0;
+    blastResultDetailedTable = blastResultData.format7;
+    blastResultSingleJSON = blastResultData.format15;
+    currentBlastResultQueryIndex = 0;
+
+    // 提取出format7表格中的数据存储到列表，每一个列表项是一个query对应的全部表格数据
+    blastResultQueryTableStringList = extractTableFromBlastResultFormat7(blastResultDetailedTable);
+    // 提取出format7表格中的Query ID列表
+    blastQueryIDList = extractQueryIDListFromBlastResultFormat7(blastResultDetailedTable);
+}
+function updateCurrentBlastQuerySeqType(newData) {
+    currentBlastQuerySeqType = newData;
+}
+function updateCurrentBlastResultQueryIndex(newData) {
+    currentBlastResultQueryIndex = newData;
+}
+function updateBlastResultSeqType(newData) {
+    blastResultSeqType = newData;
 }
 
 
@@ -900,6 +1062,31 @@ function getFirstInitialCoExpressionNetworkGraph() {
     return _.cloneDeep(firstInitialCoExpressionNetworkGraph);
 }
 
+function getBlastResultPairwiseAlignment() {
+    return _.cloneDeep(blastResultPairwiseAlignment);
+}
+function getBlastResultDetailedTable() {
+    return _.cloneDeep(blastResultDetailedTable);
+}
+function getBlastResultSingleJSON() {
+    return _.cloneDeep(blastResultSingleJSON);
+}
+function getBlastResultQueryTableStringList() {
+    return _.cloneDeep(blastResultQueryTableStringList);
+}
+function getBlastQueryIDList() {
+    return _.cloneDeep(blastQueryIDList);
+}
+function getCurrentBlastQuerySeqType() {
+    return _.cloneDeep(currentBlastQuerySeqType);
+}
+function getCurrentBlastResultQueryIndex() {
+    return _.cloneDeep(currentBlastResultQueryIndex);
+}
+function getBlastResultSeqType() {
+    return _.cloneDeep(blastResultSeqType);
+}
+
 
 
 
@@ -1034,6 +1221,28 @@ async function fetchData(url) {
         console.error('数据请求失败:', error);
         throw error; // 重新抛出错误，让调用者处理
     }
+}
+
+async function fetchPostData(type, postData) {
+    try {
+        const url = apiPrefix.IP + apiPrefix.app + apiPrefix[type];
+        console.log('postUrl: ', url);
+        console.table('postData: ', postData);
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams(postData),
+        });
+        const data = await response.json();
+        return data;
+    }
+    catch (error) {
+        console.error(`${type}数据加载失败:`, error);
+        return { type: type, data: [] }; // 返回一个空数据结构
+    }
+
 }
 
 
@@ -1180,4 +1389,4 @@ function getCurrentPageName() {
 }
 
 
-export { fetchRawData, fetchPaginationData, fetchGenomeIDList, fetchNextSearchIDData, fetchHubNetworkGraphJSON, fetchSingleNetworkGraphJSON, updateData, getData, validateGenomeID, getCurrentPageName };
+export { fetchRawData, fetchPostData, fetchPaginationData, fetchGenomeIDList, fetchNextSearchIDData, fetchHubNetworkGraphJSON, fetchSingleNetworkGraphJSON, updateData, getData, validateGenomeID, getCurrentPageName };

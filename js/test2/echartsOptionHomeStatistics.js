@@ -181,4 +181,221 @@ function getSNPTypeCountOption(data) {
     }
 }
 
-export { getTranscriptCountOption, getSNPTypeCountOption };
+function getAverageTPMCountOption(data) {
+    return {
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross'
+            }
+        },
+        title: {
+            text: 'Average TPM Count',
+            left: 'center',
+            top: 'top',
+            textStyle: {
+                fontSize: 14,
+                fontWeight: 'bold',
+            }
+        },
+        legend: {
+            top: '13%',
+        },
+
+        xAxis: [
+            {
+                type: 'category',
+                // axisTick: {
+                //     alignWithLabel: true
+                // },
+                // axisLine: {
+                //     onZero: false,
+                //     lineStyle: {
+                //         color: colors[1]
+                //     }
+                // },
+                // axisPointer: {
+                //     label: {
+                //         formatter: function (params) {
+                //             return (
+                //                 'Precipitation  ' +
+                //                 params.value +
+                //                 (params.seriesData.length ? '：' + params.seriesData[0].data : '')
+                //             );
+                //         }
+                //     }
+                // },
+                // prettier-ignore
+                data: data[0]
+            },
+        ],
+        yAxis: [
+            {
+                type: 'value'
+            }
+        ],
+        dataZoom: [
+            {
+                id: 'dataZoomX',
+                xAxisIndex: [0],
+                type: 'slider',
+                // filterMode: 'weakFilter',
+                filterMode: 'none',
+                showDataShadow: true,
+                bottom: 0,
+                height: 10,
+                start: 0,
+                end: 100,
+                fillerColor: "rgba(36, 114, 218, 0.4)",
+                borderRadius: 8,
+                // moveHandleSize: 20,
+                showDetail: false
+            },
+            {
+                type: 'inside',
+                filterMode: 'none'
+            }
+        ],
+        grid: {
+            height: '40%',
+            width: '100%',
+            bottom: '20%'
+        },
+        toolbox: {
+            feature: {
+                restore: { show: true },
+                saveAsImage: { show: true },
+            },
+            top: "top"
+        },
+
+
+        series: [
+            {
+                name: 'orthologous',
+                type: 'line',
+                smooth: true,
+                emphasis: {
+                    focus: 'series'
+                },
+                data: data[1]
+            },
+            {
+                name: 'xenologous',
+                type: 'line',
+                smooth: true,
+                emphasis: {
+                    focus: 'series'
+                },
+                data: data[2]
+            },
+            {
+                name: 'gene',
+                type: 'line',
+                smooth: true,
+                emphasis: {
+                    focus: 'series'
+                },
+                data: data[3]
+            },
+            {
+                name: 'transcript',
+                type: 'line',
+                smooth: true,
+                emphasis: {
+                    focus: 'series'
+                },
+                data: data[4]
+            },
+        ]
+    }
+}
+
+function getEdgeWeightCountOption(data) {
+    return {
+
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'shadow'
+            }
+        },
+        title: {
+            text: 'Edge Weight Count',
+            left: 'center',
+            top: 'top',
+            textStyle: {
+                fontSize: 14,
+                fontWeight: 'bold',
+            }
+        },
+        legend: {
+            data: data[0],
+            top: '20%',
+            width: '100%',
+        },
+        toolbox: {
+            show: true,
+            orient: 'horizontal',
+            right: '0',
+            top: '9%',
+            feature: {
+                mark: { show: true },
+                dataView: { show: true, readOnly: false },
+                magicType: { show: true, type: ['line', 'bar', 'stack'] },
+                restore: { show: true },
+                saveAsImage: { show: true }
+            }
+        },
+        xAxis: [
+            {
+                type: 'category',
+                axisTick: { show: false },
+                // [1, 2), [2, 3), [3, 4), [4, 11]
+                data: ['(1, 2)', '[2, 3)', '[3, 4)', '[4, 11]']
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value'
+            }
+        ],
+        grid: {
+            height: '50%',
+            width: '90%',
+            bottom: '10%',
+        },
+
+        series: [
+            {
+                name: data[0][0],
+                type: 'bar',
+                barGap: 0,
+                emphasis: {
+                    focus: 'series'
+                },
+                data: data[1]
+            },
+            {
+                name: data[0][1],
+                type: 'bar',
+                emphasis: {
+                    focus: 'series'
+                },
+                data: data[2]
+            },
+            {
+                name: data[0][2],
+                type: 'bar',
+                emphasis: {
+                    focus: 'series'
+                },
+                data: data[3]
+            },
+
+        ]
+    }
+
+}
+
+export { getTranscriptCountOption, getSNPTypeCountOption, getAverageTPMCountOption, getEdgeWeightCountOption };

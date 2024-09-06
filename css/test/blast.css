@@ -1,0 +1,873 @@
+.tmp_display_none {
+    display: none;
+}
+
+.content_container .blast_submit_container {
+    border: 2px dashed #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    background-color: hsla(0, 0%, 100%, 0.9);
+    /* 让遮罩层定位 */
+    position: relative;
+}
+
+.content_container .blast_submit_container .sequence_input_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* 让clean button进行定位 */
+    position: relative;
+}
+
+.content_container .blast_submit_container .sequence_input_container textarea {
+    width: 100%;
+    height: 350px;
+    /* 防止背景字被遮挡 */
+    min-height: 50px;
+    /* max-height: 300px; */
+    /* 设置最大高度为300px */
+    resize: vertical;
+    /* 只允许用户调整高度 */
+    margin-bottom: 10px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    background-color: white;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.content_container .blast_submit_container .sequence_input_container button {
+    /* 相对于div右上角定位 */
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    /* 按钮背景颜色 */
+    background-color: rgb(82, 152, 209);
+    /* 按钮文字颜色 */
+    color: white;
+
+    box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: all 0.3s;
+}
+
+.content_container .blast_submit_container .sequence_input_container button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.3);
+    font-weight: bold;
+}
+
+.content_container .blast_submit_container .example_buttons,
+.content_container .blast_submit_container .database_options,
+.content_container .blast_submit_container .blast_buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.content_container .blast_submit_container .example_buttons .example_button_head,
+.content_container .blast_submit_container .database_options .database_option_head,
+.content_container .blast_submit_container .blast_buttons .blast_button_head {
+    background-color: rgba(245, 245, 250, 1);
+    box-shadow: -5px -5px 10px 0 rgba(255, 255, 255, 0.5),
+        5px 5px 10px 0 rgba(170, 170, 204, 0.25),
+        10px 10px 20px 0 rgba(170, 170, 204, 0.5),
+        -10px -10px 20px 0 rgba(255, 255, 255, 1);
+    padding: 10px;
+    margin-right: 30px;
+    width: 90px;
+    text-align: center;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.content_container .blast_submit_container .example_buttons button {
+    background-color: rgb(82, 152, 209);
+    color: white;
+    padding: 7px 10px;
+    margin-right: 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 1px 2px 10px 3px rgba(0, 0, 0, 0.2);
+    font-size: 15px;
+    transition: all 0.3s;
+}
+
+.content_container .blast_submit_container .example_buttons button:hover {
+    transform: scale(1.1);
+}
+
+.content_container .blast_submit_container .database_options .checkbox_container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: rgba(255, 255, 255, 1);
+    border: 1px solid #ccc;
+    padding: 7px 10px;
+    border-radius: 10px;
+    box-shadow: 1px 2px 10px 3px rgba(0, 0, 0, 0.2);
+    font-size: 15px;
+}
+
+.content_container .blast_submit_container .database_options .checkbox_container input,
+.content_container .blast_submit_container .database_options .checkbox_container label {
+    cursor: pointer;
+}
+
+.content_container .blast_submit_container .blast_buttons button {
+    background-color: rgb(82, 152, 209);
+    color: white;
+    padding: 7px 10px;
+    margin-right: 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 1px 2px 10px 3px rgba(0, 0, 0, 0.2);
+    font-size: 15px;
+    transition: all 0.3s;
+}
+
+.content_container .blast_submit_container .blast_buttons button:hover {
+    transform: scale(1.1);
+}
+
+
+.content_container .blast_submit_container .blast_buttons button.disabled {
+    background-color: #ccc;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    /* 完全禁止用户与元素的任何交互。包括点击、悬停、鼠标事件等 */
+    pointer-events: none;
+    /* 仅改变鼠标指针的样式 ,但用户仍然可以与按钮交互*/
+    /* cursor: not-allowed; */
+    opacity: 0.6;
+}
+
+.content_container .blast_submit_container .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    /* 半透明的黑色背景 */
+    display: none;
+
+}
+
+.content_container .blast_submit_container .overlay img {
+    width: 200px;
+    /* 水平竖直居中 */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 10px;
+    box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
+}
+
+.content_container .blast_submit_container .error_tip {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
+    display: none;
+
+    transition: all 1s;
+}
+
+.content_container .blast_submit_container .error_tip .error_icon {
+    width: 50px;
+    /* 水平竖直居中 */
+    /* border-radius: 10px;
+    box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1); */
+}
+
+.content_container .blast_submit_container .error_tip p {
+    font-size: 15px;
+    font-weight: bold;
+    color: red;
+    margin: 0 25px 0 15px;
+    line-height: 1.5;
+}
+
+.content_container .blast_submit_container .error_tip .close_icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    width: 20px;
+}
+
+.content_container .blast_submit_container .error_tip .close_icon:hover {
+    transition: all 0.5s;
+    transform: scale(1.1);
+}
+
+.content_container .blast_result_container {
+    display: none;
+    margin: 40px 0;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
+    /* overflow: hidden; */
+    overflow-y: auto;
+    max-height: 1000px;
+}
+
+.content_container .blast_result_container>summary {
+    font-size: 16px;
+    font-weight: bold;
+    background: rgba(179, 236, 202, 0.73);
+    color: black;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.content_container .blast_result_container .loading_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.content_container .blast_result_container .select_result_download_group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    /* background-color: green; */
+}
+
+.content_container .blast_result_container .select_result_download_group .select_query_result {
+    background-color: rgba(179, 236, 202, 0.73);
+    border-radius: 10px;
+    box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.content_container .blast_result_container .select_result_download_group .select_query_result select {
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.content_container .blast_result_container .select_result_download_group .select_query_result {
+    background-color: rgba(179, 236, 202, 0.73);
+    border-radius: 10px;
+    box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.content_container .blast_result_container .select_result_download_group .select_download_type {
+    background-color: rgba(179, 236, 202, 0.73);
+    border-radius: 10px;
+    box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    font-size: 15px;
+    font-weight: bold;
+    position: relative;
+    width: 20%;
+    z-index: 1200;
+}
+
+.content_container .blast_result_container .select_result_download_group .select_download_type .group_header {
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+}
+
+.content_container .blast_result_container .select_result_download_group .select_download_type .link_list {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    /* z-index: 1000; */
+    background-color: rgba(179, 236, 202, 0.73);
+    border-radius: 10px;
+    box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    display: none;
+}
+
+.content_container .blast_result_container .select_result_download_group .select_download_type:hover .link_list {
+    display: block;
+}
+
+.content_container .blast_result_container .select_result_download_group .select_download_type .link_list ul {
+    list-style: none;
+    border-radius: 10px;
+    font-size: 15px;
+    background-color: white;
+    padding: 10px;
+}
+
+.content_container .blast_result_container .select_result_download_group .select_download_type .link_list ul a {
+    display: block;
+    width: calc(100% - 20px);
+    padding: 10px 10px;
+    cursor: pointer;
+    text-decoration: none;
+    color: black;
+    transition: all 0.3s;
+    border-bottom: 1px solid #dcdcdc;
+}
+
+.content_container .blast_result_container .select_result_download_group .select_download_type .link_list ul a:hover {
+    background-color: #f0f0f0;
+    border-radius: 10px;
+}
+
+.content_container .blast_result_container .no_hits_found {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    display: none;
+}
+
+.content_container .blast_result_container .no_hits_found img {
+    width: 200px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
+}
+
+.content_container .blast_result_container .no_hits_found p {
+    font-size: 16px;
+    font-weight: bold;
+    color: rgb(233, 106, 106);
+}
+
+.content_container .blast_result_container .all_hits_bar_plot {
+    margin: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
+}
+
+.content_container .blast_result_container .all_hits_bar_plot>summary {
+    font-size: 16px;
+    font-weight: bold;
+    background: #8bc2d0;
+    color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.content_container .blast_result_container .all_hits_table {
+    margin: 30px 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
+}
+
+.content_container .blast_result_container .all_hits_table>summary {
+    font-size: 16px;
+    font-weight: bold;
+    background: #8bc2d0;
+    color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.content_container .blast_result_container .all_hits_table .table_item_container .table_content_container {
+    margin-top: 20px;
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: auto;
+    max-height: 600px;
+}
+
+.content_container .blast_result_container .all_hits_table .table_item_container .table_content_container table {
+    width: 100%;
+    border-collapse: collapse;
+    border: none;
+    border-radius: 10px 10px 0 0;
+    overflow: hidden;
+    table-layout: auto;
+}
+
+.content_container .blast_result_container .all_hits_table .table_item_container .table_content_container table thead {
+    background-color: #bbe1bb;
+}
+
+.content_container .blast_result_container .all_hits_table .table_item_container .table_content_container table th {
+    text-align: center;
+    font-size: 16px;
+    padding: 15px 30px;
+    font-weight: bold;
+    border: none;
+}
+
+.content_container .blast_result_container .all_hits_table .table_item_container .table_content_container table tbody tr:nth-child(even) {
+    background-color: #e4f6e4;
+}
+
+.content_container .blast_result_container .all_hits_table .table_item_container .table_content_container table tbody tr:hover {
+    background-color: #8bc2d0;
+    color: #fff;
+}
+
+.content_container .blast_result_container .all_hits_table .table_item_container .table_content_container table td {
+    text-align: center;
+    font-size: 16px;
+    padding: 15px 30px;
+    border: none;
+    white-space: nowrap;
+}
+
+.content_container .blast_result_container .all_hits_table .table_item_container .table_footer_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    background: #f0f0f0;
+    border-radius: 0 0 10px 10px;
+    font-size: 14px;
+
+}
+
+.content_container .blast_result_container .all_hits_align_details {
+    margin: 30px 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+
+}
+
+.content_container .blast_result_container .all_hits_align_details>summary {
+    font-size: 16px;
+    font-weight: bold;
+    background: #8bc2d0;
+    color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.content_container .blast_result_container .all_hits_align_details .tool_nav_bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin: 10px;
+    background-color: #9fddec;
+    border-radius: 10px;
+}
+
+.content_container .blast_result_container .all_hits_align_details .tool_nav_bar .select_download_type {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
+    font-size: 15px;
+    font-weight: bold;
+    position: relative;
+    width: 25%;
+    z-index: 1200;
+}
+
+.content_container .blast_result_container .all_hits_align_details .tool_nav_bar .select_download_type .group_header {
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.content_container .blast_result_container .all_hits_align_details .tool_nav_bar .select_download_type .link_list {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    background-color: #9fddec;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    display: none;
+}
+
+.content_container .blast_result_container .all_hits_align_details .tool_nav_bar .select_download_type:hover {
+    background-color: #e7e6e6;
+}
+
+.content_container .blast_result_container .all_hits_align_details .tool_nav_bar .select_download_type:hover .link_list {
+    display: block;
+}
+
+.content_container .blast_result_container .all_hits_align_details .tool_nav_bar .select_download_type .link_list ul {
+    list-style: none;
+    border-radius: 10px;
+    font-size: 15px;
+    background-color: white;
+    padding: 10px;
+}
+
+.content_container .blast_result_container .all_hits_align_details .tool_nav_bar .select_download_type .link_list ul a {
+    display: block;
+    width: calc(100% - 20px);
+    padding: 10px 10px;
+    cursor: pointer;
+    text-decoration: none;
+    color: black;
+    transition: all 0.3s;
+    border-bottom: 1px solid #dcdcdc;
+}
+
+.content_container .blast_result_container .all_hits_align_details .tool_nav_bar .select_download_type .link_list ul a:hover {
+    background-color: #f0f0f0;
+    border-radius: 10px;
+}
+
+.content_container .blast_result_container .all_hits_align_details .tool_nav_bar .page_turning_tools {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.content_container .blast_result_container .all_hits_align_details .tool_nav_bar .page_turning_tools .page_turning {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.content_container .blast_result_container .all_hits_align_details .tool_nav_bar .page_turning_tools .page_turning:hover {
+    background-color: rgb(235, 230, 230);
+}
+
+.content_container .blast_result_container .all_hits_align_details .result_details_plot_container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 20px;
+}
+
+.content_container .blast_result_container .all_hits_align_details .result_details_plot_container .result_details_container {
+    flex-grow: 1;
+    margin-right: 50px;
+    background: linear-gradient(to right, #C0DDE4, #F6EDD3);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
+}
+
+.content_container .blast_result_container .all_hits_align_details .result_details_plot_container .result_details_container .content_box {
+    max-height: 470px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 5px;
+    overflow-y: auto;
+    margin: 10px;
+}
+
+.content_container .blast_result_container .all_hits_align_details .result_details_plot_container .result_details_container .content_box .main_title {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 10px;
+    display: block;
+    background-color: #bcdfec;
+    border-bottom: 1px solid #b3cdd6;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.content_container .blast_result_container .all_hits_align_details .result_details_plot_container .result_details_container .content_box .result_details {
+    padding: 10px;
+    text-align: left;
+    font-size: 16px;
+}
+
+.content_container .blast_result_container .all_hits_align_details .result_details_plot_container .result_details_container .content_box .result_details .item_container {
+    display: flex;
+    align-items: center;
+    margin: 15px 0;
+}
+
+.content_container .blast_result_container .all_hits_align_details .result_details_plot_container .result_details_container .content_box .result_details .item_container .item_title {
+    font-weight: bold;
+    margin-right: 10px;
+    font-size: 15px;
+    background-color: #eae7e7;
+    border-bottom: 1px solid #929191;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.content_container .blast_result_container .all_hits_align_details .result_details_plot_container .result_details_container .content_box .result_details .item_container .item_content {
+    font-size: 15px;
+}
+
+.content_container .blast_result_container .all_hits_align_details .result_details_plot_container .result_details_container .content_box .result_details .item_container button {
+    background-color: rgb(82, 152, 209);
+    color: white;
+    padding: 5px 10px;
+    margin-left: 30px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 1px 2px 10px 3px rgba(0, 0, 0, 0.2);
+    font-size: 13px;
+    transition: all 0.3s;
+}
+
+.content_container .blast_result_container .all_hits_align_details .result_details_plot_container .result_details_container .content_box .result_details .item_container button:hover {
+    transform: scale(1.1);
+}
+
+.content_container .blast_result_container .all_hits_align_details .result_details_plot_container .result_details_container .content_box .result_details .item_container button.disabled {
+    background-color: #ccc;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+.content_container .blast_result_container .all_hits_align_details .result_details_plot_container .hit_area_align_plot .hit {
+    fill: steelblue;
+    opacity: 0.2;
+    cursor: pointer;
+}
+
+.content_container .blast_result_container .all_hits_align_details .result_details_plot_container .hit_area_align_plot .highlighted {
+    /* stroke是专门针对于svg的边框 */
+    stroke: red;
+    /* 虚线段宽度 */
+    stroke-width: 3;
+    /* 虚线段和空白的长度都是10个单位 */
+    stroke-dasharray: 10;
+    /* 虚线的线段以圆形结束 */
+    stroke-linecap: round;
+    opacity: 0.9;
+}
+
+.content_container .blast_result_container .all_hits_align_details .result_details_plot_container .hit_area_align_plot .axis-label {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.content_container .blast_result_container .all_hits_align_details .align_seq_container {
+    margin: 20px;
+    padding-bottom: 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 255, 255, 0.9);
+    overflow: hidden;
+    /* height: 100px; */
+}
+
+.content_container .blast_result_container .all_hits_align_details .align_seq_container .legend {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 30px 0;
+}
+
+.content_container .blast_result_container .all_hits_align_details .align_seq_container .legend .legend_item {
+    display: flex;
+    align-items: center;
+    margin: 0 10px;
+    font-size: 16px;
+}
+
+.content_container .blast_result_container .all_hits_align_details .align_seq_container .legend .legend_item .legend_color {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
+
+.content_container .blast_result_container .all_hits_align_details .align_seq_container .legend .legend_item .match {
+    box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.2);
+}
+
+.content_container .blast_result_container .all_hits_align_details .align_seq_container .legend .legend_item .mismatch {
+    background-color: rgb(255, 206, 43);
+}
+
+.content_container .blast_result_container .all_hits_align_details .align_seq_container .legend .legend_item .gap {
+    background-color: rgb(255, 60, 0);
+}
+
+.query_line,
+.mid_line,
+.subject_line {
+    display: flex;
+    align-items: center;
+    /* font-family: monospace; */
+    margin-left: 40px;
+}
+
+.title {
+    width: 65px;
+    /* 固定宽度以对齐 */
+    text-align: left;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.start {
+    width: 70px;
+    /* 根据最大数字宽度设置 */
+    text-align: right;
+    font-size: 16px;
+    /* font-weight: bold; */
+    margin-right: 20px;
+}
+
+.end {
+    width: 70px;
+    /* 根据最大数字宽度设置 */
+    text-align: left;
+    font-size: 16px;
+    /* font-weight: bold; */
+    margin-left: 20px;
+}
+
+.start,
+.end {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.sequence {
+    display: flex;
+}
+
+.base {
+    width: 20px;
+    /* 每个碱基固定宽度 */
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* ACDEFGHIKLMNPQRSTVWY */
+.A {
+    background-color: rgba(183, 66, 115, 0.3);
+}
+
+.C {
+    background-color: rgba(255, 255, 0, 0.15);
+}
+
+.D {
+    background-color: rgba(99, 166, 128, 0.3);
+}
+
+.E {
+    background-color: rgba(23, 29, 24, 0.3);
+}
+
+.F {
+    background-color: rgba(109, 114, 168, 0.3);
+}
+
+.G {
+    background-color: rgba(0, 128, 0, 0.15);
+}
+
+.H {
+    background-color: rgba(81, 74, 8, 0.3);
+}
+
+.I {
+    background-color: rgba(47, 21, 92, 0.3);
+}
+
+.K {
+    background-color: rgba(178, 70, 194, 0.3);
+}
+
+.L {
+    background-color: rgba(72, 171, 133, 0.3);
+}
+
+.M {
+    background-color: rgba(223, 72, 53, 0.3);
+}
+
+.N {
+    background-color: rgba(189, 229, 34, 0.3);
+}
+
+.P {
+    background-color: rgba(134, 38, 169, 0.3);
+}
+
+.Q {
+    background-color: rgba(90, 207, 248, 0.3);
+}
+
+.R {
+    background-color: rgba(72, 1, 108, 0.3);
+}
+
+.S {
+    background-color: rgba(247, 254, 93, 0.3);
+}
+
+.T {
+    background-color: rgba(0, 0, 255, 0.15);
+}
+
+.V {
+    background-color: rgba(208, 156, 111, 0.3);
+}
+
+.W {
+    background-color: rgba(25, 109, 191, 0.3);
+}
+
+.Y {
+    background-color: rgba(160, 105, 3, 0.3);
+}
+
+.U {
+    background-color: rgba(149, 171, 137, 0.3);
+}
+
+.mismatch {
+    background-color: rgb(255, 206, 43);
+}
+
+.gap {
+    background-color: rgb(255, 60, 0);
+}
+
+.conservative {
+    background-color: rgb(34, 173, 34);
+}

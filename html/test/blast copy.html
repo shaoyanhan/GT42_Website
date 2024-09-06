@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GT42</title>
+    <!-- 设置网站logo -->
+    <link rel="icon" href="../../img/sugarcane-logo.jpeg" type="image/x-icon">
+
+    <!-- css -->
+    <link rel="stylesheet" href="../../css/reset.css">
+    <link rel="stylesheet" href="../../css/test/basicPage.css">
+    <link rel="stylesheet" href="../../css/test/blast.css">
+
+    <!-- 引入字体库 -->
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+
+    <!-- 引入 lodash.js 用于 data.js 的数据深拷贝 -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+
+
+
+</head>
+
+<body>
+    <div class="center_container">
+        <!-- 返回顶部图标 -->
+        <button class="scroll_to_top_button">
+            <img src="../../img/scroll_to_top_icon.png" alt="scroll to top">
+        </button>
+
+        <!-- 顶部导航栏 -->
+        <header class="nav_header">
+            <div class="nav_container">
+                <nav class="nav_bar">
+                    <div class="logo_container">
+                        <div class="logo_box">
+                            <img src="../../img/sugarcane-logo.jpeg" alt="logo">
+                        </div>
+                        <div class="title_box">
+                            <h1>SRNDB</h1>
+                        </div>
+                    </div>
+
+                    <!-- 导航栏菜单 -->
+                    <div class="menu_container">
+                        <ul class="menu_links">
+                            <li class="first_level_link"><a href="./index.html">Home</a></li>
+                            <li class="first_level_link dropdown"><a>Data <span class="arrow">&#9660;</span></a>
+                                <ul class="dropdown_content">
+                                    <li class="second_level_link"><a href="./fullLengthTranscriptome.html"
+                                            target="_blank">Full-length Transcriptome</a>
+                                    </li>
+                                    <li class="second_level_link"><a href="./haplotypeSNP.html"
+                                            target="_blank">Haplotype &&
+                                            SNP</a></li>
+                                    <li class="second_level_link"><a href="./geneExpressionProfile.html"
+                                            target="_blank">Gene Expression Profile</a></li>
+                                    <li class="second_level_link"><a href="./singleCoExpressionNetwork.html"
+                                            target="_blank">Single Co-expression
+                                            Network</a></li>
+                                    <li class="second_level_link"><a href="./hubCoExpressionNetwork.html"
+                                            target="_blank">Hub Co-expression Network</a></li>
+                                </ul>
+                            </li>
+                            <li class="first_level_link dropdown"><a>Tools<span class="arrow">&#9660;</span></a>
+                                <ul class="dropdown_content">
+                                    <li class="second_level_link"><a href="#tool1">Annotation</a></li>
+                                    <li class="second_level_link"><a href="#tool2">Transcript Factors</a></li>
+                                    <li class="second_level_link"><a href="./blast.html" target="_blank">BLAST</a></li>
+                                </ul>
+                            </li>
+                            <li class="first_level_link"><a href="#download">Download</a></li>
+                            <li class="first_level_link"><a href="#about">About</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- 导航栏搜索框 -->
+                    <div class="search_box_container">
+                        <input type="text" placeholder="Search...">
+                        <button type="submit"><span class="search_icon">&#128269;</span></button>
+                    </div>
+
+                    <button class="menu_toggle"><i class="iconfont icon-liebiao"></i></button>
+                    <button class="menu_close"><i class="iconfont icon-31guanbi"></i></button>
+
+
+
+                </nav>
+
+                <!-- 响应式布局情况下的导航栏 -->
+                <div class="expanded_nav">
+                    <!-- 搜索框 -->
+                    <div class="search_box_container">
+                        <input type="text" placeholder="Search...">
+                        <button type="submit"><span class="search_icon">&#128269;</span></button>
+                    </div>
+                    <!-- 手风琴导航栏菜单 -->
+                    <div class="menu_container">
+                        <ul class="menu_links">
+                            <li class="first_level_link"><a href="./index.html">Home</a></li>
+                            <li class="first_level_link accordion"><a>Data <span class="arrow">&#9660;</span></a>
+                                <ul class="accordion_content">
+                                    <li class="second_level_link"><a href="./fullLengthTranscriptome.html"
+                                            target="_blank">Full-length Transcriptome</a>
+                                    </li>
+                                    <li class="second_level_link"><a href="./haplotypeSNP.html"
+                                            target="_blank">Haplotype &&
+                                            SNP</a></li>
+                                    <li class="second_level_link"><a href="./geneExpressionProfile.html"
+                                            target="_blank">Gene Expression Profile</a></li>
+                                    <li class="second_level_link"><a href="./singleCoExpressionNetwork.html"
+                                            target="_blank">Single Co-expression
+                                            Network</a></li>
+                                    <li class="second_level_link"><a href="./hubCoExpressionNetwork.html"
+                                            target="_blank">Hub Co-expression Network</a></li>
+                                </ul>
+                            </li>
+                            <li class="first_level_link accordion"><a>Tools<span class="arrow">&#9660;</span></a>
+                                <ul class="accordion_content">
+                                    <li class="second_level_link"><a href="#tool1">Annotation</a></li>
+                                    <li class="second_level_link"><a href="#tool2">Transcript Factors</a></li>
+                                    <li class="second_level_link"><a href="./blast.html" target="_blank">BLAST</a></li>
+                                </ul>
+                            </li>
+                            <li class="first_level_link"><a href="#download">Download</a></li>
+                            <li class="first_level_link"><a href="#about">About</a></li>
+                        </ul>
+                    </div>
+
+
+                </div>
+            </div>
+
+        </header>
+
+        <div class="content_container">
+            <div class="blast_submit_container">
+                <div class="sequence_input_container">
+                    <textarea id="query_sequence"
+                        placeholder="Paste query sequence(s) or drag a file containing query sequence(s) here with FASTA format.&#10;Or just click the example button below to get an example sequence."></textarea>
+
+                    <button id="clear_button">Clean</button>
+                </div>
+
+
+                <div class="example_buttons">
+                    <div class="example_button_head">example</div>
+                    <button id="example_button_nucleotide">example nucleotide</button>
+                    <button id="example_button_peptide">example peptide</button>
+                </div>
+
+                <div class="database_options">
+                    <div class="database_option_head">database</div>
+                    <div class="checkbox_container">
+                        <input type="checkbox" id="mosaic_nucleotide">
+                        <label for="mosaic_nucleotide">mosaic nucleotide</label>
+                        <input type="checkbox" id="haplotype_nucleotide">
+                        <label for="haplotype_nucleotide">haplotype nucleotide</label>
+                        <input type="checkbox" id="transcript_nucleotide">
+                        <label for="transcript_nucleotide">transcript nucleotide</label>
+                        <input type="checkbox" id="transcript_peptide">
+                        <label for="transcript_peptide">transcript peptide</label>
+                    </div>
+
+                </div>
+
+                <div class="blast_buttons">
+                    <div class="blast_button_head">function</div>
+                    <button id="blastn">blastn</button>
+                    <button id="blastp">blastp</button>
+                    <button id="blastx">blastx</button>
+                    <button id="tblastn">tblastn</button>
+                    <button id="tblastx">tblastx</button>
+                </div>
+
+                <!-- 后端执行blast命令时前端生成遮罩层禁止用户操作 -->
+                <div class="overlay" id="overlay">
+                    <img src="../../img/loading1.gif" alt="Loading...">
+                </div>
+
+                <!-- 后端执行blast命令失败时生成的错误提示框 -->
+                <div class="error_tip" id="error_tip">
+                    <img src="../../img/error_icon.png" class="error_icon" alt="error!">
+                    <div class="error_info">
+                        <p>Blast Failed!</p>
+                        <p>Please Check Input and Parameters!</p>
+                    </div>
+                    <button class="click_to_close" close-target-id="error_tip">
+                        <img src="../../img/close_icon.png" class="close_icon " alt="close">
+
+                    </button>
+                </div>
+
+            </div>
+
+            <details class="blast_result_container" id="blast_result_container" open>
+                <summary>Click to Show BLAST Results</summary>
+
+                <div class="select_result_download_group">
+                    <!-- 多序列结果选择框 -->
+                    <div class="select_query_result">
+                        <label for="result_select">Select Result for :</label>
+                        <select class="result_select" id="result_select" name="result_select">
+                            <option value="query1" data-index="0">query1</option>
+                            <option value="query2" data-index="1">query2</option>
+                        </select>
+                    </div>
+
+                    <!-- 下载类型选择框 -->
+                    <div class="select_download_type">
+                        <div class="group_header">
+                            <span class="text">Download</span>
+                            <span class="arrow">▼</span>
+                        </div>
+
+                        <div class="link_list">
+                            <ul class="download_types">
+                                <li><a id="download_format0_pairwise_alignment_result">Pairwise Alignment</a></li>
+                                <li><a id="download_format7_detailed_value_table_result">Detailed Value Table</a></li>
+                                <li><a id="download_format15_comprehensive_JSON_result">Comprehensive JSON</a></li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- 当前选择的query没有搜索结果时展示的提示框 -->
+                <div class="no_hits_found" id="no_hits_found">
+                    <img src="../../img/loading5.gif" alt="No Hits Found">
+                    <p>No Hits Found ...</p>
+                </div>
+
+                <div id="blast_result_components">
+                    <!-- 所有hit的柱状图 -->
+                    <details class="all_hits_bar_plot" open>
+                        <summary>Click to Show All Hits Bar Plot</summary>
+                        <div id="all_hits_bar_plot" style="width: 1330px; height: 600px;"></div>
+                    </details>
+                    <!-- <script src="/js/test2/allHitsBarPlot.js"></script> -->
+
+                    <!-- 所有hit的表格 -->
+                    <details class="all_hits_table" open>
+                        <summary>Click to Show All Hits Table</summary>
+
+                        <div class="table_item_container">
+
+                            <div class="table_content_container">
+
+                                <table id="all_hits_table">
+                                    <thead>
+                                        <tr>
+                                            <th title="Query sequence ID">qseqid</th>
+                                            <th title="Subject sequence ID">sseqid</th>
+                                            <th title="Percentage of identical matches">pident</th>
+                                            <th title="Alignment length">length</th>
+                                            <th title="Number of mismatches">mismatch</th>
+                                            <th title="Number of gap openings">gapopen</th>
+                                            <th title="Start of alignment in query">qstart</th>
+                                            <th title="End of alignment in query">qend</th>
+                                            <th title="Start of alignment in subject">sstart</th>
+                                            <th title="End of alignment in subject">send</th>
+                                            <th title="Expect value">evalue</th>
+                                            <th title="Bit score">bitscore</th>
+                                            <th title="Query and subject frames separated by a '/'">frames</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td title="Query sequence ID">q1</td>
+                                            <td title="Subject sequence ID">GT42G000001</td>
+                                            <td title="Percentage of identical matches">100.000</td>
+                                            <td title="Alignment length">1071</td>
+                                            <td title="Number of mismatches">0</td>
+                                            <td title="Number of gap openings">0</td>
+                                            <td title="Start of alignment in query">1</td>
+                                            <td title="End of alignment in query">1071</td>
+                                            <td title="Start of alignment in subject">1</td>
+                                            <td title="End of alignment in subject">1071</td>
+                                            <td title="Expect value">0.0</td>
+                                            <td title="Bit score">1978</td>
+                                            <td title="Query and subject frames separated by a '/'">1/1</td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+
+                            </div>
+
+
+                            <div class="table_footer_container" id="all_hits_table_footer">
+                                <span class="footer_notes"><span>Showing total 17 results</span></span>
+                            </div>
+                        </div>
+                        <!-- <script src="/js/test2/allHitsTable.js"></script> -->
+
+                    </details>
+
+                    <!-- 单个hit的详细结果 -->
+                    <details class="all_hits_align_details" id="all_hits_align_details" open>
+                        <summary>Click to Show All Hits Alignment Details</summary>
+
+                        <div id="align_seq_result_container_1">
+
+                            <!-- 每个hit的导航栏 -->
+                            <div class="tool_nav_bar">
+
+                                <!-- 左侧下载列表 -->
+                                <div class="select_download_type">
+                                    <div class="group_header">
+                                        <span class="text">Download</span>
+                                        <span class="arrow">▼</span>
+                                    </div>
+
+                                    <div class="link_list">
+                                        <ul class="download_types">
+                                            <li><a class="download_align_area_pic" index="1">Alignment Area Picture</a>
+                                            </li>
+                                            <li><a class="download_align_seq_pic" index="1">Alignment Sequence
+                                                    Picture</a>
+                                            </li>
+                                            <li><a class="download_align_seq_file" index="1">Alignment Sequence File</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <!-- 右侧上下跳转按钮列表 -->
+                                <div class="page_turning_tools">
+                                    <div class="page_turning to_top" index="1">
+                                        <span class="text">Top</span>
+                                        <span class="arrow">▲</span>
+                                    </div>
+                                    <div class="page_turning to_previous" index="1">
+                                        <span class="text">Previous</span>
+                                        <span class="arrow">▲</span>
+                                    </div>
+                                    <div class="page_turning to_next" index="1">
+                                        <span class="text">Next</span>
+                                        <span class="arrow">▼</span>
+                                    </div>
+                                    <div class="page_turning to_bottom" index="1">
+                                        <span class="text">Bottom</span>
+                                        <span class="arrow">▼</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 说明框和四边形图 -->
+                            <div class="result_details_plot_container">
+                                <div class="result_details_container" id="blast_result_details_container_1">
+                                    <!-- 下面必须使用两个div嵌套才能实现内容溢出的时候不会覆盖圆角框和矩形框之间的底部间隔 -->
+                                    <div class="content_box">
+                                        <h1 class="main_title">Result Details</h1>
+                                        <div class="result_details">
+
+                                            <div class="item_container">
+                                                <div class="item_title">Query Index</div>
+                                                <div class="item_content">0</div>
+                                            </div>
+                                            <div class="item_container">
+                                                <div class="item_title">Hit Index</div>
+                                                <div class="item_content">1</div>
+                                            </div>
+                                            <div class="item_container">
+                                                <div class="item_title">HSP Count</div>
+                                                <div class="item_content">10</div>
+                                            </div>
+                                            <div class="item_container">
+                                                <div class="item_title">HSP Index</div>
+                                                <div class="item_content">0</div>
+                                                <button class="previous_hsp" query-index="0" hit-index="0" hsp-index="0"
+                                                    hsp-count="10">Previous</button>
+                                                <button class="next_hsp" query-index="0" hit-index="0" hsp-index="0"
+                                                    hsp-count="10">Next</button>
+                                            </div>
+                                            <div class="item_container">
+                                                <div class="item_title">Query ID</div>
+                                                <div class="item_content">q1</div>
+                                            </div>
+                                            <div class="item_container">
+                                                <div class="item_title">Query Length</div>
+                                                <div class="item_content">1071</div>
+                                            </div>
+                                            <div class="item_container">
+                                                <div class="item_title">Subject ID</div>
+                                                <div class="item_content">GT42G022956</div>
+                                            </div>
+                                            <div class="item_container">
+                                                <div class="item_title">Subject Length</div>
+                                                <div class="item_content">2076</div>
+                                            </div>
+                                            <div class="item_container">
+                                                <div class="item_title">Bit Score</div>
+                                                <div class="item_content">662.221</div>
+                                            </div>
+                                            <div class="item_container">
+                                                <div class="item_title">Score</div>
+                                                <div class="item_content">358</div>
+                                            </div>
+                                            <div class="item_container">
+                                                <div class="item_title">E-value</div>
+                                                <div class="item_content">0</div>
+                                            </div>
+                                            <div class="item_container">
+                                                <div class="item_title">Identity</div>
+                                                <div class="item_content">366</div>
+                                            </div>
+                                            <div class="item_container">
+                                                <div class="item_title">Query From</div>
+                                                <div class="item_content">702</div>
+                                            </div>
+                                            <div class="item_container">
+                                                <div class="item_title">Query To</div>
+                                                <div class="item_content">1071</div>
+                                            </div>
+                                            <div class="item_container">
+                                                <div class="item_title">Query Strand</div>
+                                                <div class="item_content">Plus</div>
+                                            </div>
+                                            <div class="item_container">
+                                                <div class="item_title">Hit From</div>
+                                                <div class="item_content">1726</div>
+                                            </div>
+                                            <div class="item_container">
+                                                <div class="item_title">Hit To</div>
+                                                <div class="item_content">1357</div>
+                                            </div>
+                                            <div class="item_container">
+                                                <div class="item_title">Hit Strand</div>
+                                                <div class="item_content">Minus</div>
+                                            </div>
+                                            <div class="item_container">
+                                                <div class="item_title">Alignment Length</div>
+                                                <div class="item_content">370</div>
+                                            </div>
+                                            <div class="item_container">
+                                                <div class="item_title">Gaps</div>
+                                                <div class="item_content">0</div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <svg id="hit_area_align_plot_1" width="900" height="500"></svg>
+
+                            </div>
+
+                            <!-- 序列文本可视化 -->
+                            <div class="align_seq_container" id="align_seq_container_1">
+                                <!-- <div class="legend">
+                                                            <div class="legend_item">
+                                                                <div class="legend_color conservative"></div>
+                                                                <span>conservative</span>
+                                                            </div>
+                                                            <div class="legend_item">
+                                                                <div class="legend_color mismatch"></div>
+                                                                <span>mismatch</span>
+                                                            </div>
+                                                            <div class="legend_item">
+                                                                <div class="legend_color gap"></div>
+                                                                <span>gap</span>
+                                                            </div>
+                                                        </div> -->
+
+                            </div>
+                        </div>
+
+                    </details>
+                    <!-- <script src="/js/test2/pairwiseAlignSeq.js"></script> -->
+                    <!-- <script src="/js/test2/hitAreaAlignPlot.js"></script> -->
+                </div>
+
+
+
+
+            </details>
+
+
+        </div>
+
+        <div class="footer_container">
+            <div class="logo_container">
+
+                <div class="logo_box click_to_open_new_url" new-url="https://www.hzau.edu.cn/index.htm">
+                    <img src="../../img/HZAU.png" alt="logo">
+                </div>
+                <div class="logo_box click_to_open_new_url" new-url="https://sklcusa.gxu.edu.cn/">
+                    <img src="../../img/GuoZhong.png" alt="logo">
+                </div>
+                <div class="logo_box click_to_open_new_url" new-url="https://lst.gxu.edu.cn/">
+                    <img src="../../img/sky_logo.png" alt="logo">
+                </div>
+                <div class="logo_box click_to_open_new_url" new-url="https://www.gxu.edu.cn/">
+                    <img src="../../img/GXU_logo.png" alt="logo">
+                </div>
+
+
+
+            </div>
+
+            <h1 class="development_info">Developed by the Chen LL’s Lab at GuangXi University and Xie WB’s Lab at
+                HuaZhong
+                Agricultural University</h1>
+
+            <div class="copyright_revolvermap_container">
+                <div class="copyright_container">
+                    <h1 class="contact_info">Contact: <a href="">llchen@gxu.edu.cn</a>, <a href="">1740569155@qq.com</a>
+                    </h1>
+                    <h1 class="copyright">Copyright © 2020-2030 All rights reserved</h1>
+                </div>
+                <div class="revolver_maps">
+                    <script type="text/javascript"
+                        src="//rf.revolvermaps.com/0/0/7.js?i=5mrx7fhr2hr&amp;m=0&amp;c=ff0000&amp;cr1=ffffff&amp;br=10&amp;sx=0"
+                        async="async"></script>
+                </div>
+            </div>
+
+
+        </div>
+
+        <!-- 全局提示框，触发showCustomAlert方法之后才显示（copy、download） -->
+        <div id="customAlert" class="custom_alert"></div>
+    </div>
+
+    <script type="module" src="../../js/test2/basic.js"></script>
+    <script type="module" src="../../js/test2/mainBlast.js"></script>
+
+</body>
+
+</html>

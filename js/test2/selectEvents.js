@@ -13,6 +13,8 @@ function fillSelect(selectContainer, stringList, selectedIndex = 0) {
         const option = document.createElement('option');
         option.value = item;
         option.textContent = item;
+        // 添加一个索引属性，用于在回调函数中获取当前选中的索引
+        option.setAttribute('data-index', index);
 
         // 如果当前索引是预选索引，则设置为选中
         if (index === selectedIndex) {
@@ -61,6 +63,7 @@ function setUpSelectEventListeners(selectContainer, callback) {
     selectContainer.addEventListener('change', async () => {
         // 禁用用户交互
         showGlobalOverlay();
+        console.log(selectContainer.value);
 
         try {
             // 等待回调函数执行完成
@@ -83,6 +86,8 @@ function setUpSelectWithSelect2(selectContainerSelector, callback) {
         dropdownAutoWidth: true,
         dropdownCssClass: 'select2-dropdown', // 自定义下拉框样式类
     });
+
+    console.log(selectElement);
 
     // 添加事件监听器到Select2
     selectElement.on('change', async () => {

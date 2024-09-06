@@ -53,7 +53,7 @@ function updateHaplotypeResultDetailsContainer(data, container) {
         <div class="sequence_item_container">
             <div class="sequence_container_header">
                 <h1 class="item_title">nucleotideSequence</h1>
-                <button class="copy_button" data_sequence="${data.nucleotideSequence}">Click to Copy</button>
+                <button class="copy_button" data_sequence="${data.nucleotideSequence}">Copy</button>
             </div>
             <div class="sequence_container">
                 <p class="item_content">${data.nucleotideSequence}</p>
@@ -275,7 +275,7 @@ function updateTranscriptResultDetailsContainer(data, container) {
         <div class="sequence_item_container">
             <div class="sequence_container_header">
                 <h1 class="item_title">nucleotideSequence</h1>
-                <button class="copy_button" data_sequence="${data.nucleotideSequence}">Click to Copy</button>
+                <button class="copy_button" data_sequence="${data.nucleotideSequence}">Copy</button>
             </div>
             <div class="sequence_container">
                 <p class="item_content">${data.nucleotideSequence}</p>
@@ -285,7 +285,7 @@ function updateTranscriptResultDetailsContainer(data, container) {
         <div class="sequence_item_container">
             <div class="sequence_container_header">
                 <h1 class="item_title">proteinSequence</h1>
-                <button class="copy_button" data_sequence="${data.proteinSequence}">Click to Copy</button>
+                <button class="copy_button" data_sequence="${data.proteinSequence}">Copy</button>
             </div>
             <div class="sequence_container">
                 <p class="item_content">${data.proteinSequence}</p>

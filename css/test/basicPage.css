@@ -413,11 +413,11 @@ body {
     z-index: 3000;
 }
 
-.scroll_to_top_button svg {
-    font-size: 50px;
+.scroll_to_top_button img {
+    width: 50px;
 }
 
-.scroll_to_top_button:hover svg {
+.scroll_to_top_button:hover img {
     animation: bounce 1.3s infinite;
 }
 
@@ -683,6 +683,20 @@ body {
     font-size: 16px;
     color: #d93939;
     /* margin-top: 10px; */
+}
+
+
+.content_container .search_container .search_id_form_group .help_box .close_icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    width: 20px;
+}
+
+.content_container .search_container .search_id_form_group .help_box .close_icon:hover {
+    transition: all 0.5s;
+    transform: scale(1.1);
 }
 
 .content_container .search_container .search_id_form_group .search_alert {

@@ -17,7 +17,6 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
-    <script src="../../js/test2/basic.js"></script>
     <style>
 
     </style>
@@ -28,10 +27,8 @@
 <body>
     <div class="center_container">
         <!-- 返回顶部图标 -->
-        <button class="scroll_to_top_button" onclick="scrollToTop()">
-            <svg class="icon" aria-hidden="true">
-                <use xlink:href="#icon-xianxingdianji"></use>
-            </svg>
+        <button class="scroll_to_top_button">
+            <img src="../../img/scroll_to_top_icon.png" alt="scroll to top">
         </button>
 
         <!-- 顶部导航栏 -->
@@ -43,7 +40,7 @@
                             <img src="../../img/sugarcane-logo.jpeg" alt="logo">
                         </div>
                         <div class="title_box">
-                            <h1>SRND</h1>
+                            <h1>SRNDB</h1>
                         </div>
                     </div>
 
@@ -72,7 +69,7 @@
                                 <ul class="dropdown_content">
                                     <li class="second_level_link"><a href="#tool1">Annotation</a></li>
                                     <li class="second_level_link"><a href="#tool2">Transcript Factors</a></li>
-                                    <li class="second_level_link"><a href="#tool3">BLAST</a></li>
+                                    <li class="second_level_link"><a href="./blast.html" target="_blank">BLAST</a></li>
                                 </ul>
                             </li>
                             <li class="first_level_link"><a href="#download">Download</a></li>
@@ -125,7 +122,7 @@
                                 <ul class="accordion_content">
                                     <li class="second_level_link"><a href="#tool1">Annotation</a></li>
                                     <li class="second_level_link"><a href="#tool2">Transcript Factors</a></li>
-                                    <li class="second_level_link"><a href="#tool3">BLAST</a></li>
+                                    <li class="second_level_link"><a href="./blast.html" target="_blank">BLAST</a></li>
                                 </ul>
                             </li>
                             <li class="first_level_link"><a href="#download">Download</a></li>
@@ -146,23 +143,34 @@
                 <div class="text_box">
                     <h1 class="introduction_title">Saccharum Regulatory Networks Database</h1>
 
-                    <p class="introduction_text">This is introduce of this database. This is introduce of this database.
-                        This is introduce of this
-                        database. This is
-                        introduce of this database. This is introduce of this database. This is introduce of this
-                        database. This is introduce of
-                        this database. This is introduce of this database. This is introduce of this database. This is
-                        introduce of this
-                        database. This is introduce of this database. This is introduce of this database. This is
-                        introduce of this database.
-                        This is introduce of this database. This is introduce of this database. This is introduce of
-                        this database. This is
-                        introduce of this database. This is introduce of this database.</p>
+                    <p class="introduction_text">This is the database for further analysis and visualization of the data
+                        generated from <span style="font-weight: bold;">"Isoform-level and haplotype-resolved
+                            full-length transcriptome revealed the
+                            lignin metabolic process in complex
+                            polyploid sugarcane cultivars"</span>. we sampled multiple tissues from the sugarcane
+                        cultivar GT42
+                        during its whole growth period and performed full-length
+                        transcriptome sequencing (Iso-seq) and RNA sequencing (RNA-seq) to generate a multi-omics data
+                        set of sugarcane gene
+                        expression. By integrating these transcriptome datasets, we constructed an Isoform-level and
+                        haplotype-resolved
+                        full-length transcriptome of sugarcane cultivars, identifying 315,030 unique isoforms from
+                        126,406 haplotype-resolved
+                        genes. Systematic homology inference allowed us to assign isoforms and genes to the two
+                        recognized ancestral species of
+                        sugarcane cultivars, Saccharum officinarum and Saccharum spontaneum, with approximately 28.25%
+                        of the genes derived from
+                        Saccharum spontaneum. Gene expression atlas and expression regulatory networks were used to
+                        elucidate the lignin
+                        metabolic process in sugarcane cultivars. </p>
                     <p class="citation_text">if you used the data from the database, please cite the paper kindly!
                         (https://doi.org/123456/123456)</p>
                 </div>
                 <div class="image_box">
+                    <img src="../../img/sugarcane.jpg" alt="intro">
                     <img src="../../img/intro.png" alt="intro">
+
+
                 </div>
             </div>
 
@@ -218,35 +226,38 @@
                     <div class="statistic_item">
                         <div class="statistic_text">
                             <div class="statistic_title">
-                                <img src="../../img/statistic_icon_SNP.png" alt="SNP">
-                                <h1>Haplotype</h1>
+                                <img src="../../img/statistic_icon_heatmap.png" alt="SNP">
+                                <h1>Gene Expression Profile</h1>
                             </div>
                             <!-- <h1><i class="iconfont icon-liebiao"> </i>Haplotype</h1> -->
                             <ul>
-                                <li>Number of Haplotypes: 123456</li>
-                                <li>Number of SNPs: 123456</li>
-                                <li>Number of Indels: 123456</li>
+                                <li>Number of Resolutions: 4</li>
+                                <li>Development Stages: 5</li>
+                                <li>Number of Tissues: 23</li>
+                                <li>Number of Samples: 69</li>
+
                             </ul>
                         </div>
-                        <div class="statistic_img">
-                            <img src="../../img/programming2.gif" alt="image">
+                        <div class="statistic_img" id="average_TPM_count" style="width: 250px;height: 200px;">
+                            <!-- <img src="../../img/programming2.gif" alt="image"> -->
                         </div>
                     </div>
                     <div class="statistic_item">
                         <div class="statistic_text">
                             <div class="statistic_title">
-                                <img src="../../img/statistic_icon_SNP.png" alt="SNP">
-                                <h1>Gene Expression Profile</h1>
+                                <img src="../../img/statistic_icon_network.png" alt="SNP">
+                                <h1>Co-expression Network</h1>
                             </div>
                             <!-- <h1><i class="iconfont icon-liebiao"> </i>Gene Expression Profile</h1> -->
                             <ul>
-                                <li>Number of Genes: 123456</li>
-                                <li>Number of Samples: 123456</li>
-                                <li>Number of Tissues: 123456</li>
+                                <li>Number of Resolutions: 3</li>
+                                <li>Number of Hubs: 7410</li>
+                                <li>Number of Nodes: 192893</li>
+                                <li>Number of Edges: 1064084</li>
                             </ul>
                         </div>
-                        <div class="statistic_img">
-                            <img src="../../img/programming2.gif" alt="image">
+                        <div class="statistic_img" id="edge_weight_count" style="width: 250px;height: 200px;">
+                            <!-- <img src="../../img/programming2.gif" alt="image"> -->
                         </div>
                     </div>
 
@@ -260,40 +271,42 @@
                     <h1>Resources</h1>
                 </div>
                 <div class="resources_container">
-                    <div class="database_container" onclick="openInNewTab('./fullLengthTranscriptome.html')">
+                    <div class="database_container click_to_open_new_url" new-url="./fullLengthTranscriptome.html">
                         <img src="../../img/transcript_intro.gif" alt="image">
                         <h1>Full Length Transcriptome</h1>
                     </div>
-                    <div class="database_container" onclick="openInNewTab('./haplotypeSNP.html')">
+                    <div class="database_container click_to_open_new_url" new-url="./haplotypeSNP.html">
                         <img src="../../img/haplotype_intro.gif" alt="image">
                         <h1>Haplotype && SNP</h1>
                     </div>
-                    <div class="database_container" onclick="openInNewTab('./geneExpressionProfile.html')">
+                    <div class="database_container click_to_open_new_url" new-url="./geneExpressionProfile.html">
                         <img src="../../img/GEP_intro.gif" alt="image">
                         <h1>Gene Expression Profile</h1>
                     </div>
-                    <div class="database_container" onclick="openInNewTab('./singleCoExpressionNetwork.html')">
+                    <div class="database_container click_to_open_new_url" new-url="./singleCoExpressionNetwork.html">
                         <img src="../../img/single_net_intro.gif" alt="image">
                         <h1>Single Co-expression Network</h1>
                     </div>
 
-                    <div class="database_container" onclick="openInNewTab('./hubCoExpressionNetwork.html')">
+                    <div class="database_container click_to_open_new_url" new-url="./hubCoExpressionNetwork.html">
                         <img src="../../img/CoNET_intro.gif" alt="image">
                         <h1>Hub Co-expression Network</h1>
                     </div>
 
+                    <div class="database_container click_to_open_new_url" new-url="./blast.html">
+                        <img src="../../img/blast_intro.gif" alt="image">
+                        <h1>BLAST</h1>
+                    </div>
                     <div class="database_container">
                         <img src="../../img/programming5.gif" alt="image">
                         <h1>Annotation</h1>
                     </div>
                     <div class="database_container">
-                        <img src="../../img/programming5.gif" alt="image">
+                        <img src="../../img/transcript_factor.png" style="background-color:rgb(253, 255, 240);"
+                            alt="image">
                         <h1>Transcript Factors</h1>
                     </div>
-                    <div class="database_container">
-                        <img src="../../img/programming5.gif" alt="image">
-                        <h1>BLAST</h1>
-                    </div>
+
                 </div>
 
             </div>
@@ -330,20 +343,18 @@
         <div class="footer_container">
             <div class="logo_container">
 
-                <div class="logo_box" onclick="openInNewTab('https://www.hzau.edu.cn/index.htm')">
+                <div class="logo_box click_to_open_new_url" new-url="https://www.hzau.edu.cn/index.htm">
                     <img src="../../img/HZAU.png" alt="logo">
                 </div>
-                <div class="logo_box" onclick="openInNewTab('https://sklcusa.gxu.edu.cn/')">
+                <div class="logo_box click_to_open_new_url" new-url="https://sklcusa.gxu.edu.cn/">
                     <img src="../../img/GuoZhong.png" alt="logo">
                 </div>
-                <div class="logo_box" onclick="openInNewTab('https://lst.gxu.edu.cn/')">
+                <div class="logo_box click_to_open_new_url" new-url="https://lst.gxu.edu.cn/">
                     <img src="../../img/sky_logo.png" alt="logo">
                 </div>
-                <div class="logo_box" onclick="openInNewTab('https://www.gxu.edu.cn/')">
+                <div class="logo_box click_to_open_new_url" new-url="https://www.gxu.edu.cn/">
                     <img src="../../img/GXU_logo.png" alt="logo">
                 </div>
-
-
 
             </div>
 
@@ -371,6 +382,7 @@
 
     </div>
 
+    <script type="module" src="../../js/test2/basic.js"></script>
     <script type="module" src="../../js/test2/mainIndex.js"></script>
 
 

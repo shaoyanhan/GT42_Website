@@ -1983,3 +1983,75 @@
 </body>
 
 </html>
+
+<div class="blast_submit_container">
+    <div class="blast_buttons">
+        <button id="blastn">blastn</button>
+        <button id="blastp">blastp</button>
+        <button id="blastx">blastx</button>
+        <button id="tblastn">tblastn</button>
+        <button id="tblastx">tblastx</button>
+    </div>
+</div>
+
+<div class="result_details">
+    <div class="item_container">
+        <div class="item_title">Query Index</div>
+        <div class="item_content">0</div>
+    </div>
+    <div class="item_container">
+        <div class="item_title">HSP Index</div>
+        <div class="item_content">0</div>
+        <button class="previous_hsp" hit-index="0" hsp-index="0" hsp-count="10">Previous</button>
+        <button class="next_hsp" hit-index="0" hsp-index="0" hsp-count="10">Next</button>
+    </div>
+</div>
+
+
+blastSubmit.js:
+import { initialContentArea } from "./initialContentAreaBlast.js";
+async function blastButtonEventHandler(event) {
+// 初始化blast结果展示区域
+await initialContentArea();
+}
+
+
+initialContentAreaBlast.js:
+import { setUpDownloadFileEventListeners } from './downloadFile.js';
+import { getData} from './data.js';
+// 定义全局或在函数作用域内的事件处理程序引用
+let downloadPairwiseAlignmentHandler;
+let downloadDetailedTableHandler;
+let downloadComprehensiveJSONHandler;
+async function initialContentArea() {
+// 设置下载总的blast结果文件的事件监听器
+setUpRawBlastResultFileDownloadEvents();
+}
+async function setUpRawBlastResultFileDownloadEvents() {
+// 获取容器元素
+const downloadPairwiseAlignmentFile = document.getElementById('download_format0_pairwise_alignment_result');
+
+// 获取文件数据
+const blastResultPairwiseAlignment = await getData('blastResultPairwiseAlignment');
+
+// 注册下载事件
+setUpDownloadFileEventListeners(downloadPairwiseAlignmentFile, downloadPairwiseAlignmentHandler,
+blastResultPairwiseAlignment, 'pairwise_alignment_result', 'txt');
+}
+
+
+downloadFile.js:
+async function setUpDownloadFileEventListeners(eventContainer, eventHandler, fileData, fileName, fileType) {
+// 如果已经有旧的处理器，移除它们
+if (eventHandler) {
+eventContainer.removeEventListener('click', eventHandler);
+console.log('Removed old event handler');
+}
+
+// 向select_download_type下载列表中注册下载事件
+eventHandler = () => downloadFile(fileData, fileName, fileType);
+
+// 为事件容器添加新的下载事件监听器
+eventContainer.addEventListener('click', eventHandler);
+}
+export { setUpDownloadFileEventListeners };
