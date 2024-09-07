@@ -361,7 +361,7 @@
 .content_container .blast_result_container .no_hits_found p {
     font-size: 16px;
     font-weight: bold;
-    color: rgb(233, 106, 106);
+    color: #e96a6a;
 }
 
 .content_container .blast_result_container .all_hits_bar_plot {

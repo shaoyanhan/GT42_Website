@@ -38,9 +38,10 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: #b8e994;
-    /* 浅绿色背景 */
+    background-color: #4fb479;
+    color: white;
     padding: 20px;
+    font-weight: bold;
     border-radius: 10px;
     /* 圆角边框 */
     z-index: 3000;

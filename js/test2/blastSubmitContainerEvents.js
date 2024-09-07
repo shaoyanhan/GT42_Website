@@ -293,14 +293,19 @@ async function blastButtonEventHandler(event) {
     updateData('currentBlastQuerySeqType', querySeqType);
 
     // 获取用户选择的数据库
-    let selectedDatabases = [];
+    let selectedCheckboxID = [];
     checkboxes.forEach(cb => {
         if (cb.checked) {
-            selectedDatabases.push(cb.id);
+            selectedCheckboxID.push(cb.id);
         }
     });
+
     // 将每一个id按照下划线分割，取第一个元素，即数据库类型
-    selectedDatabases = selectedDatabases.map(db => db.split('_')[0]);
+    let selectedDatabases = selectedCheckboxID.map(db => db.split('_')[0]);
+
+    // 截取ID的后缀，即数据库的序列类型，并更新系统数据
+    let currentDatabaseSeqType = selectedCheckboxID[0].split('_')[1];
+    updateData('currentBlastDatabaseSeqType', currentDatabaseSeqType);
 
     // 获取点击的BLAST按钮的id
     let blastFunction = event.target.id;
@@ -315,6 +320,9 @@ async function blastButtonEventHandler(event) {
         resultSeqType = 'peptide';
     }
     updateData('blastResultSeqType', resultSeqType);
+
+    // TODO：提供一个参数输入框，让用户输入更为复杂的参数，右侧提供一个帮助弹窗，显示可以提供的参数的详细说明
+    // 一般来讲只能允许用户对数值参数进行修改，对于其他与输出文件相关的参数，应该提供默认值
 
     // 准备POST请求的数据
     let postData = {
@@ -332,10 +340,8 @@ async function blastButtonEventHandler(event) {
     console.table('blastResult:', blastResult);
 
 
-
     // 如果blastResult的data长度为0，显示error_tip提示框
     if (blastResult.data.length === 0) {
-        console.log('No hits found');
         // 隐藏遮罩层和loading动画
         overlayContainer.style.display = 'none';
 

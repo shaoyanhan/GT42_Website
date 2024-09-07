@@ -299,6 +299,7 @@ let blastQueryIDList = [];
 let currentBlastQuerySeqType = 'nucleotide';
 let currentBlastResultQueryIndex = 0;
 let blastResultSeqType = 'nucleotide';
+let currentBlastDatabaseSeqType = 'nucleotide';
 
 
 // 定义API请求的前缀
@@ -354,6 +355,7 @@ let apiPrefix = {
     homePageStatisticData: 'getHomePageStatisticData/',
 
     blastResults: 'getBlastResults/',
+    getRawSequenceWithType: 'getRawSequenceWithType/',
 
     parameter: {
         searchKeyword: 'searchKeyword=',
@@ -429,6 +431,7 @@ const updateDataFunctions = {
     currentBlastQuerySeqType: updateCurrentBlastQuerySeqType,
     currentBlastResultQueryIndex: updateCurrentBlastResultQueryIndex,
     blastResultSeqType: updateBlastResultSeqType,
+    currentBlastDatabaseSeqType: updateCurrentBlastDatabaseSeqType,
 
 };
 
@@ -534,6 +537,7 @@ const getDataFunctions = {
     currentBlastQuerySeqType: getCurrentBlastQuerySeqType,
     currentBlastResultQueryIndex: getCurrentBlastResultQueryIndex,
     blastResultSeqType: getBlastResultSeqType,
+    currentBlastDatabaseSeqType: getCurrentBlastDatabaseSeqType,
 
 };
 
@@ -840,6 +844,9 @@ function updateCurrentBlastResultQueryIndex(newData) {
 function updateBlastResultSeqType(newData) {
     blastResultSeqType = newData;
 }
+function updateCurrentBlastDatabaseSeqType(newData) {
+    currentBlastDatabaseSeqType = newData;
+}
 
 
 
@@ -1086,6 +1093,9 @@ function getCurrentBlastResultQueryIndex() {
 function getBlastResultSeqType() {
     return _.cloneDeep(blastResultSeqType);
 }
+function getCurrentBlastDatabaseSeqType() {
+    return _.cloneDeep(currentBlastDatabaseSeqType);
+}
 
 
 
@@ -1260,6 +1270,37 @@ async function fetchRawData(type, searchKeyword) {
     }
 }
 
+
+// 将参数对象转换为 URL 查询字符串
+// 没有参数：http://127.0.0.1:8080/searchDatabase/getHaplotypeTable/
+// 有参数：http://127.0.0.1:8080/searchDatabase/getHaplotypeTable/?searchKeyword=GT42G000002&currentPage=1...
+function buildQueryString(params) {
+    const queryString = Object.entries(params)
+        .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+        .join('&');
+    return queryString ? `?${queryString}` : '';  // 如果有参数，则添加 '?'，否则返回空字符串
+}
+
+
+// 请求数据并支持传递多个参数
+// fetchRawData2('haplotype', {
+//     searchKeyword: 'GT42G000002',
+//     page: 2
+// });
+async function fetchRawData2(type, params = {}) {
+    try {
+        const queryString = buildQueryString(params);
+        const dataRequestUrl = apiPrefix.IP + apiPrefix.app + apiPrefix[type] + queryString;  // 只有在有参数时才加上查询字符串
+        console.log(dataRequestUrl);
+        const data = await fetchData(dataRequestUrl);
+        return data;
+    } catch (error) {
+        console.error(`${type} 数据加载失败:`, error);
+        return { type: type, data: [] }; // 返回一个空数据结构
+    }
+}
+
+
 // 请求分页数据
 async function fetchPaginationData(type, searchKeyword, page = 1) {
     try {
@@ -1389,4 +1430,4 @@ function getCurrentPageName() {
 }
 
 
-export { fetchRawData, fetchPostData, fetchPaginationData, fetchGenomeIDList, fetchNextSearchIDData, fetchHubNetworkGraphJSON, fetchSingleNetworkGraphJSON, updateData, getData, validateGenomeID, getCurrentPageName };
+export { fetchRawData, fetchRawData2, fetchPostData, fetchPaginationData, fetchGenomeIDList, fetchNextSearchIDData, fetchHubNetworkGraphJSON, fetchSingleNetworkGraphJSON, updateData, getData, validateGenomeID, getCurrentPageName };

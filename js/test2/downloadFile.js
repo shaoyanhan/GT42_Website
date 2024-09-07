@@ -2,7 +2,7 @@ import { getData } from './data.js';
 
 function downloadFile(fileData, fileName, fileType) {
     // 支持的文件格式
-    const supportedFileTypes = ['txt', 'tsv', 'csv', 'json'];
+    const supportedFileTypes = ['txt', 'tsv', 'csv', 'json', 'fasta'];
 
     // 检查 fileType 是否受支持
     if (!supportedFileTypes.includes(fileType)) {
@@ -16,6 +16,7 @@ function downloadFile(fileData, fileName, fileType) {
 
     switch (fileType) {
         case 'txt':
+        case 'fasta':
             fileContent = formatAsText(fileData);
             mimeType = 'text/plain';
             break;

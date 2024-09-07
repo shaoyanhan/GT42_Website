@@ -1,7 +1,7 @@
 import { allHitsBarPlot } from "./mainBlast.js";
 import { getAllHitsBarPlotOption } from "./echartsOptionAllHitsBarPlot.js";
 import { getData } from "./data.js";
-import { loadBatchByIndex } from "./blastAllHitsAlignEvents.js";
+import { loadBatchByIndex, updateBlastResultDetailsContainer, updateAlignSeqContainer, updateHitAreaAlignPlotHighlight } from "./blastAllHitsAlignEvents.js";
 
 function drawAllHitsBarPlot(dataArray) {
     let option = getAllHitsBarPlotOption(dataArray);
@@ -52,6 +52,10 @@ function clickAllHitsBarPlotEventsHandler(params) {
     // 合并subjectIDParts中除去最后一个元素的所有元素
     let subjectID = subjectIDParts.length > 2 ? subjectIDParts.slice(0, -1).join('.') : subjectIDParts[0];
 
+    // 最后一位是hsp的索引
+    let hspIndex = parseInt(subjectIDParts[subjectIDParts.length - 1]) - 1;
+    console.log('subjectID:', subjectID, 'hspIndex:', hspIndex);
+
 
     let currentQueryIndex = getData('currentBlastResultQueryIndex');
     let blastResultQueryTableStringList = getData('blastResultQueryTableStringList');
@@ -62,6 +66,11 @@ function clickAllHitsBarPlotEventsHandler(params) {
 
     // 加载到足够展示subjectHitIndex的数据，防止index指向的数据未加载
     loadBatchByIndex(subjectHitIndex);
+
+    // 更新alignSeqResultContainer中的结果为当前点击的HSP的结果
+    updateBlastResultDetailsContainer(currentQueryIndex, subjectHitIndex, hspIndex);
+    updateAlignSeqContainer(currentQueryIndex, subjectHitIndex, hspIndex);
+    updateHitAreaAlignPlotHighlight(subjectHitIndex, hspIndex);
 
     // 移动到id为align_seq_result_container_i的标签
     let targetID = 'align_seq_result_container_' + subjectHitIndex;

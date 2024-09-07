@@ -1,4 +1,7 @@
-import { getData } from "./data.js";
+import { getData, fetchRawData2 } from "./data.js";
+import { showCustomAlert } from "./showCustomAlert.js";
+import { downloadFile } from "./downloadFile.js";
+import { splitDetailedTableResultByIndex } from "./initialContentAreaBlast.js";
 
 let blastDataArray = [];
 let currentResultSeqType = ''; // 当前展示的序列类型，跟随系统数据集改变
@@ -462,9 +465,15 @@ function visualizeBlastResult(result, chunkSize, baseType, resultContainer) {
         const sChunk = subject.slice(i, i + chunkSize);
         const mChunk = midline.slice(i, i + chunkSize);
 
-        // 这里不能写 qPos + chunkSize - 1; 因为最后一行可能不足chunkSize个碱基
-        const qEndPos = qPos + qChunk.length - 1;
-        const sEndPos = sPos + sChunk.length - 1;
+        // // 这里不能写 qPos + chunkSize - 1; 因为最后一行可能不足chunkSize个碱基
+        // const qEndPos = qPos + qChunk.length - 1;
+        // const sEndPos = sPos + sChunk.length - 1;
+
+        // 检查qChunk和sChunk中的gap数量，计算qEndPos和sEndPos时要减去gap的数量
+        const qGapCount = qChunk.split('').filter(base => base === '-').length;
+        const sGapCount = sChunk.split('').filter(base => base === '-').length;
+        const qEndPos = qPos + qChunk.length - 1 - qGapCount;
+        const sEndPos = sPos + sChunk.length - 1 - sGapCount;
 
         // 定义三行，分别是query行，subject行和match行
         const qLine = document.createElement('div');
@@ -621,7 +630,10 @@ function createAlignSeqResultContainer(objectData, hitIndex) {
                 <ul class="download_types">
                     <li><a class="download_align_area_pic" hitIndex="${hitIndex}">Alignment Area Picture</a></li>
                     <li><a class="download_align_seq_pic" hitIndex="${hitIndex}">Alignment Sequence Picture</a></li>
-                    <li><a class="download_align_seq_file" hitIndex="${hitIndex}">Alignment Sequence File</a></li>
+                    <li><a class="download_complete_subject_sequence" hitIndex="${hitIndex}">Complete Subject Sequence</a></li>
+                    <li><a class="download_aligned_subject_sequence" hitIndex="${hitIndex}">Aligned Subject Sequence</a></li>
+                    <li><a class="download_pairwise_alignment_result" hitIndex="${hitIndex}">Pairwise Alignment Result</a></li>
+                    <li><a class="download_detailed_value_table" hitIndex="${hitIndex}">Detailed Value Table</a></li>
                 </ul>
             </div>
         </div>
@@ -968,13 +980,137 @@ function createAlignSeqResultContainer(objectData, hitIndex) {
         URL.revokeObjectURL(url);
     });
 
-    // TODO:为单一Hit的序列匹配结果添加文件下载功能，
-    // 1. 下载完整的subject序列（Hit）
-    // 2. 下载匹配区域的subject序列（HSP）
-    // 3. 下载当前subject的数值列表
-    alignSeqResultContainer.querySelector('.download_align_seq_file').addEventListener('click', function () {
+    // 为单一Hit的序列匹配结果添加文件下载功能，
+    // 1. 下载完整的subject序列（Hit）：haplotype和transcript数据库， 生成格式>GT42G000001, length：1000bp，序列每50bp换行
+    // 2. 下载匹配区域的subject序列（HSP）：遍历Hit的object数据，生成格式>GT42G000001:1-1000bp，序列每50bp换行
+    // 3. 下载HSP的两两比对txt格式：参考initialContentArea中的splitPairwiseAlignmentResultByIndex，直接存储对应的ID（>GT42G000001）的所有HSP行即可
+    // 3. 下载当前subject的数值列表：使用initialContentArea中的splitDetailedTableResultByIndex
+    alignSeqResultContainer.querySelector('.download_complete_subject_sequence').addEventListener('click', async function () {
+        // 根据ID获取完整的subject序列
+        const currentQueryIndex = getData('currentBlastResultQueryIndex');
+        const currentHitIndex = this.getAttribute('hitIndex');
+        const subjectID = getSubjectIDByIndex(currentQueryIndex, currentHitIndex);
+        const currentDatabaseSeqType = getData('currentBlastDatabaseSeqType');
+        const response = await fetchRawData2('getRawSequenceWithType', { 'sequenceID': subjectID, 'sequenceType': currentDatabaseSeqType });
+        const responseData = response.data;
+
+        if (responseData.length === 0) {
+            showCustomAlert('No sequence data found for the specified ID', 'error');
+            return;
+        }
+
+        // 将序列数据转换为fasta格式
+        let sequence = responseData.sequence;
+        let sequenceLength = responseData.sequenceLength;
+        let resultLines = [];
+        resultLines.push(`>${subjectID}, length: ${sequenceLength} bp`); // 生成标题行格式>GT42G000001, length：1000bp
+        // 序列每50bp换行
+        for (let i = 0; i < sequenceLength; i += 50) {
+            resultLines.push(sequence.slice(i, i + 50));
+        }
+        let resultString = resultLines.join('\n');
+
+        // 下载文件
+        downloadFile(resultString, `Complete_Subject_Sequence_of_${subjectID}`, 'fasta');
+    });
+
+    alignSeqResultContainer.querySelector('.download_aligned_subject_sequence').addEventListener('click', async function () {
+        // 获取当前Hit对应的HSP列表
+        const currentQueryIndex = getData('currentBlastResultQueryIndex');
+        const currentHitIndex = this.getAttribute('hitIndex');
+        const subjectID = getSubjectIDByIndex(currentQueryIndex, currentHitIndex);
+        const hspArray = getHspArrayByIndex(currentQueryIndex, currentHitIndex);
+
+        // 遍历HSP列表，获取每个HSP的序列数据
+        let resultLines = [];
+        hspArray.forEach(hsp => {
+            resultLines.push(`HSP_${hsp.num}:`);
+            resultLines.push(`>${subjectID}, range: ${hsp.hit_from}-${hsp.hit_to} bp`); // 生成标题行格式>GT42G000001:1-1000bp
+            // 序列每50bp换行
+            for (let i = 0; i < hsp.align_len; i += 50) {
+                resultLines.push(hsp.hseq.slice(i, i + 50));
+            }
+            resultLines.push('');
+        });
+
+        let resultString = resultLines.join('\n');
+
+        // 下载文件
+        downloadFile(resultString, `Aligned_Subject_Sequence_of_${subjectID}`, 'fasta');
+    });
+
+    alignSeqResultContainer.querySelector('.download_pairwise_alignment_result').addEventListener('click', async function () {
+        // 获取format0的结果
+        const blastResultPairwiseAlignment = getData('blastResultPairwiseAlignment');
+        const resultRows = blastResultPairwiseAlignment.split('\n');
+        // 获取subjectID
+        const currentQueryIndex = getData('currentBlastResultQueryIndex');
+        const currentHitIndex = this.getAttribute('hitIndex');
+        const subjectID = getSubjectIDByIndex(currentQueryIndex, currentHitIndex);
+
+        // 遍历结果，获取对应subjectID的所有行
+        let resultLines = [];
+        for (let i = 0; i < resultRows.length; i++) {
+            if (resultRows[i].startsWith('>')) {
+                if (resultRows[i].includes(subjectID)) {
+                    resultLines.push(resultRows[i]);
+                    let j = i + 1;
+                    while (!(resultRows[j].startsWith('>')) && !(resultRows[j].startsWith('Lambda'))) {
+                        resultLines.push(resultRows[j]);
+                        j++;
+                    }
+                    break;
+                }
+            }
+        }
+
+        let resultString = resultLines.join('\n');
+
+        // 下载文件
+        downloadFile(resultString, `Pairwise_Alignment_Result_of_${subjectID}`, 'txt');
 
     });
+
+    alignSeqResultContainer.querySelector('.download_detailed_value_table').addEventListener('click', async function () {
+        // 获取format2的结果
+        const blastResultDetailedTable = getData('blastResultDetailedTable');
+        const currentQueryIndex = getData('currentBlastResultQueryIndex');
+        const blastResultDetailedTableByIndex = splitDetailedTableResultByIndex(blastResultDetailedTable, currentQueryIndex);
+        const tableRows = blastResultDetailedTableByIndex.split('\n');
+
+        // 获取subjectID
+        const currentHitIndex = this.getAttribute('hitIndex');
+        const subjectID = getSubjectIDByIndex(currentQueryIndex, currentHitIndex);
+
+        // 遍历结果，获取对应subjectID的所有行
+        let resultLines = [];
+        // 先把前四行加入
+        for (let i = 0; i < 4; i++) {
+            resultLines.push(tableRows[i]);
+        }
+
+        // 再把subjectID对应的行加入
+        let subjectLines = [];
+        for (let i = 0; i < tableRows.length; i++) {
+            if (tableRows[i].includes(subjectID)) {
+                subjectLines.push(tableRows[i]);
+            }
+        }
+
+        // 加入统计行
+        resultLines.push(`Total ${subjectLines.length} HSPs for ${subjectID}`);
+
+        // 最后加入subjectID对应的行
+        resultLines.push(...subjectLines);
+
+        let resultString = resultLines.join('\n');
+
+        // 下载文件
+        downloadFile(resultString, `Detailed_Value_Table_of_${subjectID}`, 'txt');
+    });
+
+
+    // TODO:实现点击ID的摘要页面跳转
 
 
     // 为序列匹配结果的导航栏的四个结果跳转按钮添加点击事件
@@ -1305,4 +1441,4 @@ function updateAllHitsAlignDetails() {
 
 
 
-export { updateAllHitsAlignDetails, loadBatchByIndex };
+export { updateAllHitsAlignDetails, loadBatchByIndex, updateBlastResultDetailsContainer, updateAlignSeqContainer, updateHitAreaAlignPlotHighlight };
