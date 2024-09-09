@@ -1,3 +1,7 @@
+import { downloadGenomeIDList, validateSearchForm } from './searchEvents.js';
+import { validateGenomeID } from "./data.js";
+import { showCustomAlert } from './showCustomAlert.js';
+
 // 在新标签页打开链接
 function openInNewTab(url) {
     window.open(url, '_blank');
@@ -109,6 +113,96 @@ async function setupClickToCloseEventListeners() {
     });
 }
 
+// 检查搜索关键词的合法性
+async function checkSearchKeyword(keyword) {
+    // 格式清洗
+    keyword = keyword.replace(/^['"]+|['"]+$/g, ''); // 去除首尾的引号
+    keyword = keyword.trim(); // 去除首尾的空格
+
+    // 检查是否为空
+    if (keyword === '') {
+        showCustomAlert('Please enter a search keyword!', 'warning', 2000);
+        return false;
+    }
+
+    // 前端验证格式正确性
+    if (validateSearchForm(keyword)) {
+        const response = await validateGenomeID(keyword); // 后端验证ID是否存在
+        console.log(response);
+
+        // 确保当前的searchKeyword是有效的，然后再进行后续更新的一系列操作
+        if (response && response.status === 'success') {
+            return true;
+        } else {
+            console.error('Backend genome ID validation failed', response);
+            showCustomAlert('Backend genome ID validation failed.', 'error', 2000);
+            return false;
+        }
+
+    } else {
+        console.error('Invalid search keyword');
+        showCustomAlert('Invalid search keyword !', 'error', 2000);
+        return false;
+    }
+
+}
+
+// 为搜索框中的搜索按钮添加事件监听器
+async function setUpSearchBoxSearchButtonEventListeners() {
+    const searchBoxContainer = document.querySelectorAll('.search_box_container');
+    if (searchBoxContainer.length === 0) {
+        return;
+    }
+    searchBoxContainer.forEach(searchBox => {
+        const searchButton = searchBox.querySelector('.search_button');
+        searchButton.addEventListener('click', async function () {
+            const searchInput = searchBox.querySelector('input');
+            const searchKeyword = searchInput.value;
+
+            const isValid = await checkSearchKeyword(searchKeyword);
+            // 检查搜索关键词的合法性
+            if (!isValid) {
+                return;
+            }
+
+            const url = './searchBox.html?searchKeyword=' + searchKeyword;
+            openInNewTab(url);
+        });
+    });
+
+}
+
+// 为搜索框的提示框的示例按钮添加事件监听器
+async function setUpSearchBoxExampleIDEventListeners() {
+    const searchBoxContainer = document.querySelectorAll('.search_box_container');
+    if (searchBoxContainer.length === 0) {
+        return;
+    }
+    searchBoxContainer.forEach(searchBox => {
+        const exampleID = searchBox.querySelectorAll('.example_id');
+        exampleID.forEach(
+            ID => {
+                ID.addEventListener('click', function () {
+                    const searchInput = searchBox.querySelector('input');
+                    searchInput.value = ID.textContent;
+                });
+            });
+    });
+}
+
+// 为搜索框的提示框的ID列表下载按钮添加事件监听器
+async function setUpSearchBoxIDListDownloadButtonEventListeners() {
+    const searchBoxContainer = document.querySelectorAll('.search_box_container');
+    if (searchBoxContainer.length === 0) {
+        return;
+    }
+    searchBoxContainer.forEach(searchBox => {
+        const downloadButton = searchBox.querySelector('.download_button');
+        downloadButton.addEventListener('click', function () {
+            downloadGenomeIDList();
+        });
+    });
+}
 
 // 动态显示回到顶部按钮
 window.addEventListener('scroll', function () {
@@ -124,6 +218,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     expandedNavEventHandler(); // 控制下拉框导航栏中菜单按钮的事件
     accordionMenuEventHandler(); // 控制手风琴菜单的事件
     setupClickToOpenNewUrlEventListeners(); // 控制点击打开新网页的链接的事件
+
+    // 为搜索框中的搜索按钮添加事件监听器
+    setUpSearchBoxSearchButtonEventListeners();
+
+    // 为搜索框的提示框的示例按钮添加事件监听器
+    setUpSearchBoxExampleIDEventListeners();
+
+    // 为搜索框的提示框的ID列表下载按钮添加事件监听器
+    setUpSearchBoxIDListDownloadButtonEventListeners();
 
     document.querySelector('.scroll_to_top_button').addEventListener('click', scrollToTop); // 为回到顶部按钮添加点击事件监听器
     setupClickToCloseEventListeners(); // 为所有点击关闭按钮添加事件监听器

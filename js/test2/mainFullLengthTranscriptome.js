@@ -6,6 +6,7 @@ import { setupDownloadButton } from "./downloadTable.js";
 import { setUpResultDetailsContainerEventListeners } from "./resultDetailsContainer.js";
 import { initialContentArea } from "./initialContentAreaFullLengthTranscriptome.js";
 import { setUpSearchEventListeners } from "./searchEvents.js";
+import { submitSearchForm } from "./searchEvents.js";
 
 
 
@@ -13,11 +14,39 @@ import { setUpSearchEventListeners } from "./searchEvents.js";
 export let haplotypeChart = echarts.init(document.getElementById('drawHaplotype'), null, { renderer: 'svg' });
 export let transcriptChart = echarts.init(document.getElementById('drawTranscript'), null, { renderer: 'svg' });
 
+// 检查URL是否有searchKeyword参数，如果有，返回true，否则返回false
+function checkURLSearchKeyword() {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.has('searchKeyword');
+}
 
+// 针对于URL是否有searchKeyword参数的情况，进行不同的初始化操作
+function initialBasedOnURLSearchKeyword() {
+    if (checkURLSearchKeyword()) {
+        // 如果URL中有searchKeyword参数，那么使用searchKeyword参数初始化页面
+        // http://127.0.0.1:5501/html/test/fullLengthTranscriptome.html?searchKeyword=GT42G000002
+        let searchKeyword = new URLSearchParams(window.location.search).get('searchKeyword');
+
+        // 找到搜索框组件
+        const searchContainer = document.querySelector('#content_area_search_container');
+
+        // 将searchKeyword填充到搜索框中
+        let searchInput = searchContainer.querySelector('#search_input');
+        searchInput.value = searchKeyword;
+
+        // 提交搜索表单
+        submitSearchForm(searchContainer);
+    } else {
+        // 如果URL中没有searchKeyword参数，那么使用默认的mosaicID初始化页面
+        initialContentArea('GT42G000001', 'mosaic');
+    }
+}
 
 // 确保文档加载完成后再执行初始化
-document.addEventListener('DOMContentLoaded', () => {
-    initialContentArea('GT42G000001', 'mosaic');
+document.addEventListener('DOMContentLoaded', async () => {
+    // initialContentArea('GT42G000001', 'mosaic');
+    initialBasedOnURLSearchKeyword();
+
     setUpPaginationEventListeners('#haplotype_table_container', 'haplotypePaginationData'); // 为haplotype表格容器添加事件监听器
     // setUpPaginationEventListeners('#SNP_table_container', 'SNPPaginationData'); // 为SNP表格容器添加事件监听器
 

@@ -1,11 +1,11 @@
 import { drawSingleCoExpressionNetwork } from "./echartsEventsSingleCoExpressionNetwork.js";
-
 import { getData, updateData, fetchSingleNetworkGraphJSON, fetchRawData, validateGenomeID } from "./data.js";
 import { updateResultDetailsContainer } from "./resultDetailsContainer.js";
 import { setupClickToDrawSingleNetworkEventListeners } from "./clickToDrawSingleNetwork.js";
 import { updateTableContainer, setUpPaginationEventListeners } from "./tablePagination.js";
 import { moveHighlightSliderByResolution, toggleButtonsDisabled } from "./singleNetworkSelectorContainerEvents.js";
 import { fillSelect, disableSelect } from "./selectEvents.js";
+import { showAlert } from "./searchEvents.js";
 
 
 async function initialContentArea(searchKeyword, keywordType) { // 这里没有为keywordType设置默认值，请查看函数中的解释
@@ -19,6 +19,15 @@ async function initialContentArea(searchKeyword, keywordType) { // 这里没有�
         const response = await validateGenomeID(searchKeyword);
         keywordType = response.type;
     }
+
+    if (keywordType === 'transcript') {
+        const searchContainer = document.querySelector('#content_area_search_container');
+        showAlert(searchContainer, 'Transcript ID is not available in Co-expression Network!');
+
+        return;
+    }
+
+
     initialSingleCoExpressionNetwork(searchKeyword, keywordType);
     // loadingElement.style.display = 'none';
 

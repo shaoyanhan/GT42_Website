@@ -4,6 +4,7 @@ import { updateTableContainer } from "./tablePagination.js";
 import { updateResultDetailsContainer } from "./resultDetailsContainer.js";
 import { haplotypeChart, transcriptChart } from "./mainFullLengthTranscriptome.js";
 import { setUpPaginationEventListeners } from "./tablePagination.js";
+import { showAlert } from "./searchEvents.js";
 
 // 从对象数组中查找指定key和value的对象的行索引
 function findIndexInObjectArray(objectArray, key, value) {
@@ -31,9 +32,26 @@ function splitGenomeID(genomeID, keywordType) {
 }
 
 
+async function initialContentArea(searchKeyword, keywordType) {
+
+    if (keywordType === 'xenologous') {
+        const searchContainer = document.querySelector('#content_area_search_container');
+        showAlert(searchContainer, 'Xenologous ID is not available in Full Length Transcriptome!');
+
+        return;
+    }
+
+    initialContentAreaFullLengthTranscriptome(searchKeyword, keywordType);
+    // loadingElement.style.display = 'none';
+
+    // 将搜索关键词填充到搜索框中
+    let searchInput = document.getElementById('search_input');
+    searchInput.value = searchKeyword;
+}
+
 // 页面初始化，传入两个参数：genomeID和genomeID的类型，其实就是validateGenomeID成功之后的其中两个返回值
 // keywordType是一个字符串，表示genomeID的类型，有三种可能的值：mosaic、gene、transcript
-async function initialContentArea(searchKeyword, keywordType) {
+async function initialContentAreaFullLengthTranscriptome(searchKeyword, keywordType) {
 
     console.log(searchKeyword);
     console.log(keywordType);

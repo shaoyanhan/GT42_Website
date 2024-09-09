@@ -64,7 +64,7 @@
 .content_container .blast_submit_container .blast_buttons {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 20px;
     margin: 20px 0;
 }
 
@@ -144,10 +144,80 @@
     border: none;
     border-radius: 5px;
     /* 完全禁止用户与元素的任何交互。包括点击、悬停、鼠标事件等 */
-    pointer-events: none;
+    /* pointer-events: none; */
     /* 仅改变鼠标指针的样式 ,但用户仍然可以与按钮交互*/
     /* cursor: not-allowed; */
-    opacity: 0.6;
+    opacity: 0.8;
+}
+
+.content_container .blast_submit_container .blast_buttons {
+    position: relative;
+}
+
+.content_container .blast_submit_container .blast_buttons .blast_tooltip {
+    display: block;
+    opacity: 0;
+    /* 开始时透明 */
+    visibility: hidden;
+    /* 开始时不可见 */
+    background-color: rgb(189, 236, 182);
+    color: black;
+    text-align: center;
+    border-radius: 8px;
+    padding: 5px 10px;
+    position: absolute;
+    top: 45px;
+    z-index: 2000;
+    width: 300px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+    font-size: 14px;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+#blastn_tooltip {
+    left: 30px;
+}
+
+#blastp_tooltip {
+    left: 130px;
+}
+
+#blastx_tooltip {
+    left: 230px;
+}
+
+#tblastn_tooltip {
+    left: 330px;
+}
+
+#tblastx_tooltip {
+    left: 430px;
+}
+
+/* 使用通用兄弟选择器来显示 tooltip */
+#blastn:hover~#blastn_tooltip {
+    opacity: 1;
+    visibility: visible;
+}
+
+#blastp:hover~#blastp_tooltip {
+    opacity: 1;
+    visibility: visible;
+}
+
+#blastx:hover~#blastx_tooltip {
+    opacity: 1;
+    visibility: visible;
+}
+
+#tblastn:hover~#tblastn_tooltip {
+    opacity: 1;
+    visibility: visible;
+}
+
+#tblastx:hover~#tblastx_tooltip {
+    opacity: 1;
+    visibility: visible;
 }
 
 .content_container .blast_submit_container .overlay {

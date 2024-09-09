@@ -22,6 +22,7 @@ function checkURLSearchKeyword() {
 function initialBasedOnURLSearchKeyword() {
     if (checkURLSearchKeyword()) {
         // 如果URL中有searchKeyword参数，那么使用searchKeyword参数初始化页面
+        // http://127.0.0.1:5501/html/test/haplotypeSNP.html?searchKeyword=GT42G000002.SO
         let searchKeyword = new URLSearchParams(window.location.search).get('searchKeyword');
 
         // 找到搜索框组件

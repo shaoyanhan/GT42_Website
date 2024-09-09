@@ -18,13 +18,16 @@ function showAlert(container, message) {
 
 
 function validateSearchForm(searchKeyword) {
-    var mosaicPattern = /^GT42G\d{6}$/; // mosaicID的格式：GT42G000001
-    var xenologousPattern = /^GT42G\d{6}\.[A-Z]{2}$/; // xenologousID的格式：GT42G000001.SO
-    var genePattern = /^GT42G\d{1,6}\.(?:[A-Z]{2}|0)\.\d{1,2}$/; // geneID的格式：GT42G000001.SO.1，加入了mosaic别名的情况：GT42G000001.0.0
-    var transcriptPattern = /^GT42G\d{1,6}\.[A-Z]{2}\.\d{1,2}\.\d{1,2}$/; // transcriptID的格式：GT42G000001.SO.1.1，已经包括了gene别名的情况：GT42G000001.SO.1.0
+    // 注意：虽然后端可以支持大小写混合的ID，但是前端验证时，只允许大写ID
+    let mosaicPattern = /^GT42G\d{6}$/; // mosaicID的格式：GT42G000001
+    let xenologousPattern = /^GT42G\d{6}\.[A-Z]{2}$/; // xenologousID的格式：GT42G000001.SO
+    // let genePattern = /^GT42G\d{1,6}\.(?:[A-Z]{2}|0)\.\d{1,2}$/; // geneID的格式：GT42G000001.SO.1，加入了mosaic别名的情况：GT42G000001.0.0
+    // let transcriptPattern = /^GT42G\d{1,6}\.[A-Z]{2}\.\d{1,2}\.\d{1,2}$/; // transcriptID的格式：GT42G000001.SO.1.1，已经包括了gene别名的情况：GT42G000001.SO.1.0
+    let genePattern = /^GT42G\d{6}\.[A-Z]{2}\.\d{1,3}$/;  // geneID的格式：GT42G000001.SO.1
+    let transcriptPattern = /^GT42G\d{6}\.[A-Z]{2}\.\d{1,3}\.\d{1,3}$/; // transcriptID的格式：GT42G000001.SO.1.1
 
     // 检查是否匹配任何一个格式
-    var isValid = mosaicPattern.test(searchKeyword) ||
+    let isValid = mosaicPattern.test(searchKeyword) ||
         xenologousPattern.test(searchKeyword) ||
         genePattern.test(searchKeyword) ||
         transcriptPattern.test(searchKeyword);
@@ -42,8 +45,19 @@ function fillInputWithExampleID(container, target) {
 // 用户点击submit按钮时，执行表单验证和进一步的处理
 async function submitSearchForm(container) {
     console.log("submitSearchForm is called"); // 确认方法被调用
+    // 获取search_input的值
     const searchInput = container.querySelector('.search_input');
-    const searchKeyword = searchInput.value.trim(); // 获取当前搜索框中的ID, trim()方法是用来移除字符串两端的空白符的，包括：空格、制表符（tab）、换行符等
+    let searchKeyword = searchInput.value;
+
+    // 格式清洗
+    searchKeyword = searchKeyword.replace(/^['"]+|['"]+$/g, ''); // 去除首尾的引号
+    searchKeyword = searchKeyword.trim(); // 移除字符串两端的空白符的，包括：空格、制表符（tab）、换行符等
+
+    // 检查是否为空
+    if (searchKeyword === '') {
+        showAlert(container, 'Please enter a search keyword!');
+        return;
+    }
 
     // 验证搜索关键词
     if (validateSearchForm(searchKeyword)) { // 前端验证格式是否正确
@@ -200,4 +214,4 @@ function setUpSearchEventListeners(containerSelector) {
     container.addEventListener('click', eventHandler);
 }
 
-export { validateSearchForm, submitSearchForm, createSearchEventHandler, setUpSearchEventListeners };
+export { validateSearchForm, submitSearchForm, createSearchEventHandler, setUpSearchEventListeners, showAlert, downloadGenomeIDList };
