@@ -6,6 +6,45 @@
     padding: 40px 20px;
 }
 
+.content_container .heatmap_result_container .echart_scroll_container {
+    overflow-y: auto;
+    min-height: 0px;
+    max-height: 500px;
+}
+
+
+.content_container .sunburst_tree_chart_details_container {
+    margin: 40px 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    /* 防止内部details标签的margin塌陷问题 */
+}
+
+.content_container .sunburst_tree_chart_details_container>summary {
+    font-size: 16px;
+    font-weight: bold;
+    background: rgba(179, 236, 202, 0.73);
+    color: black;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+
+.content_container .sunburst_tree_chart_details_container .sunburst_tree_chart_container {
+    display: flex;
+    /* flex-wrap: wrap; */
+    justify-content: space-evenly;
+}
+
+.content_container .sunburst_tree_chart_details_container .sunburst_tree_chart_container div {
+    margin: 10px;
+    box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+
+}
+
 .content_container .transcriptHeatmapContainer {
     position: relative;
 }

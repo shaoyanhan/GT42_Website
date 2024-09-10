@@ -1,0 +1,224 @@
+.content_container .download_box_container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    /* overflow: hidden; */
+}
+
+.content_container .download_box_container .outer_container {
+    width: 380px;
+    height: 390px;
+    margin: 20px 10px;
+    padding: 10px;
+    background: linear-gradient(90deg, #ff7e5f, #feb47b, #86a8e7, #91e8d9, #ff7e5f, #feb47b, #86a8e7, #91e8d9);
+    background-size: 400% 100%;
+    background-position: 0% 0%;
+    animation: gradient-flow 8s linear infinite paused;
+    /* 初始状态为暂停 */
+    border-radius: 15px;
+    transition: background-position 0.3s ease;
+}
+
+@keyframes gradient-flow {
+    0% {
+        background-position: 0% 0%;
+    }
+
+    100% {
+        background-position: 75.758% 0%;
+        /* 调试方法： 
+        0. 为了调试背景颜色的流动，需要将背景颜色设置为线性渐变，并且需要让颜色重复两次，第二次重复是为了搭配 animation 的 infinite 属性模拟无缝衔接的动画过渡；
+        1. 将待调试的容器设置为只显示背景容器，建立另外一个一样的背景的测试容器；
+        2. 关闭测试容器的 animation 相关的所有属性（css 中的 animation，animation-play-state），使其保持静止；
+        3. 在F12中调整测试容器的 background-position 属性，调整到测试容器流动到了下一个背景颜色循环的开始，将下一个循环的初始颜色与待调试容器的颜色对齐；
+        4. 可以使用小数点进行微调，记录下此时的 background-position 属性值，作为 @keyframes 中100%状态时的 background-position 的变量值；
+        */
+    }
+}
+
+.content_container .download_box_container .outer_container .inner_container {
+    background-color: #fff;
+    border-radius: 10px;
+    width: calc(100% - 40px);
+    height: calc(100% - 40px);
+    padding: 20px;
+    position: relative;
+    /* display: none; */
+}
+
+
+.content_container .download_box_container .outer_container .inner_container .header {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 10px;
+    background-color: #d0e8d0;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.content_container .download_box_container .outer_container .inner_container .buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.content_container .download_box_container .outer_container .inner_container .buttons .select_all_btn,
+.content_container .download_box_container .outer_container .inner_container .buttons .unselect_all_btn {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.content_container .download_box_container .outer_container .inner_container .buttons .select_all_btn {
+    background-color: #e0f0e0;
+}
+
+.content_container .download_box_container .outer_container .inner_container .buttons .unselect_all_btn {
+    background-color: #f0e0e0;
+}
+
+.content_container .download_box_container .outer_container .inner_container .buttons .select_all_btn:hover {
+    background-color: #c0e0c0;
+}
+
+.content_container .download_box_container .outer_container .inner_container .buttons .unselect_all_btn:hover {
+    background-color: #e0c0c0;
+}
+
+.content_container .download_box_container .outer_container .inner_container .buttons .unselect_all_btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.content_container .download_box_container .outer_container .inner_container .file_list {
+    /* max-height: 190px; */
+    height: 190px;
+    overflow-y: auto;
+    margin: 18px 0;
+    padding: 5px;
+    box-shadow: 0 0 5px #ddd;
+}
+
+/* 隐藏默认的checkbox */
+.content_container .download_box_container .outer_container .inner_container .file_list .file_item .file_checkbox {
+    display: none;
+}
+
+/* 文件按钮的基本样式 */
+.content_container .download_box_container .outer_container .inner_container .file_list .file_item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    margin: 8px 3px;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    transition: all 0.1s ease;
+    font-size: 13px;
+}
+
+/* 鼠标悬浮时的动画 */
+.content_container .download_box_container .outer_container .inner_container .file_list .file_item:hover {
+    background-color: #f0f0f0;
+    border-color: #cccccc;
+    transform: scale(1.01);
+}
+
+/* 点击时的效果 */
+.content_container .download_box_container .outer_container .inner_container .file_list .file_item:active {
+    transform: scale(0.98);
+    transition: transform 0.1s ease;
+}
+
+/* 选中时的样式 */
+.content_container .download_box_container .outer_container .inner_container .file_list .file_item.selected {
+    background-color: #e0f7e0;
+    /* 浅绿色背景 */
+    border-color: #66bb66;
+    /* 绿色边框 */
+}
+
+/* 当选中时，悬浮效果与选中样式保持一致：浅绿色背景和绿色边框 */
+.content_container .download_box_container .outer_container .inner_container .file_list .file_item.selected:hover {
+    background-color: #e0f7e0;
+    border-color: #66bb66;
+}
+
+
+.content_container .download_box_container .outer_container .inner_container .file_list .file_item .file_size {
+    font-size: 12px;
+    color: #888;
+}
+
+.content_container .download_box_container .outer_container .inner_container .footer {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* 帮助图标和浮窗 */
+.content_container .download_box_container .outer_container .inner_container .footer .help_container {
+    position: relative;
+}
+
+.content_container .download_box_container .outer_container .inner_container .footer .help_container .help_btn {
+    background-color: #fff;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+}
+
+.content_container .download_box_container .outer_container .inner_container .footer .help_container .help_btn:hover {
+    background-color: #f0f0f0;
+}
+
+.content_container .download_box_container .outer_container .inner_container .footer .help_container .help_btn:hover+.help_tooltip {
+    opacity: 1;
+    visibility: visible;
+}
+
+.content_container .download_box_container .outer_container .inner_container .footer .help_container .help_tooltip {
+    position: absolute;
+    top: 36px;
+    left: 0;
+    width: 310px;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.5s ease;
+}
+
+.content_container .download_box_container .outer_container .inner_container .footer .help_container .help_tooltip p {
+    margin: 0;
+    font-size: 14px;
+    color: #333;
+}
+
+.content_container .download_box_container .outer_container .inner_container .footer .download_btn {
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: #e0f0e0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: all 0.5s ease;
+}
+
+.content_container .download_box_container .outer_container .inner_container .footer .download_btn:hover {
+    background-color: #c0e0c0;
+}

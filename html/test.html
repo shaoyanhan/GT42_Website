@@ -1984,37 +1984,49 @@
 
 </html>
 
-<div class="blast_submit_container">
-    <div class="blast_buttons">
-        <button id="blastn">blastn</button>
-        <button id="blastp">blastp</button>
-        <button id="blastx">blastx</button>
-        <button id="tblastn">tblastn</button>
-        <button id="tblastx">tblastx</button>
+<div class="outer_container" id="sequence_download_box">
+    <div class="inner_container">
+        <div class="header">
+            <span class="category">Sequence</span>
+        </div>
+
+        <div class="file_list">
+            <label class="file_item">
+                <input type="checkbox" class="file_checkbox" value="mosaic.fasta">
+                mosaic.fasta <span class="file_size">15MB</span>
+            </label>
+            <label class="file_item">
+                <input type="checkbox" class="file_checkbox" value="haplotype.fasta">
+                haplotype.fasta <span class="file_size">36MB</span>
+            </label>
+            <label class="file_item">
+                <input type="checkbox" class="file_checkbox" value="transcriptome.fasta">
+                transcriptome.fasta <span class="file_size">48MB</span>
+            </label>
+            <label class="file_item">
+                <input type="checkbox" class="file_checkbox" value="transcriptome.pep">
+                transcriptome.pep <span class="file_size">8MB</span>
+            </label>
+        </div>
+
+        <button class="download_btn">Download</button>
     </div>
 </div>
 
-<div class="result_details">
-    <div class="item_container">
-        <div class="item_title">Query Index</div>
-        <div class="item_content">0</div>
-    </div>
-    <div class="item_container">
-        <div class="item_title">HSP Index</div>
-        <div class="item_content">0</div>
-        <button class="previous_hsp" hit-index="0" hsp-index="0" hsp-count="10">Previous</button>
-        <button class="next_hsp" hit-index="0" hsp-index="0" hsp-count="10">Next</button>
-    </div>
-</div>
+<div class="outer_container gff">
+    <div class="inner_container">
+        <div class="header">
+            <span class="category">GFF</span>
+        </div>
 
+        <div class="file_list">
+            <label class="file_item">
+                <input type="checkbox" class="file_checkbox" value="transcriptome.gff">
+                transcriptome.gff <span class="file_size">16MB</span>
+            </label>
 
-<div class="blast_buttons">
-    <div class="blast_button_head">function</div>
-    <button id="blastn">blastn</button>
-    <button id="blastp">blastp</button>
-    <button id="blastx">blastx</button>
-    <button id="tblastn">tblastn</button>
-    <button id="tblastx">tblastx</button>
-    <div class="blast_tooltip" id="blastn_tooltip">Searches a nucleotide query against a nucleotide
-        database</div>
+        </div>
+
+        <button class="download_btn">Download</button>
+    </div>
 </div>

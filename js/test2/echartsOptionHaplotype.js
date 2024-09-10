@@ -65,7 +65,7 @@ function getHaplotypeOption(haplotypeData) {
             },
         },
         title: {
-            text: 'Haplotype and SNP Profile',
+            text: 'Haplotype Profile',
             left: 'center'
         },
         legend: { // 暂时实现不了详细颜色的对应，或许使用两个坐标系覆盖方式可以实现
