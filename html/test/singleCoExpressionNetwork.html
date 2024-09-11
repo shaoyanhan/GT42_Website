@@ -27,6 +27,38 @@
 </head>
 
 <body>
+    <div id="contact_overlay" class="contact_overlay"></div>
+    <div id="contact_card" class="contact_card">
+        <h2>Contact</h2>
+        <p class="intro_text">Should there be any question, please let us know without hesitation!</p>
+        <p class="content_text"><strong>Yanhan Shao (Web Design & Development): </strong><span class="email_address"
+                title="click to copy">&nbsp;&nbsp;1740569155@qq.com</span>
+        </p>
+        <p class="content_text"><strong>Zhiyuan Zhao (Data Analyse): </strong><span class="email_address"
+                title="click to copy">&nbsp;&nbsp;zhaozhiyuan@webmail.hzau.edu.cn</span></p>
+        <p class="content_text"><strong>Professor Ling-Ling Chen: </strong><span class="email_address"
+                title="click to copy">&nbsp;&nbsp;llchen@gxu.edu.cn</span></p>
+        <p class="content_text"><strong>Professor Weibo Xie: </strong><span class="email_address"
+                title="click to copy">&nbsp;&nbsp;weibo.xie@mail.hzau.edu.cn</span></p>
+        <p class="content_text"><strong>Professor Lingqiang Wang: </strong><span class="email_address"
+                title="click to copy">&nbsp;&nbsp;1335585196@qq.com</span></p>
+
+        <p class="content_text"><strong>Project Source:</strong> <a href="https://github.com/shaoyanhan/GT42_Website"
+                target="_blank">https://github.com/shaoyanhan/GT42_Websites</a></p>
+
+        <p class="location_text"><strong>Location 1:</strong> &nbsp;&nbsp;State Key Laboratory for Conservation
+            and
+            Utilization of
+            Subtropical Agro-bioresources, Guangxi University, Nanning
+            530000, China
+        </p>
+        <p class="location_text"><strong>Location 2:</strong> &nbsp;&nbsp;National Key Laboratory of Crop
+            Genetic
+            Improvement, Hubei
+            Hongshan Laboratory, Huazhong Agricultural University, Wuhan,
+            430070, China
+        </p>
+    </div>
 
     <div class="center_container">
 
@@ -80,13 +112,18 @@
                             </li>
                             <li class="first_level_link dropdown"><a>Tools<span class="arrow">&#9660;</span></a>
                                 <ul class="dropdown_content">
+                                    <li class="second_level_link"><a href="./blast.html" target="_blank">BLAST</a></li>
                                     <li class="second_level_link"><a href="#tool1">Annotation</a></li>
                                     <li class="second_level_link"><a href="#tool2">Transcript Factors</a></li>
-                                    <li class="second_level_link"><a href="./blast.html" target="_blank">BLAST</a></li>
                                 </ul>
                             </li>
-                            <li class="first_level_link"><a href="#download">Download</a></li>
-                            <li class="first_level_link"><a href="#about">About</a></li>
+                            <li class="first_level_link"><a href="./download.html" target="_blank">Download</a></li>
+                            <li class="first_level_link dropdown"><a>About<span class="arrow">&#9660;</span></a>
+                                <ul class="dropdown_content">
+                                    <li class="second_level_link"><a href="#tutorial">Tutorial</a></li>
+                                    <li class="second_level_link"><a class="contact_button">Contact</a></li>
+                                </ul>
+                            </li>
                         </ul>
                     </div>
 
@@ -157,19 +194,26 @@
                             </li>
                             <li class="first_level_link accordion"><a>Tools<span class="arrow">&#9660;</span></a>
                                 <ul class="accordion_content">
+                                    <li class="second_level_link"><a href="./blast.html" target="_blank">BLAST</a></li>
                                     <li class="second_level_link"><a href="#tool1">Annotation</a></li>
                                     <li class="second_level_link"><a href="#tool2">Transcript Factors</a></li>
-                                    <li class="second_level_link"><a href="./blast.html" target="_blank">BLAST</a></li>
                                 </ul>
                             </li>
-                            <li class="first_level_link"><a href="#download">Download</a></li>
-                            <li class="first_level_link"><a href="#about">About</a></li>
+                            <li class="first_level_link"><a href="./download.html" target="_blank">Download</a></li>
+                            <li class="first_level_link accordion"><a>About<span class="arrow">&#9660;</span></a>
+                                <ul class="accordion_content">
+                                    <li class="second_level_link"><a href="#tutorial">Tutorial</a></li>
+                                    <li class="second_level_link"><a class="contact_button">Contact</a></li>
+                                </ul>
+                            </li>
                         </ul>
                     </div>
 
 
                 </div>
             </div>
+
+
 
         </header>
 
@@ -456,8 +500,6 @@
                     <img src="../../img/GXU_logo.png" alt="logo">
                 </div>
 
-
-
             </div>
 
             <h1 class="development_info">Developed by the Chen LL’s Lab at GuangXi University and Xie WB’s Lab at
@@ -466,7 +508,8 @@
 
             <div class="copyright_revolvermap_container">
                 <div class="copyright_container">
-                    <h1 class="contact_info">Contact: <a href="">llchen@gxu.edu.cn</a>, <a href="">1740569155@qq.com</a>
+                    <h1 class="contact_info">Contact: <a class="email_address">1740569155@qq.com</a>, <a
+                            class="email_address">zhaozhiyuan@webmail.hzau.edu.cn</a>
                     </h1>
                     <h1 class="copyright">Copyright © 2020-2030 All rights reserved</h1>
                 </div>
@@ -476,7 +519,6 @@
                         async="async"></script>
                 </div>
             </div>
-
 
         </div>
 

@@ -1,0 +1,103 @@
+ body {
+     font-family: 'Poppins';
+ }
+
+ /* 遮罩层 */
+ .contact_overlay {
+     position: fixed;
+     top: 0;
+     left: 0;
+     width: 100%;
+     height: 100%;
+     background-color: rgba(0, 0, 0, 0.5);
+     visibility: hidden;
+     opacity: 0;
+     transition: visibility 0s, opacity 0.3s ease;
+ }
+
+ /* 当卡片可见时 */
+ .contact_overlay.active {
+     visibility: visible;
+     opacity: 1;
+ }
+
+ /* 设置left变量 */
+ :root {
+     --contact_card_left: -700px;
+ }
+
+ /* Contact信息卡片 */
+ .contact_card {
+     position: fixed;
+     top: 20%;
+     left: var(--contact_card_left);
+     /* left: 20%; */
+     /* 初始状态：隐藏在视图左侧 */
+     width: 580px;
+     padding: 20px;
+     background-color: white;
+     border-radius: 15px;
+     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+     z-index: 1001;
+     transform: translateX(0);
+     transition: left 0.3s ease, transform 0.3s ease;
+ }
+
+ /* 当卡片滑入时：水平居中 */
+ .contact_card.active {
+     left: 50%;
+     /* 将卡片移至屏幕中间 */
+     transform: translateX(-50%);
+     /* 水平居中 */
+ }
+
+ /* 当卡片向右滑出时 */
+ .contact_card.slide_out {
+     left: 100%;
+     /* 将卡片移到屏幕外右侧 */
+     transform: translateX(0);
+     /* 确保卡片完全离开视窗 */
+ }
+
+ .contact_card.reset {
+     opacity: 0;
+     left: var(--contact_card_left);
+     /* 重置卡片的位置 */
+ }
+
+
+ .contact_card h2 {
+     margin-top: 0;
+ }
+
+ .contact_card .intro_text {
+     margin-bottom: 20px;
+     font-size: 17px;
+ }
+
+ .contact_card strong {
+     font-weight: 600;
+ }
+
+ .contact_card .email_address {
+     color: cadetblue;
+ }
+
+ .contact_card .email_address:hover {
+     text-decoration: underline;
+     cursor: pointer;
+ }
+
+
+ .contact_card .location_text {
+     text-wrap: wrap;
+ }
+
+ .contact_card a {
+     text-decoration: none;
+     color: #3498db;
+ }
+
+ .contact_card a:hover {
+     text-decoration: underline;
+ }

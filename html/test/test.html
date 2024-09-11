@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="../../css/test/test.css">
+
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+
+</head>
+
+<body>
+    <div id="contact_overlay" class="contact_overlay"></div>
+
+    <div id="contact_card" class="contact_card">
+        <h2>Contact</h2>
+        <p class="intro_text">Should there be any question, please let us know without hesitation!</p>
+        <p><strong>Yanhan Shao (Web Design & Development): </strong><span class="email_address"
+                title="click to copy">1740569155@qq.com</span>
+        </p>
+        <p><strong>Zhiyuan Zhao (Data Analyse): </strong><span class="email_address"
+                title="click to copy">zhaozhiyuan@webmail.hzau.edu.cn</span></p>
+        <p><strong>Professor Ling-Ling Chen: </strong><span class="email_address"
+                title="click to copy">llchen@gxu.edu.cn</span></p>
+        <p><strong>Professor Weibo Xie: </strong><span class="email_address"
+                title="click to copy">weibo.xie@mail.hzau.edu.cn</span></p>
+        <p><strong>Professor Lingqiang Wang: </strong><span class="email_address"
+                title="click to copy">1335585196@qq.com</span></p>
+
+        <p><strong>Project Source:</strong> <a href="https://github.com/shaoyanhan/GT42_Website"
+                target="_blank">https://github.com/shaoyanhan/GT42_Websites</a></p>
+
+        <p class="location_text"><strong>Location 1:</strong> State Key Laboratory for Conservation and Utilization of
+            Subtropical Agro-bioresources, Guangxi University, Nanning
+            530000, China
+        </p>
+        <p class="location_text"><strong>Location 2:</strong> National Key Laboratory of Crop Genetic Improvement, Hubei
+            Hongshan Laboratory, Huazhong Agricultural University, Wuhan,
+            430070, China
+        </p>
+    </div>
+
+    <button id="contact_button">Contact</button>
+
+    <script>
+        const contactButton = document.getElementById("contact_button");
+        const contactOverlay = document.getElementById("contact_overlay");
+        const contactCard = document.getElementById("contact_card");
+
+        // 显示卡片和遮罩
+        contactButton.addEventListener("click", () => {
+            contactOverlay.classList.add("active");
+            contactCard.classList.add("active");
+        });
+
+        // 点击遮罩关闭卡片和遮罩
+        contactOverlay.addEventListener("click", () => {
+            contactCard.classList.remove("active"); // 先移除居中显示
+            contactCard.classList.add("slide_out"); // 然后添加向右滑出的效果
+
+            // 延迟移除遮罩和slide_out类，确保动画播放完成
+            setTimeout(() => {
+                contactOverlay.classList.remove("active");
+                contactCard.classList.add("reset"); // 重置卡片的位置
+                contactCard.classList.remove("slide_out"); // 滑出完成后移除该状态
+
+                // 额外的延迟确保 `reset` 类生效后再移除
+                setTimeout(() => {
+                    contactCard.classList.remove("reset"); // 确保重置完成后移除该状态
+                }, 300); // 设定一个足够的时间使 reset 生效
+
+            }, 300); // 这里的时间和 CSS transition 保持一致，保证移出动画完成之后立即执行，避免卡顿
+        });
+
+
+    </script>
+
+    <script>
+        // 为所有的email_address元素添加点击事件，点击后复制内容到剪贴板
+        const emailAddresses = document.querySelectorAll(".email_address");
+
+        emailAddresses.forEach(email => {
+            email.addEventListener("click", () => {
+                const emailText = email.textContent;
+                const tempInput = document.createElement("input");
+                tempInput.value = emailText;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand("copy");
+                document.body.removeChild(tempInput);
+                alert(`Email address "${emailText}" has been copied to clipboard.`);
+            });
+        });
+    </script>
+
+</body>
+
+</html>

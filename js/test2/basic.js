@@ -82,6 +82,45 @@ async function accordionMenuEventHandler() {
     });
 }
 
+// 为contact卡片添加点击事件监听器
+async function setupContactCardEventListeners() {
+    const contactOverlay = document.getElementById("contact_overlay");
+    console.log(contactOverlay);
+    const contactCard = document.getElementById("contact_card");
+    console.log(contactCard);
+
+    const contactButtons = document.querySelectorAll(".contact_button");
+    console.log(contactButtons);
+    contactButtons.forEach(contactButton => {
+
+        // 显示卡片和遮罩
+        contactButton.addEventListener("click", () => {
+            contactOverlay.classList.add("active");
+            contactCard.classList.add("active");
+        });
+
+        // 点击遮罩关闭卡片和遮罩
+        contactOverlay.addEventListener("click", () => {
+            contactCard.classList.remove("active"); // 先移除居中显示
+            contactCard.classList.add("slide_out"); // 然后添加向右滑出的效果
+
+            // 延迟移除遮罩和slide_out类，确保动画播放完成
+            setTimeout(() => {
+                contactOverlay.classList.remove("active");
+                contactCard.classList.add("reset"); // 重置卡片的位置
+                contactCard.classList.remove("slide_out"); // 滑出完成后移除该状态
+
+                // 额外的延迟确保 `reset` 类生效后再移除
+                setTimeout(() => {
+                    contactCard.classList.remove("reset"); // 确保重置完成后移除该状态
+                }, 300); // 设定一个足够的时间使 reset 生效
+
+            }, 300); // 这里的时间和 CSS transition 保持一致，保证移出动画完成之后立即执行，避免卡顿
+        });
+
+    });
+}
+
 // 为所有点击打开新网页的链接添加事件监听器
 async function setupClickToOpenNewUrlEventListeners() {
     const links = document.querySelectorAll('.click_to_open_new_url');
@@ -204,6 +243,26 @@ async function setUpSearchBoxIDListDownloadButtonEventListeners() {
     });
 }
 
+// 为所有的email_address元素添加点击事件，点击后复制内容到剪贴板
+async function setUpEmailAdressEventListeners(params) {
+    const emailAddresses = document.querySelectorAll(".email_address");
+
+    emailAddresses.forEach(email => {
+        email.addEventListener("click", () => {
+            const emailText = email.textContent;
+            const tempInput = document.createElement("input");
+            tempInput.value = emailText;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+            showCustomAlert("Email copied to clipboard!", "success", 1000);
+        });
+    });
+}
+
+
+
 // 动态显示回到顶部按钮
 window.addEventListener('scroll', function () {
     var button = document.querySelector('.scroll_to_top_button');
@@ -217,6 +276,7 @@ window.addEventListener('scroll', function () {
 document.addEventListener('DOMContentLoaded', async () => {
     expandedNavEventHandler(); // 控制下拉框导航栏中菜单按钮的事件
     accordionMenuEventHandler(); // 控制手风琴菜单的事件
+    setupContactCardEventListeners(); // 控制contact卡片的事件
     setupClickToOpenNewUrlEventListeners(); // 控制点击打开新网页的链接的事件
 
     // 为搜索框中的搜索按钮添加事件监听器
@@ -230,5 +290,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     document.querySelector('.scroll_to_top_button').addEventListener('click', scrollToTop); // 为回到顶部按钮添加点击事件监听器
     setupClickToCloseEventListeners(); // 为所有点击关闭按钮添加事件监听器
+    setUpEmailAdressEventListeners(); // 为所有的email_address元素添加点击事件
 });
 
