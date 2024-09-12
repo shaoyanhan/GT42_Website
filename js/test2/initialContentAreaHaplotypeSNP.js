@@ -109,6 +109,8 @@ async function initialThreeSNP(haplotypeArrayData, SNPArrayData) {
 async function initialContentArea(searchKeyword, keywordType) {
     // 该页面只需要mosaicID作为搜索关键字，因此先对ID进行过滤
     let searchKeywordMosaic = (keywordType === 'mosaic') ? searchKeyword : searchKeyword.split('.')[0];
+    const searchInput = document.querySelector('.search_input');
+    searchInput.value = searchKeywordMosaic;
     // console.log('searchKeywordMosaic: ', searchKeywordMosaic);
 
     // 请求haplotype和SNP数据并保存

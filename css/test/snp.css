@@ -166,7 +166,7 @@
 }
 
 .content_container .result_details_container .table_item_container .table_content_container {
-    margin-top: 10px;
+    margin: 10px 0 20px 0;
     box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
 }
@@ -196,7 +196,7 @@
     height: auto;
     max-height: 280px;
     overflow-y: auto;
-    overflow-x: scroll;
+    overflow-x: auto;
 }
 
 .content_container .result_details_container .table_item_container .table_content_container .table_content table {

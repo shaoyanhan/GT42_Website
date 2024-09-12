@@ -287,7 +287,8 @@ function getThreeSNPOption(REFData, SNPDataBoth, SNPDataISO, SNPDataRNA) {
                         // console.log(params);
                         return [
                             params.marker + params.name,
-                            'Length: ' + params.value[1] + ' bp',
+                            'Mosaic ID: ' + params.value[1],
+                            'Length: ' + params.value[2] + ' bp',
                         ].join('<br>');
                     }
                 },
@@ -348,7 +349,8 @@ function getThreeSNPOption(REFData, SNPDataBoth, SNPDataISO, SNPDataRNA) {
                         // console.log(params);
                         return [
                             params.marker + params.name,
-                            'Length: ' + params.value[1] + ' bp',
+                            'Mosaic ID: ' + params.value[1],
+                            'Length: ' + params.value[2] + ' bp',
                         ].join('<br>');
                     }
                 },
@@ -409,7 +411,8 @@ function getThreeSNPOption(REFData, SNPDataBoth, SNPDataISO, SNPDataRNA) {
                         // console.log(params);
                         return [
                             params.marker + params.name,
-                            'Length: ' + params.value[1] + ' bp',
+                            'Mosaic ID: ' + params.value[1],
+                            'Length: ' + params.value[2] + ' bp',
                         ].join('<br>');
                     }
                 },

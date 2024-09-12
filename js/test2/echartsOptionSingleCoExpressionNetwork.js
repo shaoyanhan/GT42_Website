@@ -4,7 +4,31 @@ function getSingleCoExpressionNetworkOption(graph) {
 
     console.log(graph);
     return {
-        tooltip: {},
+        tooltip: {
+            formatter: function (params) {
+                // console.log("hovered parameters: ", params);
+                let toolTipString = '';
+                if (params.dataType === 'node') {
+                    toolTipString = [
+                        params.marker + "Node",
+                        "ID: " + params.name,
+                        "Symbol Size: " + params.data.symbolSize,
+                        "Total Degree: " + params.data.totalDegree,
+                        "In Degree: " + params.data.inDegree,
+                        "Out Degree: " + params.data.outDegree,
+                    ].join('<br>');
+                } else if (params.dataType === 'edge') {
+                    let lineElement = `<span style="display:inline-block;margin:0 5px 5px 0;width:13px;height:3px;background-color:${params.data.lineStyle.color};"></span>`;
+                    toolTipString = [
+                        lineElement + "Edge",
+                        "Source: " + params.data.source,
+                        "Target: " + params.data.target,
+                        "Weight: " + params.data.lineStyle.width,
+                    ].join('<br>');
+                }
+                return toolTipString;
+            }
+        },
         // legend: [
         //   {
         //     data: graph.categories.map(function (a) {

@@ -403,7 +403,7 @@ function updateSingleNetworkEdgesTable(data, container) {
                         <td>${row.target}</td>
                         <td>${row.width}</td>
                         <td>
-                            <div style="width: 20px; height: 20px; border-radius: 50%; background-color: ${row.color}"></div>
+                            <span style="display:inline-block;margin-top:10px;width:35px;height:5px;background-color:${row.color};"></span>
                         </td>`;
         container.appendChild(tr);
     });

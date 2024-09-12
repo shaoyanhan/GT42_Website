@@ -19,7 +19,7 @@ function getHaplotypeSNPOption(haplotypeData, SNPData) {
                     ].join('<br>');
                 }
                 return [
-                    params.marker + params.name,
+                    params.marker + (params.name === '--' ? params.value[0] : params.name),
                     'Mosaic ID: ' + params.value[0],
                     'Gene ID: ' + params.value[1],
                     'Gene Type: ' + params.value[2],
