@@ -10,6 +10,15 @@ export let hubCoExpressionNetworkDOM = document.getElementById('drawHubCoExpress
 export let hubCoExpressionNetworkChart = echarts.init(hubCoExpressionNetworkDOM, null, { renderer: 'canvas' });
 // export let singleCoExpressionNetworkChart = echarts.init(singleCoExpressionNetworkDOM, null, { renderer: 'canvas' });
 
+// 为帮助按钮添加点击事件监听器
+async function setupHelpButton() {
+    let helpButton = document.querySelector('#help_tooltip_button');
+    helpButton.addEventListener('click', () => {
+        let helpTooltipContent = document.querySelector('#help_tooltip_content');
+        helpTooltipContent.style.display = 'flex';
+    });
+}
+
 // 确保文档加载完成后再执行初始化
 document.addEventListener('DOMContentLoaded', async () => {
     initialHubCoExpressionNetwork('mosaic');
@@ -32,5 +41,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     hubCoExpressionNetworkChart.on('click', clickHubCoExpressionNetworkEventsHandler);
     // singleCoExpressionNetworkChart.on('click', clickSingleCoExpressionNetworkEventsHandler);
+
+    setupHelpButton();
 
 });

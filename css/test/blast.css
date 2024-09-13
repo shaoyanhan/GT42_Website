@@ -941,3 +941,13 @@
 .conservative {
     background-color: rgb(34, 173, 34);
 }
+
+.zoom-query,
+.zoom-subject {
+    cursor: zoom-in;
+}
+
+.zoom-query:active,
+.zoom-subject:active {
+    cursor: grabbing;
+}

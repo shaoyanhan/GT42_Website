@@ -120,112 +120,80 @@
     left: 10px;
 }
 
-.content_container .details_of_network_content .network_content_navigation_container .select_homologous_id_from_group {
-    z-index: 1050;
-    padding: 0 20px;
-    height: 50px;
-
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    /* margin: 10px; */
-    background-color: rgba(179, 236, 202, 0.95);
-    border-radius: 10px;
-    box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
+.content_container .details_of_network_content .network_content_navigation_container .help_tooltip_container {
+    z-index: 2000;
     position: relative;
 }
 
-.content_container .details_of_network_content .network_content_navigation_container .select_homologous_id_from_group label {
-    font-size: 16px;
-    font-weight: bold;
-    margin-right: 10px;
-
+.content_container .details_of_network_content .network_content_navigation_container .help_tooltip_container .help_tooltip_button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 45px;
+    height: 45px;
+    background-color: #5ed88f;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
 }
 
-.content_container .details_of_network_content .network_content_navigation_container .select_homologous_id_from_group .help_icon {
-    padding: 5px;
-    margin-right: 10px;
-    cursor: pointer;
-    font-weight: bold;
+.content_container .details_of_network_content .network_content_navigation_container .help_tooltip_container .help_tooltip_button span {
     font-size: 20px;
-    color: #007BFF;
-    /* 蓝色 */
-    user-select: none;
-    z-index: 2000;
+    color: #fff;
 }
 
-.content_container .details_of_network_content .network_content_navigation_container .select_homologous_id_from_group .tooltip {
-    display: block;
-    /* 使元素始终处于文档流中，但初始透明 */
-    opacity: 0;
-    /* 开始时不可见 */
-    visibility: hidden;
-    /* 开始时不占空间 */
-    background-color: #bdecb6;
-    /* 浅绿色背景 */
-    color: black;
-    /* 文字颜色 */
-    text-align: center;
-    border-radius: 8px;
-    /* 圆角 */
-    padding: 5px 10px;
-    /* 内边距 */
+.content_container .details_of_network_content .network_content_navigation_container .help_tooltip_container .help_tooltip_content {
+    display: flex;
     position: absolute;
-    /* 绝对定位，相对于最近的定位父元素 */
-    top: 60px;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px;
+    width: 330px;
+    background-color: #5ed88f;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
     z-index: 2000;
-    /* 确保浮窗在其他元素上方 */
-    width: 90%;
-    /* 设置宽度 */
-
-    margin-left: 20px;
-    /* 左边距 */
-
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
-    /* 添加阴影效果 */
-
-    font-size: 16px;
-    transition: opacity 0.5s ease, visibility 0.5s ease;
-    /* 平滑过渡 */
+    overflow: hidden;
 }
 
-.content_container .details_of_network_content .network_content_navigation_container .select_homologous_id_from_group .help_icon:hover+.tooltip {
-    opacity: 1;
-    /* 鼠标悬浮时变为可见 */
-    visibility: visible;
-    /* 鼠标悬浮时占空间 */
+.content_container .details_of_network_content .network_content_navigation_container .help_tooltip_container .help_tooltip_content .inner_container {
+    padding: 10px;
+    width: calc(100% - 20px);
+    background-color: #FAFFF2;
+    border-radius: 10px;
 }
 
-.content_container .details_of_network_content .network_content_navigation_container .select_homologous_id_from_group select {
-    width: auto;
-    min-width: 200px;
-    height: auto;
-    max-height: 50px;
-    overflow-y: auto;
-    margin-left: 20px;
-    border: none;
-    background-color: rgba(255, 255, 255, 0.8);
+.content_container .details_of_network_content .network_content_navigation_container .help_tooltip_container .help_tooltip_content .inner_container h1 {
     font-size: 16px;
     font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.content_container .details_of_network_content .network_content_navigation_container .help_tooltip_container .help_tooltip_content .inner_container p {
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.content_container .details_of_network_content .network_content_navigation_container .help_tooltip_container .help_tooltip_content .inner_container p strong {
+    font-weight: bold;
+    color: darkslategray;
+}
+
+.content_container .details_of_network_content .network_content_navigation_container .help_tooltip_container .help_tooltip_content .close_icon {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    width: 20px;
     cursor: pointer;
-    border-radius: 5px;
-    z-index: 2200;
+    transition: transform 0.3s;
 }
 
-.select2-container--default .select2-results__option {
-    font-size: 18px;
-    /* 下拉选项的字体大小 */
-    z-index: 2200;
-
+.content_container .details_of_network_content .network_content_navigation_container .help_tooltip_container .help_tooltip_content .close_icon:hover {
+    transform: rotate(90deg);
 }
 
-.select2-container--default .select2-selection--single .select2-selection__rendered,
-.select2-container--default .select2-selection--multiple .select2-selection__rendered {
-    font-size: 18px;
-    /* 选择框内文本的字体大小 */
-    z-index: 2200;
 
-}
 
 
 .content_container .details_of_network_content .network_content_navigation_container .clicked_details_container {

@@ -2,6 +2,7 @@ import { initialContentArea } from "./initialContentAreaBlast.js";
 import { fetchPostData, updateData, getData } from "./data.js";
 import { fillSelect } from './selectEvents.js';
 import { scrollToTargetID } from "./echartsEventsBlast.js";
+import { showCustomAlert } from "./showCustomAlert.js";
 
 
 // 获取搜索框组件相关元素
@@ -89,6 +90,7 @@ function disableAllBlastButtons() {
     Object.values(blastButtons).forEach(btn => setDisabledBlastButton(btn));
 }
 
+
 // 处理输入框的输入事件
 function sequenceInputEventHandler() {
     console.log('sequenceInputEventHandler');
@@ -97,11 +99,63 @@ function sequenceInputEventHandler() {
         cleanCheckboxes();
         disableAllBlastButtons();
     } else {
+        console.log('sequenceInput.value:', sequenceInput.value);
         cleanCheckboxes();
         enableCheckboxes();
         disableAllBlastButtons();
     }
 }
+
+// 检查文件是否为有效的序列或FASTA格式
+function isValidSequenceOrFASTA(content) {
+    const lines = content.trim().split('\n');
+
+    // 允许文件只有纯序列字符串（不带">"）或标准FASTA格式
+    for (let line of lines) {
+        line = line.trim();
+        // 如果是FASTA格式的注释行（以">"开头），跳过
+        if (line.startsWith('>')) {
+            continue;
+        }
+        // 检查每一行是否为有效的序列字符串，只允许字母A-Z和空格
+        if (!/^[A-Za-z\s]*$/.test(line)) {
+            return false;
+        }
+    }
+    return true;
+}
+
+// 处理文件拖拽到输入框的事件
+function fileDropEventHandler(event) {
+    event.preventDefault();
+
+    const file = event.dataTransfer.files[0];
+
+    if (file) {
+        const reader = new FileReader();
+
+        // 在异步调用reader.readAsText(file)执行文件读取成功后，才会执行这里的函数，将内容插入textarea,
+        // 这相当于是一个回调函数，因此必须在 reader.readAsText(file); 之前定义
+        reader.onload = function (e) {
+            const fileContent = e.target.result;
+
+            // 检查文件内容是否为有效的序列或FASTA格式
+            if (isValidSequenceOrFASTA(fileContent)) {
+                sequenceInput.value = fileContent;
+
+                // 触发输入框的输入事件，以便更新复选框和BLAST按钮的状态
+                sequenceInputEventHandler();
+            } else {
+                showCustomAlert('The file does not contain a valid sequence. Please provide a valid sequence or FASTA file.', 'error', 5000);
+            }
+        };
+
+        reader.readAsText(file);
+    } else {
+        showCustomAlert('Please drop a valid file.', 'error', 5000);
+    }
+}
+
 
 // 处理示例按钮的点击事件
 function exampleButtonEventHandler(exampleSequence) {
@@ -373,12 +427,15 @@ async function blastButtonEventHandler(event) {
         // 将页面滚动到blast_result_container
         scrollToTargetID('blast_result_container');
     }
-
 }
 
 // 为搜索框组件添加事件监听器
 async function setUpBlastSubmitContainerEvents() {
     sequenceInput.addEventListener('input', sequenceInputEventHandler); // 为输入框添加输入事件监听器
+    sequenceInput.addEventListener('dragover', function (event) {
+        event.preventDefault();
+    }); // 文件拖拽到输入框区域内时，阻止默认行为
+    sequenceInput.addEventListener('drop', fileDropEventHandler); // 为输入框添加文件拖拽事件监听器
     clearButton.addEventListener('click', clearButtonEventHandler); // 为清除按钮添加点击事件监听器
     exampleButtonNucleotide.addEventListener('click', () => exampleButtonEventHandler(exampleSequences.nucleotide)); // 为示例按钮添加点击事件监听器
     exampleButtonPeptide.addEventListener('click', () => exampleButtonEventHandler(exampleSequences.peptide)); // 为示例按钮添加点击事件监听器

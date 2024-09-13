@@ -1329,6 +1329,9 @@ function drawHitAreaAlignPlot(blastData, svgId) {
         .attr("fill", "none")
         .attr("pointer-events", "all")
         .call(zoomSubject);
+    // 在 queryRect 和 subjectRect 中添加title元素，用于显示提示信息
+    queryRect.append("title").text("zoom or drag to move");
+    subjectRect.append("title").text("zoom or drag to move");
 
     // 初始化缩放变换。d3.zoomIdentity：D3.js提供的初始缩放变换，表示没有缩放或平移。
     let queryTransform = d3.zoomIdentity;

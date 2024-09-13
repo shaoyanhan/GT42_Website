@@ -3,96 +3,149 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Document</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usage Tutorial</title>
     <link rel="stylesheet" href="../../css/test/test.css">
-
-    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
-
 </head>
 
 <body>
-    <div id="contact_overlay" class="contact_overlay"></div>
 
-    <div id="contact_card" class="contact_card">
-        <h2>Contact</h2>
-        <p class="intro_text">Should there be any question, please let us know without hesitation!</p>
-        <p><strong>Yanhan Shao (Web Design & Development): </strong><span class="email_address"
-                title="click to copy">1740569155@qq.com</span>
-        </p>
-        <p><strong>Zhiyuan Zhao (Data Analyse): </strong><span class="email_address"
-                title="click to copy">zhaozhiyuan@webmail.hzau.edu.cn</span></p>
-        <p><strong>Professor Ling-Ling Chen: </strong><span class="email_address"
-                title="click to copy">llchen@gxu.edu.cn</span></p>
-        <p><strong>Professor Weibo Xie: </strong><span class="email_address"
-                title="click to copy">weibo.xie@mail.hzau.edu.cn</span></p>
-        <p><strong>Professor Lingqiang Wang: </strong><span class="email_address"
-                title="click to copy">1335585196@qq.com</span></p>
+    <!-- 内容部分 -->
+    <div class="content">
+        <h2 id="homepage">homepage</h2>
+        <p>This is a short introduction of these second level title below.</p>
 
-        <p><strong>Project Source:</strong> <a href="https://github.com/shaoyanhan/GT42_Website"
-                target="_blank">https://github.com/shaoyanhan/GT42_Websites</a></p>
+        <h3 id="abstract-citation">Abstract & Citation</h3>
+        <p>This is the main text of "Abstract & Citation"</p>
 
-        <p class="location_text"><strong>Location 1:</strong> State Key Laboratory for Conservation and Utilization of
-            Subtropical Agro-bioresources, Guangxi University, Nanning
-            530000, China
-        </p>
-        <p class="location_text"><strong>Location 2:</strong> National Key Laboratory of Crop Genetic Improvement, Hubei
-            Hongshan Laboratory, Huazhong Agricultural University, Wuhan,
-            430070, China
-        </p>
+        <div class="image-container">
+            <img src="../../img/programming4.gif" alt="Image description" class="clickable-image">
+            <div class="image-caption">Fig 1. This is the title and description of the image</div>
+        </div>
+
+        <!-- 图片放大模态框 -->
+        <div id="image-modal" class="modal">
+            <span class="close">&times;</span>
+            <img class="modal-content" id="modal-image">
+        </div>
+
+        <h3 id="Statistics">Statistics</h3>
+        <p>This is the main text of "Statistics"</p>
+
+        <h3 id="Resources-list">Resources List</h3>
+        <p>This is the main text of "Resources List"</p>
+
+        <h3 id="News-ist">News List</h3>
+        <p>This is the main text of "News List"</p>
+
+        <h2 id="Navigation-bar">Navigation Bar</h2>
+        <p>This is a short introduction of these second level title below.</p>
+
+
+        <!-- 其他内容按照您的示例添加 -->
     </div>
 
-    <button id="contact_button">Contact</button>
+    <!-- 导航列表 -->
+    <div class="nav-button">
+        <button id="nav-toggle-button">
+            &#9776; <!-- 目录图标 -->
+        </button>
+    </div>
+    <div id="side-nav" class="nav-list">
+        <ul>
+            <li><a href="#homepage">homepage</a>
+                <ul>
+                    <li><a href="#abstract-citation">Abstract & Citation</a></li>
+                    <!-- 添加其他二级标题 -->
+                    <li><a href="#Statistics">Statistics</a></li>
+                    <li><a href="#Resources-list">Resources List</a></li>
+                    <li><a href="#News-ist">News List</a></li>
+                </ul>
+            </li>
+            <!-- 添加其他一级标题和对应的二级标题 -->
+            <li><a href="#Navigation-bar">Navigation Bar</a></li>
+
+        </ul>
+    </div>
 
     <script>
-        const contactButton = document.getElementById("contact_button");
-        const contactOverlay = document.getElementById("contact_overlay");
-        const contactCard = document.getElementById("contact_card");
+        // 获取模态框
+        var modal = document.getElementById('image-modal');
 
-        // 显示卡片和遮罩
-        contactButton.addEventListener("click", () => {
-            contactOverlay.classList.add("active");
-            contactCard.classList.add("active");
-        });
+        // 获取图片和模态框中的图片
+        var images = document.getElementsByClassName('clickable-image');
+        var modalImg = document.getElementById("modal-image");
 
-        // 点击遮罩关闭卡片和遮罩
-        contactOverlay.addEventListener("click", () => {
-            contactCard.classList.remove("active"); // 先移除居中显示
-            contactCard.classList.add("slide_out"); // 然后添加向右滑出的效果
+        // 遍历所有可点击的图片，添加点击事件
+        for (var i = 0; i < images.length; i++) {
+            images[i].onclick = function () {
+                modal.style.display = "block";
+                modalImg.src = this.src;
+            }
+        }
 
-            // 延迟移除遮罩和slide_out类，确保动画播放完成
-            setTimeout(() => {
-                contactOverlay.classList.remove("active");
-                contactCard.classList.add("reset"); // 重置卡片的位置
-                contactCard.classList.remove("slide_out"); // 滑出完成后移除该状态
+        // 获取关闭按钮
+        var closeBtn = document.getElementsByClassName("close")[0];
 
-                // 额外的延迟确保 `reset` 类生效后再移除
-                setTimeout(() => {
-                    contactCard.classList.remove("reset"); // 确保重置完成后移除该状态
-                }, 300); // 设定一个足够的时间使 reset 生效
+        // 点击关闭按钮关闭模态框
+        closeBtn.onclick = function () {
+            modal.style.display = "none";
+        }
 
-            }, 300); // 这里的时间和 CSS transition 保持一致，保证移出动画完成之后立即执行，避免卡顿
-        });
-
+        // 点击模态框背景关闭模态框
+        modal.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
 
     </script>
 
     <script>
-        // 为所有的email_address元素添加点击事件，点击后复制内容到剪贴板
-        const emailAddresses = document.querySelectorAll(".email_address");
+        // 获取所有的标题元素
+        var sections = document.querySelectorAll('h2, h3');
+        var navLinks = document.querySelectorAll('.nav-list a');
 
-        emailAddresses.forEach(email => {
-            email.addEventListener("click", () => {
-                const emailText = email.textContent;
-                const tempInput = document.createElement("input");
-                tempInput.value = emailText;
-                document.body.appendChild(tempInput);
-                tempInput.select();
-                document.execCommand("copy");
-                document.body.removeChild(tempInput);
-                alert(`Email address "${emailText}" has been copied to clipboard.`);
+        window.addEventListener('scroll', function () {
+            var currentPosition = window.scrollY + 100; // 调整偏移量
+
+            sections.forEach(function (section) {
+                var sectionTop = section.offsetTop;
+                var sectionHeight = section.offsetHeight;
+
+                if (currentPosition >= sectionTop && currentPosition < sectionTop + sectionHeight) {
+                    var id = section.getAttribute('id');
+                    navLinks.forEach(function (link) {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === '#' + id) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
             });
         });
+
+    </script>
+
+    <script>
+        var navButton = document.getElementById('nav-toggle-button');
+        var sideNav = document.getElementById('side-nav');
+
+        navButton.onclick = function () {
+            sideNav.classList.toggle('show');
+            sideNav.classList.toggle('hide');
+        }
+
+        // 点击导航链接后收起导航列表
+        navLinks.forEach(function (link) {
+            link.onclick = function () {
+                if (window.innerWidth < 1440) {
+                    sideNav.classList.remove('show');
+                    sideNav.classList.add('hide');
+                }
+            }
+        });
+
     </script>
 
 </body>
