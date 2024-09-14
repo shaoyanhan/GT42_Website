@@ -117,7 +117,7 @@ function getAllHitsBarPlotOption(dataArray) {
                 id: 'dataZoomY',
                 yAxisIndex: [0],
                 type: 'slider',
-                filterMode: 'weakFilter',
+                filterMode: 'filter', // 不设置为过滤模式会导致无法放缩
                 showDataShadow: false,
                 right: 50, // 如果不设置会导致右侧的滑块头部无法显示
                 labelFormatter: '',
@@ -133,7 +133,8 @@ function getAllHitsBarPlotOption(dataArray) {
             {
                 type: 'inside',
                 filterMode: 'none',
-                orient: "vertical" // 设置为纵向控制柱状条的数量
+                orient: "vertical",
+                yAxisIndex: 0
             }
         ],
         grid: {

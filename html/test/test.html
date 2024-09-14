@@ -12,33 +12,58 @@
 
     <!-- 内容部分 -->
     <div class="content">
-        <h2 id="homepage">homepage</h2>
+        <!-- <h2 id="homepage">homepage</h2> -->
+        <h2 id="homepage">
+            <a href="#homepage" class="title-link">
+                homepage
+            </a>
+        </h2>
         <p>This is a short introduction of these second level title below.</p>
 
-        <h3 id="abstract-citation">Abstract & Citation</h3>
+        <!-- <h3 id="abstract-citation">Abstract & Citation</h3> -->
+        <h3 id="abstract-citation">
+            <a href="#abstract-citation" class="title-link">Abstract & Citation</a>
+            <img class="title-link-icon" src="../../img/link_icon.png" alt="link">
+
+        </h3>
         <p>This is the main text of "Abstract & Citation"</p>
 
         <div class="image-container">
-            <img src="../../img/programming4.gif" alt="Image description" class="clickable-image">
+            <img src="../../img/programming6.gif" alt="Image description" class="clickable-image">
             <div class="image-caption">Fig 1. This is the title and description of the image</div>
         </div>
 
-        <!-- 图片放大模态框 -->
-        <div id="image-modal" class="modal">
-            <span class="close">&times;</span>
-            <img class="modal-content" id="modal-image">
-        </div>
 
-        <h3 id="Statistics">Statistics</h3>
+        <!-- <h3 id="Statistics">Statistics</h3> -->
+        <h3 id="Statistics">
+            <a href="#Statistics" class="title-link">
+                Statistics
+            </a>
+        </h3>
         <p>This is the main text of "Statistics"</p>
 
-        <h3 id="Resources-list">Resources List</h3>
+        <!-- <h3 id="Resources-list">Resources List</h3> -->
+        <h3 id="Resources-list">
+            <a href="#Resources-list" class="title-link">
+                Resources List
+            </a>
+        </h3>
         <p>This is the main text of "Resources List"</p>
 
-        <h3 id="News-ist">News List</h3>
+        <!-- <h3 id="News-ist">News List</h3> -->
+        <h3 id="News-ist">
+            <a href="#News-ist" class="title-link">
+                News List
+            </a>
+        </h3>
         <p>This is the main text of "News List"</p>
 
-        <h2 id="Navigation-bar">Navigation Bar</h2>
+        <!-- <h2 id="Navigation-bar">Navigation Bar</h2> -->
+        <h2 id="Navigation-bar">
+            <a href="#Navigation-bar" class="title-link">
+                Navigation Bar
+            </a>
+        </h2>
         <p>This is a short introduction of these second level title below.</p>
 
 
@@ -68,19 +93,28 @@
         </ul>
     </div>
 
+    <!-- 模态框 -->
+    <div id="image-modal" class="modal">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="modal-image">
+        <div class="image-caption" id="modal-caption"></div>
+    </div>
+
     <script>
-        // 获取模态框
+        // 获取模态框元素
         var modal = document.getElementById('image-modal');
-
-        // 获取图片和模态框中的图片
-        var images = document.getElementsByClassName('clickable-image');
         var modalImg = document.getElementById("modal-image");
+        var captionText = document.getElementById("modal-caption");
 
-        // 遍历所有可点击的图片，添加点击事件
+        // 获取所有可点击的图片
+        var images = document.getElementsByClassName('clickable-image');
+
+        // 为每个图片添加点击事件
         for (var i = 0; i < images.length; i++) {
             images[i].onclick = function () {
                 modal.style.display = "block";
                 modalImg.src = this.src;
+                captionText.innerHTML = this.nextElementSibling.innerHTML;
             }
         }
 
@@ -98,6 +132,7 @@
                 modal.style.display = "none";
             }
         }
+
 
     </script>
 
@@ -132,22 +167,39 @@
         var sideNav = document.getElementById('side-nav');
 
         navButton.onclick = function () {
-            sideNav.classList.toggle('show');
-            sideNav.classList.toggle('hide');
-        }
+            if (sideNav.classList.contains('show')) {
+                sideNav.classList.remove('show');
+            } else {
+                sideNav.classList.add('show');
+            }
+        };
 
         // 点击导航链接后收起导航列表
+        var navLinks = document.querySelectorAll('.nav-list a');
+
         navLinks.forEach(function (link) {
             link.onclick = function () {
                 if (window.innerWidth < 1440) {
                     sideNav.classList.remove('show');
-                    sideNav.classList.add('hide');
                 }
             }
         });
 
+
     </script>
+
+
+
 
 </body>
 
 </html>
+
+<div class="flex_layout">
+    <!-- 内容部分 -->
+    <div class="content">
+    </div>
+    <!-- 导航列表 -->
+    <div id="side_nav" class="nav_list">
+    </div>
+</div>

@@ -143,7 +143,7 @@
 }
 
 .content_container .details_of_network_content .network_content_navigation_container .help_tooltip_container .help_tooltip_content {
-    display: flex;
+    display: none;
     position: absolute;
     top: 50px;
     left: 50%;

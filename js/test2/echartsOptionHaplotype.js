@@ -120,7 +120,7 @@ function getHaplotypeOption(haplotypeData) {
                 id: 'dataZoomY',
                 yAxisIndex: [0],
                 type: 'slider',
-                filterMode: 'weakFilter',
+                filterMode: 'empty',
                 showDataShadow: false,
                 right: 50, // 如果不设置会导致右侧的滑块头部无法显示
                 labelFormatter: '',
@@ -135,7 +135,8 @@ function getHaplotypeOption(haplotypeData) {
             },
             {
                 type: 'inside',
-                filterMode: 'none',
+                filterMode: 'empty',
+                yAxisIndex: 0,
                 orient: "vertical" // 设置为纵向控制柱状条的数量
             }
         ],

@@ -1,0 +1,200 @@
+.nav_list {
+    position: fixed;
+    top: 100px;
+
+    display: none;
+    background-color: #488a63;
+
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+
+    max-height: calc(100vh - 380px);
+    overflow-y: hidden;
+    overflow-x: hidden;
+
+    z-index: 100;
+}
+
+
+.nav_list ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    padding: 15px;
+    border-radius: 10px;
+
+    max-height: calc(100vh - 350px);
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+
+.nav_list a {
+    text-decoration: none;
+    color: #333;
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.nav_list li ul li {
+    margin-bottom: 5px;
+}
+
+.nav_list .first_level_link {
+    font-size: 16px;
+    font-weight: bold;
+    transition: all 0.5s;
+    margin: 5px 0;
+}
+
+.nav_list .second_level_link {
+    padding-left: 15px;
+    border-left: 2px solid #eee;
+    font-size: 15px;
+    transition: all 0.5s;
+}
+
+
+.nav_list .first_level_link.active {
+    color: #2E8B57;
+}
+
+.nav_list .second_level_link.active {
+    color: #2E8B57;
+    font-weight: bold;
+    border-left: 2px solid #2E8B57;
+
+    /* color: white;
+    background-color: #2E8B57;
+    border-left: 2px solid #2E8B57;
+    border-radius: 5px; */
+}
+
+.content {
+    padding: 20px;
+}
+
+.content h2 {
+    font-size: 30px;
+    color: #2E8B57;
+}
+
+.content h3 {
+    font-size: 24px;
+    color: #4682B4;
+    /* 蓝色 */
+    margin-top: 10px;
+}
+
+.content .h2_p {
+    font-size: 18px;
+    line-height: 1.5;
+}
+
+.content .h3_p {
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.content .title_container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.content .title_link {
+    color: inherit;
+    text-decoration: none;
+}
+
+.content .title_link_icon {
+    /* 链接图标 */
+    opacity: 0;
+    transition: all 0.5s;
+    width: 20px;
+    margin: 5px 0 0 10px;
+}
+
+.title_link:hover {
+    text-decoration: underline;
+}
+
+.title_link:hover+.title_link_icon {
+    opacity: 1;
+}
+
+.expand_list_button {
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    border: 5px solid #488a63;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.5s;
+    cursor: pointer;
+    z-index: 99;
+}
+
+
+.expand_list_button img {
+    width: 35px;
+}
+
+.expand_list_button:active {
+    transform: scale(0.9);
+}
+
+.expand_list_button:hover {
+    background-color: #f0f0f0;
+}
+
+
+.click_to_close2 {
+    display: none;
+    position: fixed;
+    top: 120px;
+    right: 40px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.5s;
+    cursor: pointer;
+    z-index: 101;
+}
+
+.click_to_close2 .close_icon {
+    width: 25px;
+}
+
+.click_to_close2:hover {
+    transform: rotate(90deg);
+}
+
+
+/* 下列的响应式布局只是在页面初始化时生效，JavaScript控制着后续的屏幕动态变化的样式 */
+/* 屏幕宽度不够大的时候，导航列表将隐藏，只有一个展开按钮 */
+@media (max-width: 1440px) {
+    .nav_list {
+        display: none;
+        right: 20px;
+    }
+
+    .expand_list_button {
+        display: block;
+    }
+}
+
+/* 屏幕宽度足够大的时候，导航列表将一直位于内容区右侧 */
+@media (min-width: 1440px) {
+    .nav_list {
+        display: flex;
+        right: calc((100vw - 1440px) / 2 + 20px);
+    }
+
+    .expand_list_button {
+        display: none;
+    }
+}

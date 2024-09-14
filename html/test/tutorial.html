@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial</title>
+    <!-- 设置网站logo -->
+    <link rel="icon" href="../../img/sugarcane-logo.jpeg" type="image/x-icon">
+    <link rel="stylesheet" href="../../css/reset.css">
+    <link rel="stylesheet" href="../../css/test/basicPage.css">
+    <link rel="stylesheet" href="../../css/test/tutorial.css">
+
+    <!-- 引入字体库 -->
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+
+    <!-- 引入 lodash.js 用于 data.js 的数据深拷贝 -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+
+
+</head>
+
+<body>
+    <div id="contact_overlay" class="contact_overlay"></div>
+    <div id="contact_card" class="contact_card">
+        <h2>Contact</h2>
+        <p class="intro_text">Should there be any question, please let us know without hesitation!</p>
+        <p class="content_text"><strong>Yanhan Shao (Web Design & Development):&nbsp;&nbsp;</strong><span
+                class="email_address" title="click to copy">1740569155@qq.com</span>
+        </p>
+        <p class="content_text"><strong>Zhiyuan Zhao (Data Analyse):&nbsp;&nbsp;</strong><span class="email_address"
+                title="click to copy">zhaozhiyuan@webmail.hzau.edu.cn</span></p>
+        <p class="content_text"><strong>Professor Ling-Ling Chen:&nbsp;&nbsp;</strong><span class="email_address"
+                title="click to copy">llchen@gxu.edu.cn</span></p>
+        <p class="content_text"><strong>Professor Weibo Xie:&nbsp;&nbsp;</strong><span class="email_address"
+                title="click to copy">weibo.xie@mail.hzau.edu.cn</span></p>
+        <p class="content_text"><strong>Professor Lingqiang Wang:&nbsp;&nbsp;</strong><span class="email_address"
+                title="click to copy">1335585196@qq.com</span></p>
+
+        <p class="content_text"><strong>Project Source:</strong> <a href="https://github.com/shaoyanhan/GT42_Website"
+                target="_blank">https://github.com/shaoyanhan/GT42_Websites</a></p>
+
+        <p class="location_text"><strong>Location 1:</strong> &nbsp;&nbsp;State Key Laboratory for Conservation
+            and
+            Utilization of
+            Subtropical Agro-bioresources, Guangxi University, Nanning
+            530000, China
+        </p>
+        <p class="location_text"><strong>Location 2:</strong> &nbsp;&nbsp;National Key Laboratory of Crop
+            Genetic
+            Improvement, Hubei
+            Hongshan Laboratory, Huazhong Agricultural University, Wuhan,
+            430070, China
+        </p>
+    </div>
+
+    <div class="center_container" style="overflow: none;">
+
+        <!-- 返回顶部图标 -->
+        <button class="scroll_to_top_button">
+            <img src="../../img/scroll_to_top_icon.png" alt="scroll to top">
+        </button>
+
+
+        <!-- 顶部导航栏 -->
+        <header class="nav_header">
+            <div class="nav_container">
+                <nav class="nav_bar">
+                    <div class="logo_container">
+                        <div class="logo_box">
+                            <a href="./index.html"><img src="../../img/sugarcane-logo.jpeg" alt="logo"></a>
+
+                        </div>
+                        <div class="title_box">
+                            <a href="./index.html">
+                                <h1>SRNDB</h1>
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                    <!-- 导航栏菜单 -->
+                    <div class="menu_container">
+                        <ul class="menu_links">
+                            <li class="first_level_link"><a href="./index.html">Home</a></li>
+                            <li class="first_level_link dropdown"><a>Data <span class="arrow">&#9660;</span></a>
+                                <ul class="dropdown_content">
+                                    <li class="second_level_link"><a href="./fullLengthTranscriptome.html"
+                                            target="_blank">Full-length Transcriptome</a>
+                                    </li>
+                                    <li class="second_level_link"><a href="./haplotypeSNP.html"
+                                            target="_blank">Haplotype &&
+                                            SNP</a></li>
+                                    <li class="second_level_link"><a href="./geneExpressionProfile.html"
+                                            target="_blank">Gene
+                                            Expression Profile</a></li>
+                                    <li class="second_level_link"><a href="./singleCoExpressionNetwork.html"
+                                            target="_blank">Single Co-expression
+                                            Network</a></li>
+                                    <li class="second_level_link"><a href="./hubCoExpressionNetwork.html"
+                                            target="_blank">Hub
+                                            Co-expression Network</a></li>
+                                </ul>
+                            </li>
+                            <li class="first_level_link dropdown"><a>Tools<span class="arrow">&#9660;</span></a>
+                                <ul class="dropdown_content">
+                                    <li class="second_level_link"><a href="./blast.html" target="_blank">BLAST</a></li>
+                                    <li class="second_level_link"><a href="#tool1">Annotation</a></li>
+                                    <li class="second_level_link"><a href="#tool2">Transcript Factors</a></li>
+                                </ul>
+                            </li>
+                            <li class="first_level_link"><a href="./download.html" target="_blank">Download</a></li>
+                            <li class="first_level_link dropdown"><a>About<span class="arrow">&#9660;</span></a>
+                                <ul class="dropdown_content">
+                                    <li class="second_level_link"><a href="#tutorial">Tutorial</a></li>
+                                    <li class="second_level_link"><a class="contact_button">Contact</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- 导航栏搜索框 -->
+                    <div class="search_box_container">
+                        <input type="text" placeholder="Search...">
+                        <button type="submit" class="search_button"><span class="search_icon">&#128269;</span></button>
+
+                        <div class="search_box_tooltip">
+                            <span class="tooltip_text">Show the avaliable resources of specific ID been inputted.</span>
+
+                            <div class="example_ids">
+                                <span class="example_title">e.g.</span>
+                                <span class="example_id">GT42G000001.SO.1</span>
+                            </div>
+
+                            <button class="download_button">download full available ID list</button>
+                        </div>
+                    </div>
+
+                    <button class="menu_toggle"><i class="iconfont icon-liebiao"></i></button>
+                    <button class="menu_close"><i class="iconfont icon-31guanbi"></i></button>
+
+
+
+                </nav>
+
+                <!-- 响应式布局情况下的导航栏 -->
+                <div class="expanded_nav">
+                    <!-- 搜索框 -->
+                    <div class="search_box_container">
+                        <input type="text" placeholder="Search...">
+                        <button type="submit" class="search_button"><span class="search_icon">&#128269;</span></button>
+
+                        <div class="search_box_tooltip">
+                            <span class="tooltip_text">Show the avaliable resources of specific ID been inputted.</span>
+
+                            <div class="example_ids">
+                                <span class="example_title">e.g.</span>
+                                <span class="example_id">GT42G000001.SO.1</span>
+                            </div>
+
+                            <button class="download_button">download full available ID list</button>
+                        </div>
+                    </div>
+                    <!-- 手风琴导航栏菜单 -->
+                    <div class="menu_container">
+                        <ul class="menu_links">
+                            <li class="first_level_link"><a href="./index.html">Home</a></li>
+                            <li class="first_level_link accordion"><a>Data <span class="arrow">&#9660;</span></a>
+                                <ul class="accordion_content">
+                                    <li class="second_level_link"><a href="./fullLengthTranscriptome.html"
+                                            target="_blank">Full-length Transcriptome</a>
+                                    </li>
+                                    <li class="second_level_link"><a href="./haplotypeSNP.html"
+                                            target="_blank">Haplotype &&
+                                            SNP</a></li>
+                                    <li class="second_level_link"><a href="./geneExpressionProfile.html"
+                                            target="_blank">Gene
+                                            Expression Profile</a></li>
+                                    <li class="second_level_link"><a href="./singleCoExpressionNetwork.html"
+                                            target="_blank">Single Co-expression
+                                            Network</a></li>
+                                    <li class="second_level_link"><a href="./hubCoExpressionNetwork.html"
+                                            target="_blank">Hub
+                                            Co-expression Network</a></li>
+                                </ul>
+                            </li>
+                            <li class="first_level_link accordion"><a>Tools<span class="arrow">&#9660;</span></a>
+                                <ul class="accordion_content">
+                                    <li class="second_level_link"><a href="./blast.html" target="_blank">BLAST</a></li>
+                                    <li class="second_level_link"><a href="#tool1">Annotation</a></li>
+                                    <li class="second_level_link"><a href="#tool2">Transcript Factors</a></li>
+                                </ul>
+                            </li>
+                            <li class="first_level_link"><a href="./download.html" target="_blank">Download</a></li>
+                            <li class="first_level_link accordion"><a>About<span class="arrow">&#9660;</span></a>
+                                <ul class="accordion_content">
+                                    <li class="second_level_link"><a href="#tutorial">Tutorial</a></li>
+                                    <li class="second_level_link"><a class="contact_button">Contact</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+
+                </div>
+            </div>
+
+
+
+        </header>
+
+        <div class="content_container">
+
+
+
+            <!-- 内容部分 -->
+            <div class="content">
+                <h2 id="homepage">
+                    <div class="title_container">
+                        <a href="#homepage" class="title_link">Homepage</a>
+                        <img class="title_link_icon" src="../../img/link_icon.png" alt="link">
+                    </div>
+                </h2>
+                <p class="h2_p">This is a short introduction of these second level title below.</p>
+
+                <h3 id="abstract_citation">
+                    <div class="title_container">
+                        <a href="#abstract_citation" class="title_link">Abstract & Citation</a>
+                        <img class="title_link_icon" src="../../img/link_icon.png" alt="link">
+                    </div>
+                </h3>
+                <p class="h3_p">Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam qui itaque eos corrupti
+                    laboriosam,
+                    ex ipsam commodi odio deserunt molestias id hic ea molestiae maiores tenetur quibusdam amet ratione
+                    laborum. Quas, cupiditate aut iure dolorem laudantium facere hic illum eaque impedit adipisci at
+                    magni nulla aspernatur magnam fugit pariatur alias exercitationem a commodi voluptatem sapiente
+                    inventore! Deleniti reprehenderit quod deserunt qui excepturi rem, dignissimos dolore ut fugiat
+                    necessitatibus accusamus ipsum, provident officia animi molestiae voluptas, quis quas quasi
+                    voluptate dolorem numquam libero itaque. Nesciunt odio repellendus distinctio. At corrupti, officiis
+                    culpa voluptatibus minima in id repellendus facilis tenetur. Magni eveniet exercitationem aliquid
+                    reprehenderit? Rem possimus natus odio necessitatibus incidunt asperiores aliquam molestiae,
+                    consectetur nihil exercitationem pariatur minus omnis labore quod nobis similique et. Aliquam
+                    explicabo, ipsam a pariatur vitae magnam beatae optio enim repellendus dolorem accusantium quis illo
+                    omnis. Non provident quam numquam alias ipsum nihil ab nesciunt mollitia, minima, voluptates ullam
+                    a! Veritatis expedita odit repudiandae dolor aperiam culpa tempore facere eum ut, blanditiis ipsum
+                    corporis quidem nam deleniti? Explicabo blanditiis commodi enim laudantium iusto fuga minima
+                    voluptatum facilis veniam, sit cumque, vitae, aliquam quisquam laboriosam molestias quod tempora
+                    voluptas officia ut atque vero dolor error libero. Delectus asperiores autem mollitia distinctio
+                    reprehenderit tenetur numquam quaerat vitae, esse ullam. Harum ducimus nihil dignissimos reiciendis
+                    id praesentium laudantium vero enim quae, rerum quidem tempora excepturi, quibusdam delectus odio,
+                    dolorem esse. Eum possimus placeat explicabo. Doloribus deleniti, animi provident velit saepe, amet
+                    ex nostrum autem, quis praesentium voluptas sed perferendis? Deserunt voluptatibus adipisci commodi
+                    possimus nam quos, hic impedit, optio est perferendis animi repellat laborum sed nemo aspernatur
+                    fuga aut deleniti quo odio assumenda blanditiis, cum vel recusandae! Possimus molestias atque dolor
+                    necessitatibus iste hic a perspiciatis cumque magnam. Unde modi aliquam nostrum dignissimos? Ad
+                    recusandae perferendis minima explicabo omnis aliquid a magni tempore facere dolorum! Eaque saepe
+                    fugiat consectetur numquam eius vel? At, fugiat sequi? Assumenda ab ipsa dolores nesciunt, earum
+                    placeat, laborum reiciendis nisi error eaque deleniti vel laboriosam. Quidem ratione exercitationem
+                    dolorem maxime, laborum consectetur, illum numquam alias ea fugit iusto voluptatibus possimus
+                    maiores nemo atque autem excepturi asperiores omnis placeat quam. Et veritatis placeat quis alias,
+                    assumenda saepe molestias iste eum, exercitationem magnam rem harum fugiat ea consectetur commodi
+                    sed minima iure fugit perferendis inventore nostrum porro ratione. Laudantium omnis maiores qui
+                    voluptas quia officiis deserunt architecto dicta dolorum perferendis eaque accusamus assumenda, eum
+                    a asperiores. Corrupti ipsum libero sit hic voluptate fuga. Suscipit esse aliquid magnam quam
+                    exercitationem dolor, quidem optio voluptate ullam sed inventore, porro nesciunt, aliquam vitae.
+                    Accusantium similique enim expedita modi quae hic nisi, ipsum inventore ratione deserunt velit
+                    voluptatem eius culpa tempore repellendus maiores officiis in ea officia ullam minima, omnis
+                    mollitia, facere laudantium! Quidem vero deleniti magni quibusdam nemo! Error nemo quisquam,
+                    doloribus, dolore explicabo eius obcaecati quia, temporibus veniam dolorem voluptatum eos. Quae
+                    repellendus ipsa, quibusdam rem consectetur voluptatem aliquid quasi rerum laboriosam suscipit
+                    provident dicta harum, doloremque possimus! Dolorem harum vitae veritatis minima incidunt. Quo
+                    alias, facilis soluta rem debitis tenetur voluptates quasi dignissimos recusandae doloremque hic
+                    aspernatur placeat ab, distinctio dolor expedita sit error cumque praesentium illum ut. Maiores
+                    illum velit eius! Praesentium odio placeat, iste libero deserunt voluptatibus aperiam eaque ratione
+                    aut esse adipisci maiores facere dolore facilis corrupti nesciunt sint consequatur nulla porro nemo
+                    minima et natus temporibus. Provident ducimus neque dolorum illo recusandae eligendi, molestiae at
+                    officiis nihil, commodi voluptatum! Itaque quas nisi, ducimus dolorem officia exercitationem
+                    reiciendis sint, et repellendus minus ex quos veritatis nobis quam, illo expedita recusandae soluta
+                    eveniet quae! Quos numquam rem fugit doloremque molestiae voluptas voluptatum aliquam error iure id
+                    repellat delectus illum ab corrupti ratione placeat velit consectetur autem, ipsa, nemo voluptatem
+                    maxime? Doloremque tempore repellat ducimus laborum velit laudantium voluptate, vitae, iusto
+                    explicabo natus ipsum eius laboriosam hic cumque quasi recusandae earum, repudiandae deleniti veniam
+                    numquam excepturi praesentium veritatis. Ipsam maiores praesentium quod aliquam corrupti nemo ad
+                    unde voluptatibus expedita eum dignissimos pariatur neque reiciendis id reprehenderit, alias culpa
+                    ratione nihil provident deserunt aliquid nesciunt hic? Quidem mollitia quae reiciendis minus velit
+                    tempore, temporibus aperiam atque veniam laborum laudantium dolor iure debitis similique eligendi
+                    praesentium distinctio ab amet ratione! Necessitatibus ipsa, molestiae magni laudantium, cum maxime
+                    fugit nulla repudiandae provident nostrum nemo. Magnam deleniti praesentium reprehenderit eos, magni
+                    neque soluta. Aspernatur quasi voluptates quis ea maxime et doloribus magni voluptatum molestias
+                    illo ullam impedit perspiciatis voluptatibus illum modi officiis error iusto incidunt
+                    necessitatibus, quia obcaecati. Accusamus pariatur nostrum similique natus! Molestias dolor ab nihil
+                    exercitationem. Sit tempora aspernatur provident architecto, consequuntur atque tempore quos, vel
+                    suscipit voluptatum possimus neque voluptas officiis quia in praesentium est? Sunt totam
+                    voluptatibus autem eos quos error tenetur iure quas, tempore quibusdam voluptatem unde soluta
+                    accusantium ut? Unde accusamus ab voluptatum quo impedit! Earum illum amet impedit nam neque quas
+                    voluptas omnis. Accusantium fugit nesciunt voluptas tempora maxime quisquam temporibus non esse
+                    consequatur animi, delectus, officia dolor officiis ex aspernatur doloribus sunt, eligendi ab
+                    dolores? Voluptatum reprehenderit repellendus tempora, et, labore ea fugiat a minus perferendis
+                    veniam ullam rem maiores possimus error facilis tempore? Odio maiores, voluptatum dignissimos neque
+                    quibusdam voluptatibus dicta nisi ullam, corrupti doloremque autem. Obcaecati ratione eos repellat?
+                    Officiis iusto, alias tempore ducimus reprehenderit ad est perspiciatis assumenda autem sit nostrum
+                    ipsa delectus provident inventore similique, deserunt ipsam cum ex libero? Accusamus blanditiis
+                    ducimus inventore eveniet deserunt, dolorem at, veniam minima ipsum expedita doloremque hic? Iste
+                    qui dolores, expedita sit, minus quibusdam odit ullam quas laboriosam quidem dolorum, cupiditate
+                    omnis! Odit ad nostrum, eligendi repellat culpa ipsa, iste animi ut assumenda, deleniti eveniet
+                    delectus molestiae modi numquam dolore sapiente ipsum atque facere a quas dignissimos praesentium
+                    cupiditate! Ipsa, amet deleniti praesentium numquam, inventore, libero commodi hic provident totam
+                    cum deserunt recusandae fuga nam consequuntur quaerat facere ullam? Molestiae obcaecati corrupti
+                    iste laborum error nam tempora dolorem. Laboriosam atque aperiam nemo ipsa natus quisquam voluptas
+                    voluptate reprehenderit delectus? Asperiores cumque optio aut voluptates rerum, consectetur quo eos
+                    veniam? Nam placeat, iste dicta at quaerat quis nihil praesentium illo accusamus quos deserunt?</p>
+
+                <h3 id="statistics">
+                    <div class="title_container">
+                        <a href="#statistics" class="title_link">Statistics</a>
+                        <img class="title_link_icon" src="../../img/link_icon.png" alt="link">
+                    </div>
+                </h3>
+                <p class="h3_p">Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam qui itaque eos corrupti
+                    laboriosam,Lorem, ipsum dolor sit amet consectetur adipisicing elit. At illum, id quaerat ipsa
+                    excepturi voluptate facilis similique rem amet obcaecati sapiente voluptatum, voluptatem nulla,
+                    nostrum pariatur dicta repudiandae illo error aperiam maiores ea porro laboriosam expedita! Ab
+                    similique totam voluptates omnis nam, ipsa fugit autem ducimus consequatur, eligendi commodi soluta.
+                    Placeat, itaque eius iure, voluptatum obcaecati molestias incidunt consequuntur ipsa autem aliquam
+                    pariatur mollitia. Libero commodi, qui provident non aut minus, delectus expedita fugit aliquid
+                    distinctio earum saepe placeat inventore quaerat modi quas error similique cupiditate eius,
+                    laboriosam obcaecati maxime. Doloremque impedit veniam porro corporis non incidunt necessitatibus
+                    eaque iste cumque ducimus eveniet, voluptas ipsum quos ipsa quas quaerat, quibusdam voluptatibus
+                    natus velit voluptatum blanditiis consectetur soluta quis ipsam. Harum consectetur magni pariatur
+                    suscipit possimus incidunt, expedita ratione illo doloribus, dolor id, ut adipisci. Odio provident
+                    nisi nulla perferendis quisquam rem vel assumenda minus, maiores unde sit voluptate accusantium
+                    repudiandae modi sint at ab inventore quidem cumque fugiat! Veritatis dignissimos perspiciatis eum
+                    quas laborum quasi voluptatum! Molestiae quam accusamus pariatur iusto iste velit quibusdam
+                    provident quaerat repudiandae, unde alias aliquid cupiditate tempora temporibus expedita quia
+                    eligendi reprehenderit nostrum nemo distinctio perferendis magni adipisci asperiores! Maxime sed ea
+                    ab enim libero doloremque magnam. Eveniet corrupti, repudiandae odit sit mollitia, assumenda quod
+                    aliquid similique voluptatem recusandae sint quo magnam voluptas repellat voluptate nihil nostrum
+                    est nisi ducimus nemo in facilis explicabo quisquam laborum! Sed obcaecati asperiores quidem
+                    recusandae iste cumque quisquam, tempore a minus voluptatum tenetur! Quia doloribus nisi incidunt
+                    facere placeat enim aspernatur delectus harum iste suscipit doloremque nihil non praesentium
+                    laudantium quo temporibus voluptatibus dicta magni rerum aperiam, blanditiis perspiciatis. Voluptas
+                    quos consequuntur architecto itaque saepe veniam quisquam. Deleniti similique accusamus perspiciatis
+                    mollitia vero cupiditate ipsa beatae accusantium itaque ullam eveniet, nulla porro voluptatem
+                    debitis! Numquam vitae repudiandae laboriosam nulla amet. Tempora amet possimus eius. Repudiandae
+                    voluptatibus quisquam voluptates pariatur suscipit aspernatur quasi consequuntur nemo numquam
+                    eligendi veritatis doloribus blanditiis architecto magni odio laborum, eos facere nihil sit dicta?
+                    Quisquam reiciendis esse, iure deleniti odio ab harum mollitia ipsa asperiores voluptates iusto
+                    debitis aut corrupti sunt magnam sed officia eum eos incidunt. Dolor doloribus delectus incidunt
+                    aspernatur quisquam deserunt ipsa repudiandae? Excepturi laborum voluptatum dolorem assumenda
+                    praesentium quae, tenetur nesciunt. Saepe nam architecto dolor officia labore ab repudiandae amet,
+                    alias ut aliquam aut laboriosam! Beatae iste provident in corrupti recusandae ad modi, numquam id
+                    soluta nobis reiciendis maxime. Adipisci perferendis voluptatum sapiente molestiae animi nobis
+                    blanditiis commodi voluptas enim dignissimos tempora eius, architecto dolorem, officia ducimus neque
+                    ipsa alias a! Animi consequuntur nulla mollitia eligendi. Repellendus eligendi eaque provident quasi
+                    perspiciatis facilis, pariatur, inventore molestias deserunt non cupiditate repudiandae commodi
+                    tenetur. Aliquid qui natus quis quidem ab, necessitatibus asperiores beatae sed optio velit iure cum
+                    consequuntur. Magnam maiores voluptatum facere! Hic porro ipsam eligendi. Obcaecati suscipit
+                    molestias minus tempora inventore beatae doloremque quisquam aliquam illum harum temporibus,
+                    doloribus soluta cumque aspernatur fuga perferendis quasi mollitia repellendus itaque blanditiis
+                    officia. Velit numquam error esse, illo maxime nulla voluptatum obcaecati architecto ut nesciunt
+                    odio iure nisi rem cupiditate sint similique maiores? Natus nihil eligendi velit dolore minus
+                    architecto, ratione impedit hic vitae cumque quod, consequatur nemo laudantium voluptas molestias ea
+                    repellendus sequi? Aliquam dolores eius, ab sapiente minima fugiat fugit sequi. Suscipit cupiditate
+                    inventore odio soluta distinctio? Veritatis perferendis in, aspernatur iure perspiciatis
+                    reprehenderit est nobis! Voluptatem architecto quae accusantium molestiae sit ex quasi quisquam,
+                    delectus reprehenderit officiis sint provident nihil! Blanditiis nisi, cumque veritatis quo atque
+                    odit aliquam. Ratione expedita culpa magni assumenda doloribus quod unde quibusdam, at corporis
+                    alias dolorem voluptas sint voluptate autem consectetur atque eaque exercitationem ad necessitatibus
+                    sed ducimus dolorum. Provident, nemo perferendis. Sunt quasi deserunt impedit ipsa non officiis,
+                    consequuntur laborum natus veritatis, dolor neque molestias. Doloremque id odio labore, iure nostrum
+                    veritatis ea, dolore quos accusamus corporis deleniti accusantium provident doloribus? Molestiae
+                    dolorum placeat iure, doloribus veniam aut expedita nostrum laudantium odio illum excepturi error,
+                    tempora dignissimos delectus. Magnam aspernatur facere veniam. Maiores, amet porro! Atque, quia
+                    voluptates. Ad eius quisquam eligendi. Explicabo laudantium unde, quos beatae corporis eum ipsam,
+                    error deserunt neque recusandae suscipit esse quis vitae nisi labore quaerat modi officia blanditiis
+                    veritatis architecto? Ducimus officiis ipsum iste consequuntur. Impedit harum doloribus quia. Est,
+                    quod neque voluptatum aspernatur iure optio cumque hic aperiam magni tempore, vero nisi, vitae omnis
+                    sequi quis. Commodi corporis doloribus possimus at voluptate tempora, obcaecati vitae quos ducimus
+                    est alias, voluptatem ipsum nemo in ipsa nihil dolorem fugit ex, incidunt adipisci deleniti dolores
+                    itaque ad sed. Eligendi maiores placeat sint, culpa blanditiis cupiditate? Fuga rerum minus
+                    consequatur architecto earum officiis beatae, repellendus aliquam perferendis voluptatum nihil
+                    labore. Doloribus ut libero rem nemo ea ipsum dolorum dolore perspiciatis quos voluptatum, totam
+                    quibusdam ducimus accusantium quasi exercitationem voluptates quidem eligendi sunt at incidunt
+                    praesentium a porro! Ut ad dolor perspiciatis iure fugiat ex saepe veniam labore fuga? Amet vero
+                    ipsam nulla tempore similique fugit, provident esse unde laboriosam enim repellendus dolore
+                    cupiditate natus accusantium repudiandae maxime at doloribus asperiores, quaerat et quibusdam dicta!
+                    Mollitia sapiente tempora officiis magnam non voluptas unde, nesciunt laborum modi tenetur quibusdam
+                    placeat maiores? Perspiciatis ex commodi excepturi quas in quis reiciendis autem, voluptas laborum
+                    soluta. Reprehenderit eaque asperiores beatae reiciendis est non vitae ea laborum, nihil facilis
+                    sapiente ratione corporis et odio totam exercitationem a unde provident, natus iusto repellat.
+                    Distinctio, impedit maxime voluptatibus molestiae eveniet itaque possimus. Cupiditate cumque enim
+                    perferendis dolores officiis iusto architecto? Est ad repellendus quod ipsum voluptate blanditiis
+                    eos non corporis tenetur soluta nam dignissimos necessitatibus velit explicabo vero, rerum sit fugit
+                    praesentium et ullam officiis, sapiente consequuntur illo aliquam! Nemo nam porro ut facere quo
+                    doloribus beatae fugiat sunt, ullam, minima id consequuntur quae quibusdam aut fuga quos expedita
+                    alias autem temporibus! Eligendi molestiae sequi quibusdam nisi quam libero fuga eos veritatis
+                    aliquam nihil cupiditate numquam veniam omnis cumque suscipit cum unde quaerat eum, temporibus totam
+                    illum velit! Minima molestias vitae corrupti mollitia consequuntur quia exercitationem esse quasi
+                    consequatur dicta cum maiores sint, tempora quisquam numquam voluptatem ullam facilis molestiae.
+                </p>
+            </div>
+
+            <!-- 导航列表 -->
+            <div id="nav_list" class="nav_list">
+                <ul>
+                    <li><a href="#homepage" class="nav_link first_level_link">Homepage</a>
+                        <ul>
+                            <li><a href="#abstract_citation" class="nav_link second_level_link">Abstract & Citation</a>
+                            </li>
+                            <li><a href="#statistics" class="nav_link second_level_link">Statistics</a></li>
+                            <li><a href="#resources_list" class="nav_link second_level_link">Resources List</a></li>
+                            <li><a href="#news_list" class="nav_link second_level_link">News List</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#navigation_bar" class="nav_link first_level_link">Navigation Bar</a>
+                        <ul>
+                            <li><a href="#responsive_layout" class="nav_link second_level_link">Responsive Layout</a>
+                            </li>
+                            <li><a href="#global_search" class="nav_link second_level_link">Global Search</a></li>
+                        </ul>
+                    </li>
+                    <!-- 继续添加其他一级和二级标题到导航列表 -->
+
+                    <li><a href="#graph_summary" class="nav_link first_level_link">Graph Summary</a></li>
+                    <li><a href="#data_resources" class="nav_link first_level_link">Data Resources</a>
+                        <ul>
+                            <li><a href="#full_length_transcriptome" class="nav_link second_level_link">Full-length
+                                    Transcriptome</a></li>
+                            <li><a href="#haplotype_SNP" class="nav_link second_level_link">Haplotype && SNP</a></li>
+                            <li><a href="#gene_expression_profile" class="nav_link second_level_link">Gene Expression
+                                    Profile</a>
+                            </li>
+                            <li><a href="#single_co_expression_network" class="nav_link second_level_link">Single
+                                    Co-expression
+                                    Network</a></li>
+                            <li><a href="#hub_co_expression_network" class="nav_link second_level_link">Hub
+                                    Co-expression
+                                    Network</a></li>
+                        </ul>
+                    </li>
+
+                    <li><a href="#tools" class="nav_link first_level_link">Tools</a>
+                        <ul>
+                            <li><a href="#blast" class="nav_link second_level_link">BLAST</a></li>
+                            <li><a href="#annotation" class="nav_link second_level_link">Annotation</a></li>
+                            <li><a href="#transcript_factors" class="nav_link second_level_link">Transcript Factors</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li><a href="#download" class="nav_link first_level_link">Download</a></li>
+                    <li><a href="#about" class="nav_link first_level_link">About</a>
+                        <ul>
+                            <li><a href="#tutorial" class="nav_link second_level_link">Tutorial</a></li>
+                            <li><a href="#contact" class="nav_link second_level_link">Contact</a></li>
+                        </ul>
+
+                </ul>
+            </div>
+
+            <!-- 导航列表图标 -->
+
+            <button class="expand_list_button" id="expand_list_button">
+                <img src="../../img/menu_icon.png" alt="menu">
+            </button>
+
+
+            <button class="click_to_close2" close-target-id="nav_list">
+                <img src="../../img/close_icon.png" class="close_icon" alt="close">
+            </button>
+
+
+
+
+        </div>
+
+        <div class="footer_container">
+            <div class="logo_container">
+
+                <div class="logo_box click_to_open_new_url" new-url="https://www.hzau.edu.cn/index.htm">
+                    <img src="../../img/HZAU.png" alt="logo">
+                </div>
+                <div class="logo_box click_to_open_new_url" new-url="https://sklcusa.gxu.edu.cn/">
+                    <img src="../../img/GuoZhong.png" alt="logo">
+                </div>
+                <div class="logo_box click_to_open_new_url" new-url="https://lst.gxu.edu.cn/">
+                    <img src="../../img/sky_logo.png" alt="logo">
+                </div>
+                <div class="logo_box click_to_open_new_url" new-url="https://www.gxu.edu.cn/">
+                    <img src="../../img/GXU_logo.png" alt="logo">
+                </div>
+
+            </div>
+
+            <h1 class="development_info">Developed by the Chen LL’s Lab at GuangXi University and Xie WB’s Lab at
+                HuaZhong
+                Agricultural University</h1>
+
+            <div class="copyright_revolvermap_container">
+                <div class="copyright_container">
+                    <h1 class="contact_info">Contact: <a class="email_address">1740569155@qq.com</a>, <a
+                            class="email_address">zhaozhiyuan@webmail.hzau.edu.cn</a>
+                    </h1>
+                    <h1 class="copyright">Copyright © 2020-2030 All rights reserved</h1>
+                </div>
+                <div class="revolver_maps">
+                    <script type="text/javascript"
+                        src="//rf.revolvermaps.com/0/0/7.js?i=5mrx7fhr2hr&amp;m=0&amp;c=ff0000&amp;cr1=ffffff&amp;br=10&amp;sx=0"
+                        async="async"></script>
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+        <!-- 全局提示框，触发showCustomAlert方法之后才显示（copy、download） -->
+        <div id="customAlert" class="custom_alert"></div>
+
+        <!-- 全局覆盖层, 用于禁用用户交互 -->
+        <div id="global_overlay"
+            style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0, 0, 0, 0); z-index: 1000;">
+        </div>
+
+        <script type="module" src="../../js/test2/basic.js"></script>
+        <script type="module" src="../../js/test2/mainTutorial.js"></script>
+    </div>
+
+
+</body>
+
+</html>

@@ -105,6 +105,7 @@ function toggleHelpBox(helpBox) {
     } else {
         helpBox.style.display = 'block';
     }
+
 }
 
 // 下载genomeID列表

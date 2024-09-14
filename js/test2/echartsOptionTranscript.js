@@ -111,7 +111,7 @@ function getTranscriptOption(transcriptData) {
                 xAxisIndex: [0],
                 type: 'slider',
                 // filterMode: 'weakFilter',
-                filterMode: 'none',
+                filterMode: 'none', // 这里只能设置为none，因为一旦开启过滤或者设置为空，那么横向放大之后转录本就会被截断
                 showDataShadow: false,
                 labelFormatter: function (value) {
                     return Math.round(value) + 'bp';
@@ -134,7 +134,7 @@ function getTranscriptOption(transcriptData) {
                 id: 'dataZoomY',
                 yAxisIndex: [0],
                 type: 'slider',
-                filterMode: 'weakFilter',
+                filterMode: 'none',
                 showDataShadow: false,
                 right: 50, // 如果不设置会导致右侧的滑块头部无法显示
                 labelFormatter: '',
@@ -147,9 +147,18 @@ function getTranscriptOption(transcriptData) {
                 handleSize: 50,
                 showDetail: true
             },
+            // 控制内部的缩放，这里对x和y都开启，可以实现整个区域的放缩和自由拖拽
             {
                 type: 'inside',
-                filterMode: 'none'
+                filterMode: 'none',
+                orient: "vertical",
+                yAxisIndex: [0]
+            },
+            {
+                type: 'inside',
+                filterMode: 'none',
+                orient: "horizontal",
+                xAxisIndex: [0]
             }
         ],
         toolbox: {
