@@ -4,202 +4,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Usage Tutorial</title>
+    <title>Image Zoom</title>
     <link rel="stylesheet" href="../../css/test/test.css">
+    <style>
+
+    </style>
 </head>
 
 <body>
+    <div class="image-container">
+        <img src="../../img/programming6.gif" alt="Image description" class="clickable-image">
+        <div class="image-caption">Fig 1. This is the title and description of the image</div>
+    </div>
 
-    <!-- 内容部分 -->
-    <div class="content">
-        <!-- <h2 id="homepage">homepage</h2> -->
-        <h2 id="homepage">
-            <a href="#homepage" class="title-link">
-                homepage
-            </a>
-        </h2>
-        <p>This is a short introduction of these second level title below.</p>
-
-        <!-- <h3 id="abstract-citation">Abstract & Citation</h3> -->
-        <h3 id="abstract-citation">
-            <a href="#abstract-citation" class="title-link">Abstract & Citation</a>
-            <img class="title-link-icon" src="../../img/link_icon.png" alt="link">
-
-        </h3>
-        <p>This is the main text of "Abstract & Citation"</p>
-
-        <div class="image-container">
-            <img src="../../img/programming6.gif" alt="Image description" class="clickable-image">
-            <div class="image-caption">Fig 1. This is the title and description of the image</div>
+    <!-- 隐藏的放大图片容器 -->
+    <div class="image-modal">
+        <div class="close-button">&times;</div>
+        <div class="image-modal-content">
+            <img src="" alt="Zoomed Image" class="zoomed-image" title="Use mouse wheel to zoom in/out">
+            <div class="zoomed-caption">Fig 1. This is the title and description of the image</div>
         </div>
-
-
-        <!-- <h3 id="Statistics">Statistics</h3> -->
-        <h3 id="Statistics">
-            <a href="#Statistics" class="title-link">
-                Statistics
-            </a>
-        </h3>
-        <p>This is the main text of "Statistics"</p>
-
-        <!-- <h3 id="Resources-list">Resources List</h3> -->
-        <h3 id="Resources-list">
-            <a href="#Resources-list" class="title-link">
-                Resources List
-            </a>
-        </h3>
-        <p>This is the main text of "Resources List"</p>
-
-        <!-- <h3 id="News-ist">News List</h3> -->
-        <h3 id="News-ist">
-            <a href="#News-ist" class="title-link">
-                News List
-            </a>
-        </h3>
-        <p>This is the main text of "News List"</p>
-
-        <!-- <h2 id="Navigation-bar">Navigation Bar</h2> -->
-        <h2 id="Navigation-bar">
-            <a href="#Navigation-bar" class="title-link">
-                Navigation Bar
-            </a>
-        </h2>
-        <p>This is a short introduction of these second level title below.</p>
-
-
-        <!-- 其他内容按照您的示例添加 -->
-    </div>
-
-    <!-- 导航列表 -->
-    <div class="nav-button">
-        <button id="nav-toggle-button">
-            &#9776; <!-- 目录图标 -->
-        </button>
-    </div>
-    <div id="side-nav" class="nav-list">
-        <ul>
-            <li><a href="#homepage">homepage</a>
-                <ul>
-                    <li><a href="#abstract-citation">Abstract & Citation</a></li>
-                    <!-- 添加其他二级标题 -->
-                    <li><a href="#Statistics">Statistics</a></li>
-                    <li><a href="#Resources-list">Resources List</a></li>
-                    <li><a href="#News-ist">News List</a></li>
-                </ul>
-            </li>
-            <!-- 添加其他一级标题和对应的二级标题 -->
-            <li><a href="#Navigation-bar">Navigation Bar</a></li>
-
-        </ul>
-    </div>
-
-    <!-- 模态框 -->
-    <div id="image-modal" class="modal">
-        <span class="close">&times;</span>
-        <img class="modal-content" id="modal-image">
-        <div class="image-caption" id="modal-caption"></div>
     </div>
 
     <script>
-        // 获取模态框元素
-        var modal = document.getElementById('image-modal');
-        var modalImg = document.getElementById("modal-image");
-        var captionText = document.getElementById("modal-caption");
+        document.addEventListener('DOMContentLoaded', function () {
+            const imageModal = document.querySelector('.image-modal');
+            const zoomedImage = document.querySelector('.zoomed-image');
+            const clickableImage = document.querySelector('.clickable-image');
+            const zoomedCaption = document.querySelector('.zoomed-caption');
+            const closeButton = document.querySelector('.close-button');
 
-        // 获取所有可点击的图片
-        var images = document.getElementsByClassName('clickable-image');
+            // 处理图片点击事件，显示放大的图片和caption
+            clickableImage.addEventListener('click', function () {
+                zoomedImage.src = clickableImage.src; // 使用相同的图片
+                zoomedCaption.textContent = document.querySelector('.image-caption').textContent; // 设置相同的caption
+                imageModal.style.display = 'flex'; // 显示遮罩层和图片
+            });
 
-        // 为每个图片添加点击事件
-        for (var i = 0; i < images.length; i++) {
-            images[i].onclick = function () {
-                modal.style.display = "block";
-                modalImg.src = this.src;
-                captionText.innerHTML = this.nextElementSibling.innerHTML;
-            }
-        }
-
-        // 获取关闭按钮
-        var closeBtn = document.getElementsByClassName("close")[0];
-
-        // 点击关闭按钮关闭模态框
-        closeBtn.onclick = function () {
-            modal.style.display = "none";
-        }
-
-        // 点击模态框背景关闭模态框
-        modal.onclick = function (event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
-
-
-    </script>
-
-    <script>
-        // 获取所有的标题元素
-        var sections = document.querySelectorAll('h2, h3');
-        var navLinks = document.querySelectorAll('.nav-list a');
-
-        window.addEventListener('scroll', function () {
-            var currentPosition = window.scrollY + 100; // 调整偏移量
-
-            sections.forEach(function (section) {
-                var sectionTop = section.offsetTop;
-                var sectionHeight = section.offsetHeight;
-
-                if (currentPosition >= sectionTop && currentPosition < sectionTop + sectionHeight) {
-                    var id = section.getAttribute('id');
-                    navLinks.forEach(function (link) {
-                        link.classList.remove('active');
-                        if (link.getAttribute('href') === '#' + id) {
-                            link.classList.add('active');
-                        }
-                    });
+            // 点击遮罩层关闭图片放大模式
+            imageModal.addEventListener('click', function (e) {
+                if (e.target === imageModal || e.target === closeButton) {
+                    imageModal.style.display = 'none'; // 隐藏遮罩层
                 }
             });
-        });
 
-    </script>
-
-    <script>
-        var navButton = document.getElementById('nav-toggle-button');
-        var sideNav = document.getElementById('side-nav');
-
-        navButton.onclick = function () {
-            if (sideNav.classList.contains('show')) {
-                sideNav.classList.remove('show');
-            } else {
-                sideNav.classList.add('show');
-            }
-        };
-
-        // 点击导航链接后收起导航列表
-        var navLinks = document.querySelectorAll('.nav-list a');
-
-        navLinks.forEach(function (link) {
-            link.onclick = function () {
-                if (window.innerWidth < 1440) {
-                    sideNav.classList.remove('show');
+            // 处理鼠标滚轮放大/缩小图片
+            let zoomLevel = 1;
+            zoomedImage.addEventListener('wheel', function (e) {
+                e.preventDefault();
+                if (e.deltaY < 0) {
+                    // 滚轮向上滚动，放大图片
+                    zoomLevel += 0.1;
+                } else {
+                    // 滚轮向下滚动，缩小图片
+                    zoomLevel = Math.max(zoomLevel - 0.1, 1); // 限制最小缩放为1
                 }
-            }
+                zoomedImage.style.transform = `scale(${zoomLevel})`;
+            });
         });
-
-
     </script>
-
-
-
-
 </body>
 
 </html>
-
-<div class="flex_layout">
-    <!-- 内容部分 -->
-    <div class="content">
-    </div>
-    <!-- 导航列表 -->
-    <div id="side_nav" class="nav_list">
-    </div>
-</div>
