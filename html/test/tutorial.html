@@ -488,6 +488,160 @@
                         they will be converted to mosaic IDs for the search.</li>
                 </ul>
 
+                <h3 id="gene_expression_profile">
+                    <div class="title_container">
+                        <a href="#gene_expression_profile" class="title_link">Gene Expression Profile</a>
+                        <img class="title_link_icon" src="../../img/link_icon.png" alt="link">
+                    </div>
+                </h3>
+                <ul class="h3_p">
+                    <li>
+                        The <strong>"development stages"</strong> sunburst chart illustrates all sample information from
+                        the study. We
+                        collected 23 tissues from
+                        GT42 sugarcane at five developmental stages, with each tissue sequenced in triplicate. The
+                        samples in the sunburst chart
+                        are arranged in a clockwise order according to developmental stages and are color-coded by
+                        stage. The innermost ring
+                        represents developmental stages, the middle ring represents tissue numbers, and the outermost
+                        ring represents specific
+                        sample numbers. You can hover over or click on specific segments to view the hierarchical
+                        structure of specific developmental
+                        stages.
+                    </li>
+                    <li>
+                        The <strong>"ID Tree"</strong> dendrogram illustrates the hierarchical structure of IDs across
+                        four levels of resolution. From left to
+                        right, the levels are represents for mosaic/orthologous ID, xenologous ID, haplotype/gene ID,
+                        and transcript ID. Since a mosaic gene
+                        may contain a large number of transcripts, transcript IDs are collapsed by default. However, you
+                        can click on each
+                        ID to expand or collapse the nodes as needed.
+                    </li>
+                    <li>
+                        The page features four heatmap areas representing TPM levels at four different resolutions. The
+                        x-axis denotes tissue
+                        numbers (corresponding to the outermost ring in the <strong>"development stages"</strong>
+                        sunburst chart), while the y-axis denotes IDs
+                        (matching the hierarchical structure in the <strong>"ID Tree"</strong> dendrogram). You can
+                        hover over specific heatmap points to see
+                        detailed expression data for the sample. Each heatmap has a horizontal color bar in the
+                        top-right corner for adjusting
+                        the color range of the heatmap data, and you can also use it to view data quantities by hovering
+                        over specific values. Additionally, a
+                        color bar tool is available for changing the overall heatmap color scheme by selecting different
+                        color blocks. Detailed data can
+                        also be viewed and downloaded in tabular format from the hidden section below each heatmap
+                        image.
+                    </li>
+                </ul>
+
+                <h3 id="single_co_expression_network">
+                    <div class="title_container">
+                        <a href="#single_co_expression_network" class="title_link">Single Co-expression Network</a>
+                        <img class="title_link_icon" src="../../img/link_icon.png" alt="link">
+                    </div>
+                </h3>
+                <ul class="h3_p">
+                    <li>
+                        The <strong>"Single Co-expression Network"</strong> is a single-core network that primarily
+                        displays all adjacent nodes and edges
+                        connected to a central node. If there are additional edges connecting the adjacent nodes, those
+                        connections are also
+                        displayed within the single-core network. Thus, the number of network layers follows the
+                        formula: 1 ≤ number of layers < 2. The node colors in the graph are used only to distinguish
+                            between different nodes, while the edges share the same color as their source node. The node
+                            size is calculated using the formula: Symbol Size&nbsp;=&nbsp;math.log( in_degree +
+                            out_degree + 1 ), where log refers to the natural logarithm. The width of the edges
+                            represents the weight of the connection, and all the edges shown in the single-core network
+                            having a threshold of weight ≥ 1. </li>
+                    <li>
+                        You can zoom the image area using your mouse scroll wheel, and you can freely drag within the
+                        image to
+                        roaming. To help you explore the adjacent nodes and edges of a specific node, you can hover over
+                        a particular node or
+                        edge to view its properties. When hovering over a node, all adjacent nodes and edges connected
+                        to it in the current network will be
+                        highlighted. Similarly, hovering over an edge will highlight its source and target nodes.
+                        Additionally, you can click on a node or
+                        edge to display detailed information in the result details card. If you wish to view detailed
+                        information about all
+                        nodes and edges in the current network, you can find or download a complete table from the
+                        hidden section below the
+                        image.
+                    </li>
+                    <li>
+                        We have assigned hyperlink attributes to all node IDs displayed in the results detail card. You
+                        can directly click on
+                        any ID, which will then render the core network corresponding to the clicked ID. This allows you
+                        to explore and navigate
+                        through the entire co-expression network using the single-core network view, effectively
+                        enabling seamless transitions
+                        between different nodes.
+                    </li>
+                    <li>
+                        You can switch the resolution of the current network using the <strong>resolution selection
+                            bar</strong> located at the top left of the
+                        image. We currently offer three network resolution levels: mosaic/orthologous, xenologous, and
+                        gene/haplotype. After switching,
+                        the core network of the first homologous ID under the selected resolution will be displayed by
+                        default. If there are
+                        multiple homologous IDs for the selected resolution, such as xenologous ID and gene/haplotype
+                        ID, you can choose and
+                        switch between them using the <strong>"Select Homologous ID"</strong> dropdown menu to render
+                        the core network for that specific ID.
+                        Please note that the total degree of a core network may affect the rendering time and display
+                        smoothness, but once the
+                        network iteration is complete, it will return to normal smoothness.
+                    </li>
+                </ul>
+
+                <h3 id="hub_co_expression_network">
+                    <div class="title_container">
+                        <a href="#hub_co_expression_network" class="title_link">Hub Co-expression Network</a>
+                        <img class="title_link_icon" src="../../img/link_icon.png" alt="link">
+                    </div>
+                </h3>
+                <ul class="h3_p">
+                    <li>
+                        To illustrate the overall regulatory situation of the nodes, we have filtered out hub nodes
+                        under three resolution
+                        levels from the original data for display. The selection criteria for hub nodes are as follows:
+                        Mosaic: symbol size ≥ 2.5, weight ≥ 2;
+                        Xenologous: symbol size ≥ 2.5, weight ≥ 2;
+                        Gene: symbol size ≥ 4.2, weight ≥ 2.
+
+                        The final number of nodes and edges obtained from each resolution level is:
+                        Mosaic: nodes = 1,474, edges = 44,925;
+                        Xenologous: nodes = 2,475, edges = 67,990;
+                        Gene: nodes = 3,461, edges = 150,127.
+                    </li>
+                    <li>
+                        In the hub network, the size of each node is calculated using the formula: Symbol Size =
+                        math.log( in_degree + out_degree
+                        + 1 ), where log refers to the natural logarithm. Since the hub network contains a large number
+                        of edges with higher
+                        weights, to enhance image clarity and improve interactive response speed, we no longer use edge
+                        width to represent its
+                        weight. Additionally, the focus effect when hovering with the mouse is now limited to the
+                        currently selected node and
+                        its connected edges.
+                    </li>
+                    <li>
+                        Since the hub network only displays hub nodes, when you click on a node, the result details card
+                        will not show all of
+                        its adjacent nodes from the original network. However, you can still click on the ID in the
+                        result details card to
+                        navigate to the Single Co-expression Network page, where you can visualize all adjacent nodes
+                        and edges of the hub node.
+                        Alternatively, you can directly view or download the information table from the hidden section
+                        below the image, which
+                        contains the original records of all nodes and edges under the current precision level.
+                    </li>
+                </ul>
+
+
+
 
 
                 <!-- 隐藏的放大图片容器 -->

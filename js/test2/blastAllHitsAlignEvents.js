@@ -1111,6 +1111,8 @@ function createAlignSeqResultContainer(objectData, hitIndex) {
 
 
     // TODO:实现点击ID的摘要页面跳转
+    // TODO:重新跑gene_network_nodes，点大小为1全部算成了0
+    // TODO:重跑之后，即要修改getNetworkGraphJSON（直接使用edgesIndex大幅提升查询效率），也要修改getNetworkEdgesTableByPage（只有核心ID的边）
 
 
     // 为序列匹配结果的导航栏的四个结果跳转按钮添加点击事件
