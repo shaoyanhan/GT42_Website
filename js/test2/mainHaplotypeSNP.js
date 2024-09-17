@@ -4,7 +4,8 @@ import { submitSearchForm } from "./searchEvents.js";
 import { clickHaplotypeSNPEventsHandler } from "./echartsEventsHaplotypeSNP.js";
 import { setUpPaginationEventListeners } from "./tablePagination.js";
 import { setupDownloadButton } from "./downloadTable.js";
-import { setUpResultDetailsContainerEventListeners } from "./resultDetailsContainer.js";
+import { createClickToCopyHandler } from './copyTextToClipboard.js';
+
 
 export let haplotypeSNPDOM = document.getElementById('drawHaplotypeSNP');
 export let threeSNPDOM = document.getElementById('drawThreeSNP');
@@ -59,7 +60,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     setupDownloadButton('#download_SNP_evidence_table_iso');
     setupDownloadButton('#download_SNP_evidence_table_rna');
 
-    setUpResultDetailsContainerEventListeners('#haplotype_SNP_result_details_container'); // 为结果详情容器添加事件监听器
+    // setUpResultDetailsContainerEventListeners('#haplotype_SNP_result_details_container'); // 为结果详情容器添加事件监听器
+
+    const clickToCopyHandler = createClickToCopyHandler();
+
+    // 为 Result Details 中的复制按钮添加事件监听器
+    const haplotypeSNPResultDetailsContainer = document.getElementById('haplotype_SNP_result_details_container');
+    haplotypeSNPResultDetailsContainer.addEventListener('click', clickToCopyHandler);
+
+    // 为 haplotype table 中的复制按钮添加事件监听器
+    const haplotypeTableContainer = document.getElementById('haplotype_table_container');
+    haplotypeTableContainer.addEventListener('click', clickToCopyHandler);
 
     haplotypeSNPChart.on('click', clickHaplotypeSNPEventsHandler);
 });

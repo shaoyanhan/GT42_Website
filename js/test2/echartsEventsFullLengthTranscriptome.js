@@ -180,11 +180,12 @@ async function clickHaplotypeChartsEvents(params) {
     // console.log(transcript_table_container);
     updateTableContainer(transcriptPaginationTableType, transcriptSearchKeyword, 1, transcript_table_container); // 初始化表格
 
+    // 根据分页数据类型重新注册分页事件监听器
+    let transcriptPaginationDataType = transcriptPaginationTableType + 'Data';
+    setUpPaginationEventListeners('#transcript_table_container', transcriptPaginationDataType);
 }
 
 function clickTranscriptChartEvents(params) {
-
-
     console.log('clickTranscriptChartEvents events');
     console.log(params);
 

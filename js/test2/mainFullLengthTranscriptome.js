@@ -3,10 +3,10 @@
 import { setUpPaginationEventListeners } from "./tablePagination.js";
 import { clickHaplotypeChartsEvents, clickTranscriptChartEvents } from "./echartsEventsFullLengthTranscriptome.js";
 import { setupDownloadButton } from "./downloadTable.js";
-import { setUpResultDetailsContainerEventListeners } from "./resultDetailsContainer.js";
 import { initialContentArea } from "./initialContentAreaFullLengthTranscriptome.js";
 import { setUpSearchEventListeners } from "./searchEvents.js";
 import { submitSearchForm } from "./searchEvents.js";
+import { createClickToCopyHandler } from './copyTextToClipboard.js';
 
 
 
@@ -47,6 +47,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // initialContentArea('GT42G000001', 'mosaic');
     initialBasedOnURLSearchKeyword();
 
+    // 由于 haplotype table 只有一种类型的 pagination data，所以只需要注册一次事件监听器
     setUpPaginationEventListeners('#haplotype_table_container', 'haplotypePaginationData'); // 为haplotype表格容器添加事件监听器
     // setUpPaginationEventListeners('#SNP_table_container', 'SNPPaginationData'); // 为SNP表格容器添加事件监听器
 
@@ -57,9 +58,24 @@ document.addEventListener('DOMContentLoaded', async () => {
     // setupDownloadButton('#download_SNP_table'); // 为SNP表格下载按钮添加事件监听器
     setupDownloadButton('#download_transcript_table'); // 为transcript表格下载按钮添加事件监听器
 
-    setUpResultDetailsContainerEventListeners('#haplotype_SNP_result_details_container'); // 为结果详情容器添加事件监听器
+    // setUpResultDetailsContainerEventListeners('#haplotype_SNP_result_details_container'); // 为结果详情容器添加事件监听器
+    // setUpResultDetailsContainerEventListeners('#transcript_result_details_container'); // 为结果详情容器添加事件监听器
 
-    setUpResultDetailsContainerEventListeners('#transcript_result_details_container'); // 为结果详情容器添加事件监听器
+    // 由于页码中的复制按钮数量不定，所以只能监听一整个容器中的复制按钮点击事件
+    const clickToCopyHandler = createClickToCopyHandler();
+
+    // 为 Result Details 中的复制按钮添加事件监听器
+    const haplotypeSNPResultDetailsContainer = document.getElementById('haplotype_SNP_result_details_container');
+    const transcriptResultDetailsContainer = document.getElementById('transcript_result_details_container');
+    haplotypeSNPResultDetailsContainer.addEventListener('click', clickToCopyHandler);
+    transcriptResultDetailsContainer.addEventListener('click', clickToCopyHandler);
+
+    // 为 haplotype table 和 transcript table 中的复制按钮添加事件监听器
+    let haplotypeTableContainer = document.querySelector('#haplotype_table_container'); // 获取相应id的表格容器
+    let transcriptTableContainer = document.querySelector('#transcript_table_container'); // 获取相应id的表格容器
+    haplotypeTableContainer.addEventListener('click', clickToCopyHandler);
+    transcriptTableContainer.addEventListener('click', clickToCopyHandler);
+
     setUpSearchEventListeners('.search_container'); // 为搜索容器添加事件监听器
     haplotypeChart.on('click', clickHaplotypeChartsEvents); // 为单倍型图像添加事件监听器
     transcriptChart.on('click', clickTranscriptChartEvents); // 为转录本图像添加事件监听器

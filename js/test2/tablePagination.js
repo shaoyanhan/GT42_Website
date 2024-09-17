@@ -567,6 +567,9 @@ function createPaginationClickHandler(container, dataType) {
     };
 }
 
+
+let paginationHandlerRecords = {}; // 用于存储每个表格容器的事件处理器，以便在每次调用 setUpPaginationEventListeners 的时候能够移除旧的事件处理器
+
 function setUpPaginationEventListeners(containerSelector, dataType) {
     const container = document.querySelector(containerSelector); // 获取表格容器结构
     // console.log(container);
@@ -574,10 +577,21 @@ function setUpPaginationEventListeners(containerSelector, dataType) {
         console.error('Pagination container not found!');
         return;
     }
-    const paginationClickHandler = createPaginationClickHandler(container, dataType); // 生成该容器的事件处理器
-    container.addEventListener('click', paginationClickHandler); // 为容器添加事件监听器
-    const clickToCopyHandler = createClickToCopyHandler(); // 生成点击复制按钮的事件处理器
-    container.addEventListener('click', clickToCopyHandler);
+
+    // 首先判断是否已经为该容器设置了事件监听器，如果有，先移除
+    if (paginationHandlerRecords[containerSelector]) {
+        container.removeEventListener('click', paginationHandlerRecords[containerSelector]);
+    }
+
+    // 生成新的事件处理器，并存储到记录中
+    const paginationClickHandler = createPaginationClickHandler(container, dataType);
+    container.addEventListener('click', paginationClickHandler);
+    paginationHandlerRecords[containerSelector] = paginationClickHandler;
+
+    // const paginationClickHandler = createPaginationClickHandler(container, dataType); // 生成该容器的事件处理器
+    // container.addEventListener('click', paginationClickHandler); // 为容器添加事件监听器
+    // const clickToCopyHandler = createClickToCopyHandler(); // 生成点击复制按钮的事件处理器
+    // container.addEventListener('click', clickToCopyHandler);
 }
 
 

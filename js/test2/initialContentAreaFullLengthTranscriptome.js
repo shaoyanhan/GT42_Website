@@ -41,12 +41,13 @@ async function initialContentArea(searchKeyword, keywordType) {
         return;
     }
 
-    initialContentAreaFullLengthTranscriptome(searchKeyword, keywordType);
-    // loadingElement.style.display = 'none';
-
     // 将搜索关键词填充到搜索框中
     let searchInput = document.getElementById('search_input');
     searchInput.value = searchKeyword;
+
+    initialContentAreaFullLengthTranscriptome(searchKeyword, keywordType);
+    // loadingElement.style.display = 'none';
+
 }
 
 // 页面初始化，传入两个参数：genomeID和genomeID的类型，其实就是validateGenomeID成功之后的其中两个返回值
@@ -171,7 +172,8 @@ async function initialContentAreaFullLengthTranscriptome(searchKeyword, keywordT
     // console.log(transcript_table_container);
     updateTableContainer(transcriptPaginationTableType, transcriptSearchKeyword, 1, transcript_table_container); // 初始化表格
     let transcriptPaginationDataType = transcriptPaginationTableType + 'Data';
-    setUpPaginationEventListeners('#transcript_table_container', transcriptPaginationDataType); // 根据transcript表格的类型为transcript表格容器添加事件监听器
+    // 由于 transcript table 有 transcriptPagination 和 allTranscriptPagination 两种类型，所以需要在每次更新表格之后重新设置事件监听器
+    setUpPaginationEventListeners('#transcript_table_container', transcriptPaginationDataType);
 
     let haplotypeResultDetailsData = { type: haplotypeRawData.type, data: haplotypeRawData.data[haplotypeTableIndex] }; // 根据用户搜索的geneID的索引，获取第一条待展示的haplotype的信息
     let haplotype_result_details_container = document.querySelector('#haplotype_SNP_result_details_container'); // 获取haplotype_SNP的result details容器
