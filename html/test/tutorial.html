@@ -636,10 +636,134 @@
                         and edges of the hub node.
                         Alternatively, you can directly view or download the information table from the hidden section
                         below the image, which
-                        contains the original records of all nodes and edges under the current precision level.
+                        contains the original records of all nodes and edges under the current precision level (edge
+                        weight ≥ 1).
+                    </li>
+                    <li>
+                        Please note that due to the large number of nodes and edges in the hub network, there may be
+                        some lag when the network
+                        graph is initially loaded. However, we have implemented caching optimizations to ensure that
+                        each of the three
+                        resolution networks will only be loaded once during the current session. After the network
+                        iteration is complete, if
+                        your computer has sufficient memory, your browser will be allocated enough resources, allowing
+                        the webpage to run
+                        smoothly without significant impact on performance.
                     </li>
                 </ul>
 
+                <h2 id="tools">
+                    <div class="title_container">
+                        <a href="#tools" class="title_link">Tools</a>
+                        <img class="title_link_icon" src="../../img/link_icon.png" alt="link">
+                    </div>
+                </h2>
+
+                <h3 id="blast">
+                    <div class="title_container">
+                        <a href="#blast" class="title_link">BLAST</a>
+                        <img class="title_link_icon" src="../../img/link_icon.png" alt="link">
+                    </div>
+                </h3>
+                <ul class="h3_p">
+                    <li>
+                        This research has ultimately created four sequence datasets: nucleotide sequences dataset of
+                        mosaic genes, haplotype genes, full-length transcripts, and protein sequences dataset of
+                        full-length transcripts. To enable users to better
+                        explore these datasets, we have developed a powerful and user-friendly BLAST front-end
+                        visualization platform. The
+                        back-end of this platform is based on NCBI’s BLAST 2.16.0+ localized tool, and we have
+                        pre-integrated these four
+                        datasets into the front-end search
+                        interface. Compared to most complex BLAST tools, we have significantly simplified the
+                        traditional BLAST functionalities
+                        and created a range of user-friendly interactive features with a clean and streamlined UI.
+                    </li>
+                    <li>Search steps:
+                        <ul>
+                            <li>Step 1: You can either copy and paste some query sequences in FASTA format into the
+                                input box or
+                                drag and drop a file containing the query
+                                sequence into the input box for automatic filling. Additionally, you could also just
+                                click the
+                                "example" button to automatically
+                                retrieve two nucleotide or protein query sequences.</li>
+                            <li>Step 2: Once the query sequence is detected to be valid, the checkboxes of "database"
+                                will automatically become active. You will need to
+                                select one or more database types for the search. You can only choose either nucleotide
+                                or protein databases at the same time, but you can select multiple databases of the same
+                                type at one time, which allows for more comprehensive BLAST results.</li>
+                            <li>Step 3: Once you have completed entering the query sequence and selecting the database,
+                                the system will automatically determine
+                                which types of BLAST functions are available based on your query sequence type and
+                                database combination, and then enabling the
+                                corresponding buttons. Additionally, you can hover over each BLAST function button to
+                                view a brief description of its
+                                algorithm in advance.</li>
+                            <li>Step 4: If the user input is valid and the backend software runs successfully, the
+                                server will process your task and return the
+                                results. After the results are loaded, a BLAST result box will appear below the
+                                submission form. If you submitted
+                                multiple query sequences, there will be multiple result sets, but the BLAST result box
+                                will only display the
+                                visualization for one query at a time. To view the visualization for other query
+                                sequences, you can switch the query ID
+                                using the <strong>"Select Result for"</strong> dropdown menu. You can also directly
+                                download the result files
+                                for the current query in three
+                                formats from the "Download" dropdown on the right, which includes:
+
+                                <strong>Pairwise Alignment</strong>: The most common BLAST result, showing alignment
+                                score and
+                                pairwise comparison in text format.
+                                <strong>Detailed Value Table</strong>: A detailed table displaying alignment score data.
+                                <strong>Comprehensive JSON</strong>: Contains detailed search parameters and result
+                                data, suitable
+                                for custom analysis.
+                            </li>
+                        </ul>
+                    </li>
+                    <li>All Hits Bar Plot:
+                        <ul>
+                            <li>
+                                This chart visualizes the results of Detailed Value Table, showing all matching
+                                intervals. The x-axis represents the length
+                                of the query sequence, and the y-axis represents the subject sequence ID. Since all HSPs
+                                (High-scoring Segment Pairs / High Scoring Pairs)
+                                within a single Hit share the same subject ID, only the first HSP's ID is displayed for
+                                each Hit.
+                            </li>
+                            <li>
+                                Each bar in the chart indicates a matching region between a section of the query
+                                sequence and a corresponding section of
+                                the subject sequence for the ID on the y-axis. The direction of the bar indicates the
+                                alignment direction of the query
+                                sequence. You can hover over a bar to view detailed matching descriptions or use your
+                                mouse scroll wheel or the zoom
+                                tool on the right side of the image to zoom in or out.
+                            </li>
+                            <li>
+                                In the result information, frames refer to ORFs (Open Reading Frames). Since blastn and
+                                blastp do not involve ORF
+                                translation, so the number 1 represents a sequence starting from the beginning. For
+                                nucleotide sequences, both strands
+                                (positive:1 and negative:-1) must be considered, whereas protein sequences do not have
+                                this
+                                concept. In blastx, tblastx, and
+                                tblastn, the sequence is translated into six reading frames. However, protein sequences
+                                do not have the concept of reading frames, so
+                                in BLAST functions with ORF translation, protein sequences use 0 to represent a protein
+                                sequence starting from the
+                                beginning, while nucleotide sequences use ±1, ±2, and ±3 to represent different ORF
+                                start points and directions.
+                            </li>
+                            <li>
+                                You can click on a specific bar to jump to the detailed pairwise sequence alignment
+                                visualization result section.
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
 
 
 

@@ -100,6 +100,13 @@
     margin-left: 20px;
 }
 
+.content .h3_p ul {
+    font-size: 16px;
+    line-height: 1.5;
+    list-style-type: square;
+    margin-left: 20px;
+}
+
 .content .h3_p strong {
     font-weight: bold;
 }

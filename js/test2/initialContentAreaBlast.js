@@ -12,9 +12,32 @@ function updateTableItems(data) {
     rows.forEach(row => {
         const columns = row.split('\t');
         const tr = document.createElement('tr');
-        columns.forEach(column => {
+        // columns.forEach(column => {
+        //     const td = document.createElement('td');
+        //     td.textContent = column.trim();
+        //     tr.appendChild(td);
+        // });
+        // 第二列元素的subjectID创建为链接元素再填写到td中，其余列元素直接填写到td中：
+        // <a href="./searchBox.html?searchKeyword=${objectData.subject_id}" target="_blank" class="result_details_dynamic_link" data-replace="${objectData.subject_id}" title="click to resource page">
+        //     <span>${objectData.subject_id}</span>
+        // </a>
+        columns.forEach((column, index) => {
+            let columnText = column.trim();
             const td = document.createElement('td');
-            td.textContent = column.trim();
+            if (index === 1) {
+                const a = document.createElement('a');
+                a.href = `./searchBox.html?searchKeyword=${columnText}`;
+                a.target = '_blank';
+                a.classList.add('table_dynamic_link');
+                a.dataset.replace = columnText;
+                a.title = 'click to resource page';
+                const span = document.createElement('span');
+                span.textContent = columnText;
+                a.appendChild(span);
+                td.appendChild(a);
+            } else {
+                td.textContent = columnText.trim();
+            }
             tr.appendChild(td);
         });
         tableBody.appendChild(tr);

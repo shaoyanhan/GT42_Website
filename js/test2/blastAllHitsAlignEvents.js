@@ -129,7 +129,11 @@ function getResultDetails(objectData) {
             </div>
             <div class="item_container">
                 <div class="item_title">Subject ID</div>
-                <div class="item_content subject_id">${objectData.subject_id}</div>
+                <div class="item_content subject_id">
+                    <a href="./searchBox.html?searchKeyword=${objectData.subject_id}" target="_blank" class="result_details_dynamic_link" data-replace="${objectData.subject_id}" title="click to resource page">
+                        <span>${objectData.subject_id}</span>
+                    </a>
+                </div>
             </div>
             <div class="item_container">
                 <div class="item_title">Subject Length</div>
@@ -216,7 +220,11 @@ function getResultDetails(objectData) {
             </div>
             <div class="item_container">
                 <div class="item_title">Subject ID</div>
-                <div class="item_content subject_id">${objectData.subject_id}</div>
+                <div class="item_content subject_id">
+                    <a href="./searchBox.html?searchKeyword=${objectData.subject_id}" target="_blank" class="result_details_dynamic_link" data-replace="${objectData.subject_id}" title="click to resource page">
+                        <span>${objectData.subject_id}</span>
+                    </a>
+                </div>
             </div>
             <div class="item_container">
                 <div class="item_title">Subject Length</div>
@@ -327,7 +335,14 @@ function updateResultDetails(objectData, resultDetailsContainer) {
     }
     const subjectIDElement = contentBox.querySelector('.subject_id');
     if (subjectIDElement) {
-        subjectIDElement.textContent = objectData.subject_id;
+        const linkElement = subjectIDElement.querySelector('.result_details_dynamic_link');
+        if (linkElement) {
+            linkElement.href = `./searchBox.html?searchKeyword=${objectData.subject_id}`;
+            linkElement.target = `_blank`;
+            linkElement.dataset.replace = objectData.subject_id;
+            linkElement.title = `click to resource page`;
+            linkElement.querySelector('span').textContent = objectData.subject_id;
+        }
     }
     const subjectLenElement = contentBox.querySelector('.subject_len');
     if (subjectLenElement) {
