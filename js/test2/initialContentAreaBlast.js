@@ -21,6 +21,7 @@ function updateTableItems(data) {
         // <a href="./searchBox.html?searchKeyword=${objectData.subject_id}" target="_blank" class="result_details_dynamic_link" data-replace="${objectData.subject_id}" title="click to resource page">
         //     <span>${objectData.subject_id}</span>
         // </a>
+        const columnTitleAttr = ['Query sequence ID', 'click to resource page', 'Percentage of identical matches', 'Alignment length', 'Number of mismatches', 'Number of gap openings', 'Start of alignment in query', 'End of alignment in query', 'Start of alignment in subject', 'End of alignment in subject', 'Expect value', 'Bit score', 'Query frame / Subject frame'];
         columns.forEach((column, index) => {
             let columnText = column.trim();
             const td = document.createElement('td');
@@ -30,13 +31,14 @@ function updateTableItems(data) {
                 a.target = '_blank';
                 a.classList.add('table_dynamic_link');
                 a.dataset.replace = columnText;
-                a.title = 'click to resource page';
+                a.title = columnTitleAttr[1];
                 const span = document.createElement('span');
                 span.textContent = columnText;
                 a.appendChild(span);
                 td.appendChild(a);
             } else {
                 td.textContent = columnText.trim();
+                td.title = columnTitleAttr[index];
             }
             tr.appendChild(td);
         });

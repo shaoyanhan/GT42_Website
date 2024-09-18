@@ -81,6 +81,10 @@
     color: #2E8B57;
 }
 
+.content h2:not(:first-of-type) {
+    margin-top: 40px;
+}
+
 .content h3 {
     font-size: 24px;
     color: #4682B4;
@@ -113,6 +117,28 @@
 
 .content .h3_p .italic {
     font-style: italic;
+}
+
+.content .qna_question {
+    font-size: 18px;
+    color: #4682B4;
+}
+
+.content .qna_answer {
+    font-size: 16px;
+    line-height: 1.5;
+    margin-top: 10px;
+    list-style-type: none;
+}
+
+.content .qna_answer .code_span {
+    font-family: Consolas, monospace;
+    font-size: 16px;
+    background-color: #f0f0f0;
+    padding: 2px 5px;
+    border-radius: 5px;
+    color: brown;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
 .content .title_container {

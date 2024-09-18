@@ -68,29 +68,29 @@ function getHaplotypeSNPOption(haplotypeData, SNPData) {
             text: 'Haplotype and SNP Profile',
             left: 'center'
         },
-        legend: { // 暂时实现不了详细颜色的对应，或许使用两个坐标系覆盖方式可以实现
-            data: [
-                {
-                    name: 'haplotype',
-                    color: 'black'
+        // legend: { // 暂时实现不了详细颜色的对应，或许使用两个坐标系覆盖方式可以实现
+        //     data: [
+        //         {
+        //             name: 'haplotype',
+        //             color: 'black'
 
-                },
-                {
-                    name: 'SNP',
-                    backgroundColor: '#ccc'
-                }
-            ],
-            itemStyle: {
-                color: "rgba(255, 255, 255, 1)",
-                borderColor: "rgba(0, 0, 0, 1)",
-                borderType: "solid",
-                borderWidth: 2
-            },
-            textStyle: {
-                fontSize: 18
-            },
-            left: 'left'
-        },
+        //         },
+        //         {
+        //             name: 'SNP',
+        //             backgroundColor: '#ccc'
+        //         }
+        //     ],
+        //     itemStyle: {
+        //         color: "rgba(255, 255, 255, 1)",
+        //         borderColor: "rgba(0, 0, 0, 1)",
+        //         borderType: "solid",
+        //         borderWidth: 2
+        //     },
+        //     textStyle: {
+        //         fontSize: 18
+        //     },
+        //     left: 'left'
+        // },
         dataZoom: [
             {
                 id: 'dataZoomX',

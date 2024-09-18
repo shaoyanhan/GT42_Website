@@ -187,7 +187,7 @@
 
 /* 切换为GIF图像 */
 .content_container .page_image_container .image_container:hover .static_image.fullLengthTranscriptome {
-    content: url('../../img/FLNC_intro.gif');
+    content: url('../../img/transcript_intro.gif');
 }
 
 .content_container .page_image_container .image_container:hover .static_image.haplotypeSNP {

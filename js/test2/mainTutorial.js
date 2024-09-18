@@ -89,14 +89,16 @@ function setImageZoomEventListner() {
     const zoomedImage = document.querySelector('.zoomed_image');
     const zoomedCaption = document.querySelector('.zoomed_caption');
     const closeButton = document.querySelector('.close_button');
-    const clickableImages = document.querySelectorAll('.clickable_image');
+    const imageContainers = document.querySelectorAll('.image_container');
 
 
     // 处理图片点击事件，显示放大的图片和caption
-    clickableImages.forEach(clickableImage => {
+    imageContainers.forEach(imageContainer => {
+        const clickableImage = imageContainer.querySelector('.clickable_image');
+
         clickableImage.addEventListener('click', function () {
             zoomedImage.src = clickableImage.src; // 使用相同的图片
-            zoomedCaption.textContent = document.querySelector('.image_caption').textContent; // 设置相同的caption
+            zoomedCaption.textContent = imageContainer.querySelector('.image_caption').textContent; // 设置相同的caption
             imageModal.style.display = 'flex'; // 显示遮罩层和图片
         });
     });
