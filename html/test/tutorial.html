@@ -667,7 +667,8 @@
                     <li>
                         You can zoom the image area using your mouse scroll wheel, and you can freely drag within the
                         image to
-                        roaming. To help you explore the adjacent nodes and edges of a specific node, you can hover over
+                        roaming (Fig 13). To help you explore the adjacent nodes and edges of a specific node, you can
+                        hover over
                         a particular node or
                         edge to view its properties. When hovering over a node, all adjacent nodes and edges connected
                         to it in the current network will be
@@ -679,8 +680,13 @@
                         hidden section below the
                         image.
                     </li>
+                    <div class="image_container">
+                        <img src="../../img/tutorial_network1.gif" alt="Image description" class="clickable_image">
+                        <div class="image_caption">Fig 13. The interactive core network</div>
+                    </div>
                     <li>
-                        We have assigned hyperlink attributes to all node IDs displayed in the results detail card. You
+                        We have assigned hyperlink attributes to all node IDs displayed in the results detail card (Fig
+                        14). You
                         can directly click on
                         any ID, which will then render the core network corresponding to the clicked ID. This allows you
                         to explore and navigate
@@ -688,11 +694,15 @@
                         enabling seamless transitions
                         between different nodes.
                     </li>
+                    <div class="image_container">
+                        <img src="../../img/tutorial_network2.gif" alt="Image description" class="clickable_image">
+                        <div class="image_caption">Fig 14. The infinite exploration feature</div>
+                    </div>
                     <li>
                         You can switch the resolution of the current network using the <strong>resolution selection
                             bar</strong> located at the top left of the
                         image. We currently offer three network resolution levels: mosaic/orthologous, xenologous, and
-                        gene/haplotype. After switching,
+                        gene/haplotype (Fig 15). After switching,
                         the core network of the first homologous ID under the selected resolution will be displayed by
                         default. If there are
                         multiple homologous IDs for the selected resolution, such as xenologous ID and gene/haplotype
@@ -703,6 +713,10 @@
                         smoothness, but once the
                         network iteration is complete, it will return to normal smoothness.
                     </li>
+                    <div class="image_container">
+                        <img src="../../img/tutorial_network3.gif" alt="Image description" class="clickable_image">
+                        <div class="image_caption">Fig 15. The resolution switching tools</div>
+                    </div>
                 </ul>
 
                 <h3 id="hub_co_expression_network">
@@ -741,13 +755,18 @@
                         will not show all of
                         its adjacent nodes from the original network. However, you can still click on the ID in the
                         result details card to
-                        navigate to the Single Co-expression Network page, where you can visualize all adjacent nodes
+                        navigate to the Single Co-expression Network page (Fig 16), where you can visualize all adjacent
+                        nodes
                         and edges of the hub node.
                         Alternatively, you can directly view or download the information table from the hidden section
                         below the image, which
                         contains the original records of all nodes and edges under the current precision level (edge
                         weight ≥ 1).
                     </li>
+                    <div class="image_container">
+                        <img src="../../img/tutorial_network4.gif" alt="Image description" class="clickable_image">
+                        <div class="image_caption">Fig 16. Link from hub network to single network</div>
+                    </div>
                     <li>
                         Please note that due to the large number of nodes and edges in the hub network, there may be
                         some lag when the network
@@ -776,19 +795,21 @@
                 </h3>
                 <ul class="h3_p">
                     <li>
-                        This research has ultimately created four sequence datasets: nucleotide sequences dataset of
-                        mosaic genes, haplotype genes, full-length transcripts, and protein sequences dataset of
-                        full-length transcripts. To enable users to better
+                        This research has ultimately created four sequence datasets: <strong>nucleotide sequences
+                            dataset of
+                            mosaic genes, haplotype genes, full-length transcripts, and protein sequences dataset of
+                            full-length transcripts</strong>. To enable users to better
                         explore these datasets, we have developed a powerful and user-friendly BLAST front-end
                         visualization platform. The
-                        back-end of this platform is based on NCBI’s BLAST 2.16.0+ localized tool, and we have
+                        back-end of this platform is based on <strong>NCBI’s BLAST 2.16.0+</strong> localized tool, and
+                        we have
                         pre-integrated these four
                         datasets into the front-end search
                         interface. Compared to most complex BLAST tools, we have significantly simplified the
                         traditional BLAST functionalities
                         and created a range of user-friendly interactive features with a clean and streamlined UI.
                     </li>
-                    <li>Search steps:
+                    <li> <strong>Search steps:</strong>
                         <ul>
                             <li>Step 1: You can either copy and paste some query sequences in FASTA format into the
                                 input box or
@@ -796,9 +817,14 @@
                                 sequence into the input box for automatic filling. Additionally, you could also just
                                 click the
                                 "example" button to automatically
-                                retrieve two nucleotide or protein query sequences.</li>
+                                retrieve two nucleotide or protein query sequences (Fig 17).</li>
+                            <div class="image_container">
+                                <img src="../../img/tutorial_blast1.gif" alt="Image description"
+                                    class="clickable_image">
+                                <div class="image_caption">Fig 17. Filling query box</div>
+                            </div>
                             <li>Step 2: Once the query sequence is detected to be valid, the checkboxes of "database"
-                                will automatically become active. You will need to
+                                will automatically become active (Fig 18). You will need to
                                 select one or more database types for the search. You can only choose either nucleotide
                                 or protein databases at the same time, but you can select multiple databases of the same
                                 type at one time, which allows for more comprehensive BLAST results.</li>
@@ -806,9 +832,15 @@
                                 the system will automatically determine
                                 which types of BLAST functions are available based on your query sequence type and
                                 database combination, and then enabling the
-                                corresponding buttons. Additionally, you can hover over each BLAST function button to
+                                corresponding buttons (Fig 18). Additionally, you can hover over each BLAST function
+                                button to
                                 view a brief description of its
                                 algorithm in advance.</li>
+                            <div class="image_container">
+                                <img src="../../img/tutorial_blast2.gif" alt="Image description"
+                                    class="clickable_image">
+                                <div class="image_caption">Fig 18. Selecting database and BLAST function</div>
+                            </div>
                             <li>Step 4: If the user input is valid and the backend software runs successfully, the
                                 server will process your task and return the
                                 results. After the results are loaded, a BLAST result box will appear below the
@@ -817,10 +849,11 @@
                                 will only display the
                                 visualization for one query at a time. To view the visualization for other query
                                 sequences, you can switch the query ID
-                                using the <strong>"Select Result for"</strong> dropdown menu. You can also directly
+                                using the <strong>"Select Result for"</strong> dropdown menu (Fig 19a). You can also
+                                directly
                                 download the result files
                                 for the current query in three
-                                formats from the "Download" dropdown on the right, which includes:
+                                formats from the "Download" dropdown on the right (Fig 19b), which includes:
 
                                 <strong>Pairwise Alignment</strong>: The most common BLAST result, showing alignment
                                 score and
@@ -830,13 +863,19 @@
                                 data, suitable
                                 for custom analysis.
                             </li>
+                            <div class="image_container">
+                                <img src="../../img/tutorial_blast3.png" alt="Image description"
+                                    class="clickable_image">
+                                <div class="image_caption">Fig 19. Switching results between query and download result
+                                    files</div>
+                            </div>
                         </ul>
                     </li>
                     <li>All Hits Bar Plot:
                         <ul>
                             <li>
-                                This chart visualizes the results of Detailed Value Table, showing all matching
-                                intervals. The x-axis represents the length
+                                This chart visualizes the results of Detailed Value Table, showing <strong>all matching
+                                    intervals</strong>. The x-axis represents the length
                                 of the query sequence, and the y-axis represents the subject sequence ID. Since all HSPs
                                 (High-scoring Segment Pairs / High Scoring Pairs)
                                 within a single Hit share the same subject ID, only the first HSP's ID is displayed for
@@ -846,8 +885,9 @@
                                 Each bar in the chart indicates a matching region between a section of the query
                                 sequence and a corresponding section of
                                 the subject sequence for the ID on the y-axis. The direction of the bar indicates the
-                                alignment direction of the query
-                                sequence. You can hover over a bar to view detailed matching descriptions or use your
+                                alignment direction of the <strong>query
+                                    sequence</strong>. You can hover over a bar to view detailed matching descriptions
+                                or use your
                                 mouse scroll wheel or the zoom
                                 tool on the right side of the image to zoom in or out.
                             </li>
