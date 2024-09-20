@@ -173,8 +173,9 @@
 }
 
 .content .image_container .clickable_image {
-    max-height: 355px;
-    max-width: 950px;
+    max-height: 380px;
+    max-width: 980px;
+    padding: 10px;
     cursor: pointer;
     transition: transform 0.3s ease;
     border-radius: 10px;

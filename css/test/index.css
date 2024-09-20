@@ -277,6 +277,8 @@
     font-weight: bold;
     line-height: 1.5;
     padding: 10px 0;
+    max-height: 100px;
+    overflow-y: auto;
 }
 
 .content_container .news_box .news_container .date_container {

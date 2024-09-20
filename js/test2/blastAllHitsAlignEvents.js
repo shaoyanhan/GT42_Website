@@ -699,6 +699,8 @@ function createAlignSeqResultContainer(objectData, hitIndex) {
 
     // 使用经典的SVG序列化方法，为d3.js生成的SVG图像添加下载功能
     alignSeqResultContainer.querySelector('.download_align_area_pic').addEventListener('click', function () {
+        showCustomAlert('Converting started!', 'normal', 1000);
+
         // 获取当前点击的按钮的hitIndex属性，用于定位对应的svg元素
         const hitIndex = parseInt(this.getAttribute('hitIndex'));
         const svg = document.getElementById(`hit_area_align_plot_${hitIndex}`);
@@ -755,6 +757,8 @@ function createAlignSeqResultContainer(objectData, hitIndex) {
 
     // 为序列文本匹配的标签组添加下载事件，由于html2canvas方法生成的效果太差，因此模仿SVG的序列化方法，直接生成一个新的网页，间接实现标签组的下载
     alignSeqResultContainer.querySelector('.download_align_seq_pic').addEventListener('click', function () {
+        showCustomAlert('Converting started!', 'normal', 1000);
+
         const hitIndex = this.getAttribute('hitIndex');
         const targetDiv = document.getElementById(`align_seq_container_${hitIndex}`);
 
@@ -1001,6 +1005,8 @@ function createAlignSeqResultContainer(objectData, hitIndex) {
     // 3. 下载HSP的两两比对txt格式：参考initialContentArea中的splitPairwiseAlignmentResultByIndex，直接存储对应的ID（>GT42G000001）的所有HSP行即可
     // 3. 下载当前subject的数值列表：使用initialContentArea中的splitDetailedTableResultByIndex
     alignSeqResultContainer.querySelector('.download_complete_subject_sequence').addEventListener('click', async function () {
+        showCustomAlert('Downloading started!', 'normal', 1000);
+
         // 根据ID获取完整的subject序列
         const currentQueryIndex = getData('currentBlastResultQueryIndex');
         const currentHitIndex = this.getAttribute('hitIndex');
@@ -1030,6 +1036,8 @@ function createAlignSeqResultContainer(objectData, hitIndex) {
     });
 
     alignSeqResultContainer.querySelector('.download_aligned_subject_sequence').addEventListener('click', async function () {
+        showCustomAlert('Downloading started!', 'normal', 1000);
+
         // 获取当前Hit对应的HSP列表
         const currentQueryIndex = getData('currentBlastResultQueryIndex');
         const currentHitIndex = this.getAttribute('hitIndex');
@@ -1055,6 +1063,8 @@ function createAlignSeqResultContainer(objectData, hitIndex) {
     });
 
     alignSeqResultContainer.querySelector('.download_pairwise_alignment_result').addEventListener('click', async function () {
+        showCustomAlert('Downloading started!', 'normal', 1000);
+
         // 获取format0的结果
         const blastResultPairwiseAlignment = getData('blastResultPairwiseAlignment');
         const resultRows = blastResultPairwiseAlignment.split('\n');
@@ -1087,6 +1097,8 @@ function createAlignSeqResultContainer(objectData, hitIndex) {
     });
 
     alignSeqResultContainer.querySelector('.download_detailed_value_table').addEventListener('click', async function () {
+        showCustomAlert('Downloading started!', 'normal', 1000);
+
         // 获取format2的结果
         const blastResultDetailedTable = getData('blastResultDetailedTable');
         const currentQueryIndex = getData('currentBlastResultQueryIndex');

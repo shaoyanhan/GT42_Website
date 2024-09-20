@@ -220,13 +220,9 @@ document.addEventListener('DOMContentLoaded', () => {
     setNavListLinkEventListener();
     setTitleLinkEventListener();
     setImageZoomEventListner();
-    checkLinkHasID();
 });
 
-// // 确保在所有资源加载完成后再触发
-// window.addEventListener('load', () => {
-//     setUpNavListExpandEventListner();
-//     setNavListLinkEventListener();
-//     setTitleLinkEventListener();
-//     checkLinkHasID();
-// });
+// 确保在所有资源加载完成后再触发
+window.addEventListener('load', () => {
+    checkLinkHasID();
+});
