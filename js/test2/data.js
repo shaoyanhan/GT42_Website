@@ -1252,8 +1252,47 @@ async function fetchPostData(type, postData) {
         console.error(`${type}数据加载失败:`, error);
         return { type: type, data: [] }; // 返回一个空数据结构
     }
-
 }
+
+// async function fetchPostData(type, postData) {
+//     const controller = new AbortController(); // 创建一个 AbortController 实例
+//     // const timeout = 600000; // 设置超时为600秒（10分钟）
+//     const timeout = 20000; // 设置超时为60秒
+
+//     // 设置一个定时器，超时后自动取消请求
+//     const timeoutId = setTimeout(() => controller.abort(), timeout);
+
+//     try {
+//         const url = apiPrefix.IP + apiPrefix.app + apiPrefix[type];
+//         console.log('postUrl: ', url);
+//         console.table('postData: ', postData);
+
+//         const response = await fetch(url, {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/x-www-form-urlencoded',
+//             },
+//             body: new URLSearchParams(postData),
+//             signal: controller.signal // 传入控制器的 signal
+//         });
+
+//         // 如果响应成功，清除定时器
+//         clearTimeout(timeoutId);
+
+//         // 解析响应数据
+//         const data = await response.json();
+//         return data;
+//     }
+//     catch (error) {
+//         if (error.name === 'AbortError') {
+//             console.error(`${type}数据加载失败: 请求超时`);
+//         } else {
+//             console.error(`${type}数据加载失败:`, error);
+//         }
+//         return { type: type, data: [] }; // 返回一个空数据结构
+//     }
+// }
+
 
 
 // 请求全部数据
