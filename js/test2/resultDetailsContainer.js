@@ -354,7 +354,7 @@ function updateHubNetworkNodeResultDetailsContainer(data, container) {
             <h1 class="item_title">ID</h1>
             <a class="item_content click_to_draw_single_network"
                 title="Click to draw its single network"
-                href="/html/test/singleCoExpressionNetwork.html?searchKeyword=${data.name}"
+                href="./singleCoExpressionNetwork.html?searchKeyword=${data.name}"
                 target="_blank"
                 style="--color-gradient-start: ${data.itemStyle.color}; --color-gradient-end: ${data.itemStyle.color};">${data.name}</a>
         </div>`;
@@ -447,7 +447,7 @@ function updateHubNetworkEdgeResultDetailsContainer(data, container) {
             <h1 class="item_title">Source</h1>
             <a class="item_content click_to_draw_single_network" 
             title="Click to draw its single network"
-            href="/html/test/singleCoExpressionNetwork.html?searchKeyword=${data.source}"
+            href="./singleCoExpressionNetwork.html?searchKeyword=${data.source}"
             target="_blank"
             style="--color-gradient-start: ${sourceNodeColor}; --color-gradient-end: ${sourceNodeColor};">${data.source}</a>
         </div>`;
@@ -457,7 +457,7 @@ function updateHubNetworkEdgeResultDetailsContainer(data, container) {
             <h1 class="item_title">Target</h1>
             <a class="item_content click_to_draw_single_network" 
             title="Click to draw its single network"
-            href="/html/test/singleCoExpressionNetwork.html?searchKeyword=${data.target}"
+            href="./singleCoExpressionNetwork.html?searchKeyword=${data.target}"
             target="_blank"
             style="--color-gradient-start: ${targetNodeColor}; --color-gradient-end: ${targetNodeColor};">${data.target}</a>
         </div>`;

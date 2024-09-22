@@ -76,12 +76,22 @@ function setupDownloadButton(buttonId) {
     button.addEventListener('click', () => {
         const type = idToType[buttonId];
         console.log(type);
-        const data = getData(type);
+
         let alertText = 'Converting started!';
 
         if (type === 'downloadHubNetworkNodesTable' || type === 'downloadHubNetworkEdgesTable') {
-            alertText = 'This function is still developing!';
+            // 直接转化为访问下载链接的形式，下载前缀为https://cbi.gxu.edu.cn/download/yhshao/GT42_web/network/
+            // 获取当前的hub网络类型
+            const networkResolution = getData('currentHubNetworkType');
+            const networkType = type === 'downloadHubNetworkNodesTable' ? 'nodes' : 'edges';
+            const filename = 'gt42_' + networkResolution + '_network_' + networkType + '.tsv';
+            const downloadLink = 'https://cbi.gxu.edu.cn/download/yhshao/GT42_web/network/' + filename;
+            showCustomAlert(alertText);
+            window.open(downloadLink);
+            return;
         }
+
+        const data = getData(type);
         showCustomAlert(alertText); // 目前只有下载完成的一瞬间会显示，需要优化
 
         // const csv = convertDataToCSV(data);
