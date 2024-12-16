@@ -78,6 +78,7 @@ function returnAbbreviationDetails(abbreviation) {
         "In1": "Elongation: Internode",
         "NR1": "Elongation: Nodal Root",
         "AM": "Elongation: Apical Meristem",
+        "No": "Elongation: Node",
         "Bu2": "Biennial Root: Bud",
         "Sp": "Florescence: Spikelet",
         "Br": "Florescence: Branch",
@@ -104,7 +105,7 @@ function returnAbbreviationDetails(abbreviation) {
 }
 
 function getHeatmapOption(dataArray) {
-    console.log(dataArray);
+    console.log("heatmap dataArray:", dataArray);
     const heatmapData = extractHeatmapData(dataArray);
     console.log(heatmapData);
     return {
@@ -248,7 +249,7 @@ function getHeatmapOption(dataArray) {
 
         visualMap: {
             min: 0,
-            max: 15,
+            max: 17,
             type: 'continuous', // 定义为连续型 visualMap
             calculable: true,
             orient: 'horizontal',
@@ -256,6 +257,7 @@ function getHeatmapOption(dataArray) {
             top: 10,
             precision: 2,
             hoverLink: true,
+            text: ['', 'log2(TPM+1)'],
             textStyle: {
                 fontWeight: "bold",
                 fontSize: 16

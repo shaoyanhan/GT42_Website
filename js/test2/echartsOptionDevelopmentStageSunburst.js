@@ -339,6 +339,35 @@ let sunburstData = [
                         }
                     }
                 ]
+            },
+            {
+                name: 'Node',
+                itemStyle: {
+                    color: '#009688'
+                },
+                children: [
+                    {
+                        name: 'No-1',
+                        value: 1,
+                        itemStyle: {
+                            color: '#00796b'
+                        }
+                    },
+                    {
+                        name: 'No-2',
+                        value: 1,
+                        itemStyle: {
+                            color: '#00796b'
+                        }
+                    },
+                    {
+                        name: 'No-3',
+                        value: 1,
+                        itemStyle: {
+                            color: '#00796b'
+                        }
+                    }
+                ]
             }
         ]
     },
@@ -508,6 +537,13 @@ let sunburstData = [
                 },
                 children: [
                     {
+                        name: 'Gl-1',
+                        value: 1,
+                        itemStyle: {
+                            color: '#c2185b'
+                        }
+                    },
+                    {
                         name: 'Gl-2',
                         value: 1,
                         itemStyle: {
@@ -529,6 +565,13 @@ let sunburstData = [
                     color: '#f06292'
                 },
                 children: [
+                    {
+                        name: 'LS2-1',
+                        value: 1,
+                        itemStyle: {
+                            color: '#c2185b'
+                        }
+                    },
                     {
                         name: 'LS2-2',
                         value: 1,
@@ -553,6 +596,13 @@ let sunburstData = [
                 children: [
                     {
                         name: 'In2-1',
+                        value: 1,
+                        itemStyle: {
+                            color: '#c2185b'
+                        }
+                    },
+                    {
+                        name: 'In2-2',
                         value: 1,
                         itemStyle: {
                             color: '#c2185b'
@@ -604,6 +654,13 @@ let sunburstData = [
                 children: [
                     {
                         name: 'Bu3-1',
+                        value: 1,
+                        itemStyle: {
+                            color: '#c2185b'
+                        }
+                    },
+                    {
+                        name: 'Bu3-2',
                         value: 1,
                         itemStyle: {
                             color: '#c2185b'

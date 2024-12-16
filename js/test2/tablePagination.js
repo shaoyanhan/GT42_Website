@@ -24,12 +24,15 @@ function updateHaplotypeTable(data, container) {
     container.innerHTML = '';  // 清空当前表格
     data.forEach(row => {
         const tr = document.createElement('tr');
+
+        // 将mosaicID和geneID合并为一列
+        let sequenceID = row.geneID === '--' ? row.mosaicID : row.geneID;
+
         // 给核苷酸序列设置为点击复制按钮，附带自定义的data_属性，用于存储实际要复制的数据。
-        tr.innerHTML = `<td>${row.mosaicID}</td>
-                        <td>${row.geneID}</td>
+        tr.innerHTML = `<td>${sequenceID}</td>
                         <td>${row.areaType}</td>
                         <td>${row.length}</td>
-                        <td><button class="copy_button" data_sequence="${row.nucleotideSequence}">Click to Copy</button></td>`;
+                        <td><button class="copy_button" sequence_id="${sequenceID}" sequence_type="nucleotide">Click to Copy</button></td>`;
         container.appendChild(tr);
     });
 }
@@ -64,19 +67,34 @@ function updateTranscriptTable(data, container) {
     container.innerHTML = '';  // 清空当前表格
     data.forEach(row => {
         const tr = document.createElement('tr');
+
+        // 将前三列ID合并为一列
+        let ID;
+        if (row.transcriptID === '--') {
+            ID = row.geneID === '--' ? row.mosaicID : row.geneID;
+        } else {
+            ID = row.transcriptID;
+        }
+
+        // 去除 subjectStart 和 subjectEnd 中为了绘图设置的 marker 点
+        let subjectStart;
+        let subjectEnd;
+        if (row.areaType === 'softClip' || row.areaType === 'insertion') {
+            subjectStart = '--';
+            subjectEnd = '--';
+        } else {
+            subjectStart = row.subjectStart;
+            subjectEnd = row.subjectEnd;
+        }
+
         // 给核苷酸序列设置为点击复制按钮，附带自定义的data_属性，用于存储实际要复制的数据。
-        tr.innerHTML = `<td>${row.mosaicID}</td>
-                        <td>${row.geneID}</td>
-                        <td>${row.transcriptID}</td>
-                        <td>${row.transcriptIndex}</td>
+        tr.innerHTML = `<td>${ID}</td>
                         <td>${row.areaType}</td>
-                        <td>${row.start}</td>
-                        <td>${row.end}</td>
                         <td>${row.length}</td>
-                        <td>${row.transcriptRange}</td>
-                        <td>${row.transcriptLength}</td>
-                        <td><button class="copy_button" data_sequence="${row.nucleotideSequence}">Click to Copy</button></td>
-                        <td><button class="copy_button" data_sequence="${row.proteinSequence}">Click to Copy</button></td>`;
+                        <td>${row.queryStart}</td>
+                        <td>${row.queryEnd}</td>
+                        <td>${subjectStart}</td>
+                        <td>${subjectEnd}</td>`;
         container.appendChild(tr);
     });
 }
@@ -120,6 +138,9 @@ function updateOrthologousTPMTable(data, container) {
                         <td>${row.AM_1}</td>
                         <td>${row.AM_2}</td>
                         <td>${row.AM_3}</td>
+                        <td>${row.No_1}</td>
+                        <td>${row.No_2}</td>
+                        <td>${row.No_3}</td>
                         <td>${row.Bu2_1}</td>
                         <td>${row.Bu2_2}</td>
                         <td>${row.Bu2_3}</td>
@@ -135,16 +156,20 @@ function updateOrthologousTPMTable(data, container) {
                         <td>${row.Pi_1}</td>
                         <td>${row.Pi_2}</td>
                         <td>${row.Pi_3}</td>
+                        <td>${row.Gl_1}</td>
                         <td>${row.Gl_2}</td>
                         <td>${row.Gl_3}</td>
+                        <td>${row.LS2_1}</td>
                         <td>${row.LS2_2}</td>
                         <td>${row.LS2_3}</td>
                         <td>${row.In2_1}</td>
+                        <td>${row.In2_2}</td>
                         <td>${row.In2_3}</td>
                         <td>${row.No2_1}</td>
                         <td>${row.No2_2}</td>
                         <td>${row.No2_3}</td>
                         <td>${row.Bu3_1}</td>
+                        <td>${row.Bu3_2}</td>
                         <td>${row.Bu3_3}</td>
                         <td>${row.Le2_1}</td>
                         <td>${row.Le2_2}</td>
@@ -158,8 +183,7 @@ function updateXenologousTPMTable(data, container) {
     container.innerHTML = '';  // 清空当前表格
     data.forEach(row => {
         const tr = document.createElement('tr');
-        tr.innerHTML = `<td>${row.mosaicID}</td>
-                        <td>${row.xenologousID}</td>
+        tr.innerHTML = `<td>${row.xenologousID}</td>
                         <td>${row.Ca1_1}</td>
                         <td>${row.Ca1_2}</td>
                         <td>${row.Ca1_3}</td>
@@ -193,6 +217,9 @@ function updateXenologousTPMTable(data, container) {
                         <td>${row.AM_1}</td>
                         <td>${row.AM_2}</td>
                         <td>${row.AM_3}</td>
+                        <td>${row.No_1}</td>
+                        <td>${row.No_2}</td>
+                        <td>${row.No_3}</td>
                         <td>${row.Bu2_1}</td>
                         <td>${row.Bu2_2}</td>
                         <td>${row.Bu2_3}</td>
@@ -208,16 +235,20 @@ function updateXenologousTPMTable(data, container) {
                         <td>${row.Pi_1}</td>
                         <td>${row.Pi_2}</td>
                         <td>${row.Pi_3}</td>
+                        <td>${row.Gl_1}</td>
                         <td>${row.Gl_2}</td>
                         <td>${row.Gl_3}</td>
+                        <td>${row.LS2_1}</td>
                         <td>${row.LS2_2}</td>
                         <td>${row.LS2_3}</td>
                         <td>${row.In2_1}</td>
+                        <td>${row.In2_2}</td>
                         <td>${row.In2_3}</td>
                         <td>${row.No2_1}</td>
                         <td>${row.No2_2}</td>
                         <td>${row.No2_3}</td>
                         <td>${row.Bu3_1}</td>
+                        <td>${row.Bu3_2}</td>
                         <td>${row.Bu3_3}</td>
                         <td>${row.Le2_1}</td>
                         <td>${row.Le2_2}</td>
@@ -231,9 +262,7 @@ function updateGeneTPMTable(data, container) {
     container.innerHTML = '';  // 清空当前表格
     data.forEach(row => {
         const tr = document.createElement('tr');
-        tr.innerHTML = `<td>${row.mosaicID}</td>
-                        <td>${row.xenologousID}</td>
-                        <td>${row.geneID}</td>
+        tr.innerHTML = `<td>${row.geneID}</td>
                         <td>${row.Ca1_1}</td>
                         <td>${row.Ca1_2}</td>
                         <td>${row.Ca1_3}</td>
@@ -267,6 +296,9 @@ function updateGeneTPMTable(data, container) {
                         <td>${row.AM_1}</td>
                         <td>${row.AM_2}</td>
                         <td>${row.AM_3}</td>
+                        <td>${row.No_1}</td>
+                        <td>${row.No_2}</td>
+                        <td>${row.No_3}</td>
                         <td>${row.Bu2_1}</td>
                         <td>${row.Bu2_2}</td>
                         <td>${row.Bu2_3}</td>
@@ -282,16 +314,20 @@ function updateGeneTPMTable(data, container) {
                         <td>${row.Pi_1}</td>
                         <td>${row.Pi_2}</td>
                         <td>${row.Pi_3}</td>
+                        <td>${row.Gl_1}</td>
                         <td>${row.Gl_2}</td>
                         <td>${row.Gl_3}</td>
+                        <td>${row.LS2_1}</td>
                         <td>${row.LS2_2}</td>
                         <td>${row.LS2_3}</td>
                         <td>${row.In2_1}</td>
+                        <td>${row.In2_2}</td>
                         <td>${row.In2_3}</td>
                         <td>${row.No2_1}</td>
                         <td>${row.No2_2}</td>
                         <td>${row.No2_3}</td>
                         <td>${row.Bu3_1}</td>
+                        <td>${row.Bu3_2}</td>
                         <td>${row.Bu3_3}</td>
                         <td>${row.Le2_1}</td>
                         <td>${row.Le2_2}</td>
@@ -305,10 +341,7 @@ function updateTranscriptTPMTable(data, container) {
     container.innerHTML = '';  // 清空当前表格
     data.forEach(row => {
         const tr = document.createElement('tr');
-        tr.innerHTML = `<td>${row.mosaicID}</td>
-                        <td>${row.xenologousID}</td>
-                        <td>${row.geneID}</td>
-                        <td>${row.transcriptID}</td>
+        tr.innerHTML = `<td>${row.transcriptID}</td>
                         <td>${row.Ca1_1}</td>
                         <td>${row.Ca1_2}</td>
                         <td>${row.Ca1_3}</td>
@@ -342,6 +375,9 @@ function updateTranscriptTPMTable(data, container) {
                         <td>${row.AM_1}</td>
                         <td>${row.AM_2}</td>
                         <td>${row.AM_3}</td>
+                        <td>${row.No_1}</td>
+                        <td>${row.No_2}</td>
+                        <td>${row.No_3}</td>
                         <td>${row.Bu2_1}</td>
                         <td>${row.Bu2_2}</td>
                         <td>${row.Bu2_3}</td>
@@ -357,16 +393,20 @@ function updateTranscriptTPMTable(data, container) {
                         <td>${row.Pi_1}</td>
                         <td>${row.Pi_2}</td>
                         <td>${row.Pi_3}</td>
+                        <td>${row.Gl_1}</td>
                         <td>${row.Gl_2}</td>
                         <td>${row.Gl_3}</td>
+                        <td>${row.LS2_1}</td>
                         <td>${row.LS2_2}</td>
                         <td>${row.LS2_3}</td>
                         <td>${row.In2_1}</td>
+                        <td>${row.In2_2}</td>
                         <td>${row.In2_3}</td>
                         <td>${row.No2_1}</td>
                         <td>${row.No2_2}</td>
                         <td>${row.No2_3}</td>
                         <td>${row.Bu3_1}</td>
+                        <td>${row.Bu3_2}</td>
                         <td>${row.Bu3_3}</td>
                         <td>${row.Le2_1}</td>
                         <td>${row.Le2_2}</td>

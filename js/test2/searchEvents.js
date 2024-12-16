@@ -19,12 +19,13 @@ function showAlert(container, message) {
 
 function validateSearchForm(searchKeyword) {
     // 注意：虽然后端可以支持大小写混合的ID，但是前端验证时，只允许大写ID
-    let mosaicPattern = /^GT42G\d{6}$/; // mosaicID的格式：GT42G000001
-    let xenologousPattern = /^GT42G\d{6}\.[A-Z]{2}$/; // xenologousID的格式：GT42G000001.SO
-    // let genePattern = /^GT42G\d{1,6}\.(?:[A-Z]{2}|0)\.\d{1,2}$/; // geneID的格式：GT42G000001.SO.1，加入了mosaic别名的情况：GT42G000001.0.0
-    // let transcriptPattern = /^GT42G\d{1,6}\.[A-Z]{2}\.\d{1,2}\.\d{1,2}$/; // transcriptID的格式：GT42G000001.SO.1.1，已经包括了gene别名的情况：GT42G000001.SO.1.0
-    let genePattern = /^GT42G\d{6}\.[A-Z]{2}\.\d{1,3}$/;  // geneID的格式：GT42G000001.SO.1
-    let transcriptPattern = /^GT42G\d{6}\.[A-Z]{2}\.\d{1,3}\.\d{1,3}$/; // transcriptID的格式：GT42G000001.SO.1.1
+    let mosaicPattern = /^SGI\d{6}$/; // mosaicID的格式：SGI000001
+    // xenologousID的格式：SGI000001.SO或者SGI000001.SS或者SGI000001.SO_SS
+    let xenologousPattern = /^SGI\d{6}\.[A-Z]{2}(?:_[A-Z]{2})?$/;
+    // geneID的格式：在xenologousPattern基础上加上一个最大为三位数的数值
+    let genePattern = /^SGI\d{6}\.[A-Z]{2}(?:_[A-Z]{2})?\.\d{1,3}$/;
+    // transcriptID的格式：在genePattern基础上加上一个最大为三位数的数值
+    let transcriptPattern = /^SGI\d{6}\.[A-Z]{2}(?:_[A-Z]{2})?\.\d{1,3}\.\d{1,3}$/;
 
     // 检查是否匹配任何一个格式
     let isValid = mosaicPattern.test(searchKeyword) ||
@@ -111,10 +112,8 @@ function toggleHelpBox(helpBox) {
 // 下载genomeID列表
 async function downloadGenomeIDList() {
     showCustomAlert('Converting started!');
-    const genomeIDList = await fetchGenomeIDList();
-    const tsv = convertDataToTSV(genomeIDList.data);
-    const filename = 'genomeID_list.tsv'; // 自定义文件名
-    downloadCSV(tsv, filename);
+    const downloadLink = 'https://cbi.gxu.edu.cn/download/yhshao/GT42_web/others/genome_id_table.tsv';
+    window.open(downloadLink);
 }
 
 

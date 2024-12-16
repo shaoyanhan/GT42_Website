@@ -270,6 +270,8 @@
     /* 标题字体加粗 */
     border: none;
     /* 去除所有边线 */
+    white-space: nowrap;
+    /* 防止标题文本换行 */
 }
 
 .center_container .content_container .snp_evidence_result_container details .table_footer_pagination_container .table_container table td,

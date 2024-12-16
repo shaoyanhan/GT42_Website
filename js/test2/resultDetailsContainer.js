@@ -1,6 +1,6 @@
 import { createClickToCopyHandler } from './copyTextToClipboard.js';
 import { showCustomAlert } from './showCustomAlert.js';
-import { getData, validateGenomeID } from './data.js';
+import { getData, validateGenomeID, fetchRawData2 } from './data.js';
 
 // 更新结果详情的函数映射
 // 因为haplotype和SNP共用一个result details容器, 所以不能用id映射到更新函数, 而是直接传入type进行分辨
@@ -20,47 +20,85 @@ let updateResultDetailsContainerFunctions = {
     haplotypeSNPChartSNP: updateHaplotypeSNPChartSNPResultDetailsContainer,
 };
 
-function updateHaplotypeResultDetailsContainer(data, container) {
+async function fetchSequence(sequenceID, sequenceType) {
+    const response = await fetchRawData2('getSeqWithID', { 'sequenceID': sequenceID, 'sequenceType': sequenceType });
+    const responseData = response.data;
+    if (responseData.length === 0) {
+        showCustomAlert('No sequence data found for the specified ID', 'error');
+        return '';
+    }
+    return responseData[sequenceType];
+}
+
+function generateHighlightSequenceElement(sequence, highlightStart, highlightEnd) {
+    highlightStart = parseInt(highlightStart);
+    highlightEnd = parseInt(highlightEnd);
+
+    // 检查输入的有效性
+    if (typeof sequence !== 'string' || highlightStart < 1 || highlightEnd > sequence.length || highlightStart > highlightEnd) {
+        console.error('Invalid input for generateHighlightSequenceElement', sequence, highlightStart, highlightEnd);
+        return;
+    }
+
+    // 将 1 基索引转换为 0 基索引
+    const startIndex = highlightStart - 1;
+    const endIndex = highlightEnd;
+
+    // 获取需要高亮的片段
+    const beforeHighlight = sequence.slice(0, startIndex);
+    const highlighted = sequence.slice(startIndex, endIndex);
+    const afterHighlight = sequence.slice(endIndex);
+
+    // 生成HTML，使用 .highlight 样式包装高亮区域
+    const highlightedHTML = `
+    <span>${beforeHighlight}</span><span class="highlight_transcript_range">${highlighted}</span><span>${afterHighlight}</span>
+  `;
+
+    return highlightedHTML;
+}
+
+
+async function updateHaplotypeResultDetailsContainer(data, container) {
     // 定位到result_details容器
     const resultDetails = container.querySelector('.result_details');
 
     // 清空现有内容
     resultDetails.innerHTML = '';
 
+    let ID = data.geneID === '--' ? data.mosaicID : data.geneID;
+
     // 创建并添加新的内容
-    const mosaicIDContent = `
+    const IDContent = `
         <div class="item_container">
-            <h1 class="item_title">mosaicID</h1>
-            <p class="item_content">${data.mosaicID}</p>
+            <h1 class="item_title">ID</h1>
+            <p class="item_content">${ID}</p>
         </div>`;
-    const geneIDContent = `
-        <div class="item_container">
-            <h1 class="item_title">geneID</h1>
-            <p class="item_content">${data.geneID}</p>
-        </div>`;
+
+
     const areaTypeContent = `
         <div class="item_container">
-            <h1 class="item_title">areaType</h1>
+            <h1 class="item_title">Area Type</h1>
             <p class="item_content">${data.areaType}</p>
         </div>`;
     const lengthContent = `
         <div class="item_container">
-            <h1 class="item_title">length</h1>
+            <h1 class="item_title">Length</h1>
             <p class="item_content">${data.length}</p>
         </div>`;
 
+    const nucleotideSequence = await fetchSequence(ID, 'nucleotide');
     const sequenceContainer = `
-        <div class="sequence_item_container">
-            <div class="sequence_container_header">
-                <h1 class="item_title">nucleotideSequence</h1>
-                <button class="copy_button" data_sequence="${data.nucleotideSequence}">Copy</button>
-            </div>
-            <div class="sequence_container">
-                <p class="item_content">${data.nucleotideSequence}</p>
-            </div>
-        </div>`;
+            <div class="sequence_item_container">
+                <div class="sequence_container_header">
+                    <h1 class="item_title">Nucleotide Sequence</h1>
+                    <button class="copy_button" data_sequence="${nucleotideSequence}">Copy</button>
+                </div>
+                <div class="sequence_container">
+                    <p class="item_content">${nucleotideSequence}</p>
+                </div>
+            </div>`;
 
-    resultDetails.innerHTML = mosaicIDContent + geneIDContent + areaTypeContent + lengthContent + sequenceContainer;
+    resultDetails.innerHTML = IDContent + areaTypeContent + lengthContent + sequenceContainer;
 }
 
 function updateSNPResultDetailsContainer(data, container) {
@@ -212,7 +250,8 @@ function updateSNPResultDetailsContainer(data, container) {
 
 }
 
-function updateTranscriptResultDetailsContainer(data, container) {
+
+async function updateTranscriptResultDetailsContainer(data, container) {
     // 定位到result_details容器
     const resultDetails = container.querySelector('.result_details');
 
@@ -220,79 +259,129 @@ function updateTranscriptResultDetailsContainer(data, container) {
     resultDetails.innerHTML = '';
 
     // 创建并添加新的内容，h1分别为mosaicID, geneID, transcriptID, transcriptIndex, areaType, start, end, length, transcriptRange, transcriptLength, proteinSequence, nucleotideSequence，最后两个使用sequence_item_container结构
-    const mosaicIDContent = `
+    // 将前三列ID合并为一列
+    let ID;
+    if (data.transcriptID === '--') {
+        ID = data.geneID === '--' ? data.mosaicID : data.geneID;
+    } else {
+        ID = data.transcriptID;
+    }
+
+    // 去除 subjectStart 和 subjectEnd 中为了绘图设置的 marker 点
+    let subjectStart;
+    let subjectEnd;
+    let areaType = data.areaType;
+    if (areaType === 'softClip' || areaType === 'insertion') {
+        subjectStart = '--';
+        subjectEnd = '--';
+    } else {
+        subjectStart = data.subjectStart;
+        subjectEnd = data.subjectEnd;
+    }
+
+    const IDContent = `
         <div class="item_container">
-            <h1 class="item_title">mosaicID</h1>
-            <p class="item_content">${data.mosaicID}</p>
+            <h1 class="item_title">ID</h1>
+            <p class="item_content">${ID}</p>
         </div>`;
-    const geneIDContent = `
-        <div class="item_container">
-            <h1 class="item_title">geneID</h1>
-            <p class="item_content">${data.geneID}</p>
-        </div>`;
-    const transcriptIDContent = `
-        <div class="item_container">
-            <h1 class="item_title">transcriptID</h1>
-            <p class="item_content">${data.transcriptID}</p>
-        </div>`;
-    const transcriptIndexContent = `
-        <div class="item_container">
-            <h1 class="item_title">transcriptIndex</h1>
-            <p class="item_content">${data.transcriptIndex}</p>
-        </div>`;
+
     const areaTypeContent = ` 
         <div class="item_container">
-            <h1 class="item_title">areaType</h1>
-            <p class="item_content">${data.areaType}</p>
-        </div>`;
-    const startContent = `
-        <div class="item_container">
-            <h1 class="item_title">start</h1>
-            <p class="item_content">${data.start}</p>
-        </div>`;
-    const endContent = `    
-        <div class="item_container">
-            <h1 class="item_title">end</h1>
-            <p class="item_content">${data.end}</p>
+            <h1 class="item_title">Area Type</h1>
+            <p class="item_content">${areaType}</p>
         </div>`;
     const lengthContent = `
         <div class="item_container">
-            <h1 class="item_title">length</h1>
+            <h1 class="item_title">Length</h1>
             <p class="item_content">${data.length}</p>
         </div>`;
-    const transcriptRangeContent = `
+    const queryStartContent = `
         <div class="item_container">
-            <h1 class="item_title">transcriptRange</h1>
-            <p class="item_content">${data.transcriptRange}</p>
+            <h1 class="item_title">Query Start</h1>
+            <p class="item_content">${data.queryStart}</p>
         </div>`;
-    const transcriptLengthContent = `
+    const queryEndContent = `    
         <div class="item_container">
-            <h1 class="item_title">transcriptLength</h1>
-            <p class="item_content">${data.transcriptLength}</p>
+            <h1 class="item_title">Query End</h1>
+            <p class="item_content">${data.queryEnd}</p>
+        </div>`;
+    const subjectStartContent = `
+        <div class="item_container">
+            <h1 class="item_title">Subject Start</h1>
+            <p class="item_content">${subjectStart}</p>
+        </div>`;
+    const subjectEndContent = `    
+        <div class="item_container">
+            <h1 class="item_title">Subject End</h1>
+            <p class="item_content">${subjectEnd}</p>
         </div>`;
 
-    const nucleotideSequenceContainer = `
+    let queryNucleotideSequence;
+    let queryProteinSequence;
+    let subjectNucleotideSequence;
+
+    // 检查当前的比对目标序列类型是什么，并获取其核酸序列
+    const currentTranscriptSubjectType = getData('currentTranscriptSubjectType');
+    let subjectID = currentTranscriptSubjectType === 'mosaic' ? data.mosaicID : data.geneID;
+    subjectNucleotideSequence = await fetchSequence(subjectID, 'nucleotide');
+
+    // 获取 query 的核酸序列和蛋白质序列
+    if (areaType === 'mosaic' || areaType === 'haplotype') {
+        queryNucleotideSequence = 'None';
+        queryProteinSequence = 'None';
+    } else {
+        queryNucleotideSequence = await fetchSequence(data.transcriptID, 'nucleotide');
+        queryProteinSequence = await fetchSequence(data.transcriptID, 'peptide');
+    }
+
+    let querySequenceElement;
+    let subjectSequenceElement;
+    if (areaType === 'exon') {
+        querySequenceElement = generateHighlightSequenceElement(queryNucleotideSequence, data.queryStart, data.queryEnd);
+        subjectSequenceElement = generateHighlightSequenceElement(subjectNucleotideSequence, data.subjectStart, data.subjectEnd);
+    } else if (areaType === 'softClip' || areaType === 'insertion') {
+        querySequenceElement = generateHighlightSequenceElement(queryNucleotideSequence, data.queryStart, data.queryEnd);
+        subjectSequenceElement = subjectNucleotideSequence;
+    } else if (areaType === 'intron' || areaType === 'deletion') {
+        querySequenceElement = queryNucleotideSequence;
+        subjectSequenceElement = generateHighlightSequenceElement(subjectNucleotideSequence, data.subjectStart, data.subjectEnd);
+    } else {
+        querySequenceElement = queryNucleotideSequence;
+        subjectSequenceElement = subjectNucleotideSequence;
+    }
+
+    const queryNucleotideSequenceContainer = `
         <div class="sequence_item_container">
             <div class="sequence_container_header">
-                <h1 class="item_title">nucleotideSequence</h1>
-                <button class="copy_button" data_sequence="${data.nucleotideSequence}">Copy</button>
+                <h1 class="item_title">Query Nucleotide</h1>
+                <button class="copy_button" data_sequence="${queryNucleotideSequence}">Copy</button>
             </div>
             <div class="sequence_container">
-                <p class="item_content">${data.nucleotideSequence}</p>
+                <p class="item_content">${querySequenceElement}</p>
             </div>
         </div>`;
-    const proteinSequenceContainer = `
+    const subjectNucleotideSequenceContainer = `
         <div class="sequence_item_container">
             <div class="sequence_container_header">
-                <h1 class="item_title">proteinSequence</h1>
-                <button class="copy_button" data_sequence="${data.proteinSequence}">Copy</button>
+                <h1 class="item_title">Subject Nucleotide</h1>
+                <button class="copy_button" data_sequence="${subjectNucleotideSequence}">Copy</button>
             </div>
             <div class="sequence_container">
-                <p class="item_content">${data.proteinSequence}</p>
+                <p class="item_content">${subjectSequenceElement}</p>
+            </div>
+        </div>`;
+    const queryProteinSequenceContainer = `
+        <div class="sequence_item_container">
+            <div class="sequence_container_header">
+                <h1 class="item_title">Query Peptide</h1>
+                <button class="copy_button" data_sequence="${queryProteinSequence}">Copy</button>
+            </div>
+            <div class="sequence_container">
+                <p class="item_content">${queryProteinSequence}</p>
             </div>
         </div>`;
 
-    resultDetails.innerHTML = mosaicIDContent + geneIDContent + transcriptIDContent + transcriptIndexContent + areaTypeContent + startContent + endContent + lengthContent + transcriptRangeContent + transcriptLengthContent + nucleotideSequenceContainer + proteinSequenceContainer;
+    resultDetails.innerHTML = IDContent + areaTypeContent + lengthContent + queryStartContent + queryEndContent + subjectStartContent + subjectEndContent + queryNucleotideSequenceContainer + subjectNucleotideSequenceContainer + queryProteinSequenceContainer;
 }
 
 function updateHubNetworkNodeResultDetailsContainer(data, container) {
@@ -746,7 +835,7 @@ function updateSingleNetworkEdgeResultDetailsContainer(data, container) {
         });
 }
 
-function updateHaplotypeSNPChartHaplotypeResultDetailsContainer(data, container) {
+async function updateHaplotypeSNPChartHaplotypeResultDetailsContainer(data, container) {
     console.log('data:', data);
     console.log('container:', container);
 
@@ -756,32 +845,34 @@ function updateHaplotypeSNPChartHaplotypeResultDetailsContainer(data, container)
     // 清空现有内容
     resultDetails.innerHTML = '';
 
-    let tableContent = data.SNPTable.map(item => { return `<tr><td>${item[0]}</td><td>${item[1]}</td></tr>` }).join('');
 
     const areaTypeContent = `
                 <div class="item_container">
-                    <h1 class="item_title">areaType</h1>
+                    <h1 class="item_title">Area Type</h1>
                     <p class="item_content">${data.areaType}</p>
                 </div>`;
-    const mosaicIDContent = `
-                <div class="item_container">
-                    <h1 class="item_title">mosaicID</h1>
-                    <p class="item_content">${data.mosaicID}</p>
-                </div>`;
-    const geneIDContent = `
-                <div class="item_container">
-                    <h1 class="item_title">geneID</h1>
-                    <p class="item_content">${data.geneID}</p>
-                </div>`;
+
+    let ID = data.geneID === '--' ? data.mosaicID : data.geneID;
+
+    // 创建并添加新的内容
+    const IDContent = `
+        <div class="item_container">
+            <h1 class="item_title">ID</h1>
+            <p class="item_content">${ID}</p>
+        </div>`;
+
     const lengthContent = `
                 <div class="item_container">
-                    <h1 class="item_title">length</h1>
+                    <h1 class="item_title">Length</h1>
                     <p class="item_content">${data.length}</p>
                 </div>`;
+
+    let tableContent = data.SNPTable.map(item => { return `<tr><td>${item[0]}</td><td>${item[1]}</td></tr>` }).join('');
+
     const haplotypeSNPTableContent = `
                 <div class="table_item_container">
                     <div class="table_header_container">
-                        <h1 class="item_title">haplotypeSNP</h1>
+                        <h1 class="item_title">Haplotype SNP</h1>
                         <button class="download_button">Download</button>
                     </div>
                     <div class="table_content_container">
@@ -804,18 +895,20 @@ function updateHaplotypeSNPChartHaplotypeResultDetailsContainer(data, container)
                         </div>
                     </div>
                 </div>`;
-    const nucleotideSequenceContent = `
-                <div class="sequence_item_container">
-                    <div class="sequence_container_header">
-                        <h1 class="item_title">nucleotideSequence</h1>
-                        <button class="copy_button" data_sequence="${data.nucleotideSequence}">Copy</button>
-                    </div>
-                    <div class="sequence_container">
-                        <p class="item_content">${data.nucleotideSequence}</p>
-                    </div>
-                </div>`;
 
-    resultDetails.innerHTML = areaTypeContent + mosaicIDContent + geneIDContent + lengthContent + haplotypeSNPTableContent + nucleotideSequenceContent;
+    const nucleotideSequence = await fetchSequence(ID, 'nucleotide');
+    const sequenceContainer = `
+            <div class="sequence_item_container">
+                <div class="sequence_container_header">
+                    <h1 class="item_title">Nucleotide Sequence</h1>
+                    <button class="copy_button" data_sequence="${nucleotideSequence}">Copy</button>
+                </div>
+                <div class="sequence_container">
+                    <p class="item_content">${nucleotideSequence}</p>
+                </div>
+            </div>`;
+
+    resultDetails.innerHTML = areaTypeContent + IDContent + lengthContent + haplotypeSNPTableContent + sequenceContainer;
 
     // 为这部分的表格结构中的下载按钮单独添加下载按钮事件监听器，这个地方可以类似于copyTextToClipboards.js使用工厂函数独立，但是前提是要将haplotypeSNPs提前存储起来
     container.querySelector('.download_button').addEventListener('click', function () {
@@ -845,44 +938,44 @@ function updateHaplotypeSNPChartSNPResultDetailsContainer(data, container) {
 
     const areaTypeContent = `
                 <div class="item_container">
-                    <h1 class="item_title">areaType</h1>
+                    <h1 class="item_title">Area Type</h1>
                     <p class="item_content">${data.areaType}</p>
                 </div>`;
     const baseContent = `
                 <div class="item_container">
-                    <h1 class="item_title">base</h1>
+                    <h1 class="item_title">Base</h1>
                     <div style="width: 10px; height: 10px; margin: 10px; border-radius: 50%; background-color: ${data.selectedSNPBaseColor}"></div>
                     <p class="item_content">${data.selectedSNPBase}</p>
                 </div>`;
     const mosaicIDContent = `
                 <div class="item_container">
-                    <h1 class="item_title">mosaicID</h1>
+                    <h1 class="item_title">Mosaic ID</h1>
                     <p class="item_content">${data.mosaicID}</p>
                 </div>`;
     const SNPSiteContent = `
                 <div class="item_container">
-                    <h1 class="item_title">SNPSite</h1>
+                    <h1 class="item_title">SNP Site</h1>
                     <p class="item_content">${data.SNPSite}</p>
                 </div>`;
     const SNPTypeContent = `
                 <div class="item_container">
-                    <h1 class="item_title">SNPType</h1>
+                    <h1 class="item_title">SNP Type</h1>
                     <p class="item_content">${data.SNPType}</p>
                 </div>`;
     const IsoSeqEvidenceContent = `
                 <div class="item_container">
-                    <h1 class="item_title">IsoSeqEvidence</h1>
+                    <h1 class="item_title">Iso-Seq Evidence</h1>
                     <p class="item_content">${data.IsoSeqEvidence}</p>
                 </div>`;
     const RNASeqEvidenceContent = `
                 <div class="item_container">
-                    <h1 class="item_title">RNASeqEvidence</h1>
+                    <h1 class="item_title">RNA-Seq Evidence</h1>
                     <p class="item_content">${data.RNASeqEvidence}</p>
                 </div>`;
     const haplotypeSNPTableContent = `
                 <div class="table_item_container">
                     <div class="table_header_container">
-                        <h1 class="item_title">haplotypeSNP</h1>
+                        <h1 class="item_title">Haplotype SNP</h1>
                         <button class="download_button">Download</button>
                     </div>
                     <div class="table_content_container">
@@ -890,7 +983,7 @@ function updateHaplotypeSNPChartSNPResultDetailsContainer(data, container) {
                             <table>
                                 <thead>
                                     <tr>
-                                        <th>haplotype ID</th>
+                                        <th>Haplotype ID</th>
                                         <th>Type</th>
                                     </tr>
                                 </thead>

@@ -1,22 +1,22 @@
 let startbp = 0;
 
 function renderItem(params, api) {
-    // console.log(params);
-    // console.log(api);
+    // console.log("params: ", params);
+    // console.log("api: ", api);
     // var categoryIndex = api.value(3);
     // let geneID = api.value(1);
     let transcriptID = api.value(2);
-    let areaType = api.value(4);
+    let areaType = api.value(3);
     // let yLable = (areaType == 'haplotype' ? geneID : transcriptID);
     let yLable = transcriptID;
-    let start = api.coord([api.value(5), yLable]); // x, y
-    let end = api.coord([api.value(6), yLable]);
+    let start = api.coord([api.value(7), yLable]); // x, y
+    let end = api.coord([api.value(8) + 1, yLable]); // 这里的加1是因为绘制点时取的是区间的左端点，但是1bp是一个长度为1的区间，所以需要加1让右端点也在区间内
     let height = 0;
 
-    if (areaType == 'exon' || areaType == 'haplotype') {
-        height = api.size([0, 1])[1] * 0.6;
-    } else {
+    if (areaType == 'intron' || areaType == 'deletion') {
         height = api.size([0, 1])[1] * 0.1;
+    } else {
+        height = api.size([0, 1])[1] * 0.6;
     }
 
     let rectShape = echarts.graphic.clipRectByRect(
@@ -44,7 +44,7 @@ function renderItem(params, api) {
     );
 }
 
-// 为了绘制图像时y轴统一使用transcriptID列，所以要使用.0后缀为haplotype添加一个虚拟的transcriptID
+// 绘制图像时y轴统一使用transcriptID列，而mosaic行或haplotype行（第一行）的transcriptID都为'--'，需要单独添加一个虚拟的transcriptID
 function insertTranscriptID(transcriptData) {
     // 遍历transcriptData
     for (let i = 0; i < transcriptData.length; i++) {
@@ -58,32 +58,63 @@ function insertTranscriptID(transcriptData) {
     return transcriptData;
 }
 
+// 将softClip和insertion的行分离出来绘制点图
+function separateMarkers(transcriptData) {
+    let markerData = [];
+    let transcriptDataNew = [];
+    for (let i = 0; i < transcriptData.length; i++) {
+        let areaType = transcriptData[i][3];
+        if (areaType == 'softClip' || areaType == 'insertion') {
+            markerData.push(transcriptData[i]);
+        } else {
+            transcriptDataNew.push(transcriptData[i]);
+        }
+    }
+    return [transcriptDataNew, markerData];
+}
+
 function getTranscriptOption(transcriptData) {
-    transcriptData = insertTranscriptID(transcriptData);
-    console.log(transcriptData);
+    console.log("transcriptData: ", transcriptData);
+
+    let [transcriptDataNew, markerData] = separateMarkers(transcriptData);
+    console.log("transcriptDataNew: ", transcriptDataNew);
+    console.log("markerData: ", markerData);
+
     return {
         tooltip: {
 
             formatter: function (params) {
                 // console.log(params);
                 // 设置不同图形的提示信息，不知道为什么不能在series里面单独设置
-                let areaType = params.value[4];
-                if (areaType == 'haplotype') {
+                let transcriptID = params.value[2];
+                let areaType = params.value[3];
+                let queryRangeStr;
+                let subjectRangeStr;
+
+                if (areaType === 'mosaic' || areaType === 'haplotype') {
                     return [
-                        params.marker + params.value[1],
-                        'Mosaic ID: ' + params.value[0],
-                        'Gene ID: ' + params.value[1],
-                        'Gene Range: ' + params.value[8],
-                        'Gene Length: ' + params.value[7] + ' bp',
+                        params.marker + areaType,
+                        'ID: ' + (areaType === "mosaic" ? params.value[0] : params.value[1]),
+                        'Range: ' + params.value[7] + ' - ' + params.value[8] + ' bp',
                     ].join('<br>');
+                } else if (areaType === 'exon') {
+                    queryRangeStr = params.value[5] + ' - ' + params.value[6] + ' bp';
+                    subjectRangeStr = params.value[7] + ' - ' + params.value[8] + ' bp';
+                } else if (areaType === 'intron' || areaType === 'deletion') {
+                    queryRangeStr = ' -- ';
+                    subjectRangeStr = params.value[7] + ' - ' + params.value[8] + ' bp';
+                } else {
+                    queryRangeStr = params.value[5] + ' - ' + params.value[6] + ' bp';
+                    subjectRangeStr = ' -- ';
                 }
                 return [
-                    params.marker + params.name,
-                    (params.value[4] == 'exon' ? 'Exon: ' : 'Intron: ') + params.value[5] + ' - ' + params.value[6] + ' bp',
+                    params.marker + areaType,
+                    'Length: ' + params.value[4] + ' bp',
+                    'Query Range: ' + queryRangeStr,
+                    'Subject Range: ' + subjectRangeStr,
                     'Transcript ID: ' + params.value[2],
-                    'Transcript Range: ' + params.value[8] + ' bp',
-                    'Transcript Length: ' + params.value[9] + ' bp',
                 ].join('<br>');
+
             },
             textStyle: {
                 fontSize: 16
@@ -182,11 +213,13 @@ function getTranscriptOption(transcriptData) {
         },
         xAxis:
         {
-            min: startbp,
-            scale: true,
+            min: -2,
+            // scale: true,
             axisLabel: {
                 formatter: function (val) {
-                    return Math.round(Math.max(0, val - startbp)) + ' bp';
+                    // return Math.round(Math.max(0, val - startbp)) + ' bp';
+                    return Math.round(val - startbp) + ' bp';
+
                 },
                 fontSize: 15
             },
@@ -201,24 +234,15 @@ function getTranscriptOption(transcriptData) {
             axisLabel: {
                 show: true,
                 fontSize: 15,
-                // 这里不能使用index改变单倍型的ID标签，因为index是当前画幅中的index，而不是数据中的index，一旦画幅改变，那么index也会改变
+                // 修改第一行的名称为mosaicID或者haplotypeID
+                // 如果需要修改非第一行的行名称，则不能使用index改变单倍型的ID标签，因为index是当前画幅中的index，而不是数据中的index，一旦画幅改变，那么index也会改变
                 formatter: function (value, index) {
-                    // 对value以'.'进行分割，如果最后一个元素是0，那么说明是haplotype，将末尾的.0去掉
-                    let valueArray = value.split('.');
-
-                    // console.log('value: ', value);
-                    // console.log('index: ', index);
-                    // console.log('transcriptData[index]: ', transcriptData[index]);
-                    // console.log('valueArray: ', valueArray);
-
-                    if (valueArray[valueArray.length - 1] == '0') {
-                        return valueArray.slice(0, valueArray.length - 1).join('.');
-                    } else {
-                        return value;
-                    }
-
+                    if (value !== '--') return value;
+                    const firstRow = transcriptData[0];
+                    if (firstRow[3] === 'mosaic') return firstRow[0];
+                    return firstRow[1];
                 }
-            }
+            },
             // data: categories
         },
         series: [
@@ -229,7 +253,7 @@ function getTranscriptOption(transcriptData) {
                 itemStyle: {
                     opacity: 1,
                     color: function (params) {
-                        let areaType = params.data[4];
+                        let areaType = params.data[3];
                         if (areaType == 'haplotype') {
                             // console.log('itemStyle: ', params);
                             // 对params.value[1]以.为分隔符进行拆分，取第二个元素判断物种信息
@@ -239,25 +263,29 @@ function getTranscriptOption(transcriptData) {
                                 return '#AED581';
                             } else if (species == 'SS') {
                                 return '#4DB6AC';
-                            } else if (species == 'CO') {
-                                return '#F48FB1';
-                            } else if (species == 'UK') {
+                            } else if (species == 'SO_SS') {
                                 return '#A1887F';
                             } else {
                                 return 'black';
                             }
                         } else {
-                            if (areaType == 'exon') {
+                            if (areaType == 'mosaic') {
+                                return '#657FCB';
+                            } else if (areaType == 'exon') {
                                 return '#a8e1f5';
-                            } else {
+                            } else if (areaType == 'intron') {
                                 return '#D2DE32';
+                            } else if (areaType == 'deletion') {
+                                return 'gray';
+                            } else {
+                                return 'black';
                             }
                         }
                     }
                 },
                 borderRadius: 5,
                 encode: {
-                    x: [5, 6],
+                    x: [7, 8],
                     // y: 3,
                     y: 2,
                     // tooltip: {
@@ -268,7 +296,7 @@ function getTranscriptOption(transcriptData) {
                     // }
                 },
 
-                data: transcriptData,
+                data: transcriptDataNew,
                 // custom 模式下无法使用select,只能使用highlight
                 // select: {
                 //     disabled: false,
@@ -278,6 +306,39 @@ function getTranscriptOption(transcriptData) {
                 //     }
                 // },
                 // selectedMode: 'single',
+            },
+            {
+                name: 'marker',
+                type: 'scatter', // Use scatter plot for markers
+                encode: {
+                    x: 7, // Marker position on the x-axis
+                    y: 2  // Corresponding transcript ID on the y-axis
+                },
+                // symbol: "path://M197,476.5L177,476.5L177,481L168,472L177,463L177,467.5L197,467.5Z",
+                symbol: function (value, params) {
+                    let areaType = params.data[3];
+                    // 根据是否是第一个softClip返回左右箭头
+                    if (areaType === 'softClip') {
+                        return params.data[5] === '1' ? 'path://M197,476.5L177,476.5L177,481L168,472L177,463L177,467.5L197,467.5Z' : 'path://M506,467.5L526,467.5L526,463L535,472L526,481L526,476.5L506,476.5Z';
+                    } else if (areaType === 'insertion') {
+                        return 'arrow';
+                    } else {
+                        return 'pin'
+                    }
+                },
+                symbolSize: 15, // Adjust marker size
+                // symbolSize: function () {
+                //     // 动态计算标记点大小，限制为 exon 高度的 80%
+                //     let baseSize = 10; // 默认大小
+                //     return Math.min(baseSize * currentZoomScale, exonHeight * 0.8);
+                // },
+                itemStyle: {
+                    color: function (params) {
+                        let areaType = params.data[3];
+                        return areaType === 'softClip' ? '#60bd84ba' : '#887ba5ba'; // Different colors for marker types
+                    }
+                },
+                data: markerData
             }
         ],
         animation: true,

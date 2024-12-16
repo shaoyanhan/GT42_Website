@@ -6,7 +6,7 @@ import { setupDownloadButton } from "./downloadTable.js";
 import { initialContentArea } from "./initialContentAreaFullLengthTranscriptome.js";
 import { setUpSearchEventListeners } from "./searchEvents.js";
 import { submitSearchForm } from "./searchEvents.js";
-import { createClickToCopyHandler } from './copyTextToClipboard.js';
+import { createClickToCopyHandler, clickToCopyHandlerHaplotypeTable } from './copyTextToClipboard.js';
 
 
 
@@ -24,7 +24,7 @@ function checkURLSearchKeyword() {
 function initialBasedOnURLSearchKeyword() {
     if (checkURLSearchKeyword()) {
         // 如果URL中有searchKeyword参数，那么使用searchKeyword参数初始化页面
-        // http://127.0.0.1:5501/html/test/fullLengthTranscriptome.html?searchKeyword=GT42G000002
+        // http://127.0.0.1:5501/html/test/fullLengthTranscriptome.html?searchKeyword=SGI000002
         let searchKeyword = new URLSearchParams(window.location.search).get('searchKeyword');
 
         // 找到搜索框组件
@@ -38,13 +38,13 @@ function initialBasedOnURLSearchKeyword() {
         submitSearchForm(searchContainer);
     } else {
         // 如果URL中没有searchKeyword参数，那么使用默认的mosaicID初始化页面
-        initialContentArea('GT42G000001', 'mosaic');
+        initialContentArea('SGI000001', 'mosaic');
     }
 }
 
 // 确保文档加载完成后再执行初始化
 document.addEventListener('DOMContentLoaded', async () => {
-    // initialContentArea('GT42G000001', 'mosaic');
+    // initialContentArea('SGI000001', 'mosaic');
     initialBasedOnURLSearchKeyword();
 
     // 由于 haplotype table 只有一种类型的 pagination data，所以只需要注册一次事件监听器
@@ -73,8 +73,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     // 为 haplotype table 和 transcript table 中的复制按钮添加事件监听器
     let haplotypeTableContainer = document.querySelector('#haplotype_table_container'); // 获取相应id的表格容器
     let transcriptTableContainer = document.querySelector('#transcript_table_container'); // 获取相应id的表格容器
-    haplotypeTableContainer.addEventListener('click', clickToCopyHandler);
-    transcriptTableContainer.addEventListener('click', clickToCopyHandler);
+    haplotypeTableContainer.addEventListener('click', clickToCopyHandlerHaplotypeTable);
+    transcriptTableContainer.addEventListener('click', clickToCopyHandlerHaplotypeTable);
 
     setUpSearchEventListeners('.search_container'); // 为搜索容器添加事件监听器
     haplotypeChart.on('click', clickHaplotypeChartsEvents); // 为单倍型图像添加事件监听器

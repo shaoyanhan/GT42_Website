@@ -1012,7 +1012,7 @@ function createAlignSeqResultContainer(objectData, hitIndex) {
         const currentHitIndex = this.getAttribute('hitIndex');
         const subjectID = getSubjectIDByIndex(currentQueryIndex, currentHitIndex);
         const currentDatabaseSeqType = getData('currentBlastDatabaseSeqType');
-        const response = await fetchRawData2('getRawSequenceWithType', { 'sequenceID': subjectID, 'sequenceType': currentDatabaseSeqType });
+        const response = await fetchRawData2('getSeqWithID', { 'sequenceID': subjectID, 'sequenceType': currentDatabaseSeqType });
         const responseData = response.data;
 
         if (responseData.length === 0) {
@@ -1021,8 +1021,8 @@ function createAlignSeqResultContainer(objectData, hitIndex) {
         }
 
         // 将序列数据转换为fasta格式
-        let sequence = responseData.sequence;
-        let sequenceLength = responseData.sequenceLength;
+        let sequence = responseData[currentDatabaseSeqType];
+        let sequenceLength = sequence.length;
         let resultLines = [];
         resultLines.push(`>${subjectID}, length: ${sequenceLength} bp`); // 生成标题行格式>GT42G000001, length：1000bp
         // 序列每50bp换行

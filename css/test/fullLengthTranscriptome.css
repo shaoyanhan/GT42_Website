@@ -118,7 +118,10 @@
     border-radius: 5px;
 }
 
-
+.content_container .result_details_container .content_box .sequence_item_container .sequence_container .highlight_transcript_range {
+    background-color: #ffceae;
+    color: #333;
+}
 
 .content_container .result_details_container .table_item_container .table_header_container {
     display: flex;

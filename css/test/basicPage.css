@@ -884,9 +884,8 @@ body {
 
 .content_container .search_container .search_id_form_group .example_ids .example_id:hover {
     cursor: pointer;
-    transform: scale(1.1);
     color: red;
-    /* text-decoration: underline; */
+    text-decoration: underline;
 }
 
 .content_container .search_container .search_id_form_group .help_box .download_button {
@@ -928,7 +927,7 @@ body {
     position: absolute;
     top: 100%;
     left: 0;
-    width: 65%;
+    width: 55%;
     background-color: rgb(246, 255, 250);
     /* 浅蓝色背景 */
     /* border: 1px solid rgba(179, 236, 202); */
@@ -1092,7 +1091,9 @@ body {
 }
 
 .footer_container .revolver_maps {
-    width: 120px;
+    width: 140px;
+    height: 65px;
+    border-radius: 10px;
 }
 
 .tmp_display_none {

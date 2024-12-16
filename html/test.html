@@ -1,2032 +1,289 @@
-<!--
-	THIS EXAMPLE WAS DOWNLOADED FROM https://echarts.apache.org/examples/en/editor.html?code=PYBwLglsB2AEC8sDeAoWsDOBTAThLGAXMmurGAJ4hbEBEYOWWAtgIYi0A0p6AJq2FbEA2qjJlorZjVi0AYsGC8uPMgGMAFhAA2vRtBFjxZAG6ttAVxkBmbsYlSZ8nBYhgV99Jp16sB2KKq9maWMgCMdp7oktJ0AIIgINpYtEFkAL6cJFHoIVbEAEyRUTFOAPI4rNAA5inFnt66-oZp9qV0AMpYJjrJsBVVtR45ueb5sGGtGVlGI-2yAELairz9lTV1U-J54Vuw6QC6U4dpmdmeO8QAnPXi87QAslgCw_aNvv6BI5ewAGy3xnuC2eADNXg0tE0_C0RtFHJ0IDhlhBoOCoj9JiMzrMcvcAEoQABGaIuY12WJmezhsVkAGENBY1ABrEnBMnETE5bFU2D3DoaKosgFs0IcvYnKLc77s2BFPb3ekQZl-VnqSEfGGw-4AdRR1Qwqu2Ms5kqOkspc3hi0YrAw7mFpmNxzNxgl03ORtFfwB9wAInhoEyDQD3s0AjjPeNbFMdSjNlFQ9Dw_KrbQAKodOKG2A_ArHC241MAUQsOFA8Zyic-Ec89wA4rg2NAKNnRl6TZ43fYu-6a9SnB1gCCwLB_SihVMq5r0TLo5aabQAFKuNQVhPqsNfLWphJJLCwZdKtc5DHigvz8rrWoHlfHmdevNYl3d58ZV9S4w_f5pe5yW1aGASSnZMSlTWlljALQalVYCt1Ahd-URMBgz2U9zQ9WtU0XVhlWQ7MfjnSsNyTODCwXJ5UQdSNyS5c8yKcbVgCbVscydJ98wwkVxjlC86FpYABBQkZYL7QFUwoli0NozjMIXRjmKox123FV9xB7dAew_O4wKYkALDAXAhOMESYx05gQBgPw8IdH4ABYHRM3jFlYRhCUsoz73GDs1LoriZB4-i6CLAAPAycEkbRs0c7cFwACRc1YxxMAhJJlR8uVU3sU3ImA3GAHAPNJZTTVOXylKjB17jKSDcBg4jq2ypwMwWfC2M7MrtIXWlbRSjjRP7TpgAsaBVm6nBeEKvyxRKl9VDddIUHSIA&_source=echarts-doc-preview
-	⚠ Please be aware that this chart is not an official demo of Apache ECharts but is made by user-generated code.
--->
 <!DOCTYPE html>
-<html lang="en" style="height: 100%">
+<html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
-    <script src="../js/jquery-3.7.1.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Full-length Transcriptome</title>
+    <!-- 设置网站logo -->
+    <link rel="icon" href="../img/sugarcane-logo.jpeg" type="image/x-icon">
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/test/basicPage.css">
+    <link rel="stylesheet" href="../css/test/fullLengthTranscriptome.css">
 
+    <!-- 引入字体库 -->
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
 
+    <!-- 引入 lodash.js 用于 data.js 的数据深拷贝 -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
 
     <style>
-        .center_container {
-            margin: 0 auto;
-            width: 1600px;
-            /* 用内容撑开高度 */
-            /* height: 100%; */
-            background-color: #FAFFF2;
-        }
 
-        .network_results_container {
-            position: relative;
-        }
-
-        #loading_container {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 20%;
-            display: none;
-            /* height: 100px;  */
-            /* background-color: rgba(255, 255, 255, 1); */
-            /* 半透明背景 */
-            z-index: 1000;
-            /* 确保在最上层 */
-        }
-
-        #loading_container img {
-            width: 100%;
-        }
     </style>
+
 </head>
 
-<body style="height: 100%; margin: 0">
+<body>
+    <div id="contact_overlay" class="contact_overlay"></div>
+    <div id="contact_card" class="contact_card">
+        <h2>Contact</h2>
+        <p class="intro_text">Should there be any question, please let us know without hesitation!</p>
+        <p class="content_text"><strong>Yanhan Shao (Web Design & Development):&nbsp;&nbsp;</strong><span
+                class="email_address" title="click to copy">1740569155@qq.com</span>
+        </p>
+        <p class="content_text"><strong>Zhiyuan Zhao (Data Analyse):&nbsp;&nbsp;</strong><span class="email_address"
+                title="click to copy">zhaozhiyuan@webmail.hzau.edu.cn</span></p>
+        <p class="content_text"><strong>Professor Ling-Ling Chen:&nbsp;&nbsp;</strong><span class="email_address"
+                title="click to copy">llchen@gxu.edu.cn</span></p>
+        <p class="content_text"><strong>Professor Weibo Xie:&nbsp;&nbsp;</strong><span class="email_address"
+                title="click to copy">weibo.xie@mail.hzau.edu.cn</span></p>
+        <p class="content_text"><strong>Professor Lingqiang Wang:&nbsp;&nbsp;</strong><span class="email_address"
+                title="click to copy">1335585196@qq.com</span></p>
+
+        <p class="content_text"><strong>Project Source:</strong> <a href="https://github.com/shaoyanhan/GT42_Website"
+                target="_blank">https://github.com/shaoyanhan/GT42_Websites</a></p>
+
+        <p class="location_text"><strong>Location 1:</strong> &nbsp;&nbsp;State Key Laboratory for Conservation
+            and
+            Utilization of
+            Subtropical Agro-bioresources, Guangxi University, Nanning
+            530000, China
+        </p>
+        <p class="location_text"><strong>Location 2:</strong> &nbsp;&nbsp;National Key Laboratory of Crop
+            Genetic
+            Improvement, Hubei
+            Hongshan Laboratory, Huazhong Agricultural University, Wuhan,
+            430070, China
+        </p>
+    </div>
     <div class="center_container">
+        <!-- 返回顶部图标 -->
+        <button class="scroll_to_top_button">
+            <img src="../../img/scroll_to_top_icon.png" alt="scroll to top">
+        </button>
+
+        <!-- 顶部导航栏 -->
+        <header class="nav_header">
+            <div class="nav_container">
+                <nav class="nav_bar">
+                    <div class="logo_container">
+                        <div class="logo_box">
+                            <a href="./index.html"><img src="../../img/sugarcane-logo.jpeg" alt="logo"></a>
+
+                        </div>
+                        <div class="title_box">
+                            <a href="./index.html">
+                                <h1>SRNDB</h1>
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                    <!-- 导航栏菜单 -->
+                    <div class="menu_container">
+                        <ul class="menu_links">
+                            <li class="first_level_link"><a href="./index.html">Home</a></li>
+                            <li class="first_level_link dropdown"><a>Data <span class="arrow">&#9660;</span></a>
+                                <ul class="dropdown_content">
+                                    <li class="second_level_link"><a href="./fullLengthTranscriptome.html"
+                                            target="_blank">Full-length Transcriptome</a>
+                                    </li>
+                                    <li class="second_level_link"><a href="./haplotypeSNP.html"
+                                            target="_blank">Haplotype &&
+                                            SNP</a></li>
+                                    <li class="second_level_link"><a href="./geneExpressionProfile.html"
+                                            target="_blank">Gene
+                                            Expression Profile</a></li>
+                                    <li class="second_level_link"><a href="./singleCoExpressionNetwork.html"
+                                            target="_blank">Single Co-expression
+                                            Network</a></li>
+                                    <li class="second_level_link"><a href="./hubCoExpressionNetwork.html"
+                                            target="_blank">Hub
+                                            Co-expression Network</a></li>
+                                </ul>
+                            </li>
+                            <li class="first_level_link dropdown"><a>Tools<span class="arrow">&#9660;</span></a>
+                                <ul class="dropdown_content">
+                                    <li class="second_level_link"><a href="./blast.html" target="_blank">BLAST</a></li>
+                                    <li class="second_level_link"><a href="#tool1">Annotation</a></li>
+                                    <li class="second_level_link"><a href="#tool2">Transcript Factors</a></li>
+                                </ul>
+                            </li>
+                            <li class="first_level_link"><a href="./download.html" target="_blank">Download</a></li>
+                            <li class="first_level_link dropdown"><a>About<span class="arrow">&#9660;</span></a>
+                                <ul class="dropdown_content">
+                                    <li class="second_level_link"><a href="./tutorial.html" target="_blank">Tutorial</a>
+                                    </li>
+                                    <li class="second_level_link"><a class="contact_button">Contact</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- 导航栏搜索框 -->
+                    <div class="search_box_container">
+                        <input type="text" placeholder="Search...">
+                        <button type="submit" class="search_button"><span class="search_icon">&#128269;</span></button>
+
+                        <div class="search_box_tooltip">
+                            <span class="tooltip_text">Show the avaliable resources of specific ID been inputted.</span>
+
+                            <div class="example_ids">
+                                <span class="example_title">e.g.</span>
+                                <span class="example_id">GT42G000001.SO.1</span>
+                            </div>
+
+                            <button class="download_button">download full available ID list</button>
+                        </div>
+                    </div>
+
+                    <button class="menu_toggle"><i class="iconfont icon-liebiao"></i></button>
+                    <button class="menu_close"><i class="iconfont icon-31guanbi"></i></button>
 
 
 
-        <!-- <div style="height: 100px;background-color: bisque;"></div>
-        <div class="network_results_container">
-            <div id="loading_container">
-                <img src="../img/networkLoading3.gif" alt="network loading...">
+                </nav>
+
+                <!-- 响应式布局情况下的导航栏 -->
+                <div class="expanded_nav">
+                    <!-- 搜索框 -->
+                    <div class="search_box_container">
+                        <input type="text" placeholder="Search...">
+                        <button type="submit" class="search_button"><span class="search_icon">&#128269;</span></button>
+
+                        <div class="search_box_tooltip">
+                            <span class="tooltip_text">Show the avaliable resources of specific ID been inputted.</span>
+
+                            <div class="example_ids">
+                                <span class="example_title">e.g.</span>
+                                <span class="example_id">GT42G000001.SO.1</span>
+                            </div>
+
+                            <button class="download_button">download full available ID list</button>
+                        </div>
+                    </div>
+                    <!-- 手风琴导航栏菜单 -->
+                    <div class="menu_container">
+                        <ul class="menu_links">
+                            <li class="first_level_link"><a href="./index.html">Home</a></li>
+                            <li class="first_level_link accordion"><a>Data <span class="arrow">&#9660;</span></a>
+                                <ul class="accordion_content">
+                                    <li class="second_level_link"><a href="./fullLengthTranscriptome.html"
+                                            target="_blank">Full-length Transcriptome</a>
+                                    </li>
+                                    <li class="second_level_link"><a href="./haplotypeSNP.html"
+                                            target="_blank">Haplotype &&
+                                            SNP</a></li>
+                                    <li class="second_level_link"><a href="./geneExpressionProfile.html"
+                                            target="_blank">Gene
+                                            Expression Profile</a></li>
+                                    <li class="second_level_link"><a href="./singleCoExpressionNetwork.html"
+                                            target="_blank">Single Co-expression
+                                            Network</a></li>
+                                    <li class="second_level_link"><a href="./hubCoExpressionNetwork.html"
+                                            target="_blank">Hub
+                                            Co-expression Network</a></li>
+                                </ul>
+                            </li>
+                            <li class="first_level_link accordion"><a>Tools<span class="arrow">&#9660;</span></a>
+                                <ul class="accordion_content">
+                                    <li class="second_level_link"><a href="./blast.html" target="_blank">BLAST</a></li>
+                                    <li class="second_level_link"><a href="#tool1">Annotation</a></li>
+                                    <li class="second_level_link"><a href="#tool2">Transcript Factors</a></li>
+                                </ul>
+                            </li>
+                            <li class="first_level_link"><a href="./download.html" target="_blank">Download</a></li>
+                            <li class="first_level_link accordion"><a>About<span class="arrow">&#9660;</span></a>
+                                <ul class="accordion_content">
+                                    <li class="second_level_link"><a href="./tutorial.html" target="_blank">Tutorial</a>
+                                    </li>
+                                    <li class="second_level_link"><a class="contact_button">Contact</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+
+                </div>
             </div>
-            <div id="network_container" style="height: 1600px; width: 100%;"></div>
+
+
+
+        </header>
+
+        <div class="content_container">
+
+
+            <div class="transcript_result_container">
+                <div id="drawTranscript" style="width: 1010px;height:1100px;"></div>
+                <div class="result_details_container" id="transcript_result_details_container">
+                    <!-- 下面必须使用两个div嵌套才能实现内容溢出的时候不会覆盖圆角框和矩形框之间的底部间隔 -->
+                    <div class="content_box">
+                        <h1 class="main_title">Result Details</h1>
+                        <div class="result_details">
+
+                            <div class="item_container">
+                                <h1 class="item_title">mosaicID</h1>
+                                <p class="item_content">GT42G000001</p>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
         </div>
 
-        <div style="height: 100px;background-color: bisque;"></div>
-        <div class="network_results_container">
-            <div id="loading_container">
-                <img src="../img/networkLoading3.gif" alt="network loading...">
+        <div class="footer_container">
+            <div class="logo_container">
+                <div class="logo_box click_to_open_new_url" new-url="https://www.gxu.edu.cn/">
+                    <img src="../../img/GXU_logo.png" alt="logo">
+                </div>
+                <div class="logo_box click_to_open_new_url" new-url="https://sklcusa.gxu.edu.cn/">
+                    <img src="../../img/GuoZhong.png" alt="logo">
+                </div>
+                <div class="logo_box click_to_open_new_url" new-url="https://www.hzau.edu.cn/index.htm">
+                    <img src="../../img/HZAU.png" alt="logo">
+                </div>
+                <div class="revolver_maps">
+                    <script type='text/javascript' id='clustrmaps'
+                        src='//cdn.clustrmaps.com/map_v2.js?cl=ffffff&w=a&t=n&d=aDEPs5hhknuFihFSlTig-Z5vc0AaI4FYpqSo6qOE14E&co=00411a'></script>
+                </div>
+
             </div>
-            <div id="network_container2" style="height: 1000px; width: 100%;"></div>
-        </div> -->
 
-        <div style="height: 100px;background-color: bisque;"></div>
-        <div id="container4" style="height: 1000px; width: 100%;"></div>
+            <h1 class="development_info">Developed by the Chen LL’s Lab at GuangXi University and Xie WB’s Lab at
+                HuaZhong
+                Agricultural University</h1>
 
-        <div style="height: 100px;background-color: bisque;"></div>
-        <div id="map_container" style="height: 1000px; width: 100%;"></div>
+            <div class="copyright_revolvermap_container">
+                <div class="copyright_container">
+                    <h1 class="contact_info">Contact: <a class="email_address">1740569155@qq.com</a>, <a
+                            class="email_address">zhaozhiyuan@webmail.hzau.edu.cn</a>
+                    </h1>
+                    <h1 class="copyright">Copyright © 2020-2030 All rights reserved</h1>
+                </div>
 
-        <div style="height: 100px;background-color: bisque;"></div>
-        <div id="container1" style="height: 1000px; width: 100%;"></div>
+            </div>
 
-        <div style="height: 100px;background-color: bisque;"></div>
-        <div id="container2" style="height: 1000px; width: 100%;"></div>
+        </div>
 
-        <div style="height: 100px;background-color: bisque;"></div>
-        <div id="container3" style="height: 1000px; width: 100%;"></div>
 
+        <!-- 全局提示框，触发showCustomAlert方法之后才显示（copy、download） -->
+        <div id="customAlert" class="custom_alert"></div>
+
+        <script type="module" src="../js/test2/basic.js"></script>
+        <script type="module" src="../js/test/test.js"></script>
 
 
     </div>
-
-
-
-    <!-- Uncomment this line if you want to dataTool extension
-  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.5.0/dist/extension/dataTool.min.js"></script>
-  -->
-    <!-- Uncomment this line if you want to use gl extension -->
-    <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts-gl@2/dist/echarts-gl.min.js"></script>
-
-    <!-- Uncomment this line if you want to echarts-stat extension
-  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts-stat@latest/dist/ecStat.min.js"></script>
-  -->
-    <!-- Uncomment this line if you want to use map
-  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@4.9.0/map/js/china.js"></script>
-  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@4.9.0/map/js/world.js"></script>
-  -->
-    <!-- Uncomment these two lines if you want to use bmap extension
-  <script type="text/javascript" src="https://api.map.baidu.com/api?v=3.0&ak=YOUR_API_KEY"></script>
-  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.5.0/dist/extension/bmap.min.js"></script>
-  -->
-
-    <script>
-        let container4dom = document.getElementById('container4');
-        let myChart4 = echarts.init(container4dom, null, {
-            renderer: 'canvas',
-            useDirtyRect: false
-        });
-        let barChartData = [['--', 12, 'g0'], ['g1', 13, 'g11'], ['g2', 14, 'g12']];
-        let option4 = {
-            xAxis: {
-                type: 'value',
-            },
-            yAxis: {
-                type: 'category',
-                axisLabel: {
-                    formatter: function (params, index) {
-                        console.log(params);
-                        console.log(index);
-                        return barChartData[index][2];
-                    }
-                }
-            },
-            series: {
-                type: 'bar',
-                data: barChartData,
-                encode: {
-                    y: 0,
-                    x: 1
-                }
-            }
-        };
-        myChart4.setOption(option4);
-        myChart4.on('click', function (params) {
-            console.log(params);
-        });
-
-
-    </script>
-
-    <script>
-        var dom = document.getElementById('network_container2');
-        var myChart1 = echarts.init(dom, null, {
-            renderer: 'canvas',
-            useDirtyRect: false
-        });
-        var graph2 = {
-            nodes: [
-                { "name": 'node1', "symbolSize": 5, "itemStyle": { color: 'black' }, inDegree: 2, outDegree: 3, adjacency: ['node2', 'node3', 'node4'] },
-                { name: 'node2', symbolSize: 7, itemStyle: { color: 'yellow' }, inDegree: 3, outDegree: 4 },
-                { name: 'node3', symbolSize: 4, itemStyle: { color: 'green' }, inDegree: 2, outDegree: 2 },
-                { name: 'node4', symbolSize: 5, itemStyle: { color: 'black' }, inDegree: 4, outDegree: 1 },
-                { name: 'node5', symbolSize: 3, itemStyle: { color: 'blue' }, inDegree: 1, outDegree: 2 },
-                { name: 'node6', symbolSize: 3, itemStyle: { color: 'blue' }, inDegree: 1, outDegree: 2 },
-
-            ],
-            edges: [
-                { source: 'node1', target: 'node2', lineStyle: { width: 9.5, color: 'red' } },
-                { source: 'node1', target: 'node3', lineStyle: { width: 0.1, color: 'red' } },
-                { source: 'node1', target: 'node4', lineStyle: { width: 2.5, color: 'red' } },
-                { source: 'node2', target: 'node1', lineStyle: { width: 4.5, color: 'yellow' } },
-                { source: 'node3', target: 'node1', lineStyle: { width: 7.5, color: 'green' } },
-                { source: 'node2', target: 'node1', lineStyle: { width: 3.5, color: 'yellow' } },
-                { source: 'node2', target: 'node3', lineStyle: { width: 8.5, color: 'yellow' } },
-                { source: 'node2', target: 'node4', lineStyle: { width: 1.5, color: 'yellow' } },
-                { source: 'node2', target: 'node5', lineStyle: { width: 2.5, color: 'yellow' } },
-                { source: 'node3', target: 'node2', lineStyle: { width: 3.5, color: 'green' } },
-                { source: 'node4', target: 'node2', lineStyle: { width: 4.5, color: 'black' } },
-                { source: 'node5', target: 'node2', lineStyle: { width: 5.5, color: 'blue' } },
-
-            ]
-        };
-        var graph3 = {
-            nodes: [
-                { "name": 'node1', "symbolSize": 5, "itemStyle": { color: 'black' }, inDegree: 2, outDegree: 3, adjacency: ['node2', 'node3', 'node4'] },
-                { name: 'node2', symbolSize: 7, itemStyle: { color: 'yellow' }, inDegree: 3, outDegree: 4 },
-                { name: 'node3', symbolSize: 4, itemStyle: { color: 'green' }, inDegree: 2, outDegree: 2 },
-                { name: 'node4', symbolSize: 5, itemStyle: { color: 'black' }, inDegree: 4, outDegree: 1 },
-                { name: 'node5', symbolSize: 3, itemStyle: { color: 'blue' }, inDegree: 1, outDegree: 2 },
-                { name: 'node6', symbolSize: 3, itemStyle: { color: 'blue' }, inDegree: 1, outDegree: 2 },
-
-
-            ],
-            edges: [
-                { source: 'node1', target: 'node2', lineStyle: { width: 9.5, color: 'red' } },
-                { source: 'node1', target: 'node3', lineStyle: { width: 0.1, color: 'red' } },
-                { source: 'node1', target: 'node2', lineStyle: { width: 9.5, color: 'red' } },
-                { source: 'node1', target: 'node3', lineStyle: { width: 0.1, color: 'red' } },
-                { source: 'node1', target: 'node4', lineStyle: { width: 2.5, color: 'red' } },
-                { source: 'node2', target: 'node1', lineStyle: { width: 4.5, color: 'yellow' } },
-                { source: 'node3', target: 'node1', lineStyle: { width: 7.5, color: 'green' } },
-                { source: 'node2', target: 'node1', lineStyle: { width: 3.5, color: 'yellow' } },
-                { source: 'node2', target: 'node3', lineStyle: { width: 8.5, color: 'yellow' } },
-                { source: 'node2', target: 'node4', lineStyle: { width: 1.5, color: 'yellow' } },
-                { source: 'node2', target: 'node5', lineStyle: { width: 2.5, color: 'yellow' } },
-                { source: 'node3', target: 'node2', lineStyle: { width: 3.5, color: 'green' } },
-                { source: 'node4', target: 'node2', lineStyle: { width: 4.5, color: 'black' } },
-                { source: 'node5', target: 'node2', lineStyle: { width: 5.5, color: 'blue' } },
-                { source: 'node2', target: 'node6', lineStyle: { width: 4.5, color: 'yellow' } },
-                { source: 'node1', target: 'node6', lineStyle: { width: 4.5, color: 'yellow' } },
-                { source: 'node3', target: 'node6', lineStyle: { width: 4.5, color: 'yellow' } },
-                { source: 'node4', target: 'node6', lineStyle: { width: 4.5, color: 'yellow' } },
-                { source: 'node5', target: 'node6', lineStyle: { width: 4.5, color: 'yellow' } },
-            ]
-        };
-        var graph4 = {
-            nodes: [
-
-                { name: 'node2', symbolSize: 7, itemStyle: { color: 'yellow' }, inDegree: 3, outDegree: 4 },
-                { name: 'node3', symbolSize: 4, itemStyle: { color: 'green' }, inDegree: 2, outDegree: 2 },
-                { name: 'node4', symbolSize: 5, itemStyle: { color: 'black' }, inDegree: 4, outDegree: 1 },
-                { name: 'node5', symbolSize: 3, itemStyle: { color: 'blue' }, inDegree: 1, outDegree: 2 },
-                { name: 'node6', symbolSize: 3, itemStyle: { color: 'blue' }, inDegree: 1, outDegree: 2 },
-                { name: 'node7', symbolSize: 0.3, itemStyle: { color: 'blue' }, inDegree: 1, outDegree: 2 },
-                { name: 'node8', symbolSize: 0.3, itemStyle: { color: 'blue' }, inDegree: 1, outDegree: 2 },
-                { name: 'node9', symbolSize: 0.3, itemStyle: { color: 'blue' }, inDegree: 1, outDegree: 2 },
-                { name: 'node10', symbolSize: 0.13, itemStyle: { color: 'blue' }, inDegree: 1, outDegree: 2 },
-                { name: 'node11', symbolSize: 0.13, itemStyle: { color: 'blue' }, inDegree: 1, outDegree: 2 },
-                { name: 'node12', symbolSize: 0.13, itemStyle: { color: 'blue' }, inDegree: 1, outDegree: 2 },
-                { name: 'node13', symbolSize: 0.13, itemStyle: { color: 'blue' }, inDegree: 1, outDegree: 2 },
-                { name: 'node14', symbolSize: 0.13, itemStyle: { color: 'blue' }, inDegree: 1, outDegree: 2 },
-                { name: 'node15', symbolSize: 0.13, itemStyle: { color: 'blue' }, inDegree: 1, outDegree: 2 },
-                { name: 'node16', symbolSize: 0.13, itemStyle: { color: 'blue' }, inDegree: 1, outDegree: 2 },
-
-
-            ],
-            edges: [
-
-                { source: 'node2', target: 'node3', lineStyle: { width: 8.5, color: 'yellow' } },
-                { source: 'node2', target: 'node4', lineStyle: { width: 1.5, color: 'yellow' } },
-                { source: 'node2', target: 'node5', lineStyle: { width: 2.5, color: 'yellow' } },
-                { source: 'node3', target: 'node2', lineStyle: { width: 3.5, color: 'green' } },
-                { source: 'node4', target: 'node2', lineStyle: { width: 4.5, color: 'black' } },
-                { source: 'node5', target: 'node2', lineStyle: { width: 5.5, color: 'blue' } },
-                { source: 'node2', target: 'node6', lineStyle: { width: 4.5, color: 'yellow' } },
-                { source: 'node1', target: 'node6', lineStyle: { width: 4.5, color: 'yellow' } },
-                { source: 'node3', target: 'node6', lineStyle: { width: 4.5, color: 'yellow' } },
-                { source: 'node4', target: 'node6', lineStyle: { width: 4.5, color: 'yellow' } },
-                { source: 'node5', target: 'node6', lineStyle: { width: 4.5, color: 'yellow' } },
-                { source: 'node6', target: 'node7', lineStyle: { width: 4.5, color: 'yellow' } },
-                { source: 'node6', target: 'node8', lineStyle: { width: 4.5, color: 'yellow' } },
-                { source: 'node6', target: 'node9', lineStyle: { width: 4.5, color: 'yellow' } },
-                { source: 'node6', target: 'node10', lineStyle: { width: 4.5, color: 'yellow' } },
-                { source: 'node6', target: 'node11', lineStyle: { width: 4.5, color: 'yellow' } },
-                { source: 'node6', target: 'node12', lineStyle: { width: 4.5, color: 'yellow' } },
-                { source: 'node6', target: 'node13', lineStyle: { width: 4.5, color: 'yellow' } },
-                { source: 'node6', target: 'node14', lineStyle: { width: 4.5, color: 'yellow' } },
-                { source: 'node6', target: 'node15', lineStyle: { width: 4.5, color: 'yellow' } },
-                { source: 'node6', target: 'node16', lineStyle: { width: 4.5, color: 'yellow' } },
-            ]
-        };
-
-        var option = {
-            tooltip: {},
-            // legend: [
-            //   {
-            //     data: graph.categories.map(function (a) {
-            //       return a.name;
-            //     })
-            //   }
-            // ],
-            series: [
-                {
-                    name: 'Les Miserables',
-                    type: 'graph',
-                    layout: 'force',
-                    // force: {
-                    //     // repulsion: 1550,
-                    //     // edgeLength: 1350,
-                    //     gravity: 0
-                    // },
-                    data: graph2.nodes,
-                    links: graph2.edges,
-                    // categories: graph.categories,
-                    roam: true,
-                    // draggable: true,
-                    edgeSymbol: ['circle', 'arrow'],
-                    edgeSymbolSize: [10, 10],
-                    nodeScaleRatio: 0.6,
-                    label: {
-                        show: true,
-                        position: 'right',
-                        formatter: '{b}'
-                    },
-                    labelLayout: {
-                        hideOverlap: true
-                    },
-
-                    lineStyle: {
-                        // color: 'source',
-                        curveness: 0.3,
-
-                    },
-                    emphasis: {
-                        focus: 'adjacency',
-                    },
-                    selectedMode: true,
-                    zoom: 10,
-                    itemStyle: {
-                        normal: {
-                            borderColor: '#ffffff',
-                            borderWidth: 1,
-                            shadowBlur: 10,
-                            shadowColor: 'rgba(0, 0, 0, 0.3)'
-                        },
-                        emphasis: {
-                            borderColor: '#b1e4ff',
-                            borderWidth: 2,
-                            shadowBlur: 20,
-                            shadowColor: 'rgba(0, 0, 0, 0.5)'
-                        }
-                    }
-                }
-            ]
-        };
-        myChart1.setOption(option);
-        myChart1.on('click', function (params) {
-            console.log(params);
-            if (params.name == 'node6') {
-                myChart1.setOption(
-                    {
-                        series: [
-                            {
-                                data: graph3.nodes,
-                                links: graph3.edges,
-                            }
-                        ]
-                    }
-                );
-            }
-            if (params.name == 'node2') {
-                myChart1.setOption(
-                    {
-                        series: [
-                            {
-                                data: graph4.nodes,
-                                links: graph4.edges,
-                            }
-                        ]
-                    }
-                );
-            }
-
-        });
-
-
-    </script>
-
-
-    <script>
-        //Sony have 20 hex colors that represent their brand, and they are 000000, 7c8285, bfbdb0, b1b134, bbd634, dbe3b6, b2c8bd, 165b65, 697d99, 96b8db, 00a4e8, a4dbdb, fdd666, dc9018, e31a22, df8f2d, b24f3f, b51f29, f58268, f4979c.
-        // More4 have 17 hex colors that represent their brand, and they are 949483, f47b7b, 9f1f5c, ef9020, 00af3e, 85b7e2, 29245c, ffd616, e5352b, e990ab, 0081b4, 96cbb3, 91be3e, 39a6dd, eb0973, dde2e0, 333c41
-        // Mapbox have 13 hex colors that represent their brand, and they are 3bb2d0, 3887be, 8a8acb, 56b881, 50667f, 41afa5, f9886c, e55e5e, ed6498, fbb03b, 142736, 28353d, 222b30.
-
-
-        async function fetchGraphData() {
-            const url = 'http://127.0.0.1:8080/searchDatabase/getNetworkGraphJSONFile/?type=mosaic';  // URL指向Django服务器中的视图函数
-            try {
-                const response = await fetch(url); // 发送GET请求
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                const data = await response.json(); // 解析JSON格式的响应体
-                return data // 在控制台输出数据，或者你可以在这里处理数据，比如更新DOM
-            } catch (error) {
-                console.error('There was a problem with the fetch operation:', error);
-            }
-        }
-
-        // var loader = document.getElementById('loading_container');
-        // loader.style.display = 'block';
-        // graph = await fetchGraphData();
-        // loader.style.display = 'none';
-
-        // async function run() {
-        //     var loader = document.getElementById('loading_container');
-        //     loader.style.display = 'block';
-        //     // graph = await fetchGraphData();
-        //     loader.style.display = 'none';
-        //     console.log(graph);
-        //     myChart.setOption(option);
-        //     myChart.on('click', function (params) {
-        //         console.log(params);
-        //     });
-        // }
-        // run();
-
-        // $.getJSON('http://127.0.0.1:8080/searchDatabase/getGraphJSON', function (data) {
-        //     // graph = data;
-        //     console.log(graph);
-        //     myChart.setOption(option);
-        //     myChart.on('click', function (params) {
-        //         console.log(params);
-        //     });
-        // });
-        // myChart.setOption(option);
-        // myChart.on('click', function (params) {
-        //     console.log(params);
-        // });
-
-        // var loader = document.getElementById('loading_container');
-        // loader.style.display = 'block';
-        // fetchGraphData().then(data => {
-        //     loader.style.display = 'none';
-        //     console.log(data);
-        //     // graph = graph;
-        //     // console.log(graph);
-        //     myChart.setOption(option);
-        //     myChart.on('click', function (params) {
-        //         console.log(params);
-        //     });
-        // }).catch(error => {
-        //     console.error('There was a problem with the fetch operation:', error);
-        // });
-
-        // myChart.setOption(option);
-        // myChart.on('click', function (params) {
-        //     console.log(params);
-        // });
-
-        function initNetworkChart(graph) {
-            console.log('initChart');
-            var dom = document.getElementById('network_container');
-            var myChart = echarts.init(dom, null, {
-                renderer: 'canvas',
-                useDirtyRect: false
-            });
-
-            var option = {
-                tooltip: {},
-                // legend: [
-                //   {
-                //     data: graph.categories.map(function (a) {
-                //       return a.name;
-                //     })
-                //   }
-                // ],
-                series: [
-                    {
-                        name: 'Les Miserables',
-                        type: 'graph',
-                        layout: 'force',
-                        force: {
-                            // repulsion: 1550,
-                            // edgeLength: 1350,
-                            gravity: 0.01
-                        },
-                        data: graph.nodes,
-                        links: graph.edges,
-                        // categories: graph.categories,
-                        roam: true,
-                        // draggable: true,
-                        edgeSymbol: ['circle', 'arrow'],
-                        edgeSymbolSize: [15, 15],
-                        nodeScaleRatio: 0.3,
-                        label: {
-                            show: false,
-                            position: 'right',
-                            formatter: '{b}'
-                        },
-                        labelLayout: {
-                            hideOverlap: true
-                        },
-
-                        lineStyle: {
-                            // color: 'source',
-                            curveness: 0.3,
-                            width: 1,
-
-
-                        },
-                        emphasis: {
-                            scale: 1.01,
-                            itemStyle: {
-
-                                borderColor: '#b1e4ff',
-                                borderWidth: 2,
-                                shadowBlur: 20,
-                                shadowColor: 'rgba(0, 0, 0, 0.5)'
-                            },
-                            lineStyle: {
-
-                                width: 3,
-                                shadowBlur: 20,
-                                shadowColor: 'rgba(0, 0, 0, 0.5)'
-                            }
-                        },
-                        selectedMode: false,
-                        itemStyle: {
-
-                            borderColor: '#ffffff',
-                            borderWidth: 1,
-                            shadowBlur: 10,
-                            shadowColor: 'rgba(0, 0, 0, 0.3)'
-
-                        }
-                    }
-                ]
-            };
-
-            var option2 = { // 绘制出来的点
-                series: [
-                    {
-                        name: 'Les Miserables',
-                        type: 'graphGL',
-                        layout: 'forceAtlas2',
-                        forceAtlas2: {
-                            GPU: true,
-                            steps: 10,
-                            stopThreshold: 1,
-                            repulsionByDegree: true,
-                            linLogMode: true,
-                            preventOverlap: true
-
-                        },
-
-                        data: graph.nodes,
-                        links: graph.edges,
-
-                    }
-                ]
-            };
-
-            console.log(option);
-            if (option && typeof option === 'object') {
-                console.log(option);
-                myChart.setOption(option);
-            }
-            myChart.on('click', function (params) {
-                console.log(params);
-            });
-
-        }
-        async function main() {
-            const graph = await fetchGraphData();
-            console.log(graph);
-            initNetworkChart(graph);
-        }
-        main();
-
-        // var dom = document.getElementById('network_container');
-        // var myChart = echarts.init(dom, null, {
-        //     renderer: 'canvas',
-        //     useDirtyRect: false
-        // });
-        // var app = {};
-        // var option = {};
-        // var graph = {};
-
-        // graph = {
-        //     nodes: [
-        //         { "name": 'node1', "x": 0.9999999992688378, "y": -2.3313930002592627e-09, "symbolSize": 5, "itemStyle": { color: 'black' }, inDegree: 2, outDegree: 3, adjacency: ['node2', 'node3', 'node4'] },
-        //         { name: 'node2', x: 800, y: 300, symbolSize: 7, itemStyle: { color: 'yellow' }, inDegree: 3, outDegree: 4 },
-        //         { name: 'node3', x: 550, y: 100, symbolSize: 4, itemStyle: { color: 'green' }, inDegree: 2, outDegree: 2 },
-        //         { name: 'node4', x: 550, y: 500, symbolSize: 5, itemStyle: { color: 'black' }, inDegree: 4, outDegree: 1 },
-        //         { name: 'node5', x: 550, y: 300, symbolSize: 3, itemStyle: { color: 'blue' }, inDegree: 1, outDegree: 2 },
-
-        //         { name: 'node6', x: 550, y: 700, symbolSize: 20, itemStyle: { color: '#507BFF' }, inDegree: 1, outDegree: 2 },
-        //         { name: 'node7', x: 550, y: 900, symbolSize: 20, itemStyle: { color: '#607BFF' }, inDegree: 1, outDegree: 2 },
-        //         { name: 'node8', x: 550, y: 1100, symbolSize: 20, itemStyle: { color: '#707BFF' }, inDegree: 1, outDegree: 2 },
-        //         { name: 'node9', x: 550, y: 1300, symbolSize: 20, itemStyle: { color: '#807BFF' }, inDegree: 1, outDegree: 2 },
-        //         { name: 'node10', x: 550, y: 1500, symbolSize: 20, itemStyle: { color: '#907BFF' }, inDegree: 1, outDegree: 2 },
-        //         { name: 'node11', x: 550, y: 1700, symbolSize: 20, itemStyle: { color: '#A07BFF' }, inDegree: 1, outDegree: 2 },
-        //         { name: 'node12', x: 550, y: 1900, symbolSize: 20, itemStyle: { color: '#B07BFF' }, inDegree: 1, outDegree: 2 },
-        //         { name: 'node13', x: 550, y: 2100, symbolSize: 20, itemStyle: { color: '#C07BFF' }, inDegree: 1, outDegree: 2 },
-        //         { name: 'node14', x: 550, y: 2300, symbolSize: 20, itemStyle: { color: '#D07BFF' }, inDegree: 1, outDegree: 2 },
-        //         { name: 'node15', x: 550, y: 2500, symbolSize: 20, itemStyle: { color: '#E07BFF' }, inDegree: 1, outDegree: 2 },
-        //         { name: 'node16', x: 550, y: 2700, symbolSize: 20, itemStyle: { color: '#F07BFF' }, inDegree: 1, outDegree: 2 },
-
-        //     ],
-        //     edges: [
-        //         { source: 'node1', target: 'node2', lineStyle: { width: 9.5, color: 'red' } },
-        //         { source: 0, target: 2, lineStyle: { width: 0.1, color: 'red' } },
-        //         { source: 0, target: 3, lineStyle: { width: 2.5, color: 'red' } },
-        //         { source: 1, target: 0, lineStyle: { width: 4.5, color: 'yellow' } },
-        //         { source: 2, target: 0, lineStyle: { width: 7.5, color: 'green' } },
-        //         { source: 1, target: 0, lineStyle: { width: 3.5, color: 'yellow' } },
-        //         { source: 1, target: 2, lineStyle: { width: 8.5, color: 'yellow' } },
-        //         { source: 1, target: 3, lineStyle: { width: 1.5, color: 'yellow' } },
-        //         { source: 1, target: 4, lineStyle: { width: 2.5, color: 'yellow' } },
-        //         { source: 2, target: 1, lineStyle: { width: 3.5, color: 'green' } },
-        //         { source: 3, target: 1, lineStyle: { width: 4.5, color: 'black' } },
-        //         { source: 4, target: 1, lineStyle: { width: 5.5, color: 'blue' } }
-        //     ]
-        // };
-        //         option = {
-        //                 tooltip: {},
-        //                 // legend: [
-        //                 //   {
-        //                 //     data: graph.categories.map(function (a) {
-        //                 //       return a.name;
-        //                 //     })
-        //                 //   }
-        //                 // ],
-        //                 series: [
-        //                     {
-        //                         name: 'Les Miserables',
-        //                         type: 'graph',
-        //                         layout: 'none',
-        //                         data: graph.nodes,
-        //                         links: graph.edges,
-        //                         // categories: graph.categories,
-        //                         roam: true,
-        //                         // draggable: true,
-        //                         edgeSymbol: ['circle', 'arrow'],
-        //                         edgeSymbolSize: [10, 10],
-        //                         nodeScaleRatio: 0.6,
-        //                         label: {
-        //                             show: true,
-        //                             position: 'right',
-        //                             formatter: '{b}'
-        //                         },
-        //                         labelLayout: {
-        //                             hideOverlap: true
-        //                         },
-
-        //                         lineStyle: {
-        //                             // color: 'source',
-        //                             curveness: 0.3,
-
-        //                         },
-        //                         emphasis: {
-        //                             focus: 'adjacency',
-        //                         },
-        //                         itemStyle: {
-        //                             normal: {
-        //                                 borderColor: '#ffffff',
-        //                                 borderWidth: 1,
-        //                                 shadowBlur: 10,
-        //                                 shadowColor: 'rgba(0, 0, 0, 0.3)'
-        //                             },
-        //                             emphasis: {
-        //                                 borderColor: '#b1e4ff',
-        //                                 borderWidth: 2,
-        //                                 shadowBlur: 20,
-        //                                 shadowColor: 'rgba(0, 0, 0, 0.5)'
-        //                             }
-        //                         }
-        //                     }
-        //                 ]
-        //             };
-
-        //             option2 = { // 绘制出来的点
-        //                 series: [
-        //                     {
-        //                         name: 'Les Miserables',
-        //                         type: 'graphGL',
-        //                         layout: 'forceAtlas2',
-        //                         forceAtlas2: {
-        //                             GPU: true,
-        //                             steps: 10,
-        //                             stopThreshold: 1,
-        //                             repulsionByDegree: true,
-        //                             linLogMode: true,
-        //                             preventOverlap: true
-
-        //                         },
-        //                         symbolSize: function (data, params) {
-        //                             return params.data.symbolSize;
-        //                         },
-        //                         data: graph.nodes,
-        //                         links: graph.edges,
-        //                         // categories: graph.categories,
-        //                         roam: true,
-        //                         // draggable: true,
-        //                         edgeSymbol: ['circle', 'arrow'],
-        //                         edgeSymbolSize: [10, 10],
-        //                         nodeScaleRatio: 0.6,
-        //                         label: {
-        //                             show: true,
-        //                             position: 'right',
-        //                             formatter: '{b}'
-        //                         },
-        //                         labelLayout: {
-        //                             hideOverlap: true
-        //                         },
-
-        //                         lineStyle: {
-        //                             // color: 'source',
-        //                             curveness: 0.3,
-
-        //                         },
-        //                         emphasis: {
-        //                             focus: 'adjacency',
-        //                         },
-        //                         itemStyle: {
-        //                             normal: {
-        //                                 borderColor: '#ffffff',
-        //                                 borderWidth: 1,
-        //                                 shadowBlur: 10,
-        //                                 shadowColor: 'rgba(0, 0, 0, 0.3)'
-        //                             },
-        //                             emphasis: {
-        //                                 borderColor: '#b1e4ff',
-        //                                 borderWidth: 2,
-        //                                 shadowBlur: 20,
-        //                                 shadowColor: 'rgba(0, 0, 0, 0.5)'
-        //                             }
-        //                         }
-        //                     }
-        //                 ]
-        //             };
-
-    </script>
-
-    <script type="text/javascript">
-
-        async function loadSVG() {
-            try {
-                const response = await fetch('../img/GT42.svg');
-                const svg = await response.text();
-                echarts.registerMap('GT42', { svg: svg });
-                return true; // 表示成功
-            } catch (error) {
-                console.error('Error loading the SVG:', error);
-                return false; // 表示失败
-            }
-        }
-        function initChart() {
-            var dom = document.getElementById('map_container');
-            var myChart = echarts.init(dom, null, {
-                renderer: 'canvas',
-                useDirtyRect: false
-            });
-
-            var option = {
-                tooltip: {},
-                visualMap: {
-                    left: 'center',
-                    bottom: '10%',
-                    min: 0,
-                    max: 5,
-                    orient: 'horizontal',
-                    text: ['', 'Price'],
-                    realtime: true,
-                    calculable: true,
-                    inRange: {
-                        color: ['#dbac00', '#db6e00', '#cf0000']
-                    }
-                },
-                series: [
-                    {
-                        name: 'GT42',
-                        type: 'map',
-                        map: 'GT42',
-                        data: [
-                            { name: 'Leaf1', value: 1 },
-                            { name: 'Leaf2', value: 2 },
-                            { name: 'Leaf3', value: 3 },
-                            { name: 'Leaf4', value: 4 },
-                        ]
-                    }
-                ]
-            };
-
-            if (option && typeof option === 'object') {
-                myChart.setOption(option);
-            }
-
-            window.addEventListener('resize', myChart.resize);
-            return myChart; // 返回图表实例以供可能的进一步使用
-        }
-        async function main() {
-            const loaded = await loadSVG();
-            if (loaded) {
-                initChart();
-            }
-        }
-        main();
-
-
-
-    </script>
-
-    <script type="text/javascript">
-        var dom = document.getElementById('container1');
-        var myChart = echarts.init(dom, null, {
-            renderer: 'canvas',
-            useDirtyRect: false
-        });
-        var app = {};
-
-        var option;
-
-        var data = [
-            {
-                name: 'Callus',
-                itemStyle: {
-                    color: '#fff176'
-                },
-                children: [
-                    {
-                        name: 'Callus1',
-                        itemStyle: {
-                            color: '#ffeb3b'
-                        },
-                        children: [
-                            {
-                                name: 'Ca1-1',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#fbc02d'
-                                }
-                            },
-                            {
-                                name: 'Ca1-2',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#fbc02d'
-                                }
-                            },
-                            {
-                                name: 'Ca1-3',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#fbc02d'
-                                }
-                            }
-                        ]
-                    },
-                    {
-                        name: 'Callus2',
-                        itemStyle: {
-                            color: '#ffeb3b'
-                        },
-                        children: [
-                            {
-                                name: 'Ca2-1',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#fbc02d'
-                                }
-                            },
-                            {
-                                name: 'Ca2-2',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#fbc02d'
-                                }
-                            },
-                            {
-                                name: 'Ca2-3',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#fbc02d'
-                                }
-                            }
-                        ]
-                    },
-                    {
-                        name: 'Callus3',
-                        itemStyle: {
-                            color: '#ffeb3b'
-                        },
-                        children: [
-                            {
-                                name: 'Ca3-1',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#fbc02d'
-                                }
-                            },
-                            {
-                                name: 'Ca3-2',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#fbc02d'
-                                }
-                            },
-                            {
-                                name: 'Ca3-3',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#fbc02d'
-                                }
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                name: 'Trefoil',
-                itemStyle: {
-                    color: '#aed581'
-                },
-                children: [
-                    {
-                        name: 'Root1',
-                        itemStyle: {
-                            color: '#8bc34a'
-                        },
-                        children: [
-                            {
-                                name: 'Ro1-1',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#689f38'
-                                }
-                            },
-                            {
-                                name: 'Ro1-2',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#689f38'
-                                }
-                            },
-                            {
-                                name: 'Ro1-3',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#689f38'
-                                }
-                            }
-                        ]
-                    },
-                    {
-                        name: 'Root2',
-                        itemStyle: {
-                            color: '#8bc34a'
-                        },
-                        children: [
-                            {
-                                name: 'Ro2-1',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#689f38'
-                                }
-                            },
-                            {
-                                name: 'Ro2-2',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#689f38'
-                                }
-                            },
-                            {
-                                name: 'Ro2-3',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#689f38'
-                                }
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                name: 'Elongation',
-                itemStyle: {
-                    color: '#4db6ac'
-                },
-                children: [
-                    {
-                        name: 'Leaf1',
-                        itemStyle: {
-                            color: '#009688'
-                        },
-                        children: [
-                            {
-                                name: 'Le1-1',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#00796b'
-                                }
-                            },
-                            {
-                                name: 'Le1-2',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#00796b'
-                                }
-                            },
-                            {
-                                name: 'Le1-3',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#00796b'
-                                }
-                            }
-                        ]
-                    },
-                    {
-                        name: 'Leaf + Sheath1',
-                        itemStyle: {
-                            color: '#009688'
-                        },
-                        children: [
-                            {
-                                name: 'LS1-1',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#00796b'
-                                }
-                            },
-                            {
-                                name: 'LS1-2',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#00796b'
-                                }
-                            },
-                            {
-                                name: 'LS1-3',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#00796b'
-                                }
-                            }
-                        ]
-                    },
-                    {
-                        name: 'Bud1',
-                        itemStyle: {
-                            color: '#009688'
-                        },
-                        children: [
-                            {
-                                name: 'Bu1-1',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#00796b'
-                                }
-                            },
-                            {
-                                name: 'Bu1-2',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#00796b'
-                                }
-                            },
-                            {
-                                name: 'Bu1-3',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#00796b'
-                                }
-                            }
-                        ]
-                    },
-                    {
-                        name: 'Internode1',
-                        itemStyle: {
-                            color: '#009688'
-                        },
-                        children: [
-                            {
-                                name: 'In1-1',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#00796b'
-                                }
-                            },
-                            {
-                                name: 'In1-2',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#00796b'
-                                }
-                            },
-                            {
-                                name: 'In1-3',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#00796b'
-                                }
-                            }
-                        ]
-                    },
-                    {
-                        name: 'Nodal Root1',
-                        itemStyle: {
-                            color: '#009688'
-                        },
-                        children: [
-                            {
-                                name: 'NR1-1',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#00796b'
-                                }
-                            },
-                            {
-                                name: 'NR1-2',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#00796b'
-                                }
-                            },
-                            {
-                                name: 'NR1-3',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#00796b'
-                                }
-                            }
-                        ]
-                    },
-                    {
-                        name: 'Apical Meristem',
-                        itemStyle: {
-                            color: '#009688'
-                        },
-                        children: [
-                            {
-                                name: 'AM1-1',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#00796b'
-                                }
-                            },
-                            {
-                                name: 'AM1-2',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#00796b'
-                                }
-                            },
-                            {
-                                name: 'AM1-3',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#00796b'
-                                }
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                name: 'Biennial Root',
-                itemStyle: {
-                    color: '#a1887f'
-                },
-                children: [
-                    {
-                        name: 'Bud2',
-                        itemStyle: {
-                            color: '#795548'
-                        },
-                        children: [
-                            {
-                                name: 'Bu2-1',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#5d4037'
-                                }
-                            },
-                            {
-                                name: 'Bu2-2',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#5d4037'
-                                }
-                            },
-                            {
-                                name: 'Bu2-3',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#5d4037'
-                                }
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                name: 'Florescence',
-                itemStyle: {
-                    color: '#f48fb1'
-                },
-                children: [
-                    {
-                        name: 'Spikelet',
-                        itemStyle: {
-                            color: '#f06292'
-                        },
-                        children: [
-                            {
-                                name: 'Sp-1',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#c2185b'
-                                }
-                            },
-                            {
-                                name: 'Sp-2',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#c2185b'
-                                }
-                            },
-                            {
-                                name: 'Sp-3',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#c2185b'
-                                }
-                            }
-                        ]
-                    },
-                    {
-                        name: 'Branch',
-                        itemStyle: {
-                            color: '#f06292'
-                        },
-                        children: [
-                            {
-                                name: 'Br-1',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#c2185b'
-                                }
-                            },
-                            {
-                                name: 'Br-2',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#c2185b'
-                                }
-                            },
-                            {
-                                name: 'Br-3',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#c2185b'
-                                }
-                            }
-                        ]
-                    },
-                    {
-                        name: 'Stamen',
-                        itemStyle: {
-                            color: '#f06292'
-                        },
-                        children: [
-                            {
-                                name: 'St-1',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#c2185b'
-                                }
-                            },
-                            {
-                                name: 'St-2',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#c2185b'
-                                }
-                            },
-                            {
-                                name: 'St-3',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#c2185b'
-                                }
-                            }
-                        ]
-                    },
-                    {
-                        name: 'Pistil',
-                        itemStyle: {
-                            color: '#f06292'
-                        },
-                        children: [
-                            {
-                                name: 'Pi-1',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#c2185b'
-                                }
-                            },
-                            {
-                                name: 'Pi-2',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#c2185b'
-                                }
-                            },
-                            {
-                                name: 'Pi-3',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#c2185b'
-                                }
-                            }
-                        ]
-                    },
-                    {
-                        name: 'Glume',
-                        itemStyle: {
-                            color: '#f06292'
-                        },
-                        children: [
-                            {
-                                name: 'Gl-2',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#c2185b'
-                                }
-                            },
-                            {
-                                name: 'Gl-3',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#c2185b'
-                                }
-                            }
-                        ]
-                    },
-                    {
-                        name: 'Leaf + Sheath2',
-                        itemStyle: {
-                            color: '#f06292'
-                        },
-                        children: [
-                            {
-                                name: 'LS2-2',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#c2185b'
-                                }
-                            },
-                            {
-                                name: 'LS2-3',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#c2185b'
-                                }
-                            }
-                        ]
-                    },
-                    {
-                        name: 'Internode2',
-                        itemStyle: {
-                            color: '#f06292'
-                        },
-                        children: [
-                            {
-                                name: 'In2-1',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#c2185b'
-                                }
-                            },
-                            {
-                                name: 'In2-3',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#c2185b'
-                                }
-                            }
-                        ]
-                    },
-                    {
-                        name: 'Node2',
-                        itemStyle: {
-                            color: '#f06292'
-                        },
-                        children: [
-                            {
-                                name: 'No2-1',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#c2185b'
-                                }
-                            },
-                            {
-                                name: 'No2-2',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#c2185b'
-                                }
-                            },
-                            {
-                                name: 'No2-3',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#c2185b'
-                                }
-                            }
-                        ]
-                    },
-                    {
-                        name: 'Bud3',
-                        itemStyle: {
-                            color: '#f06292'
-                        },
-                        children: [
-                            {
-                                name: 'Bu3-1',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#c2185b'
-                                }
-                            },
-                            {
-                                name: 'Bu3-3',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#c2185b'
-                                }
-                            }
-                        ]
-                    },
-                    {
-                        name: 'Leaf2',
-                        itemStyle: {
-                            color: '#f06292'
-                        },
-                        children: [
-                            {
-                                name: 'Le2-1',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#c2185b'
-                                }
-                            },
-                            {
-                                name: 'Le2-2',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#c2185b'
-                                }
-                            },
-                            {
-                                name: 'Le2-3',
-                                value: 1,
-                                itemStyle: {
-                                    color: '#c2185b'
-                                }
-                            }
-                        ]
-                    }
-                ]
-            },
-
-            {
-                name: 'Development Stages',
-                value: 5,
-                itemStyle: {
-                    color: 'white'
-                },
-                label: {
-                    rotate: 'radial',
-                    padding: [0, 250, 0, 0],
-                    fontSize: 20,
-                    fontWeight: 'bold'
-                },
-                nodeClick: 'false',
-            },
-
-
-        ];
-
-
-        option = {
-            title: {
-                text: 'WORLD COFFEE RESEARCH SENSORY LEXICON',
-                subtext: 'Source: https://worldcoffeeresearch.org/work/sensory-lexicon/',
-                textStyle: {
-                    fontSize: 14,
-                    align: 'center'
-                },
-                subtextStyle: {
-                    align: 'center'
-                },
-                sublink: 'https://worldcoffeeresearch.org/work/sensory-lexicon/'
-            },
-            series: {
-                type: 'sunburst',
-                data: data,
-                radius: [0, '95%'],
-                sort: undefined,
-                emphasis: {
-                    focus: 'descendant'
-                },
-                label: {
-                    fontSize: 18
-                },
-                startAngle: 168, // 起始角度，支持范围[0, 360]，但是同样导致了label.rotate: 'tangential'的节点下钻的时候标签向右了
-                levels: [ // 为每一层设置样式
-                    {}, // 第一层留空用作下钻按钮，否则第一层label会被按钮遮挡
-                    {
-                        r0: '15%',
-                        r: '35%',
-                        itemStyle: {
-                            borderWidth: 2
-                        },
-                        label: {
-                            rotate: 'tangential'
-                        }
-                    },
-                    {
-                        r0: '35%',
-                        r: '70%',
-                        label: {
-                            align: 'right'
-                        }
-                    },
-                    {
-                        r0: '70%',
-                        r: '72%',
-                        label: {
-                            position: 'outside',
-                            padding: 3,
-                            silent: false
-                        },
-                        itemStyle: {
-                            borderWidth: 3
-                        }
-                    }
-                ]
-            }
-        };
-
-        if (option && typeof option === 'object') {
-            myChart.setOption(option);
-        }
-
-        window.addEventListener('resize', myChart.resize);
-    </script>
-
-    <script type="text/javascript">
-        var dom = document.getElementById('container2');
-        var myChart = echarts.init(dom, null, {
-            renderer: 'canvas',
-            useDirtyRect: false
-        });
-        var app = {};
-
-        var option;
-
-        treeMapData = [
-            {
-                name: 'GT42G000001',
-                value: 1,
-                children: [
-                    {
-                        name: 'GT42G000001.SO',
-                        value: 1,
-                        children: [
-                            {
-                                name: 'GT42G000001.SO.1',
-                                value: 1,
-                                children: [
-                                    {
-                                        name: 'GT42G000001.SO.1.1',
-                                        value: 1
-                                    },
-                                    {
-                                        name: 'GT42G000001.SO.1.2',
-                                        value: 1
-                                    },
-                                    {
-                                        name: 'GT42G000001.SO.1.3',
-                                        value: 1
-                                    },
-                                    {
-                                        name: 'GT42G000001.SO.1.4',
-                                        value: 1
-                                    },
-                                    {
-                                        name: 'GT42G000001.SO.1.5',
-                                        value: 1
-                                    },
-                                    {
-                                        name: 'GT42G000001.SO.1.6',
-                                        value: 1
-                                    },
-                                    {
-                                        name: 'GT42G000001.SO.1.7',
-                                        value: 1
-                                    },
-                                    {
-                                        name: 'GT42G000001.SO.1.8',
-                                        value: 1
-                                    },
-                                    {
-                                        name: 'GT42G000001.SO.1.9',
-                                        value: 1
-                                    },
-                                    {
-                                        name: 'GT42G000001.SO.1.10',
-                                        value: 1
-                                    },
-                                    {
-                                        name: 'GT42G000001.SO.1.11',
-                                        value: 1
-                                    },
-                                    {
-                                        name: 'GT42G000001.SO.1.12',
-                                        value: 1
-                                    },
-                                    {
-                                        name: 'GT42G000001.SO.1.13',
-                                        value: 1
-                                    },
-                                    {
-                                        name: 'GT42G000001.SO.1.14',
-                                        value: 1
-                                    },
-                                    {
-                                        name: 'GT42G000001.SO.1.15',
-                                        value: 1
-                                    },
-                                    {
-                                        name: 'GT42G000001.SO.1.16',
-                                        value: 1
-                                    },
-                                    {
-                                        name: 'GT42G000001.SO.1.17',
-                                        value: 1
-                                    },
-                                    {
-                                        name: 'GT42G000001.SO.1.18',
-                                        value: 1
-                                    },
-                                    {
-                                        name: 'GT42G000001.SO.1.19',
-                                        value: 1
-                                    },
-                                    {
-                                        name: 'GT42G000001.SO.1.20',
-                                        value: 1
-                                    },
-                                    {
-                                        name: 'GT42G000001.SO.1.21',
-                                        value: 1
-                                    },
-                                    {
-                                        name: 'GT42G000001.SO.1.22',
-                                        value: 1
-                                    },
-                                    {
-                                        name: 'GT42G000001.SO.1.23',
-                                        value: 1
-                                    },
-                                    {
-                                        name: 'GT42G000001.SO.1.24',
-                                        value: 1
-                                    },
-                                    {
-                                        name: 'GT42G000001.SO.1.25',
-                                        value: 1
-                                    },
-                                ]
-                            },
-                            {
-                                name: 'GT42G000001.SO.2',
-                                value: 1,
-                                children: [
-                                    {
-                                        name: 'GT42G000001.SO.2.1',
-                                        value: 1
-                                    },
-                                    {
-                                        name: 'GT42G000001.SO.2.2',
-                                        value: 1
-                                    },
-                                    {
-                                        name: 'GT42G000001.SO.2.3',
-                                        value: 1
-                                    }
-                                ]
-                            },
-                            {
-                                name: 'GT42G000001.SO.3',
-                                value: 1,
-                                children: [
-                                    {
-                                        name: 'GT42G000001.SO.3.1',
-                                        value: 1
-                                    },
-                                    {
-                                        name: 'GT42G000001.SO.3.2',
-                                        value: 1
-                                    },
-                                    {
-                                        name: 'GT42G000001.SO.3.3',
-                                        value: 1
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        name: 'GT42G000001.CO',
-                        value: 1,
-                        children: [
-                            {
-                                name: 'GT42G000001.CO.1',
-                                value: 1
-                            },
-                            {
-                                name: 'GT42G000001.CO.2',
-                                value: 1
-                            },
-                            {
-                                name: 'GT42G000001.CO.3',
-                                value: 1
-                            }
-                        ]
-                    },
-                    {
-                        name: 'GT42G000001.UK',
-                        value: 1,
-                        children: [
-                            {
-                                name: 'GT42G000001.UK.1',
-                                value: 1
-                            },
-                            {
-                                name: 'GT42G000001.UK.2',
-                                value: 1
-                            },
-                            {
-                                name: 'GT42G000001.UK.3',
-                                value: 1
-                            }
-                        ]
-                    }
-                ]
-            }
-        ];
-
-        option = {
-            tooltip: {
-                trigger: 'item',
-                triggerOn: 'mousemove',
-                formatter: "{b}" // 只显示name
-            },
-            series: {
-                type: "treemap",
-                data: treeMapData,
-                leafDepth: 3,
-                nodeClick: 'false', // 点击叶子节点是否缩放
-                label: {
-
-                    fontSize: 16
-                },
-                upperLabel: { // 父级标签样式
-                    show: true,
-                    fontSize: 18,
-                    height: 50,
-                    // backgroundColor: 'inherit',
-
-                    backgroundColor: "rgba(241, 246, 246, 1)",
-
-                    // borderColor: "rgba(239, 146, 146, 1)",
-                    // borderWidth: 1,
-                    borderRadius: [4, 4, 4, 4],
-                    padding: [0, 0, 0, 20]
-                },
-                itemStyle: {
-                    borderWidth: 2,
-                    borderColor: "rgba(207, 229, 227, 1)",
-                    gapWidth: 4
-                }
-            }
-        }
-
-        if (option && typeof option === 'object') {
-            myChart.setOption(option);
-        }
-
-        window.addEventListener('resize', myChart.resize);
-    </script>
-
-    <script type="text/javascript">
-        var dom = document.getElementById('container3');
-        var myChart = echarts.init(dom, null, {
-            renderer: 'canvas',
-            useDirtyRect: false
-        });
-        var app = {};
-
-        var option;
-
-        treeData = [
-            {
-                name: 'GT42G000001',
-                // itemStyle: {
-                //     color: '#da0d68'
-                // },
-                children: [
-                    {
-                        name: 'GT42G000001.SO',
-                        // itemStyle: {
-                        //     color: '#975e6d'
-                        // },
-                        children: [
-                            {
-                                name: 'GT42G000001.SO.1',
-                                // itemStyle: {
-                                //     color: '#3e0317'
-                                // },
-                                children: [
-                                    {
-                                        name: 'GT42G000001.SO.1.1',
-                                        // itemStyle: {
-                                        //     color: '#e62969'
-                                        // }
-                                    },
-                                    {
-                                        name: 'GT42G000001.SO.1.2',
-                                    },
-                                    {
-                                        name: 'GT42G000001.SO.1.3',
-                                    },
-                                    {
-                                        name: 'GT42G000001.SO.1.4',
-                                    },
-                                    {
-                                        name: 'GT42G000001.SO.1.5',
-                                    },
-                                    {
-                                        name: 'GT42G000001.SO.1.6',
-                                    },
-                                    {
-                                        name: 'GT42G000001.SO.1.7',
-                                    },
-                                    {
-                                        name: 'GT42G000001.SO.1.8',
-                                    },
-                                    {
-                                        name: 'GT42G000001.SO.1.9',
-                                    },
-                                    {
-                                        name: 'GT42G000001.SO.1.10',
-                                    },
-                                    {
-                                        name: 'GT42G000001.SO.1.11',
-                                    },
-                                    {
-                                        name: 'GT42G000001.SO.1.12',
-                                    },
-                                    {
-                                        name: 'GT42G000001.SO.1.13',
-                                    },
-                                    {
-                                        name: 'GT42G000001.SO.1.14',
-                                    },
-                                    {
-                                        name: 'GT42G000001.SO.1.15',
-                                    },
-                                    {
-                                        name: 'GT42G000001.SO.1.16',
-                                    },
-                                    {
-                                        name: 'GT42G000001.SO.1.17',
-                                    },
-                                    {
-                                        name: 'GT42G000001.SO.1.18',
-                                    },
-                                    {
-                                        name: 'GT42G000001.SO.1.19',
-                                    },
-                                    {
-                                        name: 'GT42G000001.SO.1.20',
-                                    },
-                                    {
-                                        name: 'GT42G000001.SO.1.21',
-                                    },
-                                    {
-                                        name: 'GT42G000001.SO.1.22',
-                                    },
-                                    {
-                                        name: 'GT42G000001.SO.1.23',
-                                    },
-                                    {
-                                        name: 'GT42G000001.SO.1.24',
-                                    },
-                                    {
-                                        name: 'GT42G000001.SO.1.25',
-                                    },
-                                ]
-                            },
-                            {
-                                name: 'GT42G000001.SO.2',
-                                children: [
-                                    {
-                                        name: 'GT42G000001.SO.2.1',
-                                    },
-                                    {
-                                        name: 'GT42G000001.SO.2.2',
-                                    },
-                                    {
-                                        name: 'GT42G000001.SO.2.3',
-                                    }
-                                ]
-                            },
-                            {
-                                name: 'GT42G000001.SO.3',
-                                children: [
-                                    {
-                                        name: 'GT42G000001.SO.3.1',
-                                    },
-                                    {
-                                        name: 'GT42G000001.SO.3.2',
-                                    },
-                                    {
-                                        name: 'GT42G000001.SO.3.3',
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        name: 'GT42G000001.CO',
-                        children: [
-                            {
-                                name: 'GT42G000001.CO.1',
-                            },
-                            {
-                                name: 'GT42G000001.CO.2',
-                            },
-                            {
-                                name: 'GT42G000001.CO.3',
-                            }
-                        ]
-                    },
-                    {
-                        name: 'GT42G000001.UK',
-                        children: [
-                            {
-                                name: 'GT42G000001.UK.1',
-                            },
-                            {
-                                name: 'GT42G000001.UK.2',
-                            },
-                            {
-                                name: 'GT42G000001.UK.3',
-                            }
-                        ]
-                    }
-                ]
-            }
-        ];
-
-        option = {
-            tooltip: {
-                trigger: 'item',
-                triggerOn: 'mousemove',
-                formatter: "{b}" // 只显示name
-            },
-            series: {
-                type: "tree",
-                data: treeData,
-                layout: 'orthogonal', // 树图布局，orthogonal正交布局，radial环形布局
-                orient: 'LR', // 树图方向，LR从左到右，RL从右到左，TB从上到下，BT从下到上
-                // roam: true, // 是否开启滚轮和拖拽缩放
-                emphasis: {
-                    focus: 'ancestor'
-                },
-                label: {
-                    fontSize: 16,
-                    position: "top", // 分支节点标签在节点上方显示
-                },
-                leaves: {
-                    label: {
-                        position: "right" // 叶子节点标签在节点右侧显示
-                    }
-                }
-
-            }
-        }
-
-        if (option && typeof option === 'object') {
-            myChart.setOption(option);
-        }
-
-        window.addEventListener('resize', myChart.resize);
-    </script>
-
-
-
 
 </body>
 
 </html>
-
-<div class="outer_container" id="sequence_download_box">
-    <div class="inner_container">
-        <div class="header">
-            <span class="category">Sequence</span>
-        </div>
-
-        <div class="file_list">
-            <label class="file_item">
-                <input type="checkbox" class="file_checkbox" value="mosaic.fasta">
-                mosaic.fasta <span class="file_size">15MB</span>
-            </label>
-            <label class="file_item">
-                <input type="checkbox" class="file_checkbox" value="haplotype.fasta">
-                haplotype.fasta <span class="file_size">36MB</span>
-            </label>
-            <label class="file_item">
-                <input type="checkbox" class="file_checkbox" value="transcriptome.fasta">
-                transcriptome.fasta <span class="file_size">48MB</span>
-            </label>
-            <label class="file_item">
-                <input type="checkbox" class="file_checkbox" value="transcriptome.pep">
-                transcriptome.pep <span class="file_size">8MB</span>
-            </label>
-        </div>
-
-        <button class="download_btn">Download</button>
-    </div>
-</div>
-
-<div class="outer_container gff">
-    <div class="inner_container">
-        <div class="header">
-            <span class="category">GFF</span>
-        </div>
-
-        <div class="file_list">
-            <label class="file_item">
-                <input type="checkbox" class="file_checkbox" value="transcriptome.gff">
-                transcriptome.gff <span class="file_size">16MB</span>
-            </label>
-
-        </div>
-
-        <button class="download_btn">Download</button>
-    </div>
-</div>

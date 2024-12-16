@@ -32,7 +32,7 @@ function checkURLSearchKeyword() {
 function initialBasedOnURLSearchKeyword() {
     if (checkURLSearchKeyword()) {
         // 如果URL中有searchKeyword参数，那么使用searchKeyword参数初始化页面
-        // http://127.0.0.1:5501/html/test/geneExpressionProfile.html?searchKeyword=GT42G000002.SO
+        // http://127.0.0.1:5501/html/test/geneExpressionProfile.html?searchKeyword=SGI000002.SO
         let searchKeyword = new URLSearchParams(window.location.search).get('searchKeyword');
 
         // 找到搜索框组件
@@ -46,7 +46,7 @@ function initialBasedOnURLSearchKeyword() {
         submitSearchForm(searchContainer);
     } else {
         // 如果URL中没有searchKeyword参数，那么使用默认的mosaicID初始化页面
-        initialContentArea('GT42G000001', 'mosaic');
+        initialContentArea('SGI000001', 'mosaic');
     }
 }
 

@@ -73,7 +73,7 @@ function setupDownloadButton(buttonId) {
         console.error('button container not found!');
         return;
     }
-    button.addEventListener('click', () => {
+    button.addEventListener('click', async () => {
         const type = idToType[buttonId];
         console.log(type);
 
@@ -91,7 +91,7 @@ function setupDownloadButton(buttonId) {
             return;
         }
 
-        const data = getData(type);
+        const data = await getData(type); // 等待 getDownloadHaplotypeTable() 中的异步操作
         showCustomAlert(alertText); // 目前只有下载完成的一瞬间会显示，需要优化
 
         // const csv = convertDataToCSV(data);

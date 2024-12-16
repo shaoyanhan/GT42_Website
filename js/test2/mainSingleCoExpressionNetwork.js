@@ -37,7 +37,7 @@ function initialBasedOnURLSearchKeyword() {
         submitSearchForm(searchContainer);
     } else {
         // 如果URL中没有searchKeyword参数，那么使用默认的mosaicID初始化页面
-        initialContentArea('GT42G000001', 'mosaic');
+        initialContentArea('SGI000001', 'mosaic');
     }
 }
 

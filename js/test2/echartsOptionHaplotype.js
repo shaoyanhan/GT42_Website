@@ -54,8 +54,6 @@ function getHaplotypeOption(haplotypeData) {
                 // }
                 return [
                     params.marker + (params.name === '--' ? params.value[0] : params.name),
-                    'Mosaic ID: ' + params.value[0],
-                    'Gene ID: ' + params.value[1],
                     'Gene Type: ' + params.value[2],
                     'Gene Length: ' + params.value[3] + ' bp',
                 ].join('<br>');
@@ -225,9 +223,7 @@ function getHaplotypeOption(haplotypeData) {
                             return '#AED581';
                         } else if (species == 'SS') {
                             return '#4DB6AC';
-                        } else if (species == 'CO') {
-                            return '#F48FB1';
-                        } else if (species == 'UK') {
+                        } else if (species == 'SO_SS') {
                             return '#A1887F';
                         } else {
                             return '#657FCB';

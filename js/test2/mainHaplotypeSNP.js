@@ -4,7 +4,7 @@ import { submitSearchForm } from "./searchEvents.js";
 import { clickHaplotypeSNPEventsHandler } from "./echartsEventsHaplotypeSNP.js";
 import { setUpPaginationEventListeners } from "./tablePagination.js";
 import { setupDownloadButton } from "./downloadTable.js";
-import { createClickToCopyHandler } from './copyTextToClipboard.js';
+import { createClickToCopyHandler, clickToCopyHandlerHaplotypeTable } from './copyTextToClipboard.js';
 
 
 export let haplotypeSNPDOM = document.getElementById('drawHaplotypeSNP');
@@ -23,7 +23,7 @@ function checkURLSearchKeyword() {
 function initialBasedOnURLSearchKeyword() {
     if (checkURLSearchKeyword()) {
         // 如果URL中有searchKeyword参数，那么使用searchKeyword参数初始化页面
-        // http://127.0.0.1:5501/html/test/haplotypeSNP.html?searchKeyword=GT42G000002.SO
+        // http://127.0.0.1:5501/html/test/haplotypeSNP.html?searchKeyword=SGI000002.SO
         let searchKeyword = new URLSearchParams(window.location.search).get('searchKeyword');
 
         // 找到搜索框组件
@@ -37,7 +37,7 @@ function initialBasedOnURLSearchKeyword() {
         submitSearchForm(searchContainer);
     } else {
         // 如果URL中没有searchKeyword参数，那么使用默认的mosaicID初始化页面
-        initialContentArea('GT42G000001', 'mosaic');
+        initialContentArea('SGI000001', 'mosaic');
     }
 }
 
@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // 为 haplotype table 中的复制按钮添加事件监听器
     const haplotypeTableContainer = document.getElementById('haplotype_table_container');
-    haplotypeTableContainer.addEventListener('click', clickToCopyHandler);
+    haplotypeTableContainer.addEventListener('click', clickToCopyHandlerHaplotypeTable);
 
     haplotypeSNPChart.on('click', clickHaplotypeSNPEventsHandler);
 });

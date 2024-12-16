@@ -132,7 +132,11 @@ let SNPEchartParamsData = {};
 let transcriptEchartParamsData = {};
 
 // 用于记录转录本图像中的外显子的上一个焦点元素所对应的dataIndex
-let formerTranscriptHighlightIndex = -1;
+let formerTranscriptHighlightDataIndex = -1;
+let formerTranscriptHighlightSeriesIndex = -1;
+
+// 用于记录可变剪接图像中的比对目标是mosaic还是haplotype
+let currentTranscriptSubjectType = 'mosaic';
 
 // 与PreviousID和NextID组件相关的一系列参数
 let currentGenome = 'GT42'; // 记录Select Genome选择框的当前值
@@ -240,8 +244,7 @@ let homologousIDSet = {};
 
 let firstInitialCoExpressionNetworkGraph = true;
 
-// mosaicID	Ca1_1	Ca1_2	Ca1_3	Ca2_1	Ca2_2	Ca2_3	Ca3_1	Ca3_2	Ca3_3	Ro1_1	Ro1_2	Ro1_3	Ro2_1	Ro2_2	Ro2_3	Le1_1	Le1_2	Le1_3	LS1_1	LS1_2	LS1_3	Bu1_1	Bu1_2	Bu1_3	In1_1	In1_2	In1_3	NR1_1	NR1_2	NR1_3	AM_1	AM_2	AM_3	Bu2_1	Bu2_2	Bu2_3	Sp_1	Sp_2	Sp_3	Br_1	Br_2	Br_3	St_1	St_2	St_3	Pi_1	Pi_2	Pi_3	Gl_2	Gl_3	LS2_2	LS2_3	In2_1	In2_3	No2_1	No2_2	No2_3	Bu3_1	Bu3_3	Le2_1	Le2_2	Le2_3
-let TPM_data_table_download_keys_to_keep = ['mosaicID', 'Ca1_1', 'Ca1_2', 'Ca1_3', 'Ca2_1', 'Ca2_2', 'Ca2_3', 'Ca3_1', 'Ca3_2', 'Ca3_3', 'Ro1_1', 'Ro1_2', 'Ro1_3', 'Ro2_1', 'Ro2_2', 'Ro2_3', 'Le1_1', 'Le1_2', 'Le1_3', 'LS1_1', 'LS1_2', 'LS1_3', 'Bu1_1', 'Bu1_2', 'Bu1_3', 'In1_1', 'In1_2', 'In1_3', 'NR1_1', 'NR1_2', 'NR1_3', 'AM_1', 'AM_2', 'AM_3', 'Bu2_1', 'Bu2_2', 'Bu2_3', 'Sp_1', 'Sp_2', 'Sp_3', 'Br_1', 'Br_2', 'Br_3', 'St_1', 'St_2', 'St_3', 'Pi_1', 'Pi_2', 'Pi_3', 'Gl_2', 'Gl_3', 'LS2_2', 'LS2_3', 'In2_1', 'In2_3', 'No2_1', 'No2_2', 'No2_3', 'Bu3_1', 'Bu3_3', 'Le2_1', 'Le2_2', 'Le2_3'];
+let TPM_data_table_download_keys_to_keep = ['Ca1_1', 'Ca1_2', 'Ca1_3', 'Ca2_1', 'Ca2_2', 'Ca2_3', 'Ca3_1', 'Ca3_2', 'Ca3_3', 'Ro1_1', 'Ro1_2', 'Ro1_3', 'Ro2_1', 'Ro2_2', 'Ro2_3', 'Le1_1', 'Le1_2', 'Le1_3', 'LS1_1', 'LS1_2', 'LS1_3', 'Bu1_1', 'Bu1_2', 'Bu1_3', 'In1_1', 'In1_2', 'In1_3', 'NR1_1', 'NR1_2', 'NR1_3', 'AM_1', 'AM_2', 'AM_3', 'No_1', 'No_2', 'No_3', 'Bu2_1', 'Bu2_2', 'Bu2_3', 'Sp_1', 'Sp_2', 'Sp_3', 'Br_1', 'Br_2', 'Br_3', 'St_1', 'St_2', 'St_3', 'Pi_1', 'Pi_2', 'Pi_3', 'Gl_1', 'Gl_2', 'Gl_3', 'LS2_1', 'LS2_2', 'LS2_3', 'In2_1', 'In2_2', 'In2_3', 'No2_1', 'No2_2', 'No2_3', 'Bu3_1', 'Bu3_2', 'Bu3_3', 'Le2_1', 'Le2_2', 'Le2_3'];
 
 let SNPEvidenceBothObjectData = [];
 let SNPEvidenceIsoSeqObjectData = [];
@@ -355,7 +358,7 @@ let apiPrefix = {
     homePageStatisticData: 'getHomePageStatisticData/',
 
     blastResults: 'getBlastResults/',
-    getRawSequenceWithType: 'getRawSequenceWithType/',
+    getSeqWithID: 'getSeqWithID/',
 
     parameter: {
         searchKeyword: 'searchKeyword=',
@@ -402,7 +405,9 @@ const updateDataFunctions = {
     SNPEchartParams: updateSNPEchartParamsData,
     transcriptEchartParams: updateTranscriptEchartParamsData,
 
-    formerTranscriptHighlightIndex: updateFormerTranscriptHighlightIndex,
+    formerTranscriptHighlightDataIndex: updateFormerTranscriptHighlightDataIndex,
+    formerTranscriptHighlightSeriesIndex: updateFormerTranscriptHighlightSeriesIndex,
+    currentTranscriptSubjectType: updateCurrentTranscriptSubjectType,
 
     nextIDData: updateNextIDData,
     currentGenome: updateCurrentGenome,
@@ -490,7 +495,9 @@ const getDataFunctions = {
     SNPEchartParamsData: getSNPEchartParamsData,
     transcriptEchartParamsData: getTranscriptEchartParamsData,
 
-    formerTranscriptHighlightIndex: getFormerTranscriptHighlightIndex,
+    formerTranscriptHighlightDataIndex: getFormerTranscriptHighlightDataIndex,
+    formerTranscriptHighlightSeriesIndex: getFormerTranscriptHighlightSeriesIndex,
+    currentTranscriptSubjectType: getCurrentTranscriptSubjectType,
 
     currentGenome: getCurrentGenome,
     currentIDIndex: getCurrentIDIndex,
@@ -752,8 +759,14 @@ function updateTranscriptEchartParamsData(newData) {
     transcriptEchartParamsData = newData;
 }
 
-function updateFormerTranscriptHighlightIndex(newData) {
-    formerTranscriptHighlightIndex = newData;
+function updateFormerTranscriptHighlightDataIndex(newData) {
+    formerTranscriptHighlightDataIndex = newData;
+}
+function updateFormerTranscriptHighlightSeriesIndex(newData) {
+    formerTranscriptHighlightSeriesIndex = newData;
+}
+function updateCurrentTranscriptSubjectType(newData) {
+    currentTranscriptSubjectType = newData;
 }
 
 
@@ -1007,8 +1020,14 @@ function getTranscriptEchartParamsData() {
     return _.cloneDeep(transcriptEchartParamsData);
 }
 
-function getFormerTranscriptHighlightIndex() {
-    return _.cloneDeep(formerTranscriptHighlightIndex);
+function getFormerTranscriptHighlightDataIndex() {
+    return _.cloneDeep(formerTranscriptHighlightDataIndex);
+}
+function getFormerTranscriptHighlightSeriesIndex() {
+    return _.cloneDeep(formerTranscriptHighlightSeriesIndex);
+}
+function getCurrentTranscriptSubjectType() {
+    return _.cloneDeep(currentTranscriptSubjectType);
 }
 
 function getCurrentGenome() {
@@ -1158,11 +1177,40 @@ function getDownloadSingleNetworkEdgesTable() {
     return filteredObjectList;
 }
 
-function getDownloadHaplotypeTable() {
-    const keysToKeep = ['mosaicID', 'geneID', 'areaType', 'length', 'nucleotideSequence'];
-    let filteredObjectList = filterKeysInObjects(haplotypeObjectData, keysToKeep);
+async function getDownloadHaplotypeTable() {
+    // 将前两列ID合并为一个ID列，并根据ID请求序列数据
+    let promises = haplotypeObjectData.map(async obj => {
+        let id = obj.geneID === '--' ? obj.mosaicID : obj.geneID;
+        let sequenceType = 'nucleotide';
+
+        try {
+            let response = await fetchRawData2('getSeqWithID', { 'sequenceID': id, 'sequenceType': sequenceType });
+            const responseData = response.data;
+
+            if (responseData.length === 0) {
+                showCustomAlert('No sequence data found for the specified ID', 'error');
+                return { ID: id, ...obj, nucleotideSequence: '' };
+            }
+
+            let sequence = responseData[sequenceType];
+            return { ID: id, ...obj, nucleotideSequence: sequence };
+
+        } catch (err) {
+            console.error('Error in fetching sequence data: ', err);
+            return { ID: id, ...obj, nucleotideSequence: '' };
+        }
+    });
+
+    // 等待所有异步操作完成
+    let reformedObjectList = await Promise.all(promises);
+
+    // 保留的键
+    const keysToKeep = ['ID', 'areaType', 'length', 'nucleotideSequence'];
+    let filteredObjectList = filterKeysInObjects(reformedObjectList, keysToKeep);
+
     return filteredObjectList;
 }
+
 
 function getDownloadSNPTable() {
     const keysToKeep = ['mosaicID', 'SNPSite', 'SNPType', 'IsoSeqEvidence', 'RNASeqEvidence', 'haplotypeSNP'];
@@ -1171,33 +1219,62 @@ function getDownloadSNPTable() {
 }
 
 function getDownloadTranscriptTable() {
-    const keysToKeep = ['mosaicID', 'geneID', 'transcriptID', 'transcriptIndex', 'areaType', 'start', 'end', 'length', 'transcriptRange', 'transcriptLength', 'nucleotideSequence', 'proteinSequence'];
-    let filteredObjectList = filterKeysInObjects(transcriptObjectData, keysToKeep);
+    // 将前三列ID合并为一个ID列，并删除用于绘图生成的 marker 标记点
+    let reformedObjectList = transcriptObjectData.map(obj => {
+        // 确定 ID 的值
+        let id;
+        if (obj.transcriptID !== '--') {
+            id = obj.transcriptID;
+        } else if (obj.geneID !== '--') {
+            id = obj.geneID;
+        } else {
+            id = obj.mosaicID;
+        }
+
+        // 检查 areaType 并更新 subjectStart 和 subjectEnd
+        if (obj.areaType === 'softClip' || obj.areaType === 'insertion') {
+            obj.subjectStart = '--';
+            obj.subjectEnd = '--';
+        }
+
+        // 返回处理后的对象，仅保留 ID
+        return { ID: id, ...obj };
+    });
+
+    const keysToKeep = ['ID', 'areaType', 'length', 'queryStart', 'queryEnd', 'subjectStart', 'subjectEnd'];
+    let filteredObjectList = filterKeysInObjects(reformedObjectList, keysToKeep);
+
     return filteredObjectList;
 }
 
 function getDownloadMosaicTPMTable() {
-    let filteredObjectList = filterKeysInObjects(mosaicTPMObjectData, TPM_data_table_download_keys_to_keep);
+    // 在TPM_data_table_download_keys_to_keep前加上mosaicID
+    let table_header = ['mosaicID'].concat(TPM_data_table_download_keys_to_keep);
+    let filteredObjectList = filterKeysInObjects(mosaicTPMObjectData, table_header);
     return filteredObjectList;
 }
 
 function getDownloadXenologousTPMTable() {
-    let filteredObjectList = filterKeysInObjects(xenologousTPMObjectData, TPM_data_table_download_keys_to_keep);
+    let table_header = ['xenologousID'].concat(TPM_data_table_download_keys_to_keep);
+    let filteredObjectList = filterKeysInObjects(xenologousTPMObjectData, table_header);
     return filteredObjectList;
 }
 
 function getDownloadGeneTPMTable() {
-    let filteredObjectList = filterKeysInObjects(geneTPMObjectData, TPM_data_table_download_keys_to_keep);
+    let table_header = ['geneID'].concat(TPM_data_table_download_keys_to_keep);
+    let filteredObjectList = filterKeysInObjects(geneTPMObjectData, table_header);
     return filteredObjectList;
 }
 
 function getDownloadTranscript() {
-    let filteredObjectList = filterKeysInObjects(transcriptTPMObjectData, TPM_data_table_download_keys_to_keep);
+    let table_header = ['transcriptID'].concat(TPM_data_table_download_keys_to_keep);
+    let filteredObjectList = filterKeysInObjects(transcriptTPMObjectData, table_header);
     return filteredObjectList;
 }
 
 function getDownloadAllTranscriptTPMTable() {
-    let filteredObjectList = filterKeysInObjects(allTranscriptTPMObjectData, TPM_data_table_download_keys_to_keep);
+    let table_header = ['transcriptID'].concat(TPM_data_table_download_keys_to_keep);
+    let filteredObjectList = filterKeysInObjects(allTranscriptTPMObjectData, table_header);
     return filteredObjectList;
 }
 

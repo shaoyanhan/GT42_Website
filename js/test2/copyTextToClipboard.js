@@ -1,4 +1,5 @@
 import { showCustomAlert } from './showCustomAlert.js';
+import { fetchRawData2 } from './data.js';
 
 // 将data_sequence里的文本复制到剪贴板
 function copyTextToClipboard(text) {
@@ -26,4 +27,21 @@ function createClickToCopyHandler() {
     };
 }
 
-export { createClickToCopyHandler };
+// haplotype table 中的点击复制需要先请求后端序列数据
+async function clickToCopyHandlerHaplotypeTable(e) {
+    if (e.target && e.target.classList.contains('copy_button')) {
+        const sequenceID = e.target.getAttribute('sequence_id');
+        const sequenceType = e.target.getAttribute('sequence_type');
+        const response = await fetchRawData2('getSeqWithID', { 'sequenceID': sequenceID, 'sequenceType': sequenceType });
+        const responseData = response.data;
+
+        if (responseData.length === 0) {
+            showCustomAlert('No sequence data found for the specified ID', 'error');
+            return;
+        }
+        let sequence = responseData[sequenceType];
+        copyTextToClipboard(sequence);
+    }
+}
+
+export { createClickToCopyHandler, clickToCopyHandlerHaplotypeTable };

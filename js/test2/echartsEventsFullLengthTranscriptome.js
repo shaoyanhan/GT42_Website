@@ -9,7 +9,6 @@ import { fetchRawData, fetchPaginationData, updateData, getData } from "./data.j
 import { updateTableContainer, setUpPaginationEventListeners } from "./tablePagination.js";
 
 
-
 function drawHaplotypeChart(haplotypeData) {
     haplotypeChart.setOption(getHaplotypeOption(haplotypeData));
 }
@@ -85,25 +84,45 @@ function setBarColor(dataArray, index, color) {
 }
 
 // 设置元素的聚焦方式：highlight（直接高亮）、select（需要在option的series中配置select）
-function setDispatchAction(echartsInstance, type, dataIndex) {
+function setDispatchAction(echartsInstance, type, seriesIndex, dataIndex) {
     echartsInstance.dispatchAction({
         type: type,
+        seriesIndex: seriesIndex,
         dataIndex: dataIndex
     });
 }
 
 // 取消元素的聚焦
-function setDownplayAction(echartsInstance, dataIndex) {
+function setDownplayAction(echartsInstance, seriesIndex, dataIndex) {
     echartsInstance.dispatchAction({
         type: 'downplay',
+        seriesIndex: seriesIndex,
         dataIndex: dataIndex
     });
 }
 
+/**
+ * 将对象数组分成两个对象数组
+ * @param {Array} objectArray - 需要分类的对象数组
+ * @param {Function} predicate - 分类规则的回调函数，返回 true 的进入第一个数组，否则进入第二个数组
+ * @returns {Array} 一个包含两个对象数组的数组
+ */
+function splitObjectArray(objectArray, predicate) {
+    return objectArray.reduce(
+        (result, item) => {
+            if (predicate(item)) {
+                result[0].push(item); // 符合规则的放入第一个数组
+            } else {
+                result[1].push(item); // 不符合规则的放入第二个数组
+            }
+            return result;
+        },
+        [[], []] // 初始化结果数组
+    );
+}
+
 
 async function clickHaplotypeChartsEvents(params) {
-
-
     console.log('clickHaplotypeChartsEvents events');
     console.log(params);
 
@@ -152,6 +171,7 @@ async function clickHaplotypeChartsEvents(params) {
     let transcriptRawData = await fetchRawData(transcriptTableType, transcriptSearchKeyword);
     // console.log(transcriptRawData);
     updateData('transcript', transcriptRawData);
+    updateData('currentTranscriptSubjectType', areaType); // 更新当前点击的区域类型
 
     // 获取更新之后的transcript数组
     let transcriptArrayData = getData('transcriptArrayData');
@@ -160,15 +180,19 @@ async function clickHaplotypeChartsEvents(params) {
     // transcriptArrayData = setBarColor(transcriptArrayData, 0, params.color);
 
     // 在每次绘制转录本图像之前，取消前一个高亮元素的聚焦效果，因为formerHighlightIndex存储的是上一个高亮元素的dataIndex，但是绘制转录本图像之后，transcript数据会切换为另外一组数据，导致formerHighlightIndex对应的dataIndex元素不再是高亮元素
-    let formerHighlightIndex = getData('formerTranscriptHighlightIndex');
-    setDownplayAction(transcriptChart, formerHighlightIndex);
+    let formerHighlightSeriesIndex = getData('formerTranscriptHighlightSeriesIndex');
+    let formerHighlightDataIndex = getData('formerTranscriptHighlightDataIndex');
+    setDownplayAction(transcriptChart, formerHighlightSeriesIndex, formerHighlightDataIndex); // 取消前一个高亮元素的聚焦效果
 
     drawTranscriptChart(transcriptArrayData);
 
     // 设置transcriptChart中第一个exon高亮
-    let currentHighlightIndex = 1;
-    setDispatchAction(transcriptChart, 'highlight', currentHighlightIndex);
-    updateData('formerTranscriptHighlightIndex', currentHighlightIndex); // 更新旧的高亮元素的dataIndex
+    let currentHighlightDataIndex = 1;
+    let currentHighlightSeriesIndex = 0;
+    setDispatchAction(transcriptChart, 'highlight', currentHighlightSeriesIndex, currentHighlightDataIndex);
+    updateData('formerTranscriptHighlightSeriesIndex', currentHighlightSeriesIndex); // 更新旧的高亮元素的seriesIndex
+    updateData('formerTranscriptHighlightDataIndex', currentHighlightDataIndex); // 更新旧的高亮元素的dataIndex
+
 
     // 更新transcript 的result details container
     let transcriptResultDetailsData = { type: transcriptRawData.type, data: transcriptRawData.data[1] }; // 获取第一个可变剪接的信息
@@ -185,63 +209,49 @@ async function clickHaplotypeChartsEvents(params) {
     setUpPaginationEventListeners('#transcript_table_container', transcriptPaginationDataType);
 }
 
+
 function clickTranscriptChartEvents(params) {
     console.log('clickTranscriptChartEvents events');
     console.log(params);
 
-
     let seriesName = params.seriesName; // 与option中的series.name对应
-    let yLable = params.name; // 与option中的y轴名称对应
-    // 由于绘图的时候为了y轴统一在haplotype末尾添加了'.0'，在这里需要与原始数据矩阵对应
-    let splitArray = yLable.split('.');
-    let transcriptID = (splitArray[splitArray.length - 1] === '0') ? '--' : yLable;
-    let startSite = params.value[5];
-    let endSite = params.value[6];
+    let transcriptID = params.name // 与option中的y轴名称对应，如果是mosaic，则显示'--'
+    let startSite = params.value[7];
+    let endSite = params.value[8];
+    let currentSeriesIndex = params.seriesIndex
 
     let transcriptObjectData = getData('transcriptObjectData');
+    console.log('transcriptObjectData: ', transcriptObjectData)
 
-    let exonAndIntronData = transcriptObjectData.filter(item => item.transcriptID === transcriptID); // 取出与当前点击的transcriptID对应的数据(一个transcriptID可能对应多个数据，因为一个可变剪接展示了外显子和内含子)
-    console.log(exonAndIntronData);
-
-    let clickedAreaData = exonAndIntronData.filter(item => item.start === startSite && item.end === endSite)[0]; // 取出与当前点击的区域对应的数据
+    let clickedAreaData = transcriptObjectData.filter(item => item.transcriptID === transcriptID && item.subjectStart === startSite && item.subjectEnd === endSite)[0]; // 取出与当前点击的区域对应的数据
     console.log(clickedAreaData);
 
     // 更新details container
-    let ResultDetailsData = { type: seriesName, data: clickedAreaData };
+    let ResultDetailsData = { type: 'transcript', data: clickedAreaData };
     let transcript_result_details_container = document.querySelector('#transcript_result_details_container');
     updateResultDetailsContainer(ResultDetailsData, transcript_result_details_container);
 
     // 修改transcriptChart的焦点
+    let splitObjectData = splitObjectArray(transcriptObjectData, obj => !(obj.areaType === "softClip" || obj.areaType === "insertion"));
+    console.log('splitObjectData: ', splitObjectData);
+    let currentTranscriptObjectData = splitObjectData[currentSeriesIndex]; // 取出当前点击的transcriptID对应的数据
     // 按照transcriptID、startSite、endSite来查找该数据在transcriptObjectData中的下标
-    const clickedAreaIndex = transcriptObjectData.findIndex(item =>
+    const clickedAreaDataIndex = currentTranscriptObjectData.findIndex(item =>
         item.transcriptID === transcriptID &&
-        item.start === startSite &&
-        item.end === endSite
+        item.subjectStart === startSite &&
+        item.subjectEnd === endSite
     );
-    console.log(clickedAreaIndex);
-    let transcriptArrayData = getData('transcriptArrayData');
-    console.log(transcriptArrayData);
-    // transcriptArrayData = setBarFocus(transcriptArrayData, clickedAreaIndex, 'red');
-    // console.log(transcriptArrayData);
-    // transcriptArrayData = setBarColor(transcriptArrayData, clickedAreaIndex, params.color);
-    // console.log(transcriptArrayData);
-
-    // // 如果点击了可变剪接的柱子，那么transcriptArrayData又会被刷新，此时要保证可变剪接图像中的单倍型颜色保持不变
-    // if (transcriptIndex !== 'haplotype') {
-    //     let haplotypeEchartParamsData = getData('haplotypeEchartParamsData');
-    //     console.log(haplotypeEchartParamsData);
-    //     transcriptArrayData = setBarColor(transcriptArrayData, 0, haplotypeEchartParamsData.color);
-    // }
-
-    // drawTranscriptChart(transcriptChart, transcriptArrayData);
+    console.log(clickedAreaDataIndex);
 
     // 设置点击的区域高亮
-    let currentHighlightIndex = clickedAreaIndex; // 获取当前点击的元素对应的dataIndex
-    let formerHighlightIndex = getData('formerTranscriptHighlightIndex'); // 获取旧的高亮元素的dataIndex
-    setDownplayAction(transcriptChart, formerHighlightIndex); // 取消前一个高亮元素的聚焦效果，注意这里并没有重绘transcriptChart，因此dataIndex是局限在当前transcript数据集中的，可以确保每次点击都能取消前一个高亮元素的聚焦效果
-    setDispatchAction(transcriptChart, 'highlight', currentHighlightIndex); // 设置当前点击的元素高亮
-    updateData('formerTranscriptHighlightIndex', currentHighlightIndex); // 更新旧的高亮元素的dataIndex
+    let currentHighlightDataIndex = clickedAreaDataIndex; // 获取当前点击的元素对应的dataIndex
+    let formerHighlightDataIndex = getData('formerTranscriptHighlightDataIndex'); // 获取旧的高亮元素的dataIndex
+    let formerHighlightSeriesIndex = getData('formerTranscriptHighlightSeriesIndex'); // 获取旧的高亮元素的seriesIndex
+    setDownplayAction(transcriptChart, formerHighlightSeriesIndex, formerHighlightDataIndex); // 取消前一个高亮元素的聚焦效果，注意这里并没有重绘transcriptChart，因此dataIndex是局限在当前transcript数据集中的，可以确保每次点击都能取消前一个高亮元素的聚焦效果
+    setDispatchAction(transcriptChart, 'highlight', currentSeriesIndex, currentHighlightDataIndex); // 设置当前点击的元素高亮
+    updateData('formerTranscriptHighlightDataIndex', currentHighlightDataIndex); // 更新旧的高亮元素的dataIndex
+    updateData('formerTranscriptHighlightSeriesIndex', currentSeriesIndex); // 更新旧的高亮元素的seriesIndex
 
 }
 
-export { drawHaplotypeChart, drawTranscriptChart, setBarFocus, setBarColor, clickHaplotypeChartsEvents, clickTranscriptChartEvents, setDispatchAction, setDownplayAction };
+export { drawHaplotypeChart, drawTranscriptChart, setBarFocus, setBarColor, clickHaplotypeChartsEvents, clickTranscriptChartEvents, setDispatchAction, setDownplayAction, splitObjectArray };

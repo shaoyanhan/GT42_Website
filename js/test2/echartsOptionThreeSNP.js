@@ -15,7 +15,7 @@ function getThreeSNPOption(REFData, SNPDataBoth, SNPDataISO, SNPDataRNA) {
         },
         title: [
             {
-                text: 'SNP With ISO-Seq && RNA-Seq Evidence',
+                text: 'SNP With Iso-Seq && RNA-Seq Evidence',
                 subtext: 'total count: 444708',
                 textStyle: {
                     fontSize: 16,
@@ -29,7 +29,7 @@ function getThreeSNPOption(REFData, SNPDataBoth, SNPDataISO, SNPDataRNA) {
                 textAlign: 'center'
             },
             {
-                text: 'SNP With ISO-Seq Evidence',
+                text: 'SNP With Iso-Seq Evidence',
                 subtext: 'total count: 483993',
                 textStyle: {
                     fontSize: 16,

@@ -95,7 +95,7 @@ function setUpDownloadEventListener() {
                 .map(checkbox => checkbox.value);
 
             if (selectedFiles.length === 0) {
-                alert('请至少选择一个文件进行下载！');
+                alert('Please select at least one file to download!');
                 return;
             }
 

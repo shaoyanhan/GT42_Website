@@ -21,16 +21,19 @@ async function initialContentArea(searchKeyword) {
         const redirectLink = container.querySelector('.redirect_link');
         const pageName = redirectLink.getAttribute('page-name');
 
-        // 为不同关键词类型禁用页面跳转功能
-        if (keywordType === 'xenologous' && pageName === 'fullLengthTranscriptome' ||
-            keywordType === 'transcript' && pageName === 'singleCoExpressionNetwork') {
-            container.classList.add('disabled');
-        }
-
         // 修改链接及其容器底部ID栏
         redirectLink.href = `./${pageName}.html?searchKeyword=${searchKeyword}`;
         const idContainer = container.querySelector('.open_id_title');
         idContainer.innerHTML = `Open With: ${searchKeyword}`;
+
+        // 最后为不同关键词类型打开页面跳转功能
+        const isDisabled = (['annotation', 'transcriptFactor'].includes(pageName)) ||
+            (keywordType === 'xenologous' && pageName === 'fullLengthTranscriptome' ||
+                (keywordType === 'transcript' && pageName === 'singleCoExpressionNetwork'));
+
+        if (!isDisabled) {
+            container.classList.remove('disabled');
+        }
     });
 }
 
@@ -39,7 +42,7 @@ function initialBasedOnURLSearchKeyword() {
     let searchKeyword;
     if (checkURLSearchKeyword()) {
         // 如果URL中有searchKeyword参数，那么使用searchKeyword参数初始化页面
-        // http://127.0.0.1:5501/html/test/fullLengthTranscriptome.html?searchKeyword=GT42G000002
+        // http://127.0.0.1:5501/html/test/fullLengthTranscriptome.html?searchKeyword=SGI000002
         searchKeyword = new URLSearchParams(window.location.search).get('searchKeyword');
 
         // 找到搜索框组件，注意这里由于响应式，有两个搜索框组件
@@ -53,7 +56,7 @@ function initialBasedOnURLSearchKeyword() {
 
     } else {
         // 如果URL中没有searchKeyword参数，那么使用默认的初始化页面
-        searchKeyword = 'GT42G000001';
+        searchKeyword = 'SGI000001';
     }
 
     // 初始化内容区域
