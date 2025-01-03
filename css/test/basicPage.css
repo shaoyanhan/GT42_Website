@@ -882,6 +882,10 @@ body {
     transition: all 0.5s;
 }
 
+.content_container .search_container .search_id_form_group .example_ids .example_title {
+    font-weight: bold;
+}
+
 .content_container .search_container .search_id_form_group .example_ids .example_id:hover {
     cursor: pointer;
     color: red;

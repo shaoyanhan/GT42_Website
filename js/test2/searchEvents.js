@@ -202,6 +202,16 @@ function createSearchEventHandler(container) {
 }
 
 
+function createKeyDownEventHandler(container) {
+    return function (event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            const searchButton = container.querySelector('.submit_button');
+            searchButton.click();
+        }
+    };
+}
+
 
 // 设置search container事件监听器
 function setUpSearchEventListeners(containerSelector) {
@@ -210,8 +220,14 @@ function setUpSearchEventListeners(containerSelector) {
         console.error('Search container not found!');
         return;
     }
-    const eventHandler = createSearchEventHandler(container);
-    container.addEventListener('click', eventHandler);
+    // 添加click事件监听器
+    const clickEventHandler = createSearchEventHandler(container);
+    container.addEventListener('click', clickEventHandler);
+
+    // 添加键盘enter事件监听器
+    const searchInput = container.querySelector('.search_input');
+    const keyDownEventHandler = createKeyDownEventHandler(container);
+    searchInput.addEventListener('keydown', keyDownEventHandler);
 }
 
 export { validateSearchForm, submitSearchForm, createSearchEventHandler, setUpSearchEventListeners, showAlert, downloadGenomeIDList };

@@ -17,6 +17,7 @@
     <!-- 引入 lodash.js 用于 data.js 的数据深拷贝 -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts-gl@2.0.9/dist/echarts-gl.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
 
     <style>
@@ -218,7 +219,7 @@
 
 
             <div class="transcript_result_container">
-                <div id="drawTranscript" style="width: 1010px;height:1100px;"></div>
+                <div id="drawNetworkGraph" style="width: 1010px;height:1100px;"></div>
                 <div class="result_details_container" id="transcript_result_details_container">
                     <!-- 下面必须使用两个div嵌套才能实现内容溢出的时候不会覆盖圆角框和矩形框之间的底部间隔 -->
                     <div class="content_box">

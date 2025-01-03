@@ -1,578 +1,139 @@
-let startbp = 0;
-// 缓存全局缩放比例
-let currentZoomScale = 1;
-// 全局变量，用于存储 exon 的高度
-let exonHeight = 20; // 默认值，会在图表初始化后动态更新
 
-let transcriptData = [
-    [
-        "GT42G000001",
-        "GT42G000001.SO.1",
-        "GT42G000001.SO.1.0",
-        "haplotype",
-        "haplotype",
-        1,
-        5306,
-        5306,
-        "1 - 5306",
-        5306
-    ],
-    [
-        "GT42G000001",
-        "GT42G000001.SO.1",
-        "GT42G000001.SO.1.1",
-        "transcript1",
-        "exon",
-        1,
-        509,
-        509,
-        "1 - 5275",
-        2872
-    ],
-    [
-        "GT42G000001",
-        "GT42G000001.SO.1",
-        "GT42G000001.SO.1.1",
-        "transcript1",
-        "deletion",
-        510,
-        519,
-        10,
-        "1 - 5275",
-        2872
-    ],
-    [
-        "GT42G000001",
-        "GT42G000001.SO.1",
-        "GT42G000001.SO.1.1",
-        "transcript1",
-        "exon",
-        520,
-        809,
-        290,
-        "1 - 5275",
-        2872
-    ],
-    [
-        "GT42G000001",
-        "GT42G000001.SO.1",
-        "GT42G000001.SO.1.1",
-        "transcript1",
-        "intron",
-        810,
-        2585,
-        1776,
-        "1 - 5275",
-        2872
-    ],
-    [
-        "GT42G000001",
-        "GT42G000001.SO.1",
-        "GT42G000001.SO.1.1",
-        "transcript1",
-        "exon",
-        2586,
-        3189,
-        604,
-        "1 - 5275",
-        2872
-    ],
-    [
-        "GT42G000001",
-        "GT42G000001.SO.1",
-        "GT42G000001.SO.1.1",
-        "transcript1",
-        "intron",
-        3190,
-        3816,
-        627,
-        "1 - 5275",
-        2872
-    ],
-    [
-        "GT42G000001",
-        "GT42G000001.SO.1",
-        "GT42G000001.SO.1.1",
-        "transcript1",
-        "exon",
-        3817,
-        5275,
-        1459,
-        "1 - 5275",
-        2872
-    ],
-    [
-        "GT42G000001",
-        "GT42G000001.SO.1",
-        "GT42G000001.SO.1.2",
-        "transcript2",
-        "exon",
-        100,
-        809,
-        709,
-        "1 - 5275",
-        2872
-    ],
-    [
-        "GT42G000001",
-        "GT42G000001.SO.1",
-        "GT42G000001.SO.1.2",
-        "transcript2",
-        "intron",
-        810,
-        2585,
-        1776,
-        "1 - 5275",
-        2872
-    ],
-    [
-        "GT42G000001",
-        "GT42G000001.SO.1",
-        "GT42G000001.SO.1.2",
-        "transcript2",
-        "exon",
-        2586,
-        3189,
-        604,
-        "1 - 5275",
-        2872
-    ],
-    [
-        "GT42G000001",
-        "GT42G000001.SO.1",
-        "GT42G000001.SO.1.2",
-        "transcript2",
-        "intron",
-        3190,
-        3816,
-        627,
-        "1 - 5275",
-        2872
-    ],
-    [
-        "GT42G000001",
-        "GT42G000001.SO.1",
-        "GT42G000001.SO.1.2",
-        "transcript2",
-        "exon",
-        3817,
-        5075,
-        1259,
-        "1 - 5275",
-        2872
-    ],
-    [
-        "GT42G000001",
-        "GT42G000001.SO.1",
-        "GT42G000001.SO.1.3",
-        "transcript3",
-        "exon",
-        100,
-        809,
-        709,
-        "1 - 5275",
-        2872
-    ],
-    [
-        "GT42G000001",
-        "GT42G000001.SO.1",
-        "GT42G000001.SO.1.3",
-        "transcript3",
-        "intron",
-        810,
-        2585,
-        1776,
-        "1 - 5275",
-        2872
-    ],
-    [
-        "GT42G000001",
-        "GT42G000001.SO.1",
-        "GT42G000001.SO.1.3",
-        "transcript3",
-        "exon",
-        2586,
-        3189,
-        604,
-        "1 - 5275",
-        2872
-    ],
-    [
-        "GT42G000001",
-        "GT42G000001.SO.1",
-        "GT42G000001.SO.1.3",
-        "transcript3",
-        "intron",
-        3190,
-        3816,
-        627,
-        "1 - 5275",
-        2872
-    ],
-    [
-        "GT42G000001",
-        "GT42G000001.SO.1",
-        "GT42G000001.SO.1.3",
-        "transcript3",
-        "exon",
-        3817,
-        5275,
-        1459,
-        "1 - 5275",
-        2872
-    ],
-    [
-        "GT42G000001",
-        "GT42G000001.SO.1",
-        "GT42G000001.SO.1.4",
-        "transcript4",
-        "exon",
-        100,
-        809,
-        709,
-        "1 - 5275",
-        2872
-    ],
-    [
-        "GT42G000001",
-        "GT42G000001.SO.1",
-        "GT42G000001.SO.1.4",
-        "transcript4",
-        "intron",
-        810,
-        2585,
-        1776,
-        "1 - 5275",
-        2872
-    ],
-]
 
-let markerData = [
-    [1, "GT42G000001.SO.1.1", "type1", "Marker info 1"],
-    [500, "GT42G000001.SO.1.1", "type2", "Marker info 2"],
-    [700, "GT42G000001.SO.1.1", "type1", "Marker info 3"]
-];
+// function getNetworkGraphOption(graphData) {
+//     let option = {
+//         title: {
+//             text: 'Network Graph',
+//             left: 'center'
+//         },
+//         // tooltip: {
+//         //     trigger: 'item',
+//         //     formatter: function (params) {
+//         //         if (params.dataType === 'node') {
+//         //             return 'Node: ' + params.data.name;
+//         //         } else {
+//         //             return 'Edge: ' + params.data.source + ' -> ' + params.data.target;
+//         //         }
+//         //     }
+//         // },
+//         series: [
+//             {
+//                 type: 'graphGL',
+//                 // forceAtlas2: {
+//                 //     steps: 1,
+//                 //     stopThreshold: 1,
+//                 //     jitterTolerence: 10,
+//                 //     // edgeWeight: [0.2, 1],
+//                 //     gravity: 1,
+//                 //     edgeWeightInfluence: 1,
+//                 //     scaling: 0.2,
+//                 //     // preventOverlap: true,
+//                 // },
+//                 data: graphData.nodes,
+//                 links: graphData.links,
+//                 // categories: graphData.categories,
+//                 // roam: true,
+//                 // label: {
+//                 //     show: true,
+//                 //     position: 'right',
+//                 //     formatter: '{b}'
+//                 // },
+//                 // lineStyle: {
+//                 //     color: 'source',
+//                 //     curveness: 0.3
+//                 // },
+//                 symbolSize: function (value, params) {
+//                     return params.data.symbolSize;
+//                 }
+//             }
+//         ]
+//     };
+//     return option;
+// }
 
-function renderItem(params, api) {
-    // console.log("params: ", params);
-    // console.log("api: ", api);
-    // var categoryIndex = api.value(3);
-    // let geneID = api.value(1);
-    let transcriptID = api.value(2);
-    let areaType = api.value(4);
-    // let yLable = (areaType == 'haplotype' ? geneID : transcriptID);
-    let yLable = transcriptID;
-    let start = api.coord([api.value(5), yLable]); // x, y
-    let end = api.coord([api.value(6), yLable]);
-    let height = 0;
 
-    if (areaType == 'exon' || areaType == 'haplotype') {
-        height = api.size([0, 1])[1] * 0.6;
-    } else {
-        height = api.size([0, 1])[1] * 0.1;
+// let networkGraphChart = echarts.init(document.getElementById('drawNetworkGraph'));
+// let graphData;
+// let option;
+
+// fetch('http://127.0.0.1:30000/searchDatabase/getNetworkGraphJSONTest/')
+//     .then(response => response.json())
+//     .then(data => {
+//         graphData = data;
+//         option = getNetworkGraphOption(graphData);
+//         networkGraphChart.setOption(option);
+//     })
+//     .catch(error => console.error('Error:', error));
+// // window.addEventListener('resize', function () {
+// //     networkGraphChart.resize();
+// // });
+
+
+
+
+
+// 1️⃣  加载示例数据
+const graphData = {
+    nodes: [
+        { id: 'TF1', label: 'TF1', x: 0, y: 0, size: 5, color: '#ff5733' },
+        { id: 'TF2', label: 'TF2', x: 2, y: 1, size: 4, color: '#33ff57' },
+        { id: 'TF3', label: 'TF3', x: 1, y: -2, size: 3, color: '#3357ff' },
+        { id: 'TF4', label: 'TF4', x: -2, y: -1, size: 2, color: '#f39c12' },
+        { id: 'TF5', label: 'TF5', x: -1, y: 2, size: 6, color: '#8e44ad' },
+        { id: 'TF6', label: 'TF6', x: 3, y: -3, size: 4, color: '#c0392b' },
+        { id: 'TF7', label: 'TF7', x: -3, y: 2, size: 2, color: '#2ecc71' },
+        { id: 'TF8', label: 'TF8', x: 4, y: 3, size: 3, color: '#2980b9' }
+    ],
+    edges: [
+        { id: 'e1', source: 'TF1', target: 'TF2', color: '#ff5733' },
+        { id: 'e2', source: 'TF2', target: 'TF3', color: '#33ff57' },
+        { id: 'e3', source: 'TF3', target: 'TF4', color: '#3357ff' },
+        { id: 'e4', source: 'TF4', target: 'TF1', color: '#f39c12' }
+    ]
+};
+
+// 2️⃣  创建 Sigma 图
+const container = document.getElementById('graph-container');
+const graph = new Sigma({
+    graph: graphData,
+    container: container
+});
+
+// 3️⃣  高亮节点的功能
+let selectedNode = null;
+
+graph.on('clickNode', (e) => {
+    const nodeId = e.data.node.id;
+    selectedNode = nodeId;
+    graph.graph.nodes().forEach(node => {
+        node.hidden = node.id !== nodeId && !graph.graph.neighbors(nodeId).includes(node.id);
+    });
+    graph.graph.edges().forEach(edge => {
+        edge.hidden = edge.source !== nodeId && edge.target !== nodeId;
+    });
+    graph.refresh();
+});
+
+// 4️⃣  点击空白恢复网络图
+graph.on('clickStage', () => {
+    if (selectedNode) {
+        graph.graph.nodes().forEach(node => node.hidden = false);
+        graph.graph.edges().forEach(edge => edge.hidden = false);
+        graph.refresh();
+        selectedNode = null;
     }
+});
 
-    let rectShape = echarts.graphic.clipRectByRect(
-        {
-            x: start[0],
-            y: start[1] - height / 2,
-            width: end[0] - start[0],
-            height: height
+// 5️⃣  鼠标悬浮高亮
+graph.on('overNode', (e) => {
+    const nodeId = e.data.node.id;
+    graph.graph.nodes().forEach(node => node.color = node.id === nodeId ? '#000' : node.color);
+    graph.refresh();
+});
 
-        },
-        {
-            x: params.coordSys.x,
-            y: params.coordSys.y,
-            width: params.coordSys.width,
-            height: params.coordSys.height
-        }
-    );
-    return (
-        rectShape && {
-            type: 'rect',
-            transition: ['shape'],
-            shape: rectShape,
-            style: api.style(),
-        }
-    );
-}
-
-
-
-// 为了绘制图像时y轴统一使用transcriptID列，所以要使用.0后缀为haplotype添加一个虚拟的transcriptID
-function insertTranscriptID(transcriptData) {
-    // 遍历transcriptData
-    for (let i = 0; i < transcriptData.length; i++) {
-        let geneID = transcriptData[i][1];
-        let areaType = transcriptData[i][4];
-        if (areaType == 'haplotype') {
-            // haplotype添加一个虚拟的transcriptID
-            transcriptData[i][2] = geneID + '.0';
-        }
-    }
-    return transcriptData;
-}
-
-function getTranscriptOption(transcriptData) {
-    transcriptData = insertTranscriptID(transcriptData);
-    console.log(transcriptData);
-    return {
-        tooltip: {
-
-            formatter: function (params) {
-                // console.log(params);
-                // 设置不同图形的提示信息，不知道为什么不能在series里面单独设置
-                let areaType = params.value[4];
-                if (areaType == 'haplotype') {
-                    return [
-                        params.marker + params.value[1],
-                        'Mosaic ID: ' + params.value[0],
-                        'Gene ID: ' + params.value[1],
-                        'Gene Range: ' + params.value[8],
-                        'Gene Length: ' + params.value[7] + ' bp',
-                    ].join('<br>');
-                }
-                return [
-                    params.marker + params.name,
-                    (params.value[4] == 'exon' ? 'Exon: ' : 'Intron: ') + params.value[5] + ' - ' + params.value[6] + ' bp',
-                    'Transcript ID: ' + params.value[2],
-                    'Transcript Range: ' + params.value[8] + ' bp',
-                    'Transcript Length: ' + params.value[9] + ' bp',
-                ].join('<br>');
-            },
-            textStyle: {
-                fontSize: 16
-            },
-        },
-        title: {
-            text: 'Transcripts Profile of Haplotype',
-            left: 'center'
-        },
-        // legend: {
-        //     data: [
-        //         {
-        //             name: 'haplotype',
-        //         },
-        //         {
-        //             name: 'SNP Site',
-        //             backgroundColor: '#ccc'
-        //         }
-        //     ],
-        //     left: 'left'
-        // },
-        dataZoom: [
-            {
-                id: 'dataZoomX',
-                xAxisIndex: [0],
-                type: 'slider',
-                // filterMode: 'weakFilter',
-                filterMode: 'none', // 这里只能设置为none，因为一旦开启过滤或者设置为空，那么横向放大之后转录本就会被截断
-                showDataShadow: false,
-                labelFormatter: function (value) {
-                    return Math.round(value) + 'bp';
-                },
-                textStyle: {
-                    fontSize: 15
-                },
-                bottom: 20,
-                height: 30,
-                start: 0,
-                end: 100,
-                fillerColor: "rgba(36, 114, 218, 0.4)",
-                borderRadius: 8,
-                moveHandleSize: 15, //横向柄条
-                handleSize: 50, //纵向柄条
-                showDetail: true,
-                realtime: true // 开启实时更新
-
-            },
-            {
-                id: 'dataZoomY',
-                yAxisIndex: [0],
-                type: 'slider',
-                filterMode: 'none',
-                showDataShadow: false,
-                right: 50, // 如果不设置会导致右侧的滑块头部无法显示
-                labelFormatter: '',
-                width: 30,
-                start: 0,
-                end: 100,
-                fillerColor: "rgba(36, 114, 218, 0.4)",
-                borderRadius: 8,
-                moveHandleSize: 15,
-                handleSize: 50,
-                showDetail: true,
-                realtime: true // 开启实时更新
-            },
-            // 控制内部的缩放，这里对x和y都开启，可以实现整个区域的放缩和自由拖拽
-            {
-                type: 'inside',
-                filterMode: 'none',
-                orient: "vertical",
-                yAxisIndex: [0]
-            },
-            {
-                type: 'inside',
-                filterMode: 'none',
-                orient: "horizontal",
-                xAxisIndex: [0]
-            }
-        ],
-        toolbox: {
-            feature: {
-                dataZoom: { show: true },
-                // dataView: { show: true, readOnly: false },
-                // restore功能有bug，在切换数据之后，点击restore会自动绘制GT42000001的图像
-                // restore: { show: true }, 
-                saveAsImage: { show: true },
-                // magicType: {
-                //     type: ['line', 'bar', 'stack']
-                // }
-
-            }
-        },
-        // 最多 66 个转录本，平均值10-20个
-        grid: {
-            height: 950,
-            width: 800,
-            containLabel: true
-        },
-        xAxis:
-        {
-            min: -2,
-            // scale: true,
-            axisLabel: {
-                formatter: function (val) {
-                    // return Math.round(Math.max(0, val - startbp)) + ' bp';
-                    return Math.round(val - startbp) + ' bp';
-
-                },
-                fontSize: 15
-            },
-            // axisPointer: {
-            //     show: true,
-            //     type: "line"
-            // }
-        },
-        yAxis: {
-            type: 'category',
-            inverse: true,
-            axisLabel: {
-                show: true,
-                fontSize: 15,
-                // 这里不能使用index改变单倍型的ID标签，因为index是当前画幅中的index，而不是数据中的index，一旦画幅改变，那么index也会改变
-                formatter: function (value, index) {
-                    // 对value以'.'进行分割，如果最后一个元素是0，那么说明是haplotype，将末尾的.0去掉
-                    let valueArray = value.split('.');
-
-                    // console.log('value: ', value);
-                    // console.log('index: ', index);
-                    // console.log('transcriptData[index]: ', transcriptData[index]);
-                    // console.log('valueArray: ', valueArray);
-
-                    if (valueArray[valueArray.length - 1] == '0') {
-                        return valueArray.slice(0, valueArray.length - 1).join('.');
-                    } else {
-                        return value;
-                    }
-
-                }
-            }
-            // data: categories
-        },
-        series: [
-            {
-                name: 'transcript',
-                type: 'custom',
-                renderItem: renderItem,
-                itemStyle: {
-                    opacity: 1,
-                    color: function (params) {
-                        let areaType = params.data[4];
-                        if (areaType == 'haplotype') {
-                            // console.log('itemStyle: ', params);
-                            // 对params.value[1]以.为分隔符进行拆分，取第二个元素判断物种信息
-                            let species = params.value[1].split('.')[1];
-                            if (species == 'SO') {
-                                // console.log(params);
-                                return '#AED581';
-                            } else if (species == 'SS') {
-                                return '#4DB6AC';
-                            } else if (species == 'CO') {
-                                return '#F48FB1';
-                            } else if (species == 'UK') {
-                                return '#A1887F';
-                            } else {
-                                return 'black';
-                            }
-                        } else {
-                            if (areaType == 'exon') {
-                                return '#a8e1f5';
-                            } else {
-                                return '#D2DE32';
-                            }
-                        }
-                    }
-                },
-                borderRadius: 5,
-                encode: {
-                    x: [5, 6],
-                    // y: 3,
-                    y: 2,
-                    // tooltip: {
-                    //     formatter: function (params) {
-
-                    //         return params[0].value[0] + ': ';
-                    //     }
-                    // }
-                },
-
-                data: transcriptData,
-                // custom 模式下无法使用select,只能使用highlight
-                // select: {
-                //     disabled: false,
-                //     itemStyle: {
-                //         borderColor: 'rgba(250, 3, 3, 1)',
-                //         borderWidth: 2
-                //     }
-                // },
-                // selectedMode: 'single',
-            },
-            {
-                name: 'Markers',
-                type: 'scatter', // Use scatter plot for markers
-                encode: {
-                    x: 0, // Marker position on the x-axis
-                    y: 1  // Corresponding transcript ID on the y-axis
-                },
-                // symbol: "path://M197,476.5L177,476.5L177,481L168,472L177,463L177,467.5L197,467.5Z",
-                symbol: function (value, params) {
-                    return params.data[2] === 'type1' ? 'path://M197,476.5L177,476.5L177,481L168,472L177,463L177,467.5L197,467.5Z' : 'triangle'; // Different markers for different types
-                },
-                symbolSize: 15, // Adjust marker size
-                // symbolSize: function () {
-                //     // 动态计算标记点大小，限制为 exon 高度的 80%
-                //     let baseSize = 10; // 默认大小
-                //     return Math.min(baseSize * currentZoomScale, exonHeight * 0.8);
-                // },
-                itemStyle: {
-                    color: function (params) {
-                        return params.data[2] === 'type1' ? 'red' : 'green'; // Different colors for marker types
-                    }
-                },
-                data: markerData
-            }
-        ],
-        animation: true,
-        animationEasing: 'elasticOut',
-    };
-}
-
-let transcriptChart = echarts.init(document.getElementById('drawTranscript'));
-let option = getTranscriptOption(transcriptData);
-transcriptChart.setOption(option);
-transcriptChart.resize();
-window.addEventListener('resize', function () {
-    transcriptChart.resize();
+// 6️⃣  鼠标移开恢复颜色
+graph.on('outNode', () => {
+    graph.graph.nodes().forEach(node => node.color = graphData.nodes.find(n => n.id === node.id).color);
+    graph.refresh();
 });
 

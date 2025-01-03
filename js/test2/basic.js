@@ -193,6 +193,7 @@ async function setUpSearchBoxSearchButtonEventListeners() {
         return;
     }
     searchBoxContainer.forEach(searchBox => {
+        // 为搜索框中的搜索按钮添加事件监听器
         const searchButton = searchBox.querySelector('.search_button');
         searchButton.addEventListener('click', async function () {
             const searchInput = searchBox.querySelector('input');
@@ -206,6 +207,23 @@ async function setUpSearchBoxSearchButtonEventListeners() {
 
             const url = './searchBox.html?searchKeyword=' + searchKeyword;
             openInNewTab(url);
+        });
+
+        // 为搜索框中的输入框添加回车事件监听器
+        const searchInput = searchBox.querySelector('input');
+        searchInput.addEventListener('keydown', async function (e) {
+            if (e.key === 'Enter') {
+                const searchKeyword = searchInput.value;
+
+                const isValid = await checkSearchKeyword(searchKeyword);
+                // 检查搜索关键词的合法性
+                if (!isValid) {
+                    return;
+                }
+
+                const url = './searchBox.html?searchKeyword=' + searchKeyword;
+                openInNewTab(url);
+            }
         });
     });
 

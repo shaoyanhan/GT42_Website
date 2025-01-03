@@ -304,6 +304,9 @@ let currentBlastResultQueryIndex = 0;
 let blastResultSeqType = 'nucleotide';
 let currentBlastDatabaseSeqType = 'nucleotide';
 
+// 用于存储Factor对应的Isoform ID列表
+let isoformIDList = [];
+
 
 // 定义API请求的前缀
 let apiPrefix = {
@@ -359,6 +362,9 @@ let apiPrefix = {
 
     blastResults: 'getBlastResults/',
     getSeqWithID: 'getSeqWithID/',
+
+    getIsoformIDList: 'getIsoformIDList/',
+    getAnnotationIsoform: 'getAnnotationIsoform/',
 
     parameter: {
         searchKeyword: 'searchKeyword=',
@@ -1540,6 +1546,8 @@ function getCurrentPageName() {
         return 'SingleCoExpressionNetwork';
     } else if (pathName.includes('haplotypeSNP.html')) {
         return 'HaplotypeSNP';
+    } else if (pathName.includes('transcriptFactors.html')) {
+        return 'TranscriptFactors';
     } else {
         return 'default';
     }

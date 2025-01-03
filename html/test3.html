@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        .accordion {
+            width: 400px;
+            margin: 20px auto;
+            background: #f0f0f0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .accordion-header {
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            position: relative;
+            z-index: 2;
+        }
+
+        .accordion-title {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .toggle-btn {
+            width: 30px;
+            height: 30px;
+            background: #fff;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .toggle-btn::before,
+        .toggle-btn::after {
+            content: '';
+            position: absolute;
+            background: #333;
+            transition: all 0.5s ease;
+        }
+
+        .toggle-btn::before {
+            width: 14px;
+            height: 2px;
+        }
+
+        .toggle-btn::after {
+            width: 2px;
+            height: 14px;
+        }
+
+        .accordion.active .toggle-btn::after {
+            transform: rotate(90deg) scale(0);
+        }
+
+        .accordion-content {
+            background: #f0f0f0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(.39, -0.46, .61, 1.53);
+            margin-top: -1px;
+            /* 消除可能的间隙 */
+        }
+
+        .accordion-content-inner {
+            padding: 0 20px 20px 20px;
+            transform-origin: top;
+            transform: translateY(-10%);
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+
+        .accordion.active .accordion-content-inner {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="accordion">
+        <div class="accordion-header">
+            <div class="accordion-title">展开栏标题</div>
+            <div class="toggle-btn"></div>
+        </div>
+        <div class="accordion-content">
+            <div class="accordion-content-inner">
+                这里是展开后显示的内容区域。<br>
+                你可以放置任何内容在这里。<br>
+                比如文字、图片、表格等等。
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const accordion = document.querySelector('.accordion');
+            const header = accordion.querySelector('.accordion-header');
+            const content = accordion.querySelector('.accordion-content');
+
+            header.addEventListener('click', function () {
+                const isActive = accordion.classList.contains('active');
+
+                if (!isActive) {
+                    accordion.classList.add('active');
+                    content.style.maxHeight = content.scrollHeight + 'px';
+                } else {
+                    accordion.classList.remove('active');
+                    content.style.maxHeight = '0';
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>
