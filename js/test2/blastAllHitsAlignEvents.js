@@ -1005,7 +1005,6 @@ function createAlignSeqResultContainer(objectData, hitIndex) {
     // 3. 下载HSP的两两比对txt格式：参考initialContentArea中的splitPairwiseAlignmentResultByIndex，直接存储对应的ID（>GT42G000001）的所有HSP行即可
     // 3. 下载当前subject的数值列表：使用initialContentArea中的splitDetailedTableResultByIndex
     alignSeqResultContainer.querySelector('.download_complete_subject_sequence').addEventListener('click', async function () {
-        showCustomAlert('Downloading started!', 'normal', 1000);
 
         // 根据ID获取完整的subject序列
         const currentQueryIndex = getData('currentBlastResultQueryIndex');
@@ -1036,7 +1035,6 @@ function createAlignSeqResultContainer(objectData, hitIndex) {
     });
 
     alignSeqResultContainer.querySelector('.download_aligned_subject_sequence').addEventListener('click', async function () {
-        showCustomAlert('Downloading started!', 'normal', 1000);
 
         // 获取当前Hit对应的HSP列表
         const currentQueryIndex = getData('currentBlastResultQueryIndex');
@@ -1063,7 +1061,6 @@ function createAlignSeqResultContainer(objectData, hitIndex) {
     });
 
     alignSeqResultContainer.querySelector('.download_pairwise_alignment_result').addEventListener('click', async function () {
-        showCustomAlert('Downloading started!', 'normal', 1000);
 
         // 获取format0的结果
         const blastResultPairwiseAlignment = getData('blastResultPairwiseAlignment');
@@ -1097,7 +1094,6 @@ function createAlignSeqResultContainer(objectData, hitIndex) {
     });
 
     alignSeqResultContainer.querySelector('.download_detailed_value_table').addEventListener('click', async function () {
-        showCustomAlert('Downloading started!', 'normal', 1000);
 
         // 获取format2的结果
         const blastResultDetailedTable = getData('blastResultDetailedTable');
@@ -1135,11 +1131,6 @@ function createAlignSeqResultContainer(objectData, hitIndex) {
         // 下载文件
         downloadFile(resultString, `Detailed_Value_Table_of_${subjectID}`, 'txt');
     });
-
-
-    // TODO:实现点击ID的摘要页面跳转
-    // TODO:重新跑gene_network_nodes，点大小为1全部算成了0
-    // TODO:重跑之后，即要修改getNetworkGraphJSON（直接使用edgesIndex大幅提升查询效率），也要修改getNetworkEdgesTableByPage（只有核心ID的边）
 
 
     // 为序列匹配结果的导航栏的四个结果跳转按钮添加点击事件

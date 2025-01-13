@@ -244,7 +244,8 @@ let homologousIDSet = {};
 
 let firstInitialCoExpressionNetworkGraph = true;
 
-let TPM_data_table_download_keys_to_keep = ['Ca1_1', 'Ca1_2', 'Ca1_3', 'Ca2_1', 'Ca2_2', 'Ca2_3', 'Ca3_1', 'Ca3_2', 'Ca3_3', 'Ro1_1', 'Ro1_2', 'Ro1_3', 'Ro2_1', 'Ro2_2', 'Ro2_3', 'Le1_1', 'Le1_2', 'Le1_3', 'LS1_1', 'LS1_2', 'LS1_3', 'Bu1_1', 'Bu1_2', 'Bu1_3', 'In1_1', 'In1_2', 'In1_3', 'NR1_1', 'NR1_2', 'NR1_3', 'AM_1', 'AM_2', 'AM_3', 'No_1', 'No_2', 'No_3', 'Bu2_1', 'Bu2_2', 'Bu2_3', 'Sp_1', 'Sp_2', 'Sp_3', 'Br_1', 'Br_2', 'Br_3', 'St_1', 'St_2', 'St_3', 'Pi_1', 'Pi_2', 'Pi_3', 'Gl_1', 'Gl_2', 'Gl_3', 'LS2_1', 'LS2_2', 'LS2_3', 'In2_1', 'In2_2', 'In2_3', 'No2_1', 'No2_2', 'No2_3', 'Bu3_1', 'Bu3_2', 'Bu3_3', 'Le2_1', 'Le2_2', 'Le2_3'];
+let TPM_data_table_download_keys_to_keep = ['Ca1_1', 'Ca1_2', 'Ca2_1', 'Ca2_2', 'Ca3_1', 'Ca3_2', 'Ca3_3', 'Ca4_1', 'Ca4_2', 'Ca4_3', 'Ro1_1', 'Ro1_2', 'Ro1_3', 'Ro2_1', 'Ro2_2', 'Ro2_3', 'Bu1_1', 'Bu1_2', 'Bu1_3', 'Bu4_1', 'Bu4_2', 'Bu4_3', 'Bu5_1', 'Bu5_2', 'Bu5_3', 'Le1_1', 'Le1_2', 'Le1_3', 'Le3_1', 'Le3_2', 'Le3_3', 'Le4_1', 'Le4_2', 'Le4_3', 'Le5_1', 'Le5_2', 'Le5_3', 'Le6_1', 'Le6_2', 'Le6_3', 'LS1_1', 'LS1_2', 'LS1_3', 'LS3_1', 'LS3_2', 'LS3_3', 'LS4_1', 'LS4_2', 'LS4_3', 'Ve1_1', 'Ve1_2', 'Ve1_3', 'Ve2_1', 'Ve2_2', 'Ve2_3', 'Ve3_1', 'Ve3_2', 'Ve4_1', 'Ve4_2', 'Ve4_3', 'AM_1', 'AM_2', 'AM_3', 'In1_1', 'In1_2', 'In1_3', 'No4_1', 'No4_2', 'No4_3', 'No5_1', 'No5_2', 'No5_3', 'SB1_1', 'SB1_2', 'SB1_3', 'SB2_1', 'SB2_2', 'SB2_3', 'SB3_1', 'SB3_2', 'SB3_3', 'SP1_1', 'SP1_2', 'SP1_3', 'SP2_1', 'SP2_2', 'SP2_3', 'SP3_1', 'SP3_2', 'SP3_3', 'NR1_1', 'NR1_2', 'NR1_3', 'Bu3_1', 'Bu3_3', 'Pi_1', 'Pi_2', 'Pi_3', 'SL_1', 'SL_2', 'SL_3', 'Br_1', 'Br_2', 'Br_3', 'Gl_1', 'Gl_2', 'Gl_3', 'St_1', 'St_2', 'St_3', 'Le2_1', 'Le2_2', 'Le2_3', 'LS2_1', 'LS2_2', 'LS2_3', 'In2_1', 'In2_3', 'No2_1', 'No2_2', 'No2_3', 'Bu2_1', 'Bu2_2', 'Bu2_3'];
+
 
 let SNPEvidenceBothObjectData = [];
 let SNPEvidenceIsoSeqObjectData = [];
@@ -304,8 +305,8 @@ let currentBlastResultQueryIndex = 0;
 let blastResultSeqType = 'nucleotide';
 let currentBlastDatabaseSeqType = 'nucleotide';
 
-// 用于存储Factor对应的Isoform ID列表
-let isoformIDList = [];
+// 用于存储Annotation Isoform的数据
+let annotationIsoform = {};
 
 
 // 定义API请求的前缀
@@ -444,6 +445,8 @@ const updateDataFunctions = {
     blastResultSeqType: updateBlastResultSeqType,
     currentBlastDatabaseSeqType: updateCurrentBlastDatabaseSeqType,
 
+    annotationIsoform: updateAnnotationIsoform,
+
 };
 
 // 定义获取数据的映射关系, 从名称映射到函数
@@ -551,6 +554,8 @@ const getDataFunctions = {
     currentBlastResultQueryIndex: getCurrentBlastResultQueryIndex,
     blastResultSeqType: getBlastResultSeqType,
     currentBlastDatabaseSeqType: getCurrentBlastDatabaseSeqType,
+
+    annotationIsoform: getAnnotationIsoform,
 
 };
 
@@ -867,6 +872,9 @@ function updateCurrentBlastDatabaseSeqType(newData) {
     currentBlastDatabaseSeqType = newData;
 }
 
+function updateAnnotationIsoform(newData) {
+    annotationIsoform = newData;
+}
 
 
 
@@ -1122,6 +1130,9 @@ function getCurrentBlastDatabaseSeqType() {
     return _.cloneDeep(currentBlastDatabaseSeqType);
 }
 
+function getAnnotationIsoform() {
+    return _.cloneDeep(annotationIsoform);
+}
 
 
 

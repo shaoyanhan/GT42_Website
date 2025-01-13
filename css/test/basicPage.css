@@ -32,24 +32,31 @@ body {
     overflow: hidden;
 }
 
-.center_container .custom_alert {
-    display: none;
-    /* 初始状态不显示 */
+.custom_alert {
     position: fixed;
-    top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translateX(-50%);
+
+    /* width: 400px; */
+    letter-spacing: 1px;
     background-color: #4fb479;
     color: white;
-    padding: 20px;
+    padding: 15px;
+    font-size: 15px;
     font-weight: 500;
     border-radius: 10px;
-    /* 圆角边框 */
     z-index: 3003;
-    /* 确保它在页面上的其他元素之上 */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    /* 轻微的阴影效果 */
     text-align: center;
+    /* 间距 */
+    opacity: 1;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.custom_alert.hide {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px);
+    /* 消失时向上浮动 */
 }
 
 .nav_header {

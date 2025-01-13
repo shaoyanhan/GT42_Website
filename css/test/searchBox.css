@@ -203,11 +203,11 @@
 }
 
 .content_container .page_image_container .image_container:hover .static_image.annotation {
-    content: url('../../img/programming5.gif');
+    content: url('../../img/annotation.gif');
 }
 
 .content_container .page_image_container .image_container:hover .static_image.transcriptFactor {
-    content: url('../../img/programming5.gif');
+    content: url('../../img/tf.gif');
 }
 
 .content_container .page_image_container .image_container:hover .page_title {

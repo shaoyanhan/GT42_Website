@@ -403,7 +403,7 @@
 }
 
 
-.dynamic_link {
+/* .dynamic_link {
     text-decoration: none;
     color: black;
     font-weight: bold;
@@ -482,4 +482,41 @@
 
 .dynamic_link:hover span {
     transform: translate3d(-200%, 0, 0);
+} */
+
+.dynamic_link {
+    text-decoration: none;
+    color: black;
+    font-size: 15px;
+    background:
+        linear-gradient(to right, var(--color-gradient-start, rgba(100, 200, 200, 1)), var(--color-gradient-end, rgba(100, 200, 200, 1))),
+        linear-gradient(to right,
+            rgba(255, 0, 0, 1),
+            rgba(255, 0, 180, 1),
+            rgba(0, 100, 200, 1));
+    background-size: 100% 3px, 0 3px;
+    background-position: 100% 100%, 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 400ms;
+}
+
+.tf_box .dynamic_link {
+    --color-gradient-start: rgba(255, 58, 58, 1);
+    --color-gradient-end: rgba(255, 58, 58, 1);
+}
+
+.tr_box .dynamic_link {
+    --color-gradient-start: rgba(79, 128, 157, 1);
+    --color-gradient-end: rgba(79, 128, 157, 1);
+}
+
+.pk_box .dynamic_link {
+    --color-gradient-start: rgba(79, 157, 157, 1);
+    --color-gradient-end: rgba(79, 157, 157, 1);
+}
+
+
+.dynamic_link:hover {
+    background-size: 0 3px, 100% 3px;
+    cursor: pointer;
 }

@@ -111,9 +111,15 @@ function toggleHelpBox(helpBox) {
 
 // 下载genomeID列表
 async function downloadGenomeIDList() {
-    showCustomAlert('Converting started!');
+    showCustomAlert('Downloading started!');
     const downloadLink = 'https://cbi.gxu.edu.cn/download/yhshao/GT42_web/others/genome_id_table.tsv';
-    window.open(downloadLink);
+    // 新建一个a标签，设置href属性为downloadLink，download属性为genome_id_table.tsv，然后模拟点击下载
+    const link = document.createElement('a');
+    link.href = downloadLink;
+    link.download = 'genome_id_table.tsv';
+    document.body.appendChild(link); // 将链接添加到页面中
+    link.click(); // 模拟点击下载
+    document.body.removeChild(link); // 下载完成后移除链接
 }
 
 

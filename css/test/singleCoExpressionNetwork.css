@@ -512,6 +512,11 @@
     margin-left: 10px;
 }
 
+.content_container .details_of_network_content .single_network_data_table .table_footer_pagination_container .footer_pagination_container .footer_notes .count {
+    font-weight: bold;
+    margin: 0 5px;
+}
+
 .content_container .details_of_network_content .single_network_data_table .table_footer_pagination_container .footer_pagination_container .pagination_container {
     display: flex;
     justify-content: center;

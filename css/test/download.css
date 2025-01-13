@@ -160,9 +160,9 @@
     justify-content: space-between;
 }
 
-/* 帮助图标和浮窗 */
 .content_container .download_box_container .outer_container .inner_container .footer .help_container {
     position: relative;
+    display: inline-block;
 }
 
 .content_container .download_box_container .outer_container .inner_container .footer .help_container .help_btn {
@@ -182,15 +182,13 @@
     background-color: #f0f0f0;
 }
 
-.content_container .download_box_container .outer_container .inner_container .footer .help_container .help_btn:hover+.help_tooltip {
+.content_container .download_box_container .outer_container .inner_container .footer .help_container:hover .help_tooltip {
     opacity: 1;
     visibility: visible;
 }
 
 .content_container .download_box_container .outer_container .inner_container .footer .help_container .help_tooltip {
     position: absolute;
-    top: 36px;
-    left: 0;
     width: 310px;
     padding: 10px;
     background-color: #fff;
@@ -200,7 +198,31 @@
     z-index: 100;
     opacity: 0;
     visibility: hidden;
-    transition: all 0.5s ease;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+#sequence_download_box .help_tooltip,
+#alignment_download_box .help_tooltip,
+#annotation_download_box .help_tooltip {
+    top: 36px;
+    left: 0;
+}
+
+#snp_download_box .help_tooltip,
+#expression_download_box .help_tooltip,
+#network_download_box .help_tooltip {
+    top: -55px;
+    left: 35px;
+}
+
+.content_container .download_box_container .outer_container .inner_container .footer .help_container .help_tooltip h2 {
+    font-size: 15px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.content_container .download_box_container .outer_container .inner_container .footer .help_container .help_tooltip strong {
+    font-weight: bold;
 }
 
 .content_container .download_box_container .outer_container .inner_container .footer .help_container .help_tooltip p {

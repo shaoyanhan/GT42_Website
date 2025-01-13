@@ -101,6 +101,11 @@ function inputValidation(searchKeyword) {
 
 // 针对于URL是否有searchKeyword参数的情况，进行不同的初始化操作
 function initialBasedOnURLSearchKeyword() {
+    // 无论有没有参数都用第一个factor初始化页面内容
+    initialContentArea('AP2/ERF-AP2', 'tf');
+    initialContentArea('ARID', 'tr');
+    initialContentArea('AGC-Pl', 'pk');
+
     if (!checkURLSearchKeyword()) {
         return;
     }
@@ -175,12 +180,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // 初始化expandBox点击事件
     initialExpandBoxEvent();
 
-    // 用第一个factor初始化页面内容
-    initialContentArea('AP2/ERF-AP2', 'tf');
-    initialContentArea('ARID', 'tr');
-    initialContentArea('AGC-Pl', 'pk');
-
-    // 检查URL是否有searchKeyword参数，如果有，初始化页面
+    // 检查URL是否有searchKeyword参数并初始化页面
     initialBasedOnURLSearchKeyword();
 
     // 初始化搜索框事件

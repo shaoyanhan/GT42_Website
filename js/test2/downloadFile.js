@@ -1,4 +1,5 @@
 import { getData } from './data.js';
+import { showCustomAlert } from "./showCustomAlert.js";
 
 function downloadFile(fileData, fileName, fileType) {
     // 支持的文件格式
@@ -41,6 +42,7 @@ function downloadFile(fileData, fileName, fileType) {
             return;
     }
 
+    showCustomAlert('Downloading started!', 'normal', 1000);
     // 创建 Blob 对象并触发下载
     const blob = new Blob([fileContent], { type: mimeType });
     const link = document.createElement('a');

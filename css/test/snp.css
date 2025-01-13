@@ -346,6 +346,12 @@
     margin-left: 10px;
 }
 
+.center_container .content_container .snp_evidence_result_container details .table_footer_pagination_container .footer_pagination_container .footer_notes .count,
+.center_container .content_container .haplotype_snp_result_container details .table_footer_pagination_container .footer_pagination_container .footer_notes .count {
+    font-weight: bold;
+    margin: 0 5px;
+}
+
 .center_container .content_container .snp_evidence_result_container details .table_footer_pagination_container .footer_pagination_container .pagination_container,
 .center_container .content_container .haplotype_snp_result_container details .table_footer_pagination_container .footer_pagination_container .pagination_container {
     display: flex;

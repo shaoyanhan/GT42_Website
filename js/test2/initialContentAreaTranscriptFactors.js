@@ -33,37 +33,6 @@ async function generateIsoformInfo(isoformID, factorID, factorType) {
     let infoBox = expandable_box.querySelector('.info');
     infoBox.innerHTML = ''; // 清空之前的info
 
-    // 生成info框
-    // <div class="info_item">
-    //     <h3>ID</h3>
-    //     <a class="dynamic_link" data-replace="SGI000005.SS.01.01"
-    //         title="click to resource page"><span>SGI000005.SS.01.01</span></a>
-    // </div>
-    // <div class="info_item">
-    //     <h3>Length</h3>
-    //     <p>6212 bp</p>
-    // </div>
-    // <div class="info_item">
-    //     <h3>Annotation</h3>
-    //     <p>AP2/ERF-ERF</p>
-    // </div>
-    // <div class="desc_item">
-    //     <h3>Description : </h3>
-    //     <ol>
-    //         <li>
-    //             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa,
-    //                 temporibus?</p>
-    //         </li>
-    //         <li>
-    //             <p>Lorem ipsum dolor sit amet.</p>
-    //         </li>
-    //         <li>
-    //             <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dignissimos
-    //                 vero facere optio? Iusto!</p>
-    //         </li>
-    //     </ol>
-    // </div>
-
     let IDItem = document.createElement('div');
     IDItem.classList.add('info_item');
     IDItem.innerHTML = `
@@ -220,15 +189,17 @@ async function initialContentAreaGenomes(genomeID, IDType, bySubmit) {
         genomeID = homologousIDSet["transcript"][0];
 
         // 发出警告
-        const message = IDType + ' ID is not available in this page! Using the first isoform ID ' + genomeID + ' automatically!';
-        showCustomAlert(message, 'warning', 5000);
+        const message1 = IDType + ' ID is not available in this page!';
+        showCustomAlert(message1, 'warning', 3000);
+        const message2 = 'Using the first isoform ID ' + genomeID + ' automatically!';
+        showCustomAlert(message2, 'warning', 4000);
     }
 
     // 首先根据当前ID查询其对应的factorID
     const response = await fetchRawData2('getAnnotationIsoform', { isoformID: genomeID, annotationType: 'factor' });
     console.log('getAnnotationIsoform', response);
     if (response.data.length === 0) {
-        showCustomAlert(genomeID + ' is not annotated as TF/TR/PK!', 'error', 3000);
+        showCustomAlert(genomeID + ' is not annotated as TF/TR/PK!', 'error', 5000);
         return;
     }
 

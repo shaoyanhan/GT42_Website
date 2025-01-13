@@ -1,5 +1,4 @@
-
-
+import { showCustomAlert } from "./showCustomAlert.js";
 
 // 为容器的流动边框添加监听事件
 function setUpFlowBorderEventListener() {
@@ -95,7 +94,7 @@ function setUpDownloadEventListener() {
                 .map(checkbox => checkbox.value);
 
             if (selectedFiles.length === 0) {
-                alert('Please select at least one file to download!');
+                showCustomAlert('Please select at least one file to download!', 'error', 3000);
                 return;
             }
 

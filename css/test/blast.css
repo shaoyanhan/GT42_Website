@@ -493,6 +493,7 @@
     padding: 15px 30px;
     font-weight: bold;
     border: none;
+    cursor: pointer;
 }
 
 .content_container .blast_result_container .all_hits_table .table_item_container .table_content_container table tbody tr:nth-child(even) {
@@ -500,7 +501,7 @@
 }
 
 .content_container .blast_result_container .all_hits_table .table_item_container .table_content_container table tbody tr:hover {
-    background-color: #8bc2d0;
+    background-color: #76b4c4;
     color: #fff;
 }
 
@@ -520,7 +521,11 @@
     background: #f0f0f0;
     border-radius: 0 0 10px 10px;
     font-size: 14px;
+}
 
+.content_container .blast_result_container .all_hits_table .table_item_container .table_footer_container .count {
+    font-weight: bold;
+    margin: 0 5px;
 }
 
 .content_container .blast_result_container .all_hits_align_details {

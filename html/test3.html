@@ -3,121 +3,259 @@
 
 <head>
     <style>
-        .accordion {
-            width: 400px;
-            margin: 20px auto;
-            background: #f0f0f0;
-            border-radius: 10px;
-            overflow: hidden;
+        body {
+            font-family: Arial, sans-serif;
         }
 
-        .accordion-header {
-            padding: 15px 20px;
+        .tab-container {
+            width: 100%;
+            margin: 20px auto;
+        }
+
+        .tab-header {
+            display: flex;
+            border-bottom: 2px solid #1f6994;
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            background-color: #f8f8f8;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            outline: none;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .tab-button:hover {
+            background-color: #e0e0e0;
+        }
+
+        .tab-button.active,
+        .tab-button.active:hover {
+            background-color: #136e58;
+            color: white;
+        }
+
+
+        .tab-content {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-top: none;
+        }
+
+        .tab-panel {
+            display: none;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        .layout-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            cursor: pointer;
-            position: relative;
-            z-index: 2;
+            margin-bottom: 20px;
         }
 
-        .accordion-title {
-            font-size: 16px;
-            font-weight: 500;
+        .header-title {
+            background-color: #2f80ed;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 16px;
+            font-size: 14px;
+            font-weight: bold;
         }
 
-        .toggle-btn {
-            width: 30px;
-            height: 30px;
-            background: #fff;
-            border-radius: 50%;
+        .header-buttons {
             display: flex;
-            justify-content: center;
-            align-items: center;
+            gap: 10px;
+        }
+
+        .btn {
+            background-color: #e0e0e0;
+            border: none;
+            padding: 8px 16px;
+            font-size: 14px;
+            border-radius: 4px;
             cursor: pointer;
-            position: relative;
+            transition: background-color 0.3s;
         }
 
-        .toggle-btn::before,
-        .toggle-btn::after {
-            content: '';
-            position: absolute;
-            background: #333;
-            transition: all 0.5s ease;
+        .btn:hover {
+            background-color: #d0d0d0;
         }
 
-        .toggle-btn::before {
-            width: 14px;
-            height: 2px;
+        .content {
+            display: flex;
+            align-items: flex-start;
         }
 
-        .toggle-btn::after {
-            width: 2px;
-            height: 14px;
+        .content-label {
+            font-size: 14px;
+            color: #2f80ed;
+            margin-right: 10px;
+            font-weight: bold;
         }
 
-        .accordion.active .toggle-btn::after {
-            transform: rotate(90deg) scale(0);
+        .content-description ul {
+            margin: 0;
+            padding-left: 20px;
+            list-style: disc;
+            font-size: 14px;
+            color: #333;
+            line-height: 1.5;
+            border-left: 2px solid #1f6994;
+
         }
 
-        .accordion-content {
-            background: #f0f0f0;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s cubic-bezier(.39, -0.46, .61, 1.53);
-            margin-top: -1px;
-            /* 消除可能的间隙 */
-        }
+        .custom_alert {
+            position: fixed;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #4fb479;
+            color: white;
+            padding: 15px;
 
-        .accordion-content-inner {
-            padding: 0 20px 20px 20px;
-            transform-origin: top;
-            transform: translateY(-10%);
-            opacity: 0;
-            transition: all 0.5s ease;
-        }
-
-        .accordion.active .accordion-content-inner {
-            transform: translateY(0);
+            font-weight: 500;
+            border-radius: 10px;
+            z-index: 3003;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-top: 10px;
+            /* 间距 */
             opacity: 1;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .custom_alert.hide {
+            opacity: 0;
+            transform: translateX(-50%) translateY(-20px);
+            /* 消失时向上浮动 */
         }
     </style>
 </head>
 
 <body>
 
-    <div class="accordion">
-        <div class="accordion-header">
-            <div class="accordion-title">展开栏标题</div>
-            <div class="toggle-btn"></div>
+    <div class="tab-container">
+        <div class="tab-header">
+            <button class="tab-button active" data-tab="go">GO</button>
+            <button class="tab-button" data-tab="ko">KO</button>
+            <button class="tab-button" data-tab="kog">KOG</button>
+            <button class="tab-button" data-tab="nr">NR</button>
+            <button class="tab-button" data-tab="uniprot">UniProt</button>
+            <button class="tab-button" data-tab="pfam">Pfam</button>
         </div>
-        <div class="accordion-content">
-            <div class="accordion-content-inner">
-                这里是展开后显示的内容区域。<br>
-                你可以放置任何内容在这里。<br>
-                比如文字、图片、表格等等。
+        <div class="tab-content">
+            <div id="go" class="tab-panel active">Content for GO</div>
+            <div id="ko" class="tab-panel">Content for KO</div>
+            <div id="kog" class="tab-panel">Content for KOG</div>
+            <div id="nr" class="tab-panel">Content for NR</div>
+            <div id="uniprot" class="tab-panel">Content for UniProt</div>
+            <div id="pfam" class="tab-panel">Content for Pfam</div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const buttons = document.querySelectorAll(".tab-button");
+            const panels = document.querySelectorAll(".tab-panel");
+
+            buttons.forEach(button => {
+                button.addEventListener("click", () => {
+                    // Remove active class from all buttons and panels
+                    buttons.forEach(btn => btn.classList.remove("active"));
+                    panels.forEach(panel => panel.classList.remove("active"));
+
+                    // Add active class to the clicked button and corresponding panel
+                    button.classList.add("active");
+                    document.getElementById(button.dataset.tab).classList.add("active");
+                });
+            });
+        });
+    </script>
+
+    <div class="layout-container">
+        <div class="header">
+            <span class="header-title">SGI000416.SO.01.04</span>
+            <div class="header-buttons">
+                <button class="btn">download</button>
+                <button class="btn">resource page</button>
+            </div>
+        </div>
+        <div class="content">
+            <span class="content-label">description</span>
+            <div class="content-description">
+                <ul>
+                    <li>dTDP-glucose 4,6-dehydratase, rmlD-like substrate binding domain-containing protein</li>
+                    <li>Trifunctional UDP-glucose 4,6-dehydratase/UDP-4-keto-6-deoxy-D-glucose
+                        3,5-epimerase/UDP-4-keto-L-rhamnose-reductase RHM1</li>
+                </ul>
             </div>
         </div>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const accordion = document.querySelector('.accordion');
-            const header = accordion.querySelector('.accordion-header');
-            const content = accordion.querySelector('.accordion-content');
+        let boxTypeToColor = {
+            'normal': '#4fb479',
+            'warning': '#ffb42c',
+            'error': '#e96a6a'
+        };
 
-            header.addEventListener('click', function () {
-                const isActive = accordion.classList.contains('active');
+        let messageQueue = []; // 消息队列
 
-                if (!isActive) {
-                    accordion.classList.add('active');
-                    content.style.maxHeight = content.scrollHeight + 'px';
-                } else {
-                    accordion.classList.remove('active');
-                    content.style.maxHeight = '0';
-                }
+        function showCustomAlert(message, boxType = 'normal', duration = 1500) {
+            const alertBox = document.createElement('div'); // 动态创建消息框
+            alertBox.className = 'custom_alert';
+            alertBox.innerText = message; // 设置消息内容
+            alertBox.style.backgroundColor = boxTypeToColor[boxType]; // 设置背景颜色
+
+            document.body.appendChild(alertBox); // 添加到页面
+            messageQueue.push(alertBox); // 加入队列
+
+            // 动态调整位置
+            updateMessagePositions();
+
+            // 定时移除消息
+            setTimeout(() => {
+                alertBox.classList.add('hide'); // 添加隐藏样式
+                setTimeout(() => {
+                    document.body.removeChild(alertBox); // 从页面移除元素
+                    messageQueue.shift(); // 从队列中移除
+                    updateMessagePositions(); // 更新剩余消息的位置
+                }, 500); // 与 CSS 的过渡时间一致
+            }, duration);
+        }
+
+        // 更新所有消息框的位置
+        function updateMessagePositions() {
+            messageQueue.forEach((alertBox, index) => {
+                alertBox.style.top = `${index * 60 + 150}px`; // 每个消息框之间间隔 60px，距离顶部 20px
             });
-        });
+        }
+
+        // // 每隔 2 秒显示一个消息
+        // setInterval(() => {
+        //     showCustomAlert('This is a normal message', 'normal', 3000);
+        // }, 1000);
+        // showCustomAlert('This is a normal message', 'normal', 1300000);
+        // showCustomAlert('This is a normal message', 'normal', 1300000);
+        // showCustomAlert('This is a normal message', 'normal', 1300000);
     </script>
 
 </body>

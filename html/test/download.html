@@ -100,8 +100,12 @@
                             <li class="first_level_link dropdown"><a>Tools<span class="arrow">&#9660;</span></a>
                                 <ul class="dropdown_content">
                                     <li class="second_level_link"><a href="./blast.html" target="_blank">BLAST</a></li>
-                                    <li class="second_level_link"><a href="#tool1">Annotation</a></li>
-                                    <li class="second_level_link"><a href="#tool2">Transcript Factors</a></li>
+                                    <li class="second_level_link"><a href="./annotation.html"
+                                            target="_blank">Annotation</a>
+                                    </li>
+                                    <li class="second_level_link"><a href="./transcriptFactors.html"
+                                            target="_blank">Transcript
+                                            Factors</a></li>
                                 </ul>
                             </li>
                             <li class="first_level_link"><a href="./download.html" target="_blank">Download</a></li>
@@ -125,7 +129,7 @@
 
                             <div class="example_ids">
                                 <span class="example_title">e.g.</span>
-                                <span class="example_id">GT42G000001.SO.1</span>
+                                <span class="example_id">SGI000001.SO.01</span>
                             </div>
 
                             <button class="download_button">download full available ID list</button>
@@ -151,7 +155,7 @@
 
                             <div class="example_ids">
                                 <span class="example_title">e.g.</span>
-                                <span class="example_id">GT42G000001.SO.1</span>
+                                <span class="example_id">SGI000001.SO.01</span>
                             </div>
 
                             <button class="download_button">download full available ID list</button>
@@ -183,8 +187,12 @@
                             <li class="first_level_link accordion"><a>Tools<span class="arrow">&#9660;</span></a>
                                 <ul class="accordion_content">
                                     <li class="second_level_link"><a href="./blast.html" target="_blank">BLAST</a></li>
-                                    <li class="second_level_link"><a href="#tool1">Annotation</a></li>
-                                    <li class="second_level_link"><a href="#tool2">Transcript Factors</a></li>
+                                    <li class="second_level_link"><a href="./annotation.html"
+                                            target="_blank">Annotation</a>
+                                    </li>
+                                    <li class="second_level_link"><a href="./transcriptFactors.html"
+                                            target="_blank">Transcript
+                                            Factors</a></li>
                                 </ul>
                             </li>
                             <li class="first_level_link"><a href="./download.html" target="_blank">Download</a></li>
@@ -201,8 +209,6 @@
 
                 </div>
             </div>
-
-
 
         </header>
 
@@ -224,19 +230,19 @@
                         <div class="file_list">
                             <label class="file_item">
                                 <input type="checkbox" class="file_checkbox" value="mosaic_nucleotide.fasta">
-                                mosaic_nucleotide.fasta<span class="file_size">87 MB</span>
+                                mosaic_nucleotide.fasta<span class="file_size">93 MB</span>
                             </label>
                             <label class="file_item">
                                 <input type="checkbox" class="file_checkbox" value="haplotype_nucleotide.fasta">
-                                haplotype_nucleotide.fasta<span class="file_size">309 MB</span>
+                                haplotype_nucleotide.fasta<span class="file_size">311 MB</span>
                             </label>
                             <label class="file_item">
-                                <input type="checkbox" class="file_checkbox" value="transcript_nucleotide.fasta">
-                                transcript_nucleotide.fasta<span class="file_size">689 MB</span>
+                                <input type="checkbox" class="file_checkbox" value="isoform_nucleotide.fasta">
+                                isoform_nucleotide.fasta<span class="file_size">646 MB</span>
                             </label>
                             <label class="file_item">
-                                <input type="checkbox" class="file_checkbox" value="transcript_peptide.fasta">
-                                transcript_peptide.fasta<span class="file_size">134 MB</span>
+                                <input type="checkbox" class="file_checkbox" value="isoform_peptide.fasta">
+                                isoform_peptide.fasta<span class="file_size">123 MB</span>
                             </label>
                         </div>
 
@@ -244,8 +250,13 @@
                             <div class="help_container">
                                 <button class="help_btn">?</button>
                                 <div class="help_tooltip">
-                                    <p>Data details:
-                                    </p>
+                                    <h2>Data details:</h2>
+                                    <p>Sequence data under 3 resolutions: </p>
+                                    <p>Mosaic (Orthologous);</p>
+                                    <p>Haplotype (Gene / Cogent);</p>
+                                    <p>Transcript (Isoform);</p>
+                                    <p><strong>Download link:</strong>
+                                        https://cbi.gxu.edu.cn/download/yhshao /GT42_web/sequence/filename</p>
                                 </div>
                             </div>
                             <button class="download_btn" category="sequence">Download</button>
@@ -253,13 +264,10 @@
                     </div>
                 </div>
 
-
-
-
-                <div class="outer_container" id="bam_download_box">
+                <div class="outer_container" id="alignment_download_box">
                     <div class="inner_container">
                         <div class="header">
-                            <span class="category">BAM</span>
+                            <span class="category">Alignment</span>
                         </div>
 
                         <div class="buttons">
@@ -269,36 +277,28 @@
 
                         <div class="file_list">
                             <label class="file_item">
-                                <input type="checkbox" class="file_checkbox" value="flnc_mosaic_hap.bam">
-                                flnc_mosaic_hap.bam<span class="file_size">259 MB</span>
+                                <input type="checkbox" class="file_checkbox" value="cogent_to_mosaic_sorted.bam">
+                                cogent_to_mosaic_sorted.bam<span class="file_size">72 MB</span>
                             </label>
                             <label class="file_item">
-                                <input type="checkbox" class="file_checkbox" value="flnc_mosaic_hap.bam.bai">
-                                flnc_mosaic_hap.bam.bai<span class="file_size">2.3 MB</span>
+                                <input type="checkbox" class="file_checkbox" value="cogent_to_mosaic_sorted.bam.bai">
+                                cogent_to_mosaic_sorted.bam.bai<span class="file_size">2.3 MB</span>
                             </label>
                             <label class="file_item">
-                                <input type="checkbox" class="file_checkbox" value="flnc_haplotype.bam">
-                                flnc_haplotype.bam<span class="file_size">222 MB</span>
+                                <input type="checkbox" class="file_checkbox" value="isoform_to_cogent_sorted.bam">
+                                isoform_to_cogent_sorted.bam<span class="file_size">99 MB</span>
                             </label>
                             <label class="file_item">
-                                <input type="checkbox" class="file_checkbox" value="flnc_haplotype.bam.bai">
-                                flnc_haplotype.bam.bai<span class="file_size">9.5 MB</span>
+                                <input type="checkbox" class="file_checkbox" value="isoform_to_cogent_sorted.bam.bai">
+                                isoform_to_cogent_sorted.bam.bai<span class="file_size">9.2 MB</span>
                             </label>
                             <label class="file_item">
-                                <input type="checkbox" class="file_checkbox" value="transcript_mosaic.bam">
-                                transcript_mosaic.bam<span class="file_size">114 MB</span>
+                                <input type="checkbox" class="file_checkbox" value="isoform_to_mosaic_sorted.bam">
+                                isoform_to_mosaic_sorted.bam<span class="file_size">111 MB</span>
                             </label>
                             <label class="file_item">
-                                <input type="checkbox" class="file_checkbox" value="transcript_mosaic.bam.bai">
-                                transcript_mosaic.bam.bai<span class="file_size">2.3 MB</span>
-                            </label>
-                            <label class="file_item">
-                                <input type="checkbox" class="file_checkbox" value="transcript_mosaic_addtag.bam">
-                                transcript_mosaic_addtag.bam<span class="file_size">115 MB</span>
-                            </label>
-                            <label class="file_item">
-                                <input type="checkbox" class="file_checkbox" value="transcript_mosaic_addtag.bam.bai">
-                                transcript_mosaic_addtag.bam.bai<span class="file_size">2.3 MB</span>
+                                <input type="checkbox" class="file_checkbox" value="isoform_to_mosaic_sorted.bam.bai">
+                                isoform_to_mosaic_sorted.bam.bai<span class="file_size">2.3 MB</span>
                             </label>
 
                         </div>
@@ -307,19 +307,24 @@
                             <div class="help_container">
                                 <button class="help_btn">?</button>
                                 <div class="help_tooltip">
-                                    <p>Data details:
-                                    </p>
+                                    <h2>Data details:</h2>
+                                    <p>Alignment result using fasta in "Sequence" part.</p>
+                                    <p>Mosaic (Orthologous);</p>
+                                    <p>Haplotype (Gene / Cogent);</p>
+                                    <p>Transcript (Isoform);</p>
+                                    <p><strong>Download link:</strong>
+                                        https://cbi.gxu.edu.cn/download/yhshao /GT42_web/alignment/filename</p>
                                 </div>
                             </div>
-                            <button class="download_btn" category="bam">Download</button>
+                            <button class="download_btn" category="alignment">Download</button>
                         </div>
                     </div>
                 </div>
 
-                <div class="outer_container" id="gff_download_box">
+                <div class="outer_container" id="annotation_download_box">
                     <div class="inner_container">
                         <div class="header">
-                            <span class="category">GFF</span>
+                            <span class="category">Annotation</span>
                         </div>
 
                         <div class="buttons">
@@ -329,8 +334,52 @@
 
                         <div class="file_list">
                             <label class="file_item">
-                                <input type="checkbox" class="file_checkbox" value="transcriptome.gff">
-                                transcriptome.gff<span class="file_size">116 MB</span>
+                                <input type="checkbox" class="file_checkbox" value="isoform.description.txt">
+                                isoform.description.txt<span class="file_size">32 MB</span>
+                            </label>
+                            <label class="file_item">
+                                <input type="checkbox" class="file_checkbox" value="isoform.go.txt">
+                                isoform.go.txt<span class="file_size">64 MB</span>
+                            </label>
+
+                            <label class="file_item">
+                                <input type="checkbox" class="file_checkbox" value="isoform.kegg.txt">
+                                isoform.kegg.txt<span class="file_size">3.4 MB</span>
+                            </label>
+
+                            <label class="file_item">
+                                <input type="checkbox" class="file_checkbox" value="isoform.nr.txt">
+                                isoform.nr.txt<span class="file_size">447 MB</span>
+                            </label>
+
+                            <label class="file_item">
+                                <input type="checkbox" class="file_checkbox" value="isoform.kog.txt">
+                                isoform.kog.txt<span class="file_size">175 MB</span>
+                            </label>
+
+                            <label class="file_item">
+                                <input type="checkbox" class="file_checkbox" value="isoform.uniprot.txt">
+                                isoform.uniprot.txt<span class="file_size">16 MB</span>
+                            </label>
+
+                            <label class="file_item">
+                                <input type="checkbox" class="file_checkbox" value="isoform.pfam.txt">
+                                isoform.pfam.txt<span class="file_size">114 MB</span>
+                            </label>
+
+                            <label class="file_item">
+                                <input type="checkbox" class="file_checkbox" value="isoform.tf.txt">
+                                isoform.tf.txt<span class="file_size">352 KB</span>
+                            </label>
+
+                            <label class="file_item">
+                                <input type="checkbox" class="file_checkbox" value="isoform.tr.txt">
+                                isoform.tr.txt<span class="file_size">110 KB</span>
+                            </label>
+
+                            <label class="file_item">
+                                <input type="checkbox" class="file_checkbox" value="isoform.pk.txt">
+                                isoform.pk.txt<span class="file_size">470 KB</span>
                             </label>
 
                         </div>
@@ -339,11 +388,14 @@
                             <div class="help_container">
                                 <button class="help_btn">?</button>
                                 <div class="help_tooltip">
-                                    <p>Data details:
-                                    </p>
+                                    <h2>Data details:</h2>
+                                    <p>Function and structure annotation of transcripts.</p>
+                                    <p>Transcript (Isoform);</p>
+                                    <p><strong>Download link:</strong>
+                                        https://cbi.gxu.edu.cn/download/yhshao /GT42_web/annotation/filename</p>
                                 </div>
                             </div>
-                            <button class="download_btn" category="gff">Download</button>
+                            <button class="download_btn" category="annotation">Download</button>
                         </div>
                     </div>
                 </div>
@@ -361,20 +413,20 @@
 
                         <div class="file_list">
                             <label class="file_item">
-                                <input type="checkbox" class="file_checkbox" value="final_vars.txt">
-                                final_vars.txt<span class="file_size">27 MB</span>
+                                <input type="checkbox" class="file_checkbox" value="snp_final.txt">
+                                snp_final.txt<span class="file_size">24 MB</span>
                             </label>
                             <label class="file_item">
-                                <input type="checkbox" class="file_checkbox" value="iso_vars.txt">
-                                iso_vars.txt<span class="file_size">13 MB</span>
+                                <input type="checkbox" class="file_checkbox" value="snp_isoseq.txt">
+                                snp_isoseq.txt<span class="file_size">12 MB</span>
                             </label>
                             <label class="file_item">
-                                <input type="checkbox" class="file_checkbox" value="rna_vars.txt">
-                                rna_vars.txt<span class="file_size">92 MB</span>
+                                <input type="checkbox" class="file_checkbox" value="snp_rnaseq.txt">
+                                snp_rnaseq.txt<span class="file_size">95 MB</span>
                             </label>
                             <label class="file_item">
-                                <input type="checkbox" class="file_checkbox" value="haplotypes_vars.txt">
-                                haplotypes_vars.txt<span class="file_size">11 MB</span>
+                                <input type="checkbox" class="file_checkbox" value="snp_haplotype.txt">
+                                snp_haplotype.txt<span class="file_size">11 MB</span>
                             </label>
 
                         </div>
@@ -383,8 +435,16 @@
                             <div class="help_container">
                                 <button class="help_btn">?</button>
                                 <div class="help_tooltip">
-                                    <p>Data details:
-                                    </p>
+                                    <h2>Data details:</h2>
+                                    <p>SNP variations with sequencing evidence.</p>
+                                    <p><strong>snp_final.txt:</strong> Confident SNPs selected based on both Iso-seq and
+                                        RNA-seq
+                                        evidence;</p>
+                                    <p><strong>snp_isoseq.txt:</strong> SNPs with Iso-seq evidence counts;</p>
+                                    <p><strong>snp_rnaseq.txt:</strong> SNPs with RNA-seq evidence counts;</p>
+                                    <p><strong>snp_haplotype.txt:</strong> SNP type on specific haplotype;</p>
+                                    <p><strong>Download link:</strong>
+                                        https://cbi.gxu.edu.cn/download/yhshao /GT42_web/snp/filename</p>
                                 </div>
                             </div>
                             <button class="download_btn" category="snp">Download</button>
@@ -392,10 +452,10 @@
                     </div>
                 </div>
 
-                <div class="outer_container" id="tpm_download_box">
+                <div class="outer_container" id="expression_download_box">
                     <div class="inner_container">
                         <div class="header">
-                            <span class="category">TPM</span>
+                            <span class="category">Expression</span>
                         </div>
 
                         <div class="buttons">
@@ -405,20 +465,36 @@
 
                         <div class="file_list">
                             <label class="file_item">
-                                <input type="checkbox" class="file_checkbox" value="mosaic_tpm.csv">
-                                mosaic_tpm.csv<span class="file_size">21 MB</span>
+                                <input type="checkbox" class="file_checkbox" value="mosaic.tpm.csv">
+                                mosaic.tpm.csv<span class="file_size">32 MB</span>
                             </label>
                             <label class="file_item">
-                                <input type="checkbox" class="file_checkbox" value="xenologous_tpm.csv">
-                                xenologous_tpm.csv<span class="file_size">33 MB</span>
+                                <input type="checkbox" class="file_checkbox" value="mosaic.tpm.zscore.csv">
+                                mosaic.tpm.zscore.csv<span class="file_size">65 MB</span>
                             </label>
                             <label class="file_item">
-                                <input type="checkbox" class="file_checkbox" value="haplotype_tpm.csv">
-                                haplotype_tpm.csv<span class="file_size">84 MB</span>
+                                <input type="checkbox" class="file_checkbox" value="xenologous.tpm.csv">
+                                xenologous.tpm.csv<span class="file_size">48 MB</span>
                             </label>
                             <label class="file_item">
-                                <input type="checkbox" class="file_checkbox" value="transcript_tpm.csv">
-                                transcript_tpm.csv<span class="file_size">184 MB</span>
+                                <input type="checkbox" class="file_checkbox" value="xenologous.tpm.zscore.csv">
+                                xenologous.tpm.zscore.csv<span class="file_size">99 MB</span>
+                            </label>
+                            <label class="file_item">
+                                <input type="checkbox" class="file_checkbox" value="haplotype.tpm.csv">
+                                haplotype.tpm.csv<span class="file_size">126 MB</span>
+                            </label>
+                            <label class="file_item">
+                                <input type="checkbox" class="file_checkbox" value="haplotype.tpm.zscore.csv">
+                                haplotype.tpm.zscore.csv<span class="file_size">267 MB</span>
+                            </label>
+                            <label class="file_item">
+                                <input type="checkbox" class="file_checkbox" value="isoform.tpm.csv">
+                                isoform.tpm.csv<span class="file_size">268 MB</span>
+                            </label>
+                            <label class="file_item">
+                                <input type="checkbox" class="file_checkbox" value="isoform.tpm.zscore.csv">
+                                isoform.tpm.zscore.csv<span class="file_size">556 MB</span>
                             </label>
 
                         </div>
@@ -427,11 +503,18 @@
                             <div class="help_container">
                                 <button class="help_btn">?</button>
                                 <div class="help_tooltip">
-                                    <p>Data details:
-                                    </p>
+                                    <h2>Data details:</h2>
+                                    <p>Expression profile under 4 resolutions:</p>
+                                    <p>Mosaic (Orthologous);</p>
+                                    <p>Xenologous</p>
+                                    <p>Haplotype (Gene / Cogent);</p>
+                                    <p>Transcript (Isoform);</p>
+                                    <p><strong>zscore:</strong> Standard score calculated using tpm score;</p>
+                                    <p><strong>Download link:</strong>
+                                        https://cbi.gxu.edu.cn/download/yhshao /GT42_web/expression/filename</p>
                                 </div>
                             </div>
-                            <button class="download_btn" category="tpm">Download</button>
+                            <button class="download_btn" category="expression">Download</button>
                         </div>
                     </div>
                 </div>
@@ -468,8 +551,13 @@
                             <div class="help_container">
                                 <button class="help_btn">?</button>
                                 <div class="help_tooltip">
-                                    <p>Data details:
-                                    </p>
+                                    <h2>Data details:</h2>
+                                    <p>Co-expression network data of transcript factors under 3 resolutions: </p>
+                                    <p>Mosaic (Orthologous);</p>
+                                    <p>Xenologous;</p>
+                                    <p>Haplotype (Gene / Cogent);</p>
+                                    <p><strong>Download link:</strong>
+                                        https://cbi.gxu.edu.cn/download/yhshao /GT42_web/network/filename</p>
                                 </div>
                             </div>
                             <button class="download_btn" category="network">Download</button>
@@ -515,10 +603,6 @@
             </div>
 
         </div>
-
-
-        <!-- 全局提示框，触发showCustomAlert方法之后才显示（copy、download） -->
-        <div id="customAlert" class="custom_alert"></div>
 
     </div>
 

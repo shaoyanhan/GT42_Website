@@ -51,7 +51,7 @@ function updateTableFooter(data) {
     console.log('tableFooterContainer:', tableFooterContainer);
     tableFooterContainer.innerHTML = '';
     let tableRowNum = data.split('\n').length;
-    tableFooterContainer.innerHTML = `<span class="footer_notes"><span>Showing total of ${tableRowNum} hits (HSP included)</span></span>`;
+    tableFooterContainer.innerHTML = `<span class="footer_notes">Showing total of <span class="count">${tableRowNum}</span> hits (HSP included)</span>`;
 }
 
 

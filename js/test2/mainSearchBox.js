@@ -27,9 +27,8 @@ async function initialContentArea(searchKeyword) {
         idContainer.innerHTML = `Open With: ${searchKeyword}`;
 
         // 最后为不同关键词类型打开页面跳转功能
-        const isDisabled = (['annotation', 'transcriptFactor'].includes(pageName)) ||
-            (keywordType === 'xenologous' && pageName === 'fullLengthTranscriptome' ||
-                (keywordType === 'transcript' && pageName === 'singleCoExpressionNetwork'));
+        const isDisabled = (keywordType === 'xenologous' && pageName === 'fullLengthTranscriptome' ||
+            (keywordType === 'transcript' && pageName === 'singleCoExpressionNetwork'));
 
         if (!isDisabled) {
             container.classList.remove('disabled');

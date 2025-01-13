@@ -67,29 +67,47 @@ function extractHeatmapData(dataArray) {
     return heatmapData;
 }
 
+// 返回SampleID的全称
 function returnAbbreviationDetails(abbreviation) {
     // 定义一个对象，其中包含所有缩写与全称的映射
     const abbreviationMap = {
+        // "Ca": "Callus",
+        // "Ro": "Trefoil: Root",
+        // "Le1": "Elongation: Leaf",
+        // "LS1": "Elongation: Leaf + Sheath",
+        // "Bu1": "Elongation: Bud",
+        // "In1": "Elongation: Internode",
+        // "NR1": "Elongation: Nodal Root",
+        // "AM": "Elongation: Apical Meristem",
+        // "No": "Elongation: Node",
+        // "Bu2": "Biennial Root: Bud",
+        // "Sp": "Florescence: Spikelet",
+        // "Br": "Florescence: Branch",
+        // "St": "Florescence: Stamen",
+        // "Pi": "Florescence: Pistil",
+        // "Gl": "Florescence: Glume",
+        // "LS2": "Florescence: Leaf + Sheath",
+        // "In2": "Florescence: Internode",
+        // "No2": "Florescence: Node",
+        // "Bu3": "Florescence: Bud",
+        // "Le2": "Florescence: Leaf",
+        "AM": "Apical meristem",
+        "Br": "Branch",
+        "Bu": "Bud",
         "Ca": "Callus",
-        "Ro": "Trefoil: Root",
-        "Le1": "Elongation: Leaf",
-        "LS1": "Elongation: Leaf + Sheath",
-        "Bu1": "Elongation: Bud",
-        "In1": "Elongation: Internode",
-        "NR1": "Elongation: Nodal Root",
-        "AM": "Elongation: Apical Meristem",
-        "No": "Elongation: Node",
-        "Bu2": "Biennial Root: Bud",
-        "Sp": "Florescence: Spikelet",
-        "Br": "Florescence: Branch",
-        "St": "Florescence: Stamen",
-        "Pi": "Florescence: Pistil",
-        "Gl": "Florescence: Glume",
-        "LS2": "Florescence: Leaf + Sheath",
-        "In2": "Florescence: Internode",
-        "No2": "Florescence: Node",
-        "Bu3": "Florescence: Bud",
-        "Le2": "Florescence: Leaf",
+        "Gl": "Glume",
+        "In": "Internode",
+        "Le": "Leaf",
+        "LS": "Leaf sheath",
+        "No": "Node",
+        "NR": "Nodal root",
+        "Pi": "Pistil",
+        "Ro": "Root",
+        "SB": "Stem bark",
+        "SL": "Spikelet",
+        "SP": "Stem pith",
+        "St": "Stamen",
+        "Ve": "Leaf vein"
         // 更多的映射可以继续添加
     };
 
@@ -103,6 +121,148 @@ function returnAbbreviationDetails(abbreviation) {
     // 如果没有找到匹配的缩写，返回未知
     return "Unknown";
 }
+
+// 返回SampleID对应的的发育时期
+function returnStageBySampleID(sampleID) {
+    // 定义一个对象，其中包含所有sampleID 与 发育时期的映射
+    const stageMap = {
+        "Ca1_1": "Callus",
+        "Ca1_2": "Callus",
+        "Ca2_1": "Callus",
+        "Ca2_2": "Callus",
+        "Ca3_1": "Callus",
+        "Ca3_2": "Callus",
+        "Ca3_3": "Callus",
+        "Ca4_1": "Callus",
+        "Ca4_2": "Callus",
+        "Ca4_3": "Callus",
+        "Ro1_1": "Trefoil",
+        "Ro1_2": "Trefoil",
+        "Ro1_3": "Trefoil",
+        "Ro2_1": "Trefoil",
+        "Ro2_2": "Trefoil",
+        "Ro2_3": "Trefoil",
+        "Bu1_1": "Elongation",
+        "Bu1_2": "Elongation",
+        "Bu1_3": "Elongation",
+        "Bu4_1": "Elongation",
+        "Bu4_2": "Elongation",
+        "Bu4_3": "Elongation",
+        "Bu5_1": "Elongation",
+        "Bu5_2": "Elongation",
+        "Bu5_3": "Elongation",
+        "Le1_1": "Elongation",
+        "Le1_2": "Elongation",
+        "Le1_3": "Elongation",
+        "Le3_1": "Elongation",
+        "Le3_2": "Elongation",
+        "Le3_3": "Elongation",
+        "Le4_1": "Elongation",
+        "Le4_2": "Elongation",
+        "Le4_3": "Elongation",
+        "Le5_1": "Elongation",
+        "Le5_2": "Elongation",
+        "Le5_3": "Elongation",
+        "Le6_1": "Elongation",
+        "Le6_2": "Elongation",
+        "Le6_3": "Elongation",
+        "LS1_1": "Elongation",
+        "LS1_2": "Elongation",
+        "LS1_3": "Elongation",
+        "LS3_1": "Elongation",
+        "LS3_2": "Elongation",
+        "LS3_3": "Elongation",
+        "LS4_1": "Elongation",
+        "LS4_2": "Elongation",
+        "LS4_3": "Elongation",
+        "Ve1_1": "Elongation",
+        "Ve1_2": "Elongation",
+        "Ve1_3": "Elongation",
+        "Ve2_1": "Elongation",
+        "Ve2_2": "Elongation",
+        "Ve2_3": "Elongation",
+        "Ve3_1": "Elongation",
+        "Ve3_2": "Elongation",
+        "Ve4_1": "Elongation",
+        "Ve4_2": "Elongation",
+        "Ve4_3": "Elongation",
+        "AM_1": "Elongation",
+        "AM_2": "Elongation",
+        "AM_3": "Elongation",
+        "In1_1": "Elongation",
+        "In1_2": "Elongation",
+        "In1_3": "Elongation",
+        "No4_1": "Elongation",
+        "No4_2": "Elongation",
+        "No4_3": "Elongation",
+        "No5_1": "Elongation",
+        "No5_2": "Elongation",
+        "No5_3": "Elongation",
+        "SB1_1": "Elongation",
+        "SB1_2": "Elongation",
+        "SB1_3": "Elongation",
+        "SB2_1": "Elongation",
+        "SB2_2": "Elongation",
+        "SB2_3": "Elongation",
+        "SB3_1": "Elongation",
+        "SB3_2": "Elongation",
+        "SB3_3": "Elongation",
+        "SP1_1": "Elongation",
+        "SP1_2": "Elongation",
+        "SP1_3": "Elongation",
+        "SP2_1": "Elongation",
+        "SP2_2": "Elongation",
+        "SP2_3": "Elongation",
+        "SP3_1": "Elongation",
+        "SP3_2": "Elongation",
+        "SP3_3": "Elongation",
+        "NR1_1": "Elongation",
+        "NR1_2": "Elongation",
+        "NR1_3": "Elongation",
+        "Bu3_1": "Florescence",
+        "Bu3_3": "Florescence",
+        "Pi_1": "Florescence",
+        "Pi_2": "Florescence",
+        "Pi_3": "Florescence",
+        "SL_1": "Florescence",
+        "SL_2": "Florescence",
+        "SL_3": "Florescence",
+        "Br_1": "Florescence",
+        "Br_2": "Florescence",
+        "Br_3": "Florescence",
+        "Gl_1": "Florescence",
+        "Gl_2": "Florescence",
+        "Gl_3": "Florescence",
+        "St_1": "Florescence",
+        "St_2": "Florescence",
+        "St_3": "Florescence",
+        "Le2_1": "Florescence",
+        "Le2_2": "Florescence",
+        "Le2_3": "Florescence",
+        "LS2_1": "Florescence",
+        "LS2_2": "Florescence",
+        "LS2_3": "Florescence",
+        "In2_1": "Florescence",
+        "In2_3": "Florescence",
+        "No2_1": "Florescence",
+        "No2_2": "Florescence",
+        "No2_3": "Florescence",
+        "Bu2_1": "Biennial Root",
+        "Bu2_2": "Biennial Root",
+        "Bu2_3": "Biennial Root"
+    };
+
+    // 遍历映射对象的键，查找匹配的缩写
+    for (const key in stageMap) {
+        if (sampleID.startsWith(key)) {
+            return stageMap[key];
+        }
+    }
+
+    // 如果没有找到匹配的缩写，返回未知
+    return "Unknown";
+}
+
 
 function getHeatmapOption(dataArray) {
     console.log("heatmap dataArray:", dataArray);
@@ -121,11 +281,11 @@ function getHeatmapOption(dataArray) {
             formatter: function (params) {
                 // console.log(params);
                 return [
-                    params.marker + 'TPM:&nbsp;&nbsp;&nbsp;' + params.value[2],
-                    'ID:&nbsp;&nbsp;&nbsp;' + params.value[1],
-                    'Sample ID:&nbsp;&nbsp;&nbsp;' + params.value[0],
-                    returnAbbreviationDetails(params.value[0])
-
+                    params.marker + 'TPM:&nbsp;&nbsp;' + params.value[2],
+                    'ID:&nbsp;&nbsp;' + params.value[1],
+                    'Sample ID:&nbsp;&nbsp;' + params.value[0],
+                    'Tissue:&nbsp;&nbsp;' + returnAbbreviationDetails(params.value[0]),
+                    'Stage:&nbsp;&nbsp;' + returnStageBySampleID(params.value[0])
                 ].join('<br>');
             },
             textStyle: {
@@ -178,7 +338,7 @@ function getHeatmapOption(dataArray) {
             axisLabel: {
                 show: true,
                 rotate: 80,
-                fontSize: 16,
+                fontSize: 8,
                 interval: 0
             },
             axisPointer: {
@@ -186,7 +346,7 @@ function getHeatmapOption(dataArray) {
                 show: true,
                 triggerEmphasis: false, // 是否触发强调
                 label: {
-                    fontSize: 18,
+                    fontSize: 16,
                 },
                 lineStyle: {
                     width: 3,
@@ -248,8 +408,8 @@ function getHeatmapOption(dataArray) {
         // ],
 
         visualMap: {
-            min: 0,
-            max: 17,
+            min: -10,
+            max: 10,
             type: 'continuous', // 定义为连续型 visualMap
             calculable: true,
             orient: 'horizontal',
@@ -257,7 +417,7 @@ function getHeatmapOption(dataArray) {
             top: 10,
             precision: 2,
             hoverLink: true,
-            text: ['', 'log2(TPM+1)'],
+            text: ['', 'Z-Score'],
             textStyle: {
                 fontWeight: "bold",
                 fontSize: 16

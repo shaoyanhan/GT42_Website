@@ -6,6 +6,7 @@ import { setUpSelectEventListeners, setUpSelectWithSelect2 } from "./selectEvent
 import { setupDownloadButton } from "./downloadTable.js";
 import { validateGenomeID } from "./data.js"
 import { submitSearchForm } from "./searchEvents.js";
+import { showCustomAlert } from "./showCustomAlert.js";
 
 
 // export let hubCoExpressionNetworkDOM = document.getElementById('drawHubCoExpressionNetwork');
@@ -43,6 +44,8 @@ function initialBasedOnURLSearchKeyword() {
 
 // 确保文档加载完成后再执行初始化
 document.addEventListener('DOMContentLoaded', async () => {
+    showCustomAlert('Database of this page is not available yet! Please waiting for next update.', 'error', 6000);
+
     // let { searchKeyword, keywordType } = await getInitialParams();
     // initialHubCoExpressionNetwork('mosaic');
     // initalContentArea(searchKeyword, keywordType);
@@ -67,3 +70,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     singleCoExpressionNetworkChart.on('click', clickSingleCoExpressionNetworkEventsHandler);
 
 });
+
+// TODO:
+// 1. 由于数据尚未得到，该页先不管，加一个customAlert提醒用户尚未得到数据
+// 2. 将新的数据库导出并替换到服务器
