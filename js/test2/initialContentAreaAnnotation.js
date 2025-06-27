@@ -1,6 +1,21 @@
 import { getData, updateData, fetchSingleNetworkGraphJSON, fetchRawData, validateGenomeID, fetchRawData2 } from "./data.js";
 import { showCustomAlert } from "./showCustomAlert.js";
 
+// webpack 打包时静态资源引用需要使用import方式
+// import logoQuickGo from '../../img/logo_quick_go.png';
+// import logoAmiGo from '../../img/logo_ami_go.png';
+// import logoKegg from '../../img/logo_kegg2.gif';
+// import logoNcbi from '../../img/logo_ncbi.png';
+// import logoUniprot from '../../img/logo_uniprot.png';
+// import logoInterpro from '../../img/logo_interpro2.png';
+
+const logoQuickGo = '../../img/logo_quick_go.png';
+const logoAmiGo = '../../img/logo_ami_go.png';
+const logoKegg = '../../img/logo_kegg2.gif';
+const logoNcbi = '../../img/logo_ncbi.png';
+const logoUniprot = '../../img/logo_uniprot.png';
+const logoInterpro = '../../img/logo_interpro2.png';
+
 const typeToFunction = {
     description: updateDescription,
     go: updateGO,
@@ -40,12 +55,12 @@ function updateGO(objectList) {
         linkTd.innerHTML = `
             <a href="https://www.ebi.ac.uk/QuickGO/term/${object.accession}"
                 target="_blank" title="redirect to QuickGO database">
-                <img class="logo_quick_go" src="../../img/logo_quick_go.png"
+                <img class="logo_quick_go" src="${logoQuickGo}"
                     alt="logo_quick_go">
             </a>
             <a href="https://amigo.geneontology.org/amigo/term/${object.accession}"
                 target="_blank" title="redirect to AmiGO2 database">
-                <img class="logo_ami_go" src="../../img/logo_ami_go.png"
+                <img class="logo_ami_go" src="${logoAmiGo}"
                     alt="logo_ami_go">
             </a>
         `;
@@ -93,7 +108,7 @@ function updateKEGG(objectList) {
         linkTd.innerHTML = `
             <a href="https://www.genome.jp/entry/${object.accession}"
                 target="_blank" title="redirect to KEGG database">
-                <img class="logo_kegg" src="../../img/logo_kegg2.gif"
+                <img class="logo_kegg" src="${logoKegg}"
                     alt="logo_kegg">
             </a>
         `;
@@ -121,7 +136,7 @@ function updateKOG(objectList) {
             <td class="link_logo">
                 <a href="https://www.ncbi.nlm.nih.gov/gene/?term=${object.sseqid}"
                     target="_blank" title="redirect to NCBI database">
-                    <img class="logo_ncbi" src="../../img/logo_ncbi.png"
+                    <img class="logo_ncbi" src="${logoNcbi}"
                         alt="logo_ncbi">
                 </a>
             </td>
@@ -157,7 +172,7 @@ function updateNR(objectList) {
             <td class="link_logo">
                 <a href="https://www.ncbi.nlm.nih.gov/gene/?term=${object.sseqid}"
                     target="_blank" title="redirect to NCBI database">
-                    <img class="logo_ncbi" src="../../img/logo_ncbi.png"
+                    <img class="logo_ncbi" src="${logoNcbi}"
                         alt="logo_ncbi">
                 </a>
             </td>
@@ -197,7 +212,7 @@ function updateUniprot(objectList) {
             <td class="link_logo">
                 <a href="https://www.uniprot.org/uniprotkb/${midSseqid}/entry"
                     target="_blank" title="redirect to UniProt database">
-                    <img class="logo_uniprot" src="../../img/logo_uniprot.png"
+                    <img class="logo_uniprot" src="${logoUniprot}"
                         alt="logo_uniprot">
                 </a>
             </td>
@@ -236,7 +251,7 @@ function updatePfam(objectList) {
             <td class="link_logo">
                 <a href="https://www.ebi.ac.uk/interpro/entry/pfam/${qaccessionPrefix}/"
                     target="_blank" title="redirect to UniProt database">
-                    <img class="logo_interpro" src="../../img/logo_interpro2.png"
+                    <img class="logo_interpro" src="${logoInterpro}"
                         alt="logo_interpro">
                 </a>
             </td>

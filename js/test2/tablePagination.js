@@ -107,14 +107,13 @@ function updateOrthologousTPMTable(data, container) {
         tr.innerHTML = `<td>${row.mosaicID}</td>
                         <td>${row.Ca1_1}</td>
                         <td>${row.Ca1_2}</td>
+                        <td>${row.Ca1_3}</td>
                         <td>${row.Ca2_1}</td>
                         <td>${row.Ca2_2}</td>
+                        <td>${row.Ca2_3}</td>
                         <td>${row.Ca3_1}</td>
                         <td>${row.Ca3_2}</td>
                         <td>${row.Ca3_3}</td>
-                        <td>${row.Ca4_1}</td>
-                        <td>${row.Ca4_2}</td>
-                        <td>${row.Ca4_3}</td>
                         <td>${row.Ro1_1}</td>
                         <td>${row.Ro1_2}</td>
                         <td>${row.Ro1_3}</td>
@@ -124,81 +123,26 @@ function updateOrthologousTPMTable(data, container) {
                         <td>${row.Bu1_1}</td>
                         <td>${row.Bu1_2}</td>
                         <td>${row.Bu1_3}</td>
-                        <td>${row.Bu4_1}</td>
-                        <td>${row.Bu4_2}</td>
-                        <td>${row.Bu4_3}</td>
-                        <td>${row.Bu5_1}</td>
-                        <td>${row.Bu5_2}</td>
-                        <td>${row.Bu5_3}</td>
                         <td>${row.Le1_1}</td>
                         <td>${row.Le1_2}</td>
                         <td>${row.Le1_3}</td>
-                        <td>${row.Le3_1}</td>
-                        <td>${row.Le3_2}</td>
-                        <td>${row.Le3_3}</td>
-                        <td>${row.Le4_1}</td>
-                        <td>${row.Le4_2}</td>
-                        <td>${row.Le4_3}</td>
-                        <td>${row.Le5_1}</td>
-                        <td>${row.Le5_2}</td>
-                        <td>${row.Le5_3}</td>
-                        <td>${row.Le6_1}</td>
-                        <td>${row.Le6_2}</td>
-                        <td>${row.Le6_3}</td>
                         <td>${row.LS1_1}</td>
                         <td>${row.LS1_2}</td>
                         <td>${row.LS1_3}</td>
-                        <td>${row.LS3_1}</td>
-                        <td>${row.LS3_2}</td>
-                        <td>${row.LS3_3}</td>
-                        <td>${row.LS4_1}</td>
-                        <td>${row.LS4_2}</td>
-                        <td>${row.LS4_3}</td>
-                        <td>${row.Ve1_1}</td>
-                        <td>${row.Ve1_2}</td>
-                        <td>${row.Ve1_3}</td>
-                        <td>${row.Ve2_1}</td>
-                        <td>${row.Ve2_2}</td>
-                        <td>${row.Ve2_3}</td>
-                        <td>${row.Ve3_1}</td>
-                        <td>${row.Ve3_2}</td>
-                        <td>${row.Ve4_1}</td>
-                        <td>${row.Ve4_2}</td>
-                        <td>${row.Ve4_3}</td>
                         <td>${row.AM_1}</td>
                         <td>${row.AM_2}</td>
                         <td>${row.AM_3}</td>
                         <td>${row.In1_1}</td>
                         <td>${row.In1_2}</td>
                         <td>${row.In1_3}</td>
-                        <td>${row.No4_1}</td>
-                        <td>${row.No4_2}</td>
-                        <td>${row.No4_3}</td>
-                        <td>${row.No5_1}</td>
-                        <td>${row.No5_2}</td>
-                        <td>${row.No5_3}</td>
-                        <td>${row.SB1_1}</td>
-                        <td>${row.SB1_2}</td>
-                        <td>${row.SB1_3}</td>
-                        <td>${row.SB2_1}</td>
-                        <td>${row.SB2_2}</td>
-                        <td>${row.SB2_3}</td>
-                        <td>${row.SB3_1}</td>
-                        <td>${row.SB3_2}</td>
-                        <td>${row.SB3_3}</td>
-                        <td>${row.SP1_1}</td>
-                        <td>${row.SP1_2}</td>
-                        <td>${row.SP1_3}</td>
-                        <td>${row.SP2_1}</td>
-                        <td>${row.SP2_2}</td>
-                        <td>${row.SP2_3}</td>
-                        <td>${row.SP3_1}</td>
-                        <td>${row.SP3_2}</td>
-                        <td>${row.SP3_3}</td>
+                        <td>${row.No_1}</td>
+                        <td>${row.No_2}</td>
+                        <td>${row.No_3}</td>
                         <td>${row.NR1_1}</td>
                         <td>${row.NR1_2}</td>
                         <td>${row.NR1_3}</td>
                         <td>${row.Bu3_1}</td>
+                        <td>${row.Bu3_2}</td>
                         <td>${row.Bu3_3}</td>
                         <td>${row.Pi_1}</td>
                         <td>${row.Pi_2}</td>
@@ -222,6 +166,7 @@ function updateOrthologousTPMTable(data, container) {
                         <td>${row.LS2_2}</td>
                         <td>${row.LS2_3}</td>
                         <td>${row.In2_1}</td>
+                        <td>${row.In2_2}</td>
                         <td>${row.In2_3}</td>
                         <td>${row.No2_1}</td>
                         <td>${row.No2_2}</td>
@@ -241,14 +186,13 @@ function updateXenologousTPMTable(data, container) {
         tr.innerHTML = `<td>${row.xenologousID}</td>
                         <td>${row.Ca1_1}</td>
                         <td>${row.Ca1_2}</td>
+                        <td>${row.Ca1_3}</td>
                         <td>${row.Ca2_1}</td>
                         <td>${row.Ca2_2}</td>
+                        <td>${row.Ca2_3}</td>
                         <td>${row.Ca3_1}</td>
                         <td>${row.Ca3_2}</td>
                         <td>${row.Ca3_3}</td>
-                        <td>${row.Ca4_1}</td>
-                        <td>${row.Ca4_2}</td>
-                        <td>${row.Ca4_3}</td>
                         <td>${row.Ro1_1}</td>
                         <td>${row.Ro1_2}</td>
                         <td>${row.Ro1_3}</td>
@@ -258,81 +202,26 @@ function updateXenologousTPMTable(data, container) {
                         <td>${row.Bu1_1}</td>
                         <td>${row.Bu1_2}</td>
                         <td>${row.Bu1_3}</td>
-                        <td>${row.Bu4_1}</td>
-                        <td>${row.Bu4_2}</td>
-                        <td>${row.Bu4_3}</td>
-                        <td>${row.Bu5_1}</td>
-                        <td>${row.Bu5_2}</td>
-                        <td>${row.Bu5_3}</td>
                         <td>${row.Le1_1}</td>
                         <td>${row.Le1_2}</td>
                         <td>${row.Le1_3}</td>
-                        <td>${row.Le3_1}</td>
-                        <td>${row.Le3_2}</td>
-                        <td>${row.Le3_3}</td>
-                        <td>${row.Le4_1}</td>
-                        <td>${row.Le4_2}</td>
-                        <td>${row.Le4_3}</td>
-                        <td>${row.Le5_1}</td>
-                        <td>${row.Le5_2}</td>
-                        <td>${row.Le5_3}</td>
-                        <td>${row.Le6_1}</td>
-                        <td>${row.Le6_2}</td>
-                        <td>${row.Le6_3}</td>
                         <td>${row.LS1_1}</td>
                         <td>${row.LS1_2}</td>
                         <td>${row.LS1_3}</td>
-                        <td>${row.LS3_1}</td>
-                        <td>${row.LS3_2}</td>
-                        <td>${row.LS3_3}</td>
-                        <td>${row.LS4_1}</td>
-                        <td>${row.LS4_2}</td>
-                        <td>${row.LS4_3}</td>
-                        <td>${row.Ve1_1}</td>
-                        <td>${row.Ve1_2}</td>
-                        <td>${row.Ve1_3}</td>
-                        <td>${row.Ve2_1}</td>
-                        <td>${row.Ve2_2}</td>
-                        <td>${row.Ve2_3}</td>
-                        <td>${row.Ve3_1}</td>
-                        <td>${row.Ve3_2}</td>
-                        <td>${row.Ve4_1}</td>
-                        <td>${row.Ve4_2}</td>
-                        <td>${row.Ve4_3}</td>
                         <td>${row.AM_1}</td>
                         <td>${row.AM_2}</td>
                         <td>${row.AM_3}</td>
                         <td>${row.In1_1}</td>
                         <td>${row.In1_2}</td>
                         <td>${row.In1_3}</td>
-                        <td>${row.No4_1}</td>
-                        <td>${row.No4_2}</td>
-                        <td>${row.No4_3}</td>
-                        <td>${row.No5_1}</td>
-                        <td>${row.No5_2}</td>
-                        <td>${row.No5_3}</td>
-                        <td>${row.SB1_1}</td>
-                        <td>${row.SB1_2}</td>
-                        <td>${row.SB1_3}</td>
-                        <td>${row.SB2_1}</td>
-                        <td>${row.SB2_2}</td>
-                        <td>${row.SB2_3}</td>
-                        <td>${row.SB3_1}</td>
-                        <td>${row.SB3_2}</td>
-                        <td>${row.SB3_3}</td>
-                        <td>${row.SP1_1}</td>
-                        <td>${row.SP1_2}</td>
-                        <td>${row.SP1_3}</td>
-                        <td>${row.SP2_1}</td>
-                        <td>${row.SP2_2}</td>
-                        <td>${row.SP2_3}</td>
-                        <td>${row.SP3_1}</td>
-                        <td>${row.SP3_2}</td>
-                        <td>${row.SP3_3}</td>
+                        <td>${row.No_1}</td>
+                        <td>${row.No_2}</td>
+                        <td>${row.No_3}</td>
                         <td>${row.NR1_1}</td>
                         <td>${row.NR1_2}</td>
                         <td>${row.NR1_3}</td>
                         <td>${row.Bu3_1}</td>
+                        <td>${row.Bu3_2}</td>
                         <td>${row.Bu3_3}</td>
                         <td>${row.Pi_1}</td>
                         <td>${row.Pi_2}</td>
@@ -356,6 +245,7 @@ function updateXenologousTPMTable(data, container) {
                         <td>${row.LS2_2}</td>
                         <td>${row.LS2_3}</td>
                         <td>${row.In2_1}</td>
+                        <td>${row.In2_2}</td>
                         <td>${row.In2_3}</td>
                         <td>${row.No2_1}</td>
                         <td>${row.No2_2}</td>
@@ -375,14 +265,13 @@ function updateGeneTPMTable(data, container) {
         tr.innerHTML = `<td>${row.geneID}</td>
                         <td>${row.Ca1_1}</td>
                         <td>${row.Ca1_2}</td>
+                        <td>${row.Ca1_3}</td>
                         <td>${row.Ca2_1}</td>
                         <td>${row.Ca2_2}</td>
+                        <td>${row.Ca2_3}</td>
                         <td>${row.Ca3_1}</td>
                         <td>${row.Ca3_2}</td>
                         <td>${row.Ca3_3}</td>
-                        <td>${row.Ca4_1}</td>
-                        <td>${row.Ca4_2}</td>
-                        <td>${row.Ca4_3}</td>
                         <td>${row.Ro1_1}</td>
                         <td>${row.Ro1_2}</td>
                         <td>${row.Ro1_3}</td>
@@ -392,81 +281,26 @@ function updateGeneTPMTable(data, container) {
                         <td>${row.Bu1_1}</td>
                         <td>${row.Bu1_2}</td>
                         <td>${row.Bu1_3}</td>
-                        <td>${row.Bu4_1}</td>
-                        <td>${row.Bu4_2}</td>
-                        <td>${row.Bu4_3}</td>
-                        <td>${row.Bu5_1}</td>
-                        <td>${row.Bu5_2}</td>
-                        <td>${row.Bu5_3}</td>
                         <td>${row.Le1_1}</td>
                         <td>${row.Le1_2}</td>
                         <td>${row.Le1_3}</td>
-                        <td>${row.Le3_1}</td>
-                        <td>${row.Le3_2}</td>
-                        <td>${row.Le3_3}</td>
-                        <td>${row.Le4_1}</td>
-                        <td>${row.Le4_2}</td>
-                        <td>${row.Le4_3}</td>
-                        <td>${row.Le5_1}</td>
-                        <td>${row.Le5_2}</td>
-                        <td>${row.Le5_3}</td>
-                        <td>${row.Le6_1}</td>
-                        <td>${row.Le6_2}</td>
-                        <td>${row.Le6_3}</td>
                         <td>${row.LS1_1}</td>
                         <td>${row.LS1_2}</td>
                         <td>${row.LS1_3}</td>
-                        <td>${row.LS3_1}</td>
-                        <td>${row.LS3_2}</td>
-                        <td>${row.LS3_3}</td>
-                        <td>${row.LS4_1}</td>
-                        <td>${row.LS4_2}</td>
-                        <td>${row.LS4_3}</td>
-                        <td>${row.Ve1_1}</td>
-                        <td>${row.Ve1_2}</td>
-                        <td>${row.Ve1_3}</td>
-                        <td>${row.Ve2_1}</td>
-                        <td>${row.Ve2_2}</td>
-                        <td>${row.Ve2_3}</td>
-                        <td>${row.Ve3_1}</td>
-                        <td>${row.Ve3_2}</td>
-                        <td>${row.Ve4_1}</td>
-                        <td>${row.Ve4_2}</td>
-                        <td>${row.Ve4_3}</td>
                         <td>${row.AM_1}</td>
                         <td>${row.AM_2}</td>
                         <td>${row.AM_3}</td>
                         <td>${row.In1_1}</td>
                         <td>${row.In1_2}</td>
                         <td>${row.In1_3}</td>
-                        <td>${row.No4_1}</td>
-                        <td>${row.No4_2}</td>
-                        <td>${row.No4_3}</td>
-                        <td>${row.No5_1}</td>
-                        <td>${row.No5_2}</td>
-                        <td>${row.No5_3}</td>
-                        <td>${row.SB1_1}</td>
-                        <td>${row.SB1_2}</td>
-                        <td>${row.SB1_3}</td>
-                        <td>${row.SB2_1}</td>
-                        <td>${row.SB2_2}</td>
-                        <td>${row.SB2_3}</td>
-                        <td>${row.SB3_1}</td>
-                        <td>${row.SB3_2}</td>
-                        <td>${row.SB3_3}</td>
-                        <td>${row.SP1_1}</td>
-                        <td>${row.SP1_2}</td>
-                        <td>${row.SP1_3}</td>
-                        <td>${row.SP2_1}</td>
-                        <td>${row.SP2_2}</td>
-                        <td>${row.SP2_3}</td>
-                        <td>${row.SP3_1}</td>
-                        <td>${row.SP3_2}</td>
-                        <td>${row.SP3_3}</td>
+                        <td>${row.No_1}</td>
+                        <td>${row.No_2}</td>
+                        <td>${row.No_3}</td>
                         <td>${row.NR1_1}</td>
                         <td>${row.NR1_2}</td>
                         <td>${row.NR1_3}</td>
                         <td>${row.Bu3_1}</td>
+                        <td>${row.Bu3_2}</td>
                         <td>${row.Bu3_3}</td>
                         <td>${row.Pi_1}</td>
                         <td>${row.Pi_2}</td>
@@ -490,6 +324,7 @@ function updateGeneTPMTable(data, container) {
                         <td>${row.LS2_2}</td>
                         <td>${row.LS2_3}</td>
                         <td>${row.In2_1}</td>
+                        <td>${row.In2_2}</td>
                         <td>${row.In2_3}</td>
                         <td>${row.No2_1}</td>
                         <td>${row.No2_2}</td>
@@ -509,14 +344,13 @@ function updateTranscriptTPMTable(data, container) {
         tr.innerHTML = `<td>${row.transcriptID}</td>
                         <td>${row.Ca1_1}</td>
                         <td>${row.Ca1_2}</td>
+                        <td>${row.Ca1_3}</td>
                         <td>${row.Ca2_1}</td>
                         <td>${row.Ca2_2}</td>
+                        <td>${row.Ca2_3}</td>
                         <td>${row.Ca3_1}</td>
                         <td>${row.Ca3_2}</td>
                         <td>${row.Ca3_3}</td>
-                        <td>${row.Ca4_1}</td>
-                        <td>${row.Ca4_2}</td>
-                        <td>${row.Ca4_3}</td>
                         <td>${row.Ro1_1}</td>
                         <td>${row.Ro1_2}</td>
                         <td>${row.Ro1_3}</td>
@@ -526,81 +360,26 @@ function updateTranscriptTPMTable(data, container) {
                         <td>${row.Bu1_1}</td>
                         <td>${row.Bu1_2}</td>
                         <td>${row.Bu1_3}</td>
-                        <td>${row.Bu4_1}</td>
-                        <td>${row.Bu4_2}</td>
-                        <td>${row.Bu4_3}</td>
-                        <td>${row.Bu5_1}</td>
-                        <td>${row.Bu5_2}</td>
-                        <td>${row.Bu5_3}</td>
                         <td>${row.Le1_1}</td>
                         <td>${row.Le1_2}</td>
                         <td>${row.Le1_3}</td>
-                        <td>${row.Le3_1}</td>
-                        <td>${row.Le3_2}</td>
-                        <td>${row.Le3_3}</td>
-                        <td>${row.Le4_1}</td>
-                        <td>${row.Le4_2}</td>
-                        <td>${row.Le4_3}</td>
-                        <td>${row.Le5_1}</td>
-                        <td>${row.Le5_2}</td>
-                        <td>${row.Le5_3}</td>
-                        <td>${row.Le6_1}</td>
-                        <td>${row.Le6_2}</td>
-                        <td>${row.Le6_3}</td>
                         <td>${row.LS1_1}</td>
                         <td>${row.LS1_2}</td>
                         <td>${row.LS1_3}</td>
-                        <td>${row.LS3_1}</td>
-                        <td>${row.LS3_2}</td>
-                        <td>${row.LS3_3}</td>
-                        <td>${row.LS4_1}</td>
-                        <td>${row.LS4_2}</td>
-                        <td>${row.LS4_3}</td>
-                        <td>${row.Ve1_1}</td>
-                        <td>${row.Ve1_2}</td>
-                        <td>${row.Ve1_3}</td>
-                        <td>${row.Ve2_1}</td>
-                        <td>${row.Ve2_2}</td>
-                        <td>${row.Ve2_3}</td>
-                        <td>${row.Ve3_1}</td>
-                        <td>${row.Ve3_2}</td>
-                        <td>${row.Ve4_1}</td>
-                        <td>${row.Ve4_2}</td>
-                        <td>${row.Ve4_3}</td>
                         <td>${row.AM_1}</td>
                         <td>${row.AM_2}</td>
                         <td>${row.AM_3}</td>
                         <td>${row.In1_1}</td>
                         <td>${row.In1_2}</td>
                         <td>${row.In1_3}</td>
-                        <td>${row.No4_1}</td>
-                        <td>${row.No4_2}</td>
-                        <td>${row.No4_3}</td>
-                        <td>${row.No5_1}</td>
-                        <td>${row.No5_2}</td>
-                        <td>${row.No5_3}</td>
-                        <td>${row.SB1_1}</td>
-                        <td>${row.SB1_2}</td>
-                        <td>${row.SB1_3}</td>
-                        <td>${row.SB2_1}</td>
-                        <td>${row.SB2_2}</td>
-                        <td>${row.SB2_3}</td>
-                        <td>${row.SB3_1}</td>
-                        <td>${row.SB3_2}</td>
-                        <td>${row.SB3_3}</td>
-                        <td>${row.SP1_1}</td>
-                        <td>${row.SP1_2}</td>
-                        <td>${row.SP1_3}</td>
-                        <td>${row.SP2_1}</td>
-                        <td>${row.SP2_2}</td>
-                        <td>${row.SP2_3}</td>
-                        <td>${row.SP3_1}</td>
-                        <td>${row.SP3_2}</td>
-                        <td>${row.SP3_3}</td>
+                        <td>${row.No_1}</td>
+                        <td>${row.No_2}</td>
+                        <td>${row.No_3}</td>
                         <td>${row.NR1_1}</td>
                         <td>${row.NR1_2}</td>
                         <td>${row.NR1_3}</td>
                         <td>${row.Bu3_1}</td>
+                        <td>${row.Bu3_2}</td>
                         <td>${row.Bu3_3}</td>
                         <td>${row.Pi_1}</td>
                         <td>${row.Pi_2}</td>
@@ -624,6 +403,7 @@ function updateTranscriptTPMTable(data, container) {
                         <td>${row.LS2_2}</td>
                         <td>${row.LS2_3}</td>
                         <td>${row.In2_1}</td>
+                        <td>${row.In2_2}</td>
                         <td>${row.In2_3}</td>
                         <td>${row.No2_1}</td>
                         <td>${row.No2_2}</td>

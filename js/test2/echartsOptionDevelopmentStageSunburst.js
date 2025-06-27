@@ -24,6 +24,13 @@ let sunburstData = [
                         itemStyle: {
                             color: '#fbc02d'
                         }
+                    },
+                    {
+                        name: 'Ca1-3',
+                        value: 1,
+                        itemStyle: {
+                            color: '#fbc02d'
+                        }
                     }
                 ]
             },
@@ -42,6 +49,13 @@ let sunburstData = [
                     },
                     {
                         name: 'Ca2-2',
+                        value: 1,
+                        itemStyle: {
+                            color: '#fbc02d'
+                        }
+                    },
+                    {
+                        name: 'Ca2-3',
                         value: 1,
                         itemStyle: {
                             color: '#fbc02d'
@@ -71,35 +85,6 @@ let sunburstData = [
                     },
                     {
                         name: 'Ca3-3',
-                        value: 1,
-                        itemStyle: {
-                            color: '#fbc02d'
-                        }
-                    }
-                ]
-            },
-            {
-                name: 'Callus4',
-                itemStyle: {
-                    color: '#ffeb3b'
-                },
-                children: [
-                    {
-                        name: 'Ca4-1',
-                        value: 1,
-                        itemStyle: {
-                            color: '#fbc02d'
-                        }
-                    },
-                    {
-                        name: 'Ca4-2',
-                        value: 1,
-                        itemStyle: {
-                            color: '#fbc02d'
-                        }
-                    },
-                    {
-                        name: 'Ca4-3',
                         value: 1,
                         itemStyle: {
                             color: '#fbc02d'
@@ -211,64 +196,6 @@ let sunburstData = [
                 ]
             },
             {
-                name: 'Bud4',
-                itemStyle: {
-                    color: '#009688'
-                },
-                children: [
-                    {
-                        name: 'Bu4-1',
-                        value: 1,
-                        itemStyle: {
-                            color: '#00796b'
-                        }
-                    },
-                    {
-                        name: 'Bu4-2',
-                        value: 1,
-                        itemStyle: {
-                            color: '#00796b'
-                        }
-                    },
-                    {
-                        name: 'Bu4-3',
-                        value: 1,
-                        itemStyle: {
-                            color: '#00796b'
-                        }
-                    }
-                ]
-            },
-            {
-                name: 'Bud5',
-                itemStyle: {
-                    color: '#009688'
-                },
-                children: [
-                    {
-                        name: 'Bu5-1',
-                        value: 1,
-                        itemStyle: {
-                            color: '#00796b'
-                        }
-                    },
-                    {
-                        name: 'Bu5-2',
-                        value: 1,
-                        itemStyle: {
-                            color: '#00796b'
-                        }
-                    },
-                    {
-                        name: 'Bu5-3',
-                        value: 1,
-                        itemStyle: {
-                            color: '#00796b'
-                        }
-                    }
-                ]
-            },
-            {
                 name: 'Leaf1',
                 itemStyle: {
                     color: '#009688'
@@ -290,122 +217,6 @@ let sunburstData = [
                     },
                     {
                         name: 'Le1-3',
-                        value: 1,
-                        itemStyle: {
-                            color: '#00796b'
-                        }
-                    }
-                ]
-            },
-            {
-                name: 'Leaf3',
-                itemStyle: {
-                    color: '#009688'
-                },
-                children: [
-                    {
-                        name: 'Le3-1',
-                        value: 1,
-                        itemStyle: {
-                            color: '#00796b'
-                        }
-                    },
-                    {
-                        name: 'Le3-2',
-                        value: 1,
-                        itemStyle: {
-                            color: '#00796b'
-                        }
-                    },
-                    {
-                        name: 'Le3-3',
-                        value: 1,
-                        itemStyle: {
-                            color: '#00796b'
-                        }
-                    }
-                ]
-            },
-            {
-                name: 'Leaf4',
-                itemStyle: {
-                    color: '#009688'
-                },
-                children: [
-                    {
-                        name: 'Le4-1',
-                        value: 1,
-                        itemStyle: {
-                            color: '#00796b'
-                        }
-                    },
-                    {
-                        name: 'Le4-2',
-                        value: 1,
-                        itemStyle: {
-                            color: '#00796b'
-                        }
-                    },
-                    {
-                        name: 'Le4-3',
-                        value: 1,
-                        itemStyle: {
-                            color: '#00796b'
-                        }
-                    }
-                ]
-            },
-            {
-                name: 'Leaf5',
-                itemStyle: {
-                    color: '#009688'
-                },
-                children: [
-                    {
-                        name: 'Le5-1',
-                        value: 1,
-                        itemStyle: {
-                            color: '#00796b'
-                        }
-                    },
-                    {
-                        name: 'Le5-2',
-                        value: 1,
-                        itemStyle: {
-                            color: '#00796b'
-                        }
-                    },
-                    {
-                        name: 'Le5-3',
-                        value: 1,
-                        itemStyle: {
-                            color: '#00796b'
-                        }
-                    }
-                ]
-            },
-            {
-                name: 'Leaf6',
-                itemStyle: {
-                    color: '#009688'
-                },
-                children: [
-                    {
-                        name: 'Le6-1',
-                        value: 1,
-                        itemStyle: {
-                            color: '#00796b'
-                        }
-                    },
-                    {
-                        name: 'Le6-2',
-                        value: 1,
-                        itemStyle: {
-                            color: '#00796b'
-                        }
-                    },
-                    {
-                        name: 'Le6-3',
                         value: 1,
                         itemStyle: {
                             color: '#00796b'
@@ -443,173 +254,6 @@ let sunburstData = [
                 ]
             },
             {
-                name: 'Leaf + Sheath3',
-                itemStyle: {
-                    color: '#009688'
-                },
-                children: [
-                    {
-                        name: 'LS3-1',
-                        value: 1,
-                        itemStyle: {
-                            color: '#00796b'
-                        }
-                    },
-                    {
-                        name: 'LS3-2',
-                        value: 1,
-                        itemStyle: {
-                            color: '#00796b'
-                        }
-                    },
-                    {
-                        name: 'LS3-3',
-                        value: 1,
-                        itemStyle: {
-                            color: '#00796b'
-                        }
-                    }
-                ]
-            },
-            {
-                name: 'Leaf + Sheath4',
-                itemStyle: {
-                    color: '#009688'
-                },
-                children: [
-                    {
-                        name: 'LS4-1',
-                        value: 1,
-                        itemStyle: {
-                            color: '#00796b'
-                        }
-                    },
-                    {
-                        name: 'LS4-2',
-                        value: 1,
-                        itemStyle: {
-                            color: '#00796b'
-                        }
-                    },
-                    {
-                        name: 'LS4-3',
-                        value: 1,
-                        itemStyle: {
-                            color: '#00796b'
-                        }
-                    }
-                ]
-            },
-            {
-                name: 'Leaf vein1',
-                itemStyle: {
-                    color: '#009688'
-                },
-                children: [
-                    {
-                        name: 'Ve1-1',
-                        value: 1,
-                        itemStyle: {
-                            color: '#00796b'
-                        }
-                    },
-                    {
-                        name: 'Ve1-2',
-                        value: 1,
-                        itemStyle: {
-                            color: '#00796b'
-                        }
-                    },
-                    {
-                        name: 'Ve1-3',
-                        value: 1,
-                        itemStyle: {
-                            color: '#00796b'
-                        }
-                    }
-                ]
-            },
-            {
-                name: 'Leaf vein2',
-                itemStyle: {
-                    color: '#009688'
-                },
-                children: [
-                    {
-                        name: 'Ve2-1',
-                        value: 1,
-                        itemStyle: {
-                            color: '#00796b'
-                        }
-                    },
-                    {
-                        name: 'Ve2-2',
-                        value: 1,
-                        itemStyle: {
-                            color: '#00796b'
-                        }
-                    },
-                    {
-                        name: 'Ve2-3',
-                        value: 1,
-                        itemStyle: {
-                            color: '#00796b'
-                        }
-                    }
-                ]
-            },
-            {
-                name: 'Leaf vein3',
-                itemStyle: {
-                    color: '#009688'
-                },
-                children: [
-                    {
-                        name: 'Ve3-1',
-                        value: 1,
-                        itemStyle: {
-                            color: '#00796b'
-                        }
-                    },
-                    {
-                        name: 'Ve3-2',
-                        value: 1,
-                        itemStyle: {
-                            color: '#00796b'
-                        }
-                    }
-                ]
-            },
-            {
-                name: 'Leaf vein4',
-                itemStyle: {
-                    color: '#009688'
-                },
-                children: [
-                    {
-                        name: 'Ve4-1',
-                        value: 1,
-                        itemStyle: {
-                            color: '#00796b'
-                        }
-                    },
-                    {
-                        name: 'Ve4-2',
-                        value: 1,
-                        itemStyle: {
-                            color: '#00796b'
-                        }
-                    },
-                    {
-                        name: 'Ve4-3',
-                        value: 1,
-                        itemStyle: {
-                            color: '#00796b'
-                        }
-                    }
-                ]
-            },
-            {
                 name: 'Apical Meristem',
                 itemStyle: {
                     color: '#009688'
@@ -638,7 +282,6 @@ let sunburstData = [
                     }
                 ]
             },
-
             {
                 name: 'Internode1',
                 itemStyle: {
@@ -668,234 +311,28 @@ let sunburstData = [
                     }
                 ]
             },
-
             {
-                name: 'Node4',
+                name: 'Node1',
                 itemStyle: {
                     color: '#009688'
                 },
                 children: [
                     {
-                        name: 'No4-1',
+                        name: 'No-1',
                         value: 1,
                         itemStyle: {
                             color: '#00796b'
                         }
                     },
                     {
-                        name: 'No4-2',
+                        name: 'No-2',
                         value: 1,
                         itemStyle: {
                             color: '#00796b'
                         }
                     },
                     {
-                        name: 'No4-3',
-                        value: 1,
-                        itemStyle: {
-                            color: '#00796b'
-                        }
-                    }
-                ]
-            },
-            {
-                name: 'Node5',
-                itemStyle: {
-                    color: '#009688'
-                },
-                children: [
-                    {
-                        name: 'No5-1',
-                        value: 1,
-                        itemStyle: {
-                            color: '#00796b'
-                        }
-                    },
-                    {
-                        name: 'No5-2',
-                        value: 1,
-                        itemStyle: {
-                            color: '#00796b'
-                        }
-                    },
-                    {
-                        name: 'No5-3',
-                        value: 1,
-                        itemStyle: {
-                            color: '#00796b'
-                        }
-                    }
-                ]
-            },
-
-            {
-                name: 'Stem bark1',
-                itemStyle: {
-                    color: '#009688'
-                },
-                children: [
-                    {
-                        name: 'SB1-1',
-                        value: 1,
-                        itemStyle: {
-                            color: '#00796b'
-                        }
-                    },
-                    {
-                        name: 'SB1-2',
-                        value: 1,
-                        itemStyle: {
-                            color: '#00796b'
-                        }
-                    },
-                    {
-                        name: 'SB1-3',
-                        value: 1,
-                        itemStyle: {
-                            color: '#00796b'
-                        }
-                    }
-                ]
-            },
-            {
-                name: 'Stem bark2',
-                itemStyle: {
-                    color: '#009688'
-                },
-                children: [
-                    {
-                        name: 'SB2-1',
-                        value: 1,
-                        itemStyle: {
-                            color: '#00796b'
-                        }
-                    },
-                    {
-                        name: 'SB2-2',
-                        value: 1,
-                        itemStyle: {
-                            color: '#00796b'
-                        }
-                    },
-                    {
-                        name: 'SB2-3',
-                        value: 1,
-                        itemStyle: {
-                            color: '#00796b'
-                        }
-                    }
-                ]
-            },
-            {
-                name: 'Stem bark3',
-                itemStyle: {
-                    color: '#009688'
-                },
-                children: [
-                    {
-                        name: 'SB3-1',
-                        value: 1,
-                        itemStyle: {
-                            color: '#00796b'
-                        }
-                    },
-                    {
-                        name: 'SB3-2',
-                        value: 1,
-                        itemStyle: {
-                            color: '#00796b'
-                        }
-                    },
-                    {
-                        name: 'SB3-3',
-                        value: 1,
-                        itemStyle: {
-                            color: '#00796b'
-                        }
-                    }
-                ]
-            },
-
-            {
-                name: 'Stem pith1',
-                itemStyle: {
-                    color: '#009688'
-                },
-                children: [
-                    {
-                        name: 'SP1-1',
-                        value: 1,
-                        itemStyle: {
-                            color: '#00796b'
-                        }
-                    },
-                    {
-                        name: 'SP1-2',
-                        value: 1,
-                        itemStyle: {
-                            color: '#00796b'
-                        }
-                    },
-                    {
-                        name: 'SP1-3',
-                        value: 1,
-                        itemStyle: {
-                            color: '#00796b'
-                        }
-                    }
-                ]
-            },
-            {
-                name: 'Stem pith2',
-                itemStyle: {
-                    color: '#009688'
-                },
-                children: [
-                    {
-                        name: 'SP2-1',
-                        value: 1,
-                        itemStyle: {
-                            color: '#00796b'
-                        }
-                    },
-                    {
-                        name: 'SP2-2',
-                        value: 1,
-                        itemStyle: {
-                            color: '#00796b'
-                        }
-                    },
-                    {
-                        name: 'SP2-3',
-                        value: 1,
-                        itemStyle: {
-                            color: '#00796b'
-                        }
-                    }
-                ]
-            },
-            {
-                name: 'Stem pith3',
-                itemStyle: {
-                    color: '#009688'
-                },
-                children: [
-                    {
-                        name: 'SP3-1',
-                        value: 1,
-                        itemStyle: {
-                            color: '#00796b'
-                        }
-                    },
-                    {
-                        name: 'SP3-2',
-                        value: 1,
-                        itemStyle: {
-                            color: '#00796b'
-                        }
-                    },
-                    {
-                        name: 'SP3-3',
+                        name: 'No-3',
                         value: 1,
                         itemStyle: {
                             color: '#00796b'
@@ -950,6 +387,13 @@ let sunburstData = [
                 children: [
                     {
                         name: 'Bu3-1',
+                        value: 1,
+                        itemStyle: {
+                            color: '#c2185b'
+                        }
+                    },
+                    {
+                        name: 'Bu3-2',
                         value: 1,
                         itemStyle: {
                             color: '#c2185b'
@@ -1183,6 +627,13 @@ let sunburstData = [
                         }
                     },
                     {
+                        name: 'In2-2',
+                        value: 1,
+                        itemStyle: {
+                            color: '#c2185b'
+                        }
+                    },
+                    {
                         name: 'In2-3',
                         value: 1,
                         itemStyle: {
@@ -1311,7 +762,7 @@ function getDevelopmentStageSunburstOption(data = []) {
             labelLayout: { //防止标签重叠
                 hideOverlap: true
             },
-            startAngle: 173, // 起始角度，支持范围[0, 360]，但是同样导致了label.rotate: 'tangential'的节点下钻的时候标签向右了
+            startAngle: 168, // 起始角度，支持范围[0, 360]，但是同样导致了label.rotate: 'tangential'的节点下钻的时候标签向右了
             levels: [ // 为每一层设置样式
                 {}, // 第一层留空用作下钻按钮，否则第一层label会被按钮遮挡
                 {

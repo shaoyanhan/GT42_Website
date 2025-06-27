@@ -311,7 +311,8 @@ let annotationIsoform = {};
 
 // 定义API请求的前缀
 let apiPrefix = {
-    IP: 'http://127.0.0.1:8080/',
+    // IP: 'https://cbi.gxu.edu.cn/GT42_web/GT42_web_backend/',
+    IP: 'http://localhost:30004/',
 
     app: 'searchDatabase/',
 
@@ -362,6 +363,7 @@ let apiPrefix = {
     homePageStatisticData: 'getHomePageStatisticData/',
 
     blastResults: 'getBlastResults/',
+    taskStatus: 'getTaskStatus/',
     getSeqWithID: 'getSeqWithID/',
 
     getIsoformIDList: 'getIsoformIDList/',
@@ -1327,6 +1329,18 @@ async function fetchData(url) {
     }
 }
 
+
+async function fetchTaskStatus(taskId) {
+    const url = apiPrefix.IP + apiPrefix.app + apiPrefix['taskStatus'] + `?task_id=${taskId}`;
+    try {
+        const response = await fetch(url);
+        const responseData = await response.json();
+        return responseData;
+    } catch (error) {
+        console.error('Error fetching task status:', error);
+    }
+}
+
 async function fetchPostData(type, postData) {
     try {
         const url = apiPrefix.IP + apiPrefix.app + apiPrefix[type];
@@ -1339,54 +1353,49 @@ async function fetchPostData(type, postData) {
             },
             body: new URLSearchParams(postData),
         });
-        const data = await response.json();
-        return data;
+
+        // 提交任务后，返回任务ID
+        const responseData = await response.json();
+        console.log('responseData: ', responseData);
+
+        // 如果成功提交了任务，开始轮询任务状态
+        if (responseData.taskID) {
+            let pollInterval = 1000; // 初始轮询间隔为1秒
+            let totalPollTime = 0; // 记录轮询的总时间
+
+            while (true) {
+                const taskResponse = await fetchTaskStatus(responseData.taskID);
+
+                if (taskResponse.state === 'SUCCESS') {
+                    return taskResponse;
+                } else if (taskResponse.state === 'FAILURE') {
+                    console.error('Failed to submit BLAST task:', taskResponse.error);
+                    return { type: type, data: [] }; // 返回一个空数据结构
+                }
+
+                console.log('Task is still processing...');
+
+                // 等待轮询间隔
+                await new Promise(resolve => setTimeout(resolve, pollInterval));
+
+                // 更新轮询总时间
+                totalPollTime += pollInterval;
+
+                // 如果轮询时间超过10秒，将间隔增加到5秒
+                if (totalPollTime >= 10000) {
+                    pollInterval = 5000;
+                }
+            }
+        } else {
+            console.error('Failed to submit BLAST task:', response.error);
+            return { type: type, data: [] }; // 返回一个空数据结构
+        }
     }
     catch (error) {
         console.error(`${type}数据加载失败:`, error);
         return { type: type, data: [] }; // 返回一个空数据结构
     }
 }
-
-// async function fetchPostData(type, postData) {
-//     const controller = new AbortController(); // 创建一个 AbortController 实例
-//     // const timeout = 600000; // 设置超时为600秒（10分钟）
-//     const timeout = 20000; // 设置超时为60秒
-
-//     // 设置一个定时器，超时后自动取消请求
-//     const timeoutId = setTimeout(() => controller.abort(), timeout);
-
-//     try {
-//         const url = apiPrefix.IP + apiPrefix.app + apiPrefix[type];
-//         console.log('postUrl: ', url);
-//         console.table('postData: ', postData);
-
-//         const response = await fetch(url, {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/x-www-form-urlencoded',
-//             },
-//             body: new URLSearchParams(postData),
-//             signal: controller.signal // 传入控制器的 signal
-//         });
-
-//         // 如果响应成功，清除定时器
-//         clearTimeout(timeoutId);
-
-//         // 解析响应数据
-//         const data = await response.json();
-//         return data;
-//     }
-//     catch (error) {
-//         if (error.name === 'AbortError') {
-//             console.error(`${type}数据加载失败: 请求超时`);
-//         } else {
-//             console.error(`${type}数据加载失败:`, error);
-//         }
-//         return { type: type, data: [] }; // 返回一个空数据结构
-//     }
-// }
-
 
 
 // 请求全部数据

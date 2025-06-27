@@ -33,7 +33,7 @@ async function submitSearchForm(container) {
 // 针对于URL是否有searchKeyword参数的情况，进行不同的初始化操作
 function initialBasedOnURLSearchKeyword() {
     if (!checkURLSearchKeyword()) {
-        initialContentArea('SGI000001.SO.01.01', 'transcript');
+        initialContentArea('SGI000001.SO.001.01', 'transcript');
         return;
     }
 
