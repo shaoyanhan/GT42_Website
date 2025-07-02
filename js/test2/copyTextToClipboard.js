@@ -44,4 +44,4 @@ async function clickToCopyHandlerHaplotypeTable(e) {
     }
 }
 
-export { createClickToCopyHandler, clickToCopyHandlerHaplotypeTable };
+export {copyTextToClipboard, createClickToCopyHandler, clickToCopyHandlerHaplotypeTable };

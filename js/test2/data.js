@@ -369,6 +369,9 @@ let apiPrefix = {
     getIsoformIDList: 'getIsoformIDList/',
     getAnnotationIsoform: 'getAnnotationIsoform/',
 
+    // GO富集分析相关API
+    getEnrichmentResults: 'getEnrichmentResults/',
+
     parameter: {
         searchKeyword: 'searchKeyword=',
         page: 'page=',
@@ -1334,10 +1337,18 @@ async function fetchTaskStatus(taskId) {
     const url = apiPrefix.IP + apiPrefix.app + apiPrefix['taskStatus'] + `?task_id=${taskId}`;
     try {
         const response = await fetch(url);
-        const responseData = await response.json();
+        const responseText = await response.text();
+        
+        // 处理JSON中的NaN值，将其替换为null
+        const cleanedText = responseText.replace(/:\s*NaN\s*([,}])/g, ': null$1');
+        
+        const responseData = JSON.parse(cleanedText);
         return responseData;
     } catch (error) {
         console.error('Error fetching task status:', error);
+        // 记录原始响应文本以便调试
+        console.error('Failed response text:', error.responseText || 'No response text available');
+        return null;
     }
 }
 
