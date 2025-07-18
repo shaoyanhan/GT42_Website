@@ -6,211 +6,6 @@
     padding: 40px 20px;
 }
 
-.content_container .search_container {
-    width: calc(100% - 80px);
-    padding: 0 40px 40px 40px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.content_container .search_container .select_genome_form_group {
-    width: 350px;
-    height: 70px;
-    margin-bottom: 30px;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    background-color: rgba(179, 236, 202, 0.73);
-    border-radius: 10px;
-    box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
-
-}
-
-.content_container .search_container .select_genome_form_group label {
-    font-size: 20px;
-    font-weight: bold;
-
-}
-
-.content_container .search_container .select_genome_form_group select {
-    width: 120px;
-    height: 30px;
-    border: none;
-    background-color: rgba(255, 255, 255, 0.8);
-    font-size: 20px;
-    font-weight: bold;
-    cursor: pointer;
-    border-radius: 5px;
-}
-
-.content_container .search_container .search_id_form_group .submit_box {
-    width: 860px;
-    height: 70px;
-    padding: 0 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: rgba(179, 236, 202, 0.73);
-    border-radius: 10px;
-    box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
-}
-
-.content_container .search_container .search_id_form_group .submit_box label {
-    font-size: 20px;
-    font-weight: bold;
-    /* margin-left: 30px; */
-}
-
-.content_container .search_container .search_id_form_group .submit_box input {
-    width: 300px;
-    height: 40px;
-    background-color: rgba(255, 255, 255, 0.8);
-    font-size: 20px;
-    font-weight: bold;
-    padding: 0 10px;
-    border-radius: 5px;
-}
-
-.content_container .search_container .search_id_form_group .submit_box button {
-    width: 100px;
-    height: 40px;
-    /* margin-left: 30px;
-    margin-right: 30px; */
-    border-radius: 10px;
-    background-color: rgba(255, 255, 255, 0.8);
-    font-size: 20px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s;
-}
-
-.content_container .search_container .search_id_form_group .submit_box .previous_id_button {
-    width: 130px;
-}
-
-.content_container .search_container .search_id_form_group .submit_box button:hover {
-    transform: scale(1.1);
-}
-
-.content_container .search_container .search_id_form_group .example_ids {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.content_container .search_container .search_id_form_group .example_ids .example_title,
-.content_container .search_container .search_id_form_group .example_ids .example_id {
-    font-size: 20px;
-    font-weight: normal;
-    margin-right: 10px;
-    margin-top: 10px;
-    transition: all 0.5s;
-}
-
-.content_container .search_container .search_id_form_group .example_ids .example_id:hover {
-    cursor: pointer;
-    transform: scale(1.1);
-    color: red;
-    /* text-decoration: underline; */
-}
-
-.content_container .search_container .search_id_form_group .help_box .download_button {
-    margin: 10px;
-    padding: 5px 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
-    text-decoration: none;
-    color: #333;
-    background: #f0f0f0;
-    cursor: pointer;
-    font-size: 14px;
-}
-
-.content_container .search_container .search_id_form_group .help_box .download_button:hover {
-    background: #8bc2d0;
-    color: #fff;
-}
-
-.content_container .search_container .search_id_form_group {
-    position: relative;
-
-}
-
-.content_container .search_container .search_id_form_group .submit_box .help_icon {
-    padding: 5px;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 20px;
-    color: #007BFF;
-    /* 蓝色 */
-    user-select: none;
-
-}
-
-/* 浮窗样式 */
-.content_container .search_container .search_id_form_group .help_box {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 65%;
-    background-color: rgb(246, 255, 250);
-    /* 浅蓝色背景 */
-    /* border: 1px solid rgba(179, 236, 202); */
-    /* 蓝色边框 */
-    border-radius: 8px;
-    padding: 30px;
-    box-shadow: 0 8px 16px 5px rgba(0, 0, 0, 0.2);
-    z-index: 1000;
-    display: none;
-    /* 默认不显示，由JS控制 */
-}
-
-.content_container .search_container .search_id_form_group .help_box h1 {
-    font-size: 18px;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 10px;
-    text-align: center;
-}
-
-.content_container .search_container .search_id_form_group .help_box p {
-    font-size: 17px;
-    color: #333;
-    margin-bottom: 10px;
-}
-
-.content_container .search_container .search_id_form_group .help_box p strong {
-    font-size: 18px;
-    font-weight: bold;
-}
-
-.content_container .search_container .search_id_form_group .help_box .notice {
-    font-size: 16px;
-    color: #d93939;
-    /* margin-top: 10px; */
-}
-
-.content_container .search_container .search_id_form_group .search_alert {
-    /* display: none; */
-    color: #d9534f;
-    /* 警告文字通常使用红色系 */
-    background-color: #f2dede;
-    border-color: #ebccd1;
-    padding: 10px;
-    margin-top: 10px;
-    border-radius: 5px;
-    position: absolute;
-    /* 根据需要调整定位 */
-    z-index: 1000;
-    /* 确保提示框在最上面 */
-    width: 100%;
-    /* 根据需要调整宽度 */
-    text-align: center;
-    font-size: 18px;
-}
-
 
 .content_container .haplotype_result_container,
 .content_container .transcript_result_container {
@@ -221,8 +16,7 @@
 }
 
 .content_container .result_details_container {
-    width: 400px;
-
+    /* width: 345px; */
     margin: 20px;
     background: linear-gradient(to right, #C0DDE4, #F6EDD3);
     border-radius: 10px;
@@ -242,15 +36,15 @@
     overflow-y: auto;
 
     /* 让出背景的渐变使其成为其渐变色的border */
-    margin: 20px;
+    margin: 10px;
 }
 
 .content_container #haplotype_SNP_result_details_container .content_box {
-    max-height: 1000px;
+    max-height: 850px;
 }
 
 .content_container #transcript_result_details_container .content_box {
-    max-height: 1200px;
+    max-height: 1040px;
 }
 
 .content_container .result_details_container .content_box .result_details {
@@ -262,7 +56,7 @@
 }
 
 .content_container .result_details_container .content_box .main_title {
-    font-size: 20px;
+    font-size: 16px;
     font-weight: bold;
     margin: 10px;
     display: block;
@@ -281,7 +75,7 @@
 .content_container .result_details_container .content_box .item_container .item_title {
     font-weight: bold;
     margin-right: 10px;
-    font-size: 18px;
+    font-size: 15px;
     background-color: #eae7e7;
     border-bottom: 1px solid #929191;
     padding: 5px;
@@ -289,7 +83,7 @@
 }
 
 .content_container .result_details_container .content_box .item_container .item_content {
-    font-size: 18px;
+    font-size: 15px;
 }
 
 .content_container .result_details_container .content_box .sequence_item_container .sequence_container_header {
@@ -304,16 +98,16 @@
 .content_container .result_details_container .content_box .sequence_item_container .sequence_container_header .item_title {
     font-weight: bold;
     /* margin-right: 10px; */
-    font-size: 18px;
+    font-size: 15px;
     padding: 5px;
 }
 
 .content_container .result_details_container .content_box .sequence_item_container .sequence_container {
     margin: 15px 0;
     padding: 10px;
-    font-size: 18px;
+    font-size: 14px;
     height: auto;
-    max-height: 400px;
+    max-height: 320px;
     word-wrap: break-word;
     /* 允许在长单词或URL内部进行换行 */
     /* white-space: pre-wrap; */
@@ -324,7 +118,10 @@
     border-radius: 5px;
 }
 
-
+.content_container .result_details_container .content_box .sequence_item_container .sequence_container .highlight_transcript_range {
+    background-color: #ffceae;
+    color: #333;
+}
 
 .content_container .result_details_container .table_item_container .table_header_container {
     display: flex;
@@ -416,7 +213,7 @@
 }
 
 .content_container details summary {
-    font-size: 20px;
+    font-size: 16px;
     font-weight: bold;
     background: #8bc2d0;
     color: #fff;
@@ -451,7 +248,7 @@
 .content_container details .table_footer_pagination_container .table_container table th {
     text-align: center;
     /* 标题和单元格内容居中对齐 */
-    font-size: 18px;
+    font-size: 16px;
     /* 字号设置为18px */
     padding: 15px 30px;
     /* 设置单元格的上下padding为15px, 左右padding为30px */
@@ -464,7 +261,7 @@
 .content_container details .table_footer_pagination_container .table_container table td {
     text-align: center;
     /* 单元格内容居中对齐 */
-    font-size: 18px;
+    font-size: 16px;
     /* 字号设置为18px */
     padding: 15px 30px;
     /* 设置单元格的上下padding为10px, 左右padding为30px */
@@ -523,6 +320,11 @@
 .content_container details .table_footer_pagination_container .footer_pagination_container .footer_notes {
     font-size: 15px;
     margin-left: 10px;
+}
+
+.content_container details .table_footer_pagination_container .footer_pagination_container .footer_notes .count {
+    font-weight: bold;
+    margin: 0 5px;
 }
 
 .content_container details .table_footer_pagination_container .footer_pagination_container .pagination_container {

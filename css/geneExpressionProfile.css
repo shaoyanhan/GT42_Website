@@ -6,208 +6,44 @@
     padding: 40px 20px;
 }
 
-.content_container .search_container {
-    width: calc(100% - 80px);
-    padding: 0 40px 40px 40px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.content_container .heatmap_result_container .echart_scroll_container {
+    overflow-y: auto;
+    min-height: 0px;
+    max-height: 500px;
 }
 
-.content_container .search_container .select_genome_form_group {
-    width: 350px;
-    height: 70px;
-    margin-bottom: 30px;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    background-color: rgba(179, 236, 202, 0.73);
+
+.content_container .sunburst_tree_chart_details_container {
+    margin: 40px 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    /* 防止内部details标签的margin塌陷问题 */
 }
 
-.content_container .search_container .select_genome_form_group label {
-    font-size: 20px;
-    font-weight: bold;
-}
-
-.content_container .search_container .select_genome_form_group select {
-    width: 120px;
-    height: 30px;
-    border: none;
-    background-color: rgba(255, 255, 255, 0.8);
-    font-size: 20px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.content_container .search_container .search_id_form_group .submit_box {
-    width: 860px;
-    height: 70px;
-    padding: 0 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: rgba(179, 236, 202, 0.73);
-    border-radius: 10px;
-    box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
-}
-
-.content_container .search_container .search_id_form_group .submit_box label {
-    font-size: 20px;
-    font-weight: bold;
-    /* margin-left: 30px; */
-}
-
-.content_container .search_container .search_id_form_group .submit_box input {
-    width: 300px;
-    height: 40px;
-    background-color: rgba(255, 255, 255, 0.8);
-    font-size: 20px;
-    font-weight: bold;
-    padding: 0 10px;
-    border-radius: 5px;
-}
-
-.content_container .search_container .search_id_form_group .submit_box button {
-    width: 100px;
-    height: 40px;
-    /* margin-left: 30px;
-    margin-right: 30px; */
-    border-radius: 10px;
-    background-color: rgba(255, 255, 255, 0.8);
-    font-size: 20px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s;
-}
-
-.content_container .search_container .search_id_form_group .submit_box .previous_id_button {
-    width: 130px;
-}
-
-.content_container .search_container .search_id_form_group .submit_box button:hover {
-    transform: scale(1.1);
-}
-
-.content_container .search_container .search_id_form_group .example_ids {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.content_container .search_container .search_id_form_group .example_ids .example_title,
-.content_container .search_container .search_id_form_group .example_ids .example_id {
-    font-size: 20px;
-    font-weight: normal;
-    margin-right: 10px;
-    margin-top: 10px;
-    transition: all 0.5s;
-}
-
-.content_container .search_container .search_id_form_group .example_ids .example_id:hover {
-    cursor: pointer;
-    transform: scale(1.1);
-    color: red;
-    /* text-decoration: underline; */
-}
-
-.content_container .search_container .search_id_form_group .help_box .download_button {
-    margin: 10px;
-    padding: 5px 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
-    text-decoration: none;
-    color: #333;
-    background: #f0f0f0;
-    cursor: pointer;
-    font-size: 14px;
-}
-
-.content_container .search_container .search_id_form_group .help_box .download_button:hover {
-    background: #8bc2d0;
-    color: #fff;
-}
-
-.content_container .search_container .search_id_form_group {
-    position: relative;
-
-}
-
-.content_container .search_container .search_id_form_group .submit_box .help_icon {
-    padding: 5px;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 20px;
-    color: #007BFF;
-    /* 蓝色 */
-    user-select: none;
-
-}
-
-/* 浮窗样式 */
-.content_container .search_container .search_id_form_group .help_box {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 65%;
-    background-color: rgb(246, 255, 250);
-    /* 浅蓝色背景 */
-    /* border: 1px solid rgba(179, 236, 202); */
-    /* 蓝色边框 */
-    border-radius: 8px;
-    padding: 30px;
-    box-shadow: 0 8px 16px 5px rgba(0, 0, 0, 0.2);
-    z-index: 1000;
-    display: none;
-    /* 默认不显示，由JS控制 */
-}
-
-.content_container .search_container .search_id_form_group .help_box h1 {
-    font-size: 18px;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 10px;
-    text-align: center;
-}
-
-.content_container .search_container .search_id_form_group .help_box p {
-    font-size: 17px;
-    color: #333;
-    margin-bottom: 10px;
-}
-
-.content_container .search_container .search_id_form_group .help_box p strong {
-    font-size: 18px;
-    font-weight: bold;
-}
-
-.content_container .search_container .search_id_form_group .help_box .notice {
+.content_container .sunburst_tree_chart_details_container>summary {
     font-size: 16px;
-    color: #d93939;
-    /* margin-top: 10px; */
-}
-
-.content_container .search_container .search_id_form_group .search_alert {
-    /* display: none; */
-    color: #d9534f;
-    /* 警告文字通常使用红色系 */
-    background-color: #f2dede;
-    border-color: #ebccd1;
+    font-weight: bold;
+    background: rgba(179, 236, 202, 0.73);
+    color: black;
     padding: 10px;
-    margin-top: 10px;
-    border-radius: 5px;
-    position: absolute;
-    /* 根据需要调整定位 */
-    z-index: 1000;
-    /* 确保提示框在最上面 */
-    width: 100%;
-    /* 根据需要调整宽度 */
-    text-align: center;
-    font-size: 18px;
+    border-radius: 10px;
+    cursor: pointer;
 }
 
+
+.content_container .sunburst_tree_chart_details_container .sunburst_tree_chart_container {
+    display: flex;
+    /* flex-wrap: wrap; */
+    justify-content: space-evenly;
+}
+
+.content_container .sunburst_tree_chart_details_container .sunburst_tree_chart_container div {
+    margin: 10px;
+    box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+
+}
 
 .content_container .transcriptHeatmapContainer {
     position: relative;
@@ -230,37 +66,8 @@
     box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
 }
 
-.content_container .transcriptHeatmapContainer .select_haplotype_from_group label {
-    font-size: 20px;
-    font-weight: bold;
-}
-
-.content_container .transcriptHeatmapContainer .select_haplotype_from_group .haplotype_select {
-    width: 230px;
-    height: auto;
-    max-height: 50px;
-    overflow-y: auto;
-    border: none;
-    background-color: rgba(255, 255, 255, 0.8);
-    font-size: 20px;
-    font-weight: bold;
-    cursor: pointer;
-    border-radius: 5px;
-}
-
-.select2-container--default .select2-results__option {
-    font-size: 18px;
-    /* 下拉选项的字体大小 */
-}
-
-.select2-container--default .select2-selection--single .select2-selection__rendered,
-.select2-container--default .select2-selection--multiple .select2-selection__rendered {
-    font-size: 18px;
-    /* 选择框内文本的字体大小 */
-}
-
 .content_container .heatmap_result_container {
-    margin: 40px;
+    margin: 40px 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
     overflow: hidden;
@@ -268,7 +75,7 @@
 }
 
 .content_container .heatmap_result_container>summary {
-    font-size: 20px;
+    font-size: 16px;
     font-weight: bold;
     background: rgba(179, 236, 202, 0.73);
     color: black;
@@ -286,7 +93,7 @@
 }
 
 .content_container .TPM_data_table>summary {
-    font-size: 20px;
+    font-size: 16px;
     font-weight: bold;
     background: #8bc2d0;
     color: #fff;
@@ -321,7 +128,7 @@
 .content_container .TPM_data_table .table_footer_pagination_container .table_container table th {
     text-align: center;
     /* 标题和单元格内容居中对齐 */
-    font-size: 18px;
+    font-size: 16px;
     /* 字号设置为18px */
     padding: 15px 30px;
     /* 设置单元格的上下padding为15px, 左右padding为30px */
@@ -334,7 +141,7 @@
 .content_container .TPM_data_table .table_footer_pagination_container .table_container table td {
     text-align: center;
     /* 单元格内容居中对齐 */
-    font-size: 18px;
+    font-size: 16px;
     /* 字号设置为18px */
     padding: 20px 30px;
     /* 设置单元格的上下padding为10px, 左右padding为30px */
@@ -369,6 +176,11 @@
     margin-left: 10px;
 }
 
+.content_container .TPM_data_table .table_footer_pagination_container .footer_pagination_container .footer_notes .count {
+    font-weight: bold;
+    margin: 0 5px;
+}
+
 .content_container .TPM_data_table .table_footer_pagination_container .footer_pagination_container .pagination_container {
     display: flex;
     justify-content: center;
@@ -397,4 +209,52 @@
 .content_container .TPM_data_table .table_footer_pagination_container .footer_pagination_container .pagination_container .active {
     background: #8bc2d0;
     color: #fff;
+}
+
+
+.content_container .heatmap_color_picker_container {
+    /* width: 80%; */
+    /* max-width: 800px; */
+    margin: 40px 20px;
+    border: 2px solid #ccc;
+    border-radius: 50px;
+    overflow: hidden;
+    background-color: #8bc2d0;
+    box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
+}
+
+.content_container .heatmap_color_picker_container .heatmap_color_picker_window {
+    display: flex;
+    overflow-x: auto;
+    justify-content: space-evenly;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 30px;
+    background-color: #FAFFF2;
+}
+
+.content_container .heatmap_color_picker_container .heatmap_color_picker_window .color_option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 20px;
+}
+
+.content_container .heatmap_color_picker_container .heatmap_color_picker_window .color_option input[type="radio"] {
+    display: none;
+}
+
+.content_container .heatmap_color_picker_container .heatmap_color_picker_window .color_option label {
+    cursor: pointer;
+}
+
+.content_container .heatmap_color_picker_container .heatmap_color_picker_window .color_option img {
+    border: 2px solid rgb(202, 202, 202);
+    border-radius: 5px;
+    width: 60px;
+    object-fit: cover;
+}
+
+.content_container .heatmap_color_picker_container .heatmap_color_picker_window .color_option input[type="radio"]:checked+label img {
+    border-color: #007BFF;
 }

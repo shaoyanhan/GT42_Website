@@ -4,59 +4,224 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GT42</title>
+    <title>Gene Expression Profile</title>
     <!-- 设置网站logo -->
     <link rel="icon" href="../img/sugarcane-logo.jpeg" type="image/x-icon">
     <link rel="stylesheet" href="../css/reset.css">
-    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/basicPage.css">
     <link rel="stylesheet" href="../css/geneExpressionProfile.css">
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
-    <script src="../js/echarts.js"></script>
-    <script src="../js/jquery-3.7.1.js"></script>
-    <script src="../js/vintage.js"></script>
+    <!-- 引入字体库 -->
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+
     <!-- 引入 lodash.js 用于 data.js 的数据深拷贝 -->
-    <script src="../js/lodash.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
 
-    <!-- 引入select2下拉框组件 -->
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
-    <script>
-        function openInNewTab(url) {
-            window.open(url, '_blank');
-        }
-    </script>
-    <style>
-
-    </style>
 
 </head>
 
 <body>
+    <div id="contact_overlay" class="contact_overlay"></div>
+    <div id="contact_card" class="contact_card">
+        <h2>Contact</h2>
+        <p class="intro_text">Should there be any question, please let us know without hesitation!</p>
+        <p class="content_text"><strong>Yanhan Shao (Web Design & Development):&nbsp;&nbsp;</strong><span
+                class="email_address" title="click to copy">1740569155@qq.com</span>
+        </p>
+        <p class="content_text"><strong>Zhiyuan Zhao (Data Analyse):&nbsp;&nbsp;</strong><span class="email_address"
+                title="click to copy">zhaozhiyuan@webmail.hzau.edu.cn</span></p>
+        <p class="content_text"><strong>Professor Ling-Ling Chen:&nbsp;&nbsp;</strong><span class="email_address"
+                title="click to copy">llchen@gxu.edu.cn</span></p>
+        <p class="content_text"><strong>Professor Weibo Xie:&nbsp;&nbsp;</strong><span class="email_address"
+                title="click to copy">weibo.xie@mail.hzau.edu.cn</span></p>
+        <p class="content_text"><strong>Professor Lingqiang Wang:&nbsp;&nbsp;</strong><span class="email_address"
+                title="click to copy">1335585196@qq.com</span></p>
+
+        <p class="content_text"><strong>Project Source:</strong> <a href="https://github.com/shaoyanhan/GT42_Website"
+                target="_blank">https://github.com/shaoyanhan/GT42_Websites</a></p>
+
+        <p class="location_text"><strong>Location 1:</strong> &nbsp;&nbsp;State Key Laboratory for Conservation
+            and
+            Utilization of
+            Subtropical Agro-bioresources, Guangxi University, Nanning
+            530000, China
+        </p>
+        <p class="location_text"><strong>Location 2:</strong> &nbsp;&nbsp;National Key Laboratory of Crop
+            Genetic
+            Improvement, Hubei
+            Hongshan Laboratory, Huazhong Agricultural University, Wuhan,
+            430070, China
+        </p>
+    </div>
     <div class="center_container">
 
-        <div class="header_container">
-            <div class="logo_container">
-                <div class="logo_box">
-                    <img src="../img/sugarcane-logo.jpeg" alt="logo">
-                </div>
-                <div class="title_box">
-                    <h1>Project Title</h1>
+        <!-- 返回顶部图标 -->
+        <button class="scroll_to_top_button">
+            <img src="../img/scroll_to_top_icon.png" alt="scroll to top">
+        </button>
+
+        <!-- 顶部导航栏 -->
+        <header class="nav_header">
+            <div class="nav_container">
+                <nav class="nav_bar">
+                    <div class="logo_container">
+                        <div class="logo_box">
+                            <a href="./index.html"><img src="../img/sugarcane-logo.jpeg" alt="logo"></a>
+
+                        </div>
+                        <div class="title_box">
+                            <a href="./index.html">
+                                <h1>SRNDB</h1>
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                    <!-- 导航栏菜单 -->
+                    <div class="menu_container">
+                        <ul class="menu_links">
+                            <li class="first_level_link"><a href="./index.html">Home</a></li>
+                            <li class="first_level_link dropdown"><a>Data <span class="arrow">&#9660;</span></a>
+                                <ul class="dropdown_content">
+                                    <li class="second_level_link"><a href="./fullLengthTranscriptome.html"
+                                            target="_blank">Full-length Transcriptome</a>
+                                    </li>
+                                    <li class="second_level_link"><a href="./haplotypeSNP.html"
+                                            target="_blank">Haplotype &&
+                                            SNP</a></li>
+                                    <li class="second_level_link"><a href="./geneExpressionProfile.html"
+                                            target="_blank">Gene
+                                            Expression Profile</a></li>
+                                    <li class="second_level_link"><a href="./singleCoExpressionNetwork.html"
+                                            target="_blank">Single Co-expression
+                                            Network</a></li>
+                                    <li class="second_level_link"><a href="./hubCoExpressionNetwork.html"
+                                            target="_blank">Hub
+                                            Co-expression Network</a></li>
+                                </ul>
+                            </li>
+                            <li class="first_level_link dropdown"><a>Tools<span class="arrow">&#9660;</span></a>
+                                <ul class="dropdown_content">
+                                    <li class="second_level_link"><a href="./blast.html" target="_blank">BLAST</a></li>
+                                    <li class="second_level_link"><a href="./annotation.html"
+                                            target="_blank">Annotation</a>
+                                    </li>
+                                    <li class="second_level_link"><a href="./transcriptFactors.html"
+                                            target="_blank">Transcript
+                                            Factors</a></li>
+                                </ul>
+                            </li>
+                            <li class="first_level_link"><a href="./download.html" target="_blank">Download</a></li>
+                            <li class="first_level_link dropdown"><a>About<span class="arrow">&#9660;</span></a>
+                                <ul class="dropdown_content">
+                                    <li class="second_level_link"><a href="./tutorial.html" target="_blank">Tutorial</a>
+                                    </li>
+                                    <li class="second_level_link"><a class="contact_button">Contact</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- 导航栏搜索框 -->
+                    <div class="search_box_container">
+                        <input type="text" placeholder="Search...">
+                        <button type="submit" class="search_button"><span class="search_icon">&#128269;</span></button>
+
+                        <div class="search_box_tooltip">
+                            <span class="tooltip_text">Show the avaliable resources of specific ID been inputted.</span>
+
+                            <div class="example_ids">
+                                <span class="example_title">e.g.</span>
+                                <span class="example_id">SGI000001.SO.001</span>
+                            </div>
+
+                            <button class="download_button">download full available ID list</button>
+                        </div>
+                    </div>
+
+                    <button class="menu_toggle"><i class="iconfont icon-liebiao"></i></button>
+                    <button class="menu_close"><i class="iconfont icon-31guanbi"></i></button>
+
+
+
+                </nav>
+
+                <!-- 响应式布局情况下的导航栏 -->
+                <div class="expanded_nav">
+                    <!-- 搜索框 -->
+                    <div class="search_box_container">
+                        <input type="text" placeholder="Search...">
+                        <button type="submit" class="search_button"><span class="search_icon">&#128269;</span></button>
+
+                        <div class="search_box_tooltip">
+                            <span class="tooltip_text">Show the avaliable resources of specific ID been inputted.</span>
+
+                            <div class="example_ids">
+                                <span class="example_title">e.g.</span>
+                                <span class="example_id">SGI000001.SO.001</span>
+                            </div>
+
+                            <button class="download_button">download full available ID list</button>
+                        </div>
+                    </div>
+                    <!-- 手风琴导航栏菜单 -->
+                    <div class="menu_container">
+                        <ul class="menu_links">
+                            <li class="first_level_link"><a href="./index.html">Home</a></li>
+                            <li class="first_level_link accordion"><a>Data <span class="arrow">&#9660;</span></a>
+                                <ul class="accordion_content">
+                                    <li class="second_level_link"><a href="./fullLengthTranscriptome.html"
+                                            target="_blank">Full-length Transcriptome</a>
+                                    </li>
+                                    <li class="second_level_link"><a href="./haplotypeSNP.html"
+                                            target="_blank">Haplotype &&
+                                            SNP</a></li>
+                                    <li class="second_level_link"><a href="./geneExpressionProfile.html"
+                                            target="_blank">Gene
+                                            Expression Profile</a></li>
+                                    <li class="second_level_link"><a href="./singleCoExpressionNetwork.html"
+                                            target="_blank">Single Co-expression
+                                            Network</a></li>
+                                    <li class="second_level_link"><a href="./hubCoExpressionNetwork.html"
+                                            target="_blank">Hub
+                                            Co-expression Network</a></li>
+                                </ul>
+                            </li>
+                            <li class="first_level_link accordion"><a>Tools<span class="arrow">&#9660;</span></a>
+                                <ul class="accordion_content">
+                                    <li class="second_level_link"><a href="./blast.html" target="_blank">BLAST</a></li>
+                                    <li class="second_level_link"><a href="./annotation.html"
+                                            target="_blank">Annotation</a>
+                                    </li>
+                                    <li class="second_level_link"><a href="./transcriptFactors.html"
+                                            target="_blank">Transcript
+                                            Factors</a></li>
+                                </ul>
+                            </li>
+                            <li class="first_level_link"><a href="./download.html" target="_blank">Download</a></li>
+                            <li class="first_level_link accordion"><a>About<span class="arrow">&#9660;</span></a>
+                                <ul class="accordion_content">
+                                    <li class="second_level_link"><a href="./tutorial.html" target="_blank">Tutorial</a>
+                                    </li>
+                                    <li class="second_level_link"><a class="contact_button">Contact</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+
                 </div>
             </div>
-            <div class="menu_box">
-                <div class="menu_button" onclick="location.href='./index.html'">Home</div>
-                <div class="menu_button" onclick="openInNewTab('./fullLengthTranscriptome.html')">Full Length
-                    Transcriptome</div>
-                <div class="menu_button" onclick="openInNewTab('./geneExpressionProfile.html')">Gene Expression Profile
-                </div>
-                <div class="menu_button" onclick="openInNewTab('./coExpressionNetwork.html')">Co-expression Network
-                </div>
-            </div>
-        </div>
+
+
+
+        </header>
 
         <div class="content_container">
-            <div class="search_container">
+            <div class="search_container" id="content_area_search_container">
                 <!-- 基因组选择框 -->
                 <div class="select_genome_form_group">
                     <!-- label标签的for属性必须与相关联的表单控件的id属性值完全匹配，才能确保切换焦点的功能正常工作。 -->
@@ -73,8 +238,7 @@
                         <label for="search_input">Search ID:</label>
                         <!-- 添加一个问号图标显示ID格式 -->
                         <span class="help_icon" id="top_search_box_help_icon">?</span>
-                        <input type="text" class="search_input" id="search_input" name="search_input"
-                            value="GT42G000001">
+                        <input type="text" class="search_input" id="search_input" name="search_input" value="SGI000001">
                         <button type="button" class="submit_button">Submit</button>
                         <button type="button" class="previous_id_button">PreviousID</button>
                         <button type="button" class="next_id_button">NextID</button>
@@ -83,24 +247,24 @@
                     <!-- 点击问号之后的浮窗，基于search_id_form_group开启的相对定位进行绝对定位-->
                     <div class="help_box" id="top_search_box_help_box">
                         <h1>ID Format</h1>
-                        <p><strong>Mosaic ID / Orthologous ID: </strong>GT42G000001 ~ GT42G025748</p>
-                        <p><strong>Xenologous ID: </strong>GT42G000001.SO, GT42G000001.SS, etc.
+                        <p><strong>Mosaic ID / Orthologous ID: </strong>SGI000001</p>
+                        <p><strong>Xenologous ID: </strong>SGI000001.SO
                         </p>
-                        <p><strong>Gene ID / Haplotype ID: </strong>GT42G000001.SO.1, GT42G000001.SS.1, etc.</p>
-                        <p><strong>Transcript ID: </strong>GT42G000001.SO.1.1, GT42G000001.SO.1.2, etc.</p>
+                        <p><strong>Gene ID / Haplotype ID: </strong>SGI000001.SO.001</p>
+                        <p><strong>Transcript ID: </strong>SGI000001.SO.001.01</p>
                         <!-- 下载按钮 -->
                         <button class="download_button">download full available ID
                             list</button>
-                        <!-- <p class="notice">*notice: xenologous ID is not available in Full Length
-                            Transcriptome.</p> -->
+                        <button class="click_to_close" close-target-id="top_search_box_help_box">
+                            <img src="../img/close_icon.png" class="close_icon " alt="close">
+                        </button>
                     </div>
 
                     <div class="example_ids">
                         <span class="example_title">example:</span>
-                        <span class="example_id" data_value="GT42G000001">GT42G000001,</span>
-                        <span class="example_id" data_value="GT42G000002.SO">GT42G000002.SO,</span>
-                        <span class="example_id" data_value="GT42G000003.SS.1">GT42G000003.SS.1,</span>
-                        <span class="example_id" data_value="GT42G000005.SS.1.1">GT42G000005.SS.1.1</span>
+                        <span class="example_id" data_value="SGI000001">SGI000001, </span>
+                        <span class="example_id" data_value="SGI000002.SO.001">SGI000002.SO.001, </span>
+                        <span class="example_id" data_value="SGI000005.SS.001.01">SGI000005.SS.001.01</span>
                     </div>
 
                     <!-- 输入非法提示框，用户点击空白处或两秒后自动消失，基于search_id_form_group开启的相对定位进行绝对定位 -->
@@ -109,11 +273,94 @@
 
             </div>
 
+            <details class="sunburst_tree_chart_details_container" open>
+                <summary>Click to view development stages and ID tree</summary>
+
+                <div class="sunburst_tree_chart_container">
+                    <div id="drawDevelopmentStageSunburstChart" style="width: 45%;height: 500px;"></div>
+                    <div id="drawIDTreeChart" style="width: 55%;height: 500px;"></div>
+                </div>
+
+            </details>
+
+            <!-- <script src="../../js/test2/sunburst_id_tree.js"></script> -->
+
+            <!-- 热图配色切换，注意name必须为同一个才能实现单选 -->
+            <div class="heatmap_color_picker_container">
+                <div class="heatmap_color_picker_window">
+                    <div class="color_option">
+                        <input type="radio" id="sequential_color1" name="heatmap_color" value="sequential_color1"
+                            checked>
+                        <label for="sequential_color1"><img src="../img/heatmap_sequential_color1.png"
+                                alt="sequential_color1"></label>
+                    </div>
+                    <div class="color_option">
+                        <input type="radio" id="sequential_color2" name="heatmap_color" value="sequential_color2">
+                        <label for="sequential_color2"><img src="../img/heatmap_sequential_color2.png"
+                                alt="sequential_color2"></label>
+                    </div>
+                    <div class="color_option">
+                        <input type="radio" id="sequential_color3" name="heatmap_color" value="sequential_color3">
+                        <label for="sequential_color3"><img src="../img/heatmap_sequential_color3.png"
+                                alt="sequential_color3"></label>
+                    </div>
+                    <div class="color_option">
+                        <input type="radio" id="sequential_color4" name="heatmap_color" value="sequential_color4">
+                        <label for="sequential_color4"><img src="../img/heatmap_sequential_color4.png"
+                                alt="sequential_color4"></label>
+                    </div>
+
+                    <div class="color_option">
+                        <input type="radio" id="diverging_color1" name="heatmap_color" value="diverging_color1">
+                        <label for="diverging_color1"><img src="../img/heatmap_diverging_color1.png"
+                                alt="diverging_color1"></label>
+                    </div>
+                    <div class="color_option">
+                        <input type="radio" id="diverging_color2" name="heatmap_color" value="diverging_color2">
+                        <label for="diverging_color2"><img src="../img/heatmap_diverging_color2.png"
+                                alt="diverging_color2"></label>
+                    </div>
+                    <div class="color_option">
+                        <input type="radio" id="diverging_color3" name="heatmap_color" value="diverging_color3">
+                        <label for="diverging_color3"><img src="../img/heatmap_diverging_color3.png"
+                                alt="diverging_color3"></label>
+                    </div>
+                    <div class="color_option">
+                        <input type="radio" id="diverging_color4" name="heatmap_color" value="diverging_color4">
+                        <label for="diverging_color4"><img src="../img/heatmap_diverging_color4.png"
+                                alt="diverging_color4"></label>
+                    </div>
+                    <div class="color_option">
+                        <input type="radio" id="diverging_color5" name="heatmap_color" value="diverging_color5">
+                        <label for="diverging_color5"><img src="../img/heatmap_diverging_color5.png"
+                                alt="diverging_color5"></label>
+                    </div>
+                    <div class="color_option">
+                        <input type="radio" id="diverging_color6" name="heatmap_color" value="diverging_color6">
+                        <label for="diverging_color6"><img src="../img/heatmap_diverging_color6.png"
+                                alt="diverging_color6"></label>
+                    </div>
+                    <div class="color_option">
+                        <input type="radio" id="diverging_color7" name="heatmap_color" value="diverging_color7">
+                        <label for="diverging_color7"><img src="../img/heatmap_diverging_color7.png"
+                                alt="diverging_color7"></label>
+                    </div>
+                    <div class="color_option">
+                        <input type="radio" id="diverging_color8" name="heatmap_color" value="diverging_color8">
+                        <label for="diverging_color8"><img src="../img/heatmap_diverging_color8.png"
+                                alt="diverging_color8"></label>
+                    </div>
+                    <!-- 添加更多颜色选项 -->
+                </div>
+            </div>
 
             <details class="heatmap_result_container" open>
                 <summary>Click to view the orthologous results</summary>
 
-                <div id="drawOrthologousHeatmap" style="width: 100%;height: 160px;"></div>
+                <div class="echart_scroll_container">
+                    <div id="drawOrthologousHeatmap" style="width: 100%;height: 160px;"></div>
+                </div>
+
                 <!-- 套用该模式需要修改：1. id="haplotype_table_container"；2. <thead>；3. id="download_haplotype_table"-->
                 <details class="TPM_data_table">
                     <summary>Click to view the data table</summary>
@@ -139,53 +386,61 @@
                                         <th>Ro2_1</th>
                                         <th>Ro2_2</th>
                                         <th>Ro2_3</th>
+                                        <th>Bu1_1</th>
+                                        <th>Bu1_2</th>
+                                        <th>Bu1_3</th>
                                         <th>Le1_1</th>
                                         <th>Le1_2</th>
                                         <th>Le1_3</th>
                                         <th>LS1_1</th>
                                         <th>LS1_2</th>
                                         <th>LS1_3</th>
-                                        <th>Bu1_1</th>
-                                        <th>Bu1_2</th>
-                                        <th>Bu1_3</th>
-                                        <th>In1_1</th>
-                                        <th>In1_2</th>
-                                        <th>In1_3</th>
-                                        <th>NR1_1</th>
-                                        <th>NR1_2</th>
-                                        <th>NR1_3</th>
                                         <th>AM_1</th>
                                         <th>AM_2</th>
                                         <th>AM_3</th>
-                                        <th>Bu2_1</th>
-                                        <th>Bu2_2</th>
-                                        <th>Bu2_3</th>
-                                        <th>Sp_1</th>
-                                        <th>Sp_2</th>
-                                        <th>Sp_3</th>
-                                        <th>Br_1</th>
-                                        <th>Br_2</th>
-                                        <th>Br_3</th>
-                                        <th>St_1</th>
-                                        <th>St_2</th>
-                                        <th>St_3</th>
+                                        <th>In1_1</th>
+                                        <th>In1_2</th>
+                                        <th>In1_3</th>
+                                        <th>No_1</th>
+                                        <th>No_2</th>
+                                        <th>No_3</th>
+                                        <th>NR1_1</th>
+                                        <th>NR1_2</th>
+                                        <th>NR1_3</th>
+                                        <th>Bu3_1</th>
+                                        <th>Bu3_2</th>
+                                        <th>Bu3_3</th>
                                         <th>Pi_1</th>
                                         <th>Pi_2</th>
                                         <th>Pi_3</th>
+                                        <th>SL_1</th>
+                                        <th>SL_2</th>
+                                        <th>SL_3</th>
+                                        <th>Br_1</th>
+                                        <th>Br_2</th>
+                                        <th>Br_3</th>
+                                        <th>Gl_1</th>
                                         <th>Gl_2</th>
                                         <th>Gl_3</th>
+                                        <th>St_1</th>
+                                        <th>St_2</th>
+                                        <th>St_3</th>
+                                        <th>Le2_1</th>
+                                        <th>Le2_2</th>
+                                        <th>Le2_3</th>
+                                        <th>LS2_1</th>
                                         <th>LS2_2</th>
                                         <th>LS2_3</th>
                                         <th>In2_1</th>
+                                        <th>In2_2</th>
                                         <th>In2_3</th>
                                         <th>No2_1</th>
                                         <th>No2_2</th>
                                         <th>No2_3</th>
-                                        <th>Bu3_1</th>
-                                        <th>Bu3_3</th>
-                                        <th>Le2_1</th>
-                                        <th>Le2_2</th>
-                                        <th>Le2_3</th>
+                                        <th>Bu2_1</th>
+                                        <th>Bu2_2</th>
+                                        <th>Bu2_3</th>
+
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -210,7 +465,11 @@
 
             <details class="heatmap_result_container" open>
                 <summary>Click to view the xenologous results</summary>
-                <div id="drawXenologousHeatmap" style="width: 100%;height:240px;"></div>
+
+                <div class="echart_scroll_container">
+                    <div id="drawXenologousHeatmap" style="width: 100%;height:240px;"></div>
+                </div>
+
                 <!-- 套用该模式需要修改：1. id="haplotype_table_container"；2. <thead>；3. id="download_haplotype_table"-->
                 <details class="TPM_data_table">
                     <summary>Click to view the data table</summary>
@@ -220,7 +479,6 @@
                             <table>
                                 <thead>
                                     <tr>
-                                        <th>mosaicID</th>
                                         <th>xenologousID</th>
                                         <th>Ca1_1</th>
                                         <th>Ca1_2</th>
@@ -237,53 +495,60 @@
                                         <th>Ro2_1</th>
                                         <th>Ro2_2</th>
                                         <th>Ro2_3</th>
+                                        <th>Bu1_1</th>
+                                        <th>Bu1_2</th>
+                                        <th>Bu1_3</th>
                                         <th>Le1_1</th>
                                         <th>Le1_2</th>
                                         <th>Le1_3</th>
                                         <th>LS1_1</th>
                                         <th>LS1_2</th>
                                         <th>LS1_3</th>
-                                        <th>Bu1_1</th>
-                                        <th>Bu1_2</th>
-                                        <th>Bu1_3</th>
-                                        <th>In1_1</th>
-                                        <th>In1_2</th>
-                                        <th>In1_3</th>
-                                        <th>NR1_1</th>
-                                        <th>NR1_2</th>
-                                        <th>NR1_3</th>
                                         <th>AM_1</th>
                                         <th>AM_2</th>
                                         <th>AM_3</th>
-                                        <th>Bu2_1</th>
-                                        <th>Bu2_2</th>
-                                        <th>Bu2_3</th>
-                                        <th>Sp_1</th>
-                                        <th>Sp_2</th>
-                                        <th>Sp_3</th>
-                                        <th>Br_1</th>
-                                        <th>Br_2</th>
-                                        <th>Br_3</th>
-                                        <th>St_1</th>
-                                        <th>St_2</th>
-                                        <th>St_3</th>
+                                        <th>In1_1</th>
+                                        <th>In1_2</th>
+                                        <th>In1_3</th>
+                                        <th>No_1</th>
+                                        <th>No_2</th>
+                                        <th>No_3</th>
+                                        <th>NR1_1</th>
+                                        <th>NR1_2</th>
+                                        <th>NR1_3</th>
+                                        <th>Bu3_1</th>
+                                        <th>Bu3_2</th>
+                                        <th>Bu3_3</th>
                                         <th>Pi_1</th>
                                         <th>Pi_2</th>
                                         <th>Pi_3</th>
+                                        <th>SL_1</th>
+                                        <th>SL_2</th>
+                                        <th>SL_3</th>
+                                        <th>Br_1</th>
+                                        <th>Br_2</th>
+                                        <th>Br_3</th>
+                                        <th>Gl_1</th>
                                         <th>Gl_2</th>
                                         <th>Gl_3</th>
+                                        <th>St_1</th>
+                                        <th>St_2</th>
+                                        <th>St_3</th>
+                                        <th>Le2_1</th>
+                                        <th>Le2_2</th>
+                                        <th>Le2_3</th>
+                                        <th>LS2_1</th>
                                         <th>LS2_2</th>
                                         <th>LS2_3</th>
                                         <th>In2_1</th>
+                                        <th>In2_2</th>
                                         <th>In2_3</th>
                                         <th>No2_1</th>
                                         <th>No2_2</th>
                                         <th>No2_3</th>
-                                        <th>Bu3_1</th>
-                                        <th>Bu3_3</th>
-                                        <th>Le2_1</th>
-                                        <th>Le2_2</th>
-                                        <th>Le2_3</th>
+                                        <th>Bu2_1</th>
+                                        <th>Bu2_2</th>
+                                        <th>Bu2_3</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -308,7 +573,10 @@
 
             <details class="heatmap_result_container" open>
                 <summary>Click to view the haplotype results</summary>
-                <div id="drawGeneHeatmap" style="width: 100%;height:800px;"></div>
+                <div class="echart_scroll_container">
+                    <div id="drawGeneHeatmap" style="width: 100%;height:800px;"></div>
+                </div>
+
                 <!-- 套用该模式需要修改：1. id="haplotype_table_container"；2. <thead>；3. id="download_haplotype_table"-->
                 <details class="TPM_data_table">
                     <summary>Click to view the data table</summary>
@@ -318,8 +586,6 @@
                             <table>
                                 <thead>
                                     <tr>
-                                        <th>mosaicID</th>
-                                        <th>xenologousID</th>
                                         <th>geneID</th>
                                         <th>Ca1_1</th>
                                         <th>Ca1_2</th>
@@ -336,53 +602,60 @@
                                         <th>Ro2_1</th>
                                         <th>Ro2_2</th>
                                         <th>Ro2_3</th>
+                                        <th>Bu1_1</th>
+                                        <th>Bu1_2</th>
+                                        <th>Bu1_3</th>
                                         <th>Le1_1</th>
                                         <th>Le1_2</th>
                                         <th>Le1_3</th>
                                         <th>LS1_1</th>
                                         <th>LS1_2</th>
                                         <th>LS1_3</th>
-                                        <th>Bu1_1</th>
-                                        <th>Bu1_2</th>
-                                        <th>Bu1_3</th>
-                                        <th>In1_1</th>
-                                        <th>In1_2</th>
-                                        <th>In1_3</th>
-                                        <th>NR1_1</th>
-                                        <th>NR1_2</th>
-                                        <th>NR1_3</th>
                                         <th>AM_1</th>
                                         <th>AM_2</th>
                                         <th>AM_3</th>
-                                        <th>Bu2_1</th>
-                                        <th>Bu2_2</th>
-                                        <th>Bu2_3</th>
-                                        <th>Sp_1</th>
-                                        <th>Sp_2</th>
-                                        <th>Sp_3</th>
-                                        <th>Br_1</th>
-                                        <th>Br_2</th>
-                                        <th>Br_3</th>
-                                        <th>St_1</th>
-                                        <th>St_2</th>
-                                        <th>St_3</th>
+                                        <th>In1_1</th>
+                                        <th>In1_2</th>
+                                        <th>In1_3</th>
+                                        <th>No_1</th>
+                                        <th>No_2</th>
+                                        <th>No_3</th>
+                                        <th>NR1_1</th>
+                                        <th>NR1_2</th>
+                                        <th>NR1_3</th>
+                                        <th>Bu3_1</th>
+                                        <th>Bu3_2</th>
+                                        <th>Bu3_3</th>
                                         <th>Pi_1</th>
                                         <th>Pi_2</th>
                                         <th>Pi_3</th>
+                                        <th>SL_1</th>
+                                        <th>SL_2</th>
+                                        <th>SL_3</th>
+                                        <th>Br_1</th>
+                                        <th>Br_2</th>
+                                        <th>Br_3</th>
+                                        <th>Gl_1</th>
                                         <th>Gl_2</th>
                                         <th>Gl_3</th>
+                                        <th>St_1</th>
+                                        <th>St_2</th>
+                                        <th>St_3</th>
+                                        <th>Le2_1</th>
+                                        <th>Le2_2</th>
+                                        <th>Le2_3</th>
+                                        <th>LS2_1</th>
                                         <th>LS2_2</th>
                                         <th>LS2_3</th>
                                         <th>In2_1</th>
+                                        <th>In2_2</th>
                                         <th>In2_3</th>
                                         <th>No2_1</th>
                                         <th>No2_2</th>
                                         <th>No2_3</th>
-                                        <th>Bu3_1</th>
-                                        <th>Bu3_3</th>
-                                        <th>Le2_1</th>
-                                        <th>Le2_2</th>
-                                        <th>Le2_3</th>
+                                        <th>Bu2_1</th>
+                                        <th>Bu2_2</th>
+                                        <th>Bu2_3</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -407,16 +680,7 @@
 
             <details class="heatmap_result_container" open>
                 <summary>Click to view the transcript results</summary>
-                <!-- 为了实现不同haplotype对应的transcript的切换，这里使用一个容器包裹ECharts实例，并开启相对低位，内置一个绝对定位select下拉框 -->
-                <div class="transcriptHeatmapContainer">
-                    <div class="select_haplotype_from_group">
-                        <label for="haplotype_select">Select Haplotype:</label>
-                        <select class="haplotype_select" id="haplotype_select" name="haplotype_select">
-                            <option value="GT42G000001.SO">GT42G000001.SO.13</option>
-                            <option value="GT42G000001.SS">GT42G000001.SS.123</option>
-                        </select>
-                    </div>
-
+                <div class="echart_scroll_container">
                     <div id="drawTranscriptHeatmap" style="width: 100%;height:1200px;"></div>
                 </div>
                 <!-- 套用该模式需要修改：1. id="haplotype_table_container"；2. <thead>；3. id="download_haplotype_table"-->
@@ -428,9 +692,6 @@
                             <table>
                                 <thead>
                                     <tr>
-                                        <th>mosaicID</th>
-                                        <th>xenologousID</th>
-                                        <th>geneID</th>
                                         <th>transcriptID</th>
                                         <th>Ca1_1</th>
                                         <th>Ca1_2</th>
@@ -447,53 +708,60 @@
                                         <th>Ro2_1</th>
                                         <th>Ro2_2</th>
                                         <th>Ro2_3</th>
+                                        <th>Bu1_1</th>
+                                        <th>Bu1_2</th>
+                                        <th>Bu1_3</th>
                                         <th>Le1_1</th>
                                         <th>Le1_2</th>
                                         <th>Le1_3</th>
                                         <th>LS1_1</th>
                                         <th>LS1_2</th>
                                         <th>LS1_3</th>
-                                        <th>Bu1_1</th>
-                                        <th>Bu1_2</th>
-                                        <th>Bu1_3</th>
-                                        <th>In1_1</th>
-                                        <th>In1_2</th>
-                                        <th>In1_3</th>
-                                        <th>NR1_1</th>
-                                        <th>NR1_2</th>
-                                        <th>NR1_3</th>
                                         <th>AM_1</th>
                                         <th>AM_2</th>
                                         <th>AM_3</th>
-                                        <th>Bu2_1</th>
-                                        <th>Bu2_2</th>
-                                        <th>Bu2_3</th>
-                                        <th>Sp_1</th>
-                                        <th>Sp_2</th>
-                                        <th>Sp_3</th>
-                                        <th>Br_1</th>
-                                        <th>Br_2</th>
-                                        <th>Br_3</th>
-                                        <th>St_1</th>
-                                        <th>St_2</th>
-                                        <th>St_3</th>
+                                        <th>In1_1</th>
+                                        <th>In1_2</th>
+                                        <th>In1_3</th>
+                                        <th>No_1</th>
+                                        <th>No_2</th>
+                                        <th>No_3</th>
+                                        <th>NR1_1</th>
+                                        <th>NR1_2</th>
+                                        <th>NR1_3</th>
+                                        <th>Bu3_1</th>
+                                        <th>Bu3_2</th>
+                                        <th>Bu3_3</th>
                                         <th>Pi_1</th>
                                         <th>Pi_2</th>
                                         <th>Pi_3</th>
+                                        <th>SL_1</th>
+                                        <th>SL_2</th>
+                                        <th>SL_3</th>
+                                        <th>Br_1</th>
+                                        <th>Br_2</th>
+                                        <th>Br_3</th>
+                                        <th>Gl_1</th>
                                         <th>Gl_2</th>
                                         <th>Gl_3</th>
+                                        <th>St_1</th>
+                                        <th>St_2</th>
+                                        <th>St_3</th>
+                                        <th>Le2_1</th>
+                                        <th>Le2_2</th>
+                                        <th>Le2_3</th>
+                                        <th>LS2_1</th>
                                         <th>LS2_2</th>
                                         <th>LS2_3</th>
                                         <th>In2_1</th>
+                                        <th>In2_2</th>
                                         <th>In2_3</th>
                                         <th>No2_1</th>
                                         <th>No2_2</th>
                                         <th>No2_3</th>
-                                        <th>Bu3_1</th>
-                                        <th>Bu3_3</th>
-                                        <th>Le2_1</th>
-                                        <th>Le2_2</th>
-                                        <th>Le2_3</th>
+                                        <th>Bu2_1</th>
+                                        <th>Bu2_2</th>
+                                        <th>Bu2_3</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -508,7 +776,7 @@
                                 <a href="#">2</a>
                                 <a href="#">3</a>
                             </div>
-                            <button class="download_button" id="download_transcript_TPM_table">Download</button>
+                            <button class="download_button" id="download_all_transcript_TPM_table">Download</button>
                         </div>
                     </div>
 
@@ -519,56 +787,39 @@
         </div>
 
         <div class="footer_container">
-            <div class="container">
-                <div class="logo_container">
-                    <div class="logo_box">
-                        <img src="../img/sugarcane-logo.jpeg" alt="logo">
-                    </div>
-                    <div class="title_box">
-                        <h1>Project Title</h1>
-                    </div>
-                </div>
-                <div class="logo_box" onclick="openInNewTab('https://www.hzau.edu.cn/index.htm')">
-                    <img src="../img/HZAU.png" alt="logo">
-                </div>
-                <div class="logo_box" onclick="openInNewTab('https://sklcusa.gxu.edu.cn/')">
-                    <img src="../img/GuoZhong.png" alt="logo">
-                </div>
-                <div class="logo_box" onclick="openInNewTab('https://lst.gxu.edu.cn/')">
-                    <img src="../img/sky_logo.png" alt="logo">
-                </div>
-                <div class="logo_box" onclick="openInNewTab('https://www.gxu.edu.cn/')">
+            <div class="logo_container">
+                <div class="logo_box click_to_open_new_url" new-url="https://www.gxu.edu.cn/">
                     <img src="../img/GXU_logo.png" alt="logo">
                 </div>
-                <ul>
-                    <li>Home</li>
-                    <li>About</li>
-                    <li>Downloads</li>
-                </ul>
-                <ul>
-                    <li>Documents</li>
-                    <li>Help</li>
-                    <li>Tools</li>
-                </ul>
-                <ul>
-                    <li>Contact</li>
-                    <li>llchen@gxu.edu.cn</li>
-                    <li>1740569155@qq.com</li>
-                </ul>
-                <div class="revolver_maps">
-                    <script type="text/javascript"
-                        src="//rf.revolvermaps.com/0/0/6.js?i=5mrx7fhr2hr&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80"
-                        async="async"></script>
+                <div class="logo_box click_to_open_new_url" new-url="https://sklcusa.gxu.edu.cn/">
+                    <img src="../img/GuoZhong.png" alt="logo">
                 </div>
+                <div class="logo_box click_to_open_new_url" new-url="https://www.hzau.edu.cn/index.htm">
+                    <img src="../img/HZAU.png" alt="logo">
+                </div>
+                <div class="revolver_maps">
+                    <script type='text/javascript' id='clustrmaps'
+                        src='//cdn.clustrmaps.com/map_v2.js?cl=ffffff&w=a&t=n&d=aDEPs5hhknuFihFSlTig-Z5vc0AaI4FYpqSo6qOE14E&co=00411a'></script>
+                </div>
+
             </div>
 
-            <h1 class="copyright">Developed by the Chen LL’s Lab at GuangXi University and Xie WB’s Lab at HuaZhong
+            <h1 class="development_info">Developed by the Chen LL’s Lab at GuangXi University and Xie WB’s Lab at
+                HuaZhong
                 Agricultural University</h1>
-            <h1 class="copyright">Copyright © 2020-2030 All rights reserved</h1>
+
+            <div class="copyright_revolvermap_container">
+                <div class="copyright_container">
+                    <h1 class="contact_info">Contact: <a class="email_address">1740569155@qq.com</a>, <a
+                            class="email_address">zhaozhiyuan@webmail.hzau.edu.cn</a>
+                    </h1>
+                    <h1 class="copyright">Copyright © 2020-2030 All rights reserved</h1>
+                </div>
+
+            </div>
+
         </div>
 
-        <!-- 全局提示框，触发showCustomAlert方法之后才显示（copy、download） -->
-        <div id="customAlert" class="custom_alert">custom alert</div>
     </div>
 
 
@@ -578,8 +829,8 @@
         style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0, 0, 0, 0); z-index: 1000;">
     </div>
 
-
-    <script type="module" src="../js/test/mainGeneExpressionProfile.js"></script>
+    <script type="module" src="../js/basic.js"></script>
+    <script type="module" src="../js/mainGeneExpressionProfile.js"></script>
 
 </body>
 

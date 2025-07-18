@@ -4,12 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Full-length Transcriptome</title>
+    <title>Hub Co-expression Network</title>
     <!-- 设置网站logo -->
     <link rel="icon" href="../img/sugarcane-logo.jpeg" type="image/x-icon">
     <link rel="stylesheet" href="../css/reset.css">
     <link rel="stylesheet" href="../css/basicPage.css">
-    <link rel="stylesheet" href="../css/fullLengthTranscriptome.css">
+    <link rel="stylesheet" href="../css/hubCoExpressionNetwork.css">
 
     <!-- 引入字体库 -->
     <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
@@ -19,9 +19,6 @@
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
 
-    <style>
-
-    </style>
 
 </head>
 
@@ -58,11 +55,14 @@
             430070, China
         </p>
     </div>
+
     <div class="center_container">
+
         <!-- 返回顶部图标 -->
         <button class="scroll_to_top_button">
             <img src="../img/scroll_to_top_icon.png" alt="scroll to top">
         </button>
+
 
         <!-- 顶部导航栏 -->
         <header class="nav_header">
@@ -223,190 +223,178 @@
         </header>
 
         <div class="content_container">
-            <div class="search_container" id="content_area_search_container">
-                <!-- 基因组选择框 -->
-                <div class="select_genome_form_group">
-                    <!-- label标签的for属性必须与相关联的表单控件的id属性值完全匹配，才能确保切换焦点的功能正常工作。 -->
-                    <label for="genome_select">Select Genome:</label>
-                    <select class="genome_select" id="genome_select" name="genome_select">
-                        <option value="GT42" selected>GT42</option>
-                        <!-- 其他选项 -->
-                    </select>
-                </div>
 
-                <!-- 基因ID搜索框 -->
-                <div class="search_id_form_group">
-                    <div class="submit_box">
-                        <label for="search_input">Search ID:</label>
-                        <!-- 添加一个问号图标显示ID格式 -->
-                        <span class="help_icon" id="top_search_box_help_icon">?</span>
-                        <input type="text" class="search_input" id="search_input" name="search_input" value="SGI000001">
-                        <button type="button" class="submit_button">Submit</button>
-                        <button type="button" class="previous_id_button">PreviousID</button>
-                        <button type="button" class="next_id_button">NextID</button>
+
+            <details class="details_of_network_content" open>
+                <summary>Click to Show Hub Co-expression Network</summary>
+
+                <div class="network_content_navigation_container">
+
+
+
+                    <!-- 滑块选择框 -->
+                    <div class="selector_container" id="hub_network_selector_container">
+                        <div class="highlight_slider"></div>
+                        <button class="option" data_index="0" data_resolution="mosaic">Mosaic</button>
+                        <button class="option" data_index="1" data_resolution="xenologous">Xenologous</button>
+                        <button class="option" data_index="2" data_resolution="gene">Gene</button>
+                    </div>
+                    <!-- <script>
+                        document.querySelectorAll('.option').forEach(option => {
+                            option.addEventListener('click', function () {
+                                // 移动滑块到被点击的选项
+                                const index = this.getAttribute('data_index');
+                                const slider = document.querySelector('.highlight_slider');
+                                slider.style.left = `${index * 120 + (2 * index + 1) * 10}px`; // button的margin是10px
+                            });
+                        });
+                    </script> -->
+
+                    <!-- 帮助按钮 -->
+                    <div class="help_tooltip_container">
+                        <button class="help_tooltip_button" id="help_tooltip_button"><span>?</span></button>
+                        <div class="help_tooltip_content" id="help_tooltip_content">
+                            <div class="inner_container">
+                                <h1>Filter Parameter: </h1>
+                                <p><strong>Mosaic: &nbsp;&nbsp;</strong><span>symbol size ≥ 2.5, weight ≥ 2;</span></p>
+                                <p><strong>Xenologous: &nbsp;&nbsp;</strong><span>symbol size ≥ 2.5, weight ≥ 2;</span>
+                                </p>
+                                <p><strong>Gene: &nbsp;&nbsp;</strong><span>symbol size ≥ 4.2, weight ≥ 2;</span></p>
+                                <h1>Nodes & Edges Count: </h1>
+                                <P><strong>Mosaic: &nbsp;&nbsp;</strong><span>nodes = 1474, edges = 44925;</span></P>
+                                <P><strong>Xenologous: &nbsp;&nbsp;</strong><span>nodes = 2475, edges = 67990;</span>
+                                </P>
+                                <P><strong>Gene: &nbsp;&nbsp;</strong><span>nodes = 3461, edges = 150127;</span></P>
+                            </div>
+
+                            <button class="click_to_close" close-target-id="help_tooltip_content">
+                                <img src="../img/close_icon.png" class="close_icon " alt="close">
+                            </button>
+                        </div>
                     </div>
 
-                    <!-- 点击问号之后的浮窗，基于search_id_form_group开启的相对定位进行绝对定位-->
-                    <div class="help_box" id="top_search_box_help_box">
-                        <h1>ID Format</h1>
-                        <p><strong>Mosaic ID / Orthologous ID: </strong>SGI000001</p>
-                        <p><strong>Xenologous ID: </strong>SGI000001.SO
-                        </p>
-                        <p><strong>Gene ID / Haplotype ID: </strong>SGI000001.SO.001</p>
-                        <p><strong>Transcript ID: </strong>SGI000001.SO.001.01</p>
-                        <!-- 下载按钮 -->
-                        <button class="download_button">download full available ID
-                            list</button>
-                        <p class="notice">*Notice: Xenologous ID is not available in Full Length
-                            Transcriptome.</p>
-                        <button class="click_to_close" close-target-id="top_search_box_help_box">
-                            <img src="../img/close_icon.png" class="close_icon " alt="close">
-                        </button>
-                    </div>
-
-                    <div class="example_ids">
-                        <span class="example_title">example:</span>
-                        <span class="example_id" data_value="SGI000001">SGI000001, </span>
-                        <span class="example_id" data_value="SGI000002.SO.001">SGI000002.SO.001, </span>
-                        <span class="example_id" data_value="SGI000005.SS.001.01">SGI000005.SS.001.01</span>
-                    </div>
-
-                    <!-- 输入非法提示框，用户点击空白处或两秒后自动消失，基于search_id_form_group开启的相对定位进行绝对定位 -->
-                    <div class="search_alert" style="display: none;">Invalid search keyword. Please try again.</div>
-                </div>
-
-            </div>
-
-            <div class="haplotype_result_container">
-                <!-- 容器的大小一定要包裹住 echart 的option配置中的 grid + dataZoomX 的大小 -->
-                <div id="drawHaplotype" style="width: 1010px;height:760px;"></div>
-                <div class="result_details_container" id="haplotype_SNP_result_details_container">
-                    <!-- 下面必须使用两个div嵌套才能实现内容溢出的时候不会覆盖圆角框和矩形框之间的底部间隔 -->
-                    <div class="content_box">
-                        <h1 class="main_title">Result Details</h1>
-                        <div class="result_details">
-                            <!-- 该结构内的内容使用 updateResultDetailsContainer(data, container)填充-->
-                            <div class="item_container">
-                                <h1 class="item_title">mosaicID</h1>
-                                <p class="item_content">SGI000001</p>
-                            </div>
-                            <div class="item_container">
-                                <h1 class="item_title">geneID</h1>
-                                <p class="item_content">SGI000001.SO.001</p>
-                            </div>
-                            <div class="item_container">
-                                <h1 class="item_title">areaType</h1>
-                                <p class="item_content">mosaic</p>
-                            </div>
-                            <div class="item_container">
-                                <h1 class="item_title">length</h1>
-                                <p class="item_content">5420</p>
-                            </div>
-                            <div class="sequence_item_container">
-                                <div class="sequence_container_header">
-                                    <h1 class="item_title">nucleotideSequence</h1>
-                                    <button class="copy_button" data_sequence="ATCG">Click to Copy</button>
-                                </div>
-                                <div class="sequence_container">
-                                    <p class="item_content">ATCG</p>
+                    <!-- 结果详情框 -->
+                    <details class="clicked_details_container" id="hub_network_details_container">
+                        <summary>Clicked Result Details</summary>
+                        <div class="result_details_container" id="hub_network_result_details_container">
+                            <div class="content_box">
+                                <div class="result_details">
+                                    <!-- <div class="header_container">
+                                        <p class="header_text">Node</p>
+                                        <div class="color_node"></div>
+                                    </div>
+                                    <div class="item_container">
+                                        <h1 class="item_title">ID</h1>
+                                        <a class="item_content click_to_draw_single_network"
+                                            title="Click to draw its single network">GT42G000932.SS.3</a>
+                                    </div>
+                                    <div class="item_container">
+                                        <h1 class="item_title">symbolSize</h1>
+                                        <p class="item_content">5.0689</p>
+                                    </div>
+                                    <div class="item_container">
+                                        <h1 class="item_title">totalDegree</h1>
+                                        <p class="item_content">159</p>
+                                    </div>
+                                    <div class="item_container">
+                                        <h1 class="item_title">inDegree</h1>
+                                        <p class="item_content">9</p>
+                                    </div>
+                                    <div class="item_container">
+                                        <h1 class="item_title">outDegree</h1>
+                                        <p class="item_content">150</p>
+                                    </div> -->
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </details>
+
+
                 </div>
-            </div>
 
-            <!-- 套用该模式需要修改：1. id="haplotype_table_container"；2. <thead>；3. id="download_haplotype_table"-->
-            <details id="haplotype_details">
-                <summary>Click to view the haplotype table</summary>
-                <div class="table_footer_pagination_container" id="haplotype_table_container">
-
-                    <div class="table_container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Area Type</th>
-                                    <th>Length</th>
-                                    <th>Nucleotide sequence</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- 由tablePagination.js 中的 updateTable（data, container）进行填充 -->
-                            </tbody>
-                        </table>
+                <!-- 绘图区域 -->
+                <div class="network_chart_container">
+                    <!-- 过渡动画 -->
+                    <div class="loading_container" id="hub_network_loading_container">
+                        <img src="../img/networkLoading3.gif" alt="network loading...">
                     </div>
-                    <div class="footer_pagination_container">
-                        <span class="footer_notes">Showing ? to ? of ? entries</span>
-                        <div class="pagination_container">
-                            <a href="#">1</a>
-                            <a href="#">2</a>
-                            <a href="#">3</a>
+                    <div id="drawHubCoExpressionNetwork" style="height: 1000px; width: 100%;"></div>
+                </div>
+
+                <!-- 点数据表格 -->
+                <details class="hub_network_data_table">
+                    <summary>Click to view the nodes data table</summary>
+                    <div class="table_footer_pagination_container" id="hub_network_nodes_table_container">
+
+                        <div class="table_container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>totalDegree</th>
+                                        <th>inDegree</th>
+                                        <th>outDegree</th>
+                                        <th>symbolSize</th>
+                                        <th>color</th>
+                                        <th>adjacency</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- 由tablePagination.js 中的 updateTable（data, container）进行填充 -->
+                                </tbody>
+                            </table>
                         </div>
-                        <button class="download_button" id="download_haplotype_table">Download</button>
+                        <div class="footer_pagination_container">
+                            <span class="footer_notes">Showing ? to ? of ? entries</span>
+                            <div class="pagination_container">
+                                <a href="#">1</a>
+                                <a href="#">2</a>
+                                <a href="#">3</a>
+                            </div>
+                            <button class="download_button" id="download_hub_network_nodes_table">Download</button>
+                        </div>
                     </div>
-                </div>
+
+                </details>
+
+                <!-- 边数据表格 -->
+                <details class="hub_network_data_table">
+                    <summary>Click to view the edges data table</summary>
+                    <div class="table_footer_pagination_container" id="hub_network_edges_table_container">
+
+                        <div class="table_container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>source</th>
+                                        <th>target</th>
+                                        <th>weight</th>
+                                        <th>color</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- 由tablePagination.js 中的 updateTable（data, container）进行填充 -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="footer_pagination_container">
+                            <span class="footer_notes">Showing ? to ? of ? entries</span>
+                            <div class="pagination_container">
+                                <a href="#">1</a>
+                                <a href="#">2</a>
+                                <a href="#">3</a>
+                            </div>
+                            <button class="download_button" id="download_hub_network_edges_table">Download</button>
+                        </div>
+                    </div>
+
+                </details>
 
             </details>
 
 
 
-            <div class="transcript_result_container">
-                <div id="drawTranscript" style="width: 1010px;height:1100px;"></div>
-                <div class="result_details_container" id="transcript_result_details_container">
-                    <!-- 下面必须使用两个div嵌套才能实现内容溢出的时候不会覆盖圆角框和矩形框之间的底部间隔 -->
-                    <div class="content_box">
-                        <h1 class="main_title">Result Details</h1>
-                        <div class="result_details">
-
-                            <div class="item_container">
-                                <h1 class="item_title">mosaicID</h1>
-                                <p class="item_content">SGI000001</p>
-                            </div>
-
-
-                        </div>
-                    </div>
-                </div>
-
-
-            </div>
-
-            <details>
-                <summary>Click to view the Transcript table</summary>
-                <div class="table_footer_pagination_container" id="transcript_table_container">
-
-                    <div class="table_container">
-                        <table>
-                            <thead>
-                                <!-- 表格头为mosaicID, geneID, transcriptID, transcriptIndex, isExon, start, end, length, transcriptRange, transcriptLength, proteinSequence, nucleotideSequence -->
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Area Type</th>
-                                    <th>Length</th>
-                                    <th>Query Start</th>
-                                    <th>Query End</th>
-                                    <th>Subject Start</th>
-                                    <th>Subject End</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- 由tablePagination.js 中的 updateTable（data, container）进行填充 -->
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="footer_pagination_container">
-                        <span class="footer_notes">Showing ? to ? of ? entries</span>
-                        <div class="pagination_container">
-                            <a href="#">1</a>
-                            <a href="#">2</a>
-                            <a href="#">3</a>
-                        </div>
-                        <button class="download_button" id="download_transcript_table">Download</button>
-                    </div>
-                </div>
-
-            </details>
 
         </div>
 
@@ -444,11 +432,16 @@
 
         </div>
 
+
+        <!-- 全局覆盖层, 用于禁用用户交互 -->
+        <div id="global_overlay"
+            style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0, 0, 0, 0); z-index: 1000;">
+        </div>
+
         <script type="module" src="../js/basic.js"></script>
-        <script type="module" src="../js/mainFullLengthTranscriptome.js"></script>
-
-
+        <script type="module" src="../js/mainHubCoExpressionNetwork.js"></script>
     </div>
+
 
 </body>
 
