@@ -1,16 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hub Co-expression Network</title>
+    <title>GT42</title>
     <!-- 设置网站logo -->
     <link rel="icon" href="../img/sugarcane-logo.jpeg" type="image/x-icon">
     <link rel="stylesheet" href="../css/reset.css">
     <link rel="stylesheet" href="../css/basicPage.css">
-    <link rel="stylesheet" href="../css/hubCoExpressionNetwork.css">
-
+    <link rel="stylesheet" href="../css/tfRegulatoryNetwork.css">
     <!-- 引入字体库 -->
     <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
 
@@ -18,6 +17,9 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+    <style>
+
+    </style>
 
 
 </head>
@@ -55,14 +57,11 @@
             430070, China
         </p>
     </div>
-
     <div class="center_container">
-
         <!-- 返回顶部图标 -->
         <button class="scroll_to_top_button">
             <img src="../img/scroll_to_top_icon.png" alt="scroll to top">
         </button>
-
 
         <!-- 顶部导航栏 -->
         <header class="nav_header">
@@ -97,12 +96,8 @@
                                     <li class="second_level_link"><a href="./geneExpressionProfile.html"
                                             target="_blank">Gene
                                             Expression Profile</a></li>
-                                    <li class="second_level_link"><a href="./singleCoExpressionNetwork.html"
-                                            target="_blank">Single Co-expression
-                                            Network</a></li>
-                                    <li class="second_level_link"><a href="./hubCoExpressionNetwork.html"
-                                            target="_blank">Hub
-                                            Co-expression Network</a></li>
+                                    <li class="second_level_link"><a href="./tfRegulatoryNetwork.html"
+                                            target="_blank">TF Regulatory Network</a></li>
                                 </ul>
                             </li>
                             <li class="first_level_link dropdown"><a>Tools<span class="arrow">&#9660;</span></a>
@@ -114,6 +109,8 @@
                                     <li class="second_level_link"><a href="./transcriptFactors.html"
                                             target="_blank">Transcript
                                             Factors</a></li>
+                                    <li class="second_level_link"><a href="./goEnrichment.html" target="_blank">GO
+                                            Enrichment</a></li>
                                 </ul>
                             </li>
                             <li class="first_level_link"><a href="./download.html" target="_blank">Download</a></li>
@@ -184,12 +181,8 @@
                                     <li class="second_level_link"><a href="./geneExpressionProfile.html"
                                             target="_blank">Gene
                                             Expression Profile</a></li>
-                                    <li class="second_level_link"><a href="./singleCoExpressionNetwork.html"
-                                            target="_blank">Single Co-expression
-                                            Network</a></li>
-                                    <li class="second_level_link"><a href="./hubCoExpressionNetwork.html"
-                                            target="_blank">Hub
-                                            Co-expression Network</a></li>
+                                    <li class="second_level_link"><a href="./tfRegulatoryNetwork.html"
+                                            target="_blank">TF Regulatory Network</a></li>
                                 </ul>
                             </li>
                             <li class="first_level_link accordion"><a>Tools<span class="arrow">&#9660;</span></a>
@@ -201,6 +194,8 @@
                                     <li class="second_level_link"><a href="./transcriptFactors.html"
                                             target="_blank">Transcript
                                             Factors</a></li>
+                                    <li class="second_level_link"><a href="./goEnrichment.html" target="_blank">GO
+                                            Enrichment</a></li>
                                 </ul>
                             </li>
                             <li class="first_level_link"><a href="./download.html" target="_blank">Download</a></li>
@@ -223,179 +218,88 @@
         </header>
 
         <div class="content_container">
-
-
-            <details class="details_of_network_content" open>
-                <summary>Click to Show Hub Co-expression Network</summary>
-
-                <div class="network_content_navigation_container">
-
-
-
-                    <!-- 滑块选择框 -->
-                    <div class="selector_container" id="hub_network_selector_container">
-                        <div class="highlight_slider"></div>
-                        <button class="option" data_index="0" data_resolution="mosaic">Mosaic</button>
-                        <button class="option" data_index="1" data_resolution="xenologous">Xenologous</button>
-                        <button class="option" data_index="2" data_resolution="gene">Gene</button>
-                    </div>
-                    <!-- <script>
-                        document.querySelectorAll('.option').forEach(option => {
-                            option.addEventListener('click', function () {
-                                // 移动滑块到被点击的选项
-                                const index = this.getAttribute('data_index');
-                                const slider = document.querySelector('.highlight_slider');
-                                slider.style.left = `${index * 120 + (2 * index + 1) * 10}px`; // button的margin是10px
-                            });
-                        });
-                    </script> -->
-
-                    <!-- 帮助按钮 -->
-                    <div class="help_tooltip_container">
-                        <button class="help_tooltip_button" id="help_tooltip_button"><span>?</span></button>
-                        <div class="help_tooltip_content" id="help_tooltip_content">
-                            <div class="inner_container">
-                                <h1>Filter Parameter: </h1>
-                                <p><strong>Mosaic: &nbsp;&nbsp;</strong><span>symbol size ≥ 2.5, weight ≥ 2;</span></p>
-                                <p><strong>Xenologous: &nbsp;&nbsp;</strong><span>symbol size ≥ 2.5, weight ≥ 2;</span>
-                                </p>
-                                <p><strong>Gene: &nbsp;&nbsp;</strong><span>symbol size ≥ 4.2, weight ≥ 2;</span></p>
-                                <h1>Nodes & Edges Count: </h1>
-                                <P><strong>Mosaic: &nbsp;&nbsp;</strong><span>nodes = 1474, edges = 44925;</span></P>
-                                <P><strong>Xenologous: &nbsp;&nbsp;</strong><span>nodes = 2475, edges = 67990;</span>
-                                </P>
-                                <P><strong>Gene: &nbsp;&nbsp;</strong><span>nodes = 3461, edges = 150127;</span></P>
+            <!-- 模块选择板块 -->
+            <div class="module_selection_container">
+                <div class="section_header">
+                    <h3 class="section_title">
+                        <span class="section_icon">📊</span>
+                        Network Module Selection
+                    </h3>
+                    <button class="collapse_button" data-collapsed="false">
+                        <span class="collapse_icon">▼</span>
+                        <span class="collapse_text">Collapse</span>
+                    </button>
+                </div>
+                
+                <div class="module_selection_content">
+                    <div class="module_info_header">
+                        <p class="module_description">
+                            Select a network module to explore its functional annotations and regulatory networks. 
+                            The transcriptional regulatory network has been divided into <strong>61 modules</strong> for better visualization and analysis.
+                        </p>
+                        <div class="module_stats">
+                            <div class="stat_item">
+                                <span class="stat_label">Total Modules:</span>
+                                <span class="stat_value" id="total_modules_count">-</span>
                             </div>
-
-                            <button class="click_to_close" close-target-id="help_tooltip_content">
-                                <img src="../img/close_icon.png" class="close_icon " alt="close">
-                            </button>
+                            <div class="stat_item">
+                                <span class="stat_label">Selected Module:</span>
+                                <span class="stat_value" id="selected_module_id">None</span>
+                            </div>
+                            <div class="stat_item" id="selected_module_nodes_container" style="display: none;">
+                                <span class="stat_label">Nodes:</span>
+                                <span class="stat_value" id="selected_module_nodes_count">-</span>
+                            </div>
+                            <div class="stat_item" id="selected_module_edges_container" style="display: none;">
+                                <span class="stat_label">Edges:</span>
+                                <span class="stat_value" id="selected_module_edges_count">-</span>
+                            </div>
                         </div>
                     </div>
-
-                    <!-- 结果详情框 -->
-                    <details class="clicked_details_container" id="hub_network_details_container">
-                        <summary>Clicked Result Details</summary>
-                        <div class="result_details_container" id="hub_network_result_details_container">
-                            <div class="content_box">
-                                <div class="result_details">
-                                    <!-- <div class="header_container">
-                                        <p class="header_text">Node</p>
-                                        <div class="color_node"></div>
-                                    </div>
-                                    <div class="item_container">
-                                        <h1 class="item_title">ID</h1>
-                                        <a class="item_content click_to_draw_single_network"
-                                            title="Click to draw its single network">GT42G000932.SS.3</a>
-                                    </div>
-                                    <div class="item_container">
-                                        <h1 class="item_title">symbolSize</h1>
-                                        <p class="item_content">5.0689</p>
-                                    </div>
-                                    <div class="item_container">
-                                        <h1 class="item_title">totalDegree</h1>
-                                        <p class="item_content">159</p>
-                                    </div>
-                                    <div class="item_container">
-                                        <h1 class="item_title">inDegree</h1>
-                                        <p class="item_content">9</p>
-                                    </div>
-                                    <div class="item_container">
-                                        <h1 class="item_title">outDegree</h1>
-                                        <p class="item_content">150</p>
-                                    </div> -->
+                    
+                    <div class="module_list_container">
+                        <div class="module_list_header">
+                            <div class="search_filter_container">
+                                <input type="text" id="module_search_input" class="module_search_input" 
+                                       placeholder="Search modules by ID, node count, or edge count...">
+                                <button class="clear_search_button" id="clear_module_search">✕</button>
+                            </div>
+                            <div class="sort_container">
+                                <label for="module_sort_select">Sort by:</label>
+                                <select id="module_sort_select" class="module_sort_select">
+                                    <option value="module_id">Module ID</option>
+                                    <option value="node_count">Node Count</option>
+                                    <option value="edge_count">Edge Count</option>
+                                </select>
+                                <button class="sort_order_button" id="module_sort_order" data-order="asc">↑</button>
+                            </div>
+                        </div>
+                        
+                        <div class="module_grid_scroll_container">
+                            <div class="module_grid" id="module_grid">
+                                <!-- 模块项将通过JavaScript动态生成 -->
+                                <div class="loading_placeholder">
+                                    <div class="loading_spinner"></div>
+                                    <p>Loading network modules...</p>
                                 </div>
                             </div>
                         </div>
-                    </details>
-
-
+                    </div>
                 </div>
+            </div>
 
-                <!-- 绘图区域 -->
-                <div class="network_chart_container">
-                    <!-- 过渡动画 -->
-                    <div class="loading_container" id="hub_network_loading_container">
-                        <img src="../img/networkLoading3.gif" alt="network loading...">
-                    </div>
-                    <div id="drawHubCoExpressionNetwork" style="height: 1000px; width: 100%;"></div>
-                </div>
-
-                <!-- 点数据表格 -->
-                <details class="hub_network_data_table">
-                    <summary>Click to view the nodes data table</summary>
-                    <div class="table_footer_pagination_container" id="hub_network_nodes_table_container">
-
-                        <div class="table_container">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>totalDegree</th>
-                                        <th>inDegree</th>
-                                        <th>outDegree</th>
-                                        <th>symbolSize</th>
-                                        <th>color</th>
-                                        <th>adjacency</th>
-
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!-- 由tablePagination.js 中的 updateTable（data, container）进行填充 -->
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="footer_pagination_container">
-                            <span class="footer_notes">Showing ? to ? of ? entries</span>
-                            <div class="pagination_container">
-                                <a href="#">1</a>
-                                <a href="#">2</a>
-                                <a href="#">3</a>
-                            </div>
-                            <button class="download_button" id="download_hub_network_nodes_table">Download</button>
-                        </div>
-                    </div>
-
-                </details>
-
-                <!-- 边数据表格 -->
-                <details class="hub_network_data_table">
-                    <summary>Click to view the edges data table</summary>
-                    <div class="table_footer_pagination_container" id="hub_network_edges_table_container">
-
-                        <div class="table_container">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>source</th>
-                                        <th>target</th>
-                                        <th>weight</th>
-                                        <th>color</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!-- 由tablePagination.js 中的 updateTable（data, container）进行填充 -->
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="footer_pagination_container">
-                            <span class="footer_notes">Showing ? to ? of ? entries</span>
-                            <div class="pagination_container">
-                                <a href="#">1</a>
-                                <a href="#">2</a>
-                                <a href="#">3</a>
-                            </div>
-                            <button class="download_button" id="download_hub_network_edges_table">Download</button>
-                        </div>
-                    </div>
-
-                </details>
-
-            </details>
-
-
-
-
+            <!-- 后续板块的占位符 -->
+            <div class="functional_annotation_container" style="display: none;">
+                <!-- 功能注释信息板块 - 待实现 -->
+            </div>
+            
+            <div class="module_nodes_container" style="display: none;">
+                <!-- 模块中的节点ID板块 - 待实现 -->
+            </div>
+            
+            <div class="network_visualization_container" style="display: none;">
+                <!-- 网络图绘制板块 - 待实现 -->
+            </div>
         </div>
 
         <div class="footer_container">
@@ -410,13 +314,16 @@
                     <img src="../img/HZAU.png" alt="logo">
                 </div>
                 <div class="revolver_maps">
+                    <!-- <script type="text/javascript"
+                        src="//rf.revolvermaps.com/0/0/7.js?i=5mrx7fhr2hr&amp;m=0&amp;c=ff0000&amp;cr1=ffffff&amp;br=10&amp;sx=0"
+                        async="async"></script> -->
                     <script type='text/javascript' id='clustrmaps'
                         src='//cdn.clustrmaps.com/map_v2.js?cl=ffffff&w=a&t=n&d=aDEPs5hhknuFihFSlTig-Z5vc0AaI4FYpqSo6qOE14E&co=00411a'></script>
                 </div>
 
             </div>
 
-            <h1 class="development_info">Developed by the Chen LL’s Lab at GuangXi University and Xie WB’s Lab at
+            <h1 class="development_info">Developed by the Chen LL's Lab at GuangXi University and Xie WB's Lab at
                 HuaZhong
                 Agricultural University</h1>
 
@@ -432,15 +339,10 @@
 
         </div>
 
-
-        <!-- 全局覆盖层, 用于禁用用户交互 -->
-        <div id="global_overlay"
-            style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0, 0, 0, 0); z-index: 1000;">
-        </div>
-
-        <script type="module" src="../js/basic.js"></script>
-        <script type="module" src="../js/mainHubCoExpressionNetwork.js"></script>
     </div>
+
+    <script type="module" src="../js/basic.js"></script>
+    <script type="module" src="../js/mainTfRegulatoryNetwork.js"></script>
 
 
 </body>
