@@ -146,6 +146,9 @@ function restoreUIState() {
     if (activeTab) {
         activeTab.classList.add('active');
     }
+    
+    // 更新表头排序指示器
+    updateTableHeaderSortIndicators();
 }
 
 // API基础URL
@@ -258,6 +261,9 @@ function bindFunctionalAnnotationEvents() {
         downloadButton.addEventListener('click', handleAnnotationDownload);
     }
     
+    // 表头点击排序
+    bindTableHeaderSortEvents();
+    
     // 分页控件
     bindAnnotationPaginationEvents();
     
@@ -266,6 +272,103 @@ function bindFunctionalAnnotationEvents() {
     
     // 初始化ID List按钮事件
     bindIdListButtonEvents();
+}
+
+/**
+ * 绑定表头点击排序事件
+ */
+function bindTableHeaderSortEvents() {
+    const table = document.getElementById('annotation_table');
+    if (!table) return;
+    
+    // 绑定所有可排序表头的点击事件
+    const sortableHeaders = table.querySelectorAll('th.sortable');
+    sortableHeaders.forEach(header => {
+        header.addEventListener('click', handleTableHeaderClick);
+    });
+}
+
+/**
+ * 处理表头点击排序
+ */
+function handleTableHeaderClick(event) {
+    const header = event.currentTarget;
+    const sortField = header.getAttribute('data-sort');
+    
+    if (!sortField) return;
+    
+    console.log('Table header clicked, sort field:', sortField);
+    
+    const currentTab = getCurrentTabState();
+    
+    // 如果点击的是当前排序字段，则切换排序顺序
+    if (currentTab.sortBy === sortField) {
+        currentTab.sortOrder = currentTab.sortOrder === 'asc' ? 'desc' : 'asc';
+    } else {
+        // 如果是新的排序字段，则设置为新字段并使用默认排序顺序
+        currentTab.sortBy = sortField;
+        currentTab.sortOrder = sortField === 'id_count' ? 'desc' : 'asc'; // ID数量默认降序，其他默认升序
+    }
+    
+    // 重置到第一页
+    currentTab.currentPage = 1;
+    
+    // 更新UI显示
+    updateSortUI();
+    
+    // 重新加载数据
+    loadAnnotationData();
+}
+
+/**
+ * 更新排序相关的UI显示
+ */
+function updateSortUI() {
+    const currentTab = getCurrentTabState();
+    
+    // 更新排序选择框
+    const sortSelect = document.getElementById('annotation_sort_select');
+    if (sortSelect) {
+        sortSelect.value = currentTab.sortBy;
+    }
+    
+    // 更新排序顺序按钮
+    const sortOrderButton = document.getElementById('annotation_sort_order');
+    if (sortOrderButton) {
+        sortOrderButton.setAttribute('data-order', currentTab.sortOrder);
+    }
+    
+    // 更新表头排序指示器
+    updateTableHeaderSortIndicators();
+}
+
+/**
+ * 更新表头排序指示器
+ */
+function updateTableHeaderSortIndicators() {
+    const currentTab = getCurrentTabState();
+    const table = document.getElementById('annotation_table');
+    if (!table) return;
+    
+    // 清除所有表头的排序指示器
+    const allHeaders = table.querySelectorAll('th.sortable');
+    allHeaders.forEach(header => {
+        const indicator = header.querySelector('.sort_indicator');
+        if (indicator) {
+            indicator.textContent = '';
+        }
+        header.classList.remove('sort_asc', 'sort_desc', 'sorted');
+    });
+    
+    // 设置当前排序字段的指示器
+    const currentSortHeader = table.querySelector(`th[data-sort="${currentTab.sortBy}"]`);
+    if (currentSortHeader) {
+        const indicator = currentSortHeader.querySelector('.sort_indicator');
+        if (indicator) {
+            indicator.textContent = currentTab.sortOrder === 'asc' ? '↑' : '↓';
+        }
+        currentSortHeader.classList.add(currentTab.sortOrder === 'asc' ? 'sort_asc' : 'sort_desc');
+    }
 }
 
 /**
@@ -656,6 +759,9 @@ function updateAnnotationTable() {
     
     // 重新绑定ID List按钮事件
     bindIdListButtonEvents();
+    
+    // 更新表头排序指示器
+    updateTableHeaderSortIndicators();
 }
 
 /**

@@ -123,6 +123,72 @@
             </div>
         </div>
     </div>
+
+    <!-- GO注释详情弹窗 -->
+    <div id="go_annotation_overlay" class="modal_overlay">
+        <div id="go_annotation_modal" class="go_annotation_modal">
+            <div class="modal_header">
+                <h3 class="modal_title">
+                    <span class="modal_icon">🧬</span>
+                    GO Annotations for Node
+                </h3>
+                <button class="modal_close_button" id="go_annotation_close_btn">✕</button>
+            </div>
+            
+            <div class="modal_content">
+                <div class="node_info_section">
+                    <div class="node_id_info">
+                        <span class="label">Node ID:</span>
+                        <span id="modal_node_id" class="node_id_value">-</span>
+                    </div>
+                    <div class="node_type_info">
+                        <span class="label">Type:</span>
+                        <span id="modal_node_type" class="node_type_badge">-</span>
+                    </div>
+                </div>
+
+                <div class="go_annotations_container">
+                    <div class="annotations_section" id="bp_annotations_section">
+                        <h4 class="annotation_category_title">
+                            <span class="category_icon">🧬</span>
+                            Biological Process (<span id="bp_annotation_count">0</span>)
+                        </h4>
+                        <div class="annotation_list" id="bp_annotation_list">
+                            <!-- BP annotations 将动态生成 -->
+                        </div>
+                    </div>
+                    
+                    <div class="annotations_section" id="mf_annotations_section">
+                        <h4 class="annotation_category_title">
+                            <span class="category_icon">⚙️</span>
+                            Molecular Function (<span id="mf_annotation_count">0</span>)
+                        </h4>
+                        <div class="annotation_list" id="mf_annotation_list">
+                            <!-- MF annotations 将动态生成 -->
+                        </div>
+                    </div>
+                    
+                    <div class="annotations_section" id="cc_annotations_section">
+                        <h4 class="annotation_category_title">
+                            <span class="category_icon">🏠</span>
+                            Cellular Component (<span id="cc_annotation_count">0</span>)
+                        </h4>
+                        <div class="annotation_list" id="cc_annotation_list">
+                            <!-- CC annotations 将动态生成 -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal_actions">
+                    <button class="draw_network_button" id="draw_node_network_btn">
+                        <span class="network_icon">🕸️</span>
+                        Draw Core Network for This Node
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="center_container">
         <!-- 返回顶部图标 -->
         <button class="scroll_to_top_button">
@@ -508,8 +574,136 @@
                 </div>
             </div>
             
+            <!-- 模块中的节点 ID 板块 -->
             <div class="module_nodes_container" style="display: none;">
-                <!-- 模块中的节点ID板块 - 待实现 -->
+                <div class="section_header">
+                    <h3 class="section_title">
+                        <span class="section_icon">🔗</span>
+                        Module Node Information
+                    </h3>
+                    <button class="collapse_button" data-collapsed="false">
+                        <span class="collapse_icon">▼</span>
+                        <span class="collapse_text">Collapse</span>
+                    </button>
+                </div>
+                
+                <div class="module_nodes_content">
+                    <div class="nodes_info_header">
+                        <p class="nodes_description">
+                            Explore all nodes (Transcription Factors and Genes) in the selected network module. 
+                            Click on any node ID to <strong>draw its core regulatory network</strong>, or view detailed GO annotations for each node.
+                        </p>
+                        <div class="nodes_stats">
+                            <div class="stat_item">
+                                <span class="stat_label">Selected Module:</span>
+                                <span class="stat_value" id="nodes_module_id">None</span>
+                            </div>
+                            <div class="stat_item" id="nodes_total_count_container" style="display: none;">
+                                <span class="stat_label">Total Nodes:</span>
+                                <span class="stat_value" id="nodes_total_count">-</span>
+                            </div>
+                            <div class="stat_item" id="nodes_tf_count_container" style="display: none;">
+                                <span class="stat_label">TF Nodes:</span>
+                                <span class="stat_value" id="nodes_tf_count">-</span>
+                            </div>
+                            <div class="stat_item" id="nodes_gene_count_container" style="display: none;">
+                                <span class="stat_label">Gene Nodes:</span>
+                                <span class="stat_value" id="nodes_gene_count">-</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 表格容器 -->
+                    <div class="nodes_table_container">
+                        <!-- 工具栏 -->
+                        <div class="nodes_toolbar">
+                            <div class="search_filter_container">
+                                <input type="text" id="nodes_search_input" class="nodes_search_input" 
+                                       placeholder="Search by node ID or GO annotations...">
+                                <button class="clear_search_button" id="clear_nodes_search">✕</button>
+                            </div>
+                            <div class="nodes_controls">
+                                <div class="sort_container">
+                                    <label for="nodes_sort_select">Sort by:</label>
+                                    <select id="nodes_sort_select" class="nodes_sort_select">
+                                        <option value="node_id">Node ID</option>
+                                        <option value="node_type">Node Type</option>
+                                    </select>
+                                    <button class="sort_order_button" id="nodes_sort_order" data-order="asc">↑</button>
+                                </div>
+                                <button class="download_button" id="nodes_download_btn">
+                                    <span class="download_icon">📥</span>
+                                    Download
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- 表格 -->
+                        <div class="nodes_table_scroll_container">
+                            <table class="nodes_table" id="nodes_table">
+                                <thead>
+                                    <tr>
+                                        <th class="sortable" data-sort="node_id">
+                                            ID
+                                            <span class="sort_indicator"></span>
+                                        </th>
+                                        <th class="sortable" data-sort="node_type">
+                                            ID Type
+                                            <span class="sort_indicator"></span>
+                                        </th>
+                                        <th class="no_sort">
+                                            GO Annotation
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="nodes_table_body">
+                                    <!-- 表格内容将通过JavaScript动态生成 -->
+                                    <tr class="loading_row">
+                                        <td colspan="3">
+                                            <div class="loading_placeholder">
+                                                <div class="loading_spinner"></div>
+                                                <p>Select a module to view node information...</p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- 分页控件 -->
+                        <div class="nodes_pagination_container">
+                            <div class="pagination_info">
+                                <span>Showing <span id="nodes_page_start">0</span>-<span id="nodes_page_end">0</span> of <span id="nodes_total_records">0</span> records</span>
+                            </div>
+                            <div class="pagination_controls">
+                                <div class="page_size_container">
+                                    <label for="nodes_page_size">Show:</label>
+                                    <select id="nodes_page_size" class="page_size_select">
+                                        <option value="10" selected>10</option>
+                                        <option value="25">25</option>
+                                        <option value="50">50</option>
+                                        <option value="100">100</option>
+                                    </select>
+                                    <span>per page</span>
+                                </div>
+                                <div class="page_navigation">
+                                    <button class="nav_button" id="nodes_first_page" title="First page">«</button>
+                                    <button class="nav_button" id="nodes_prev_page" title="Previous page">‹</button>
+                                    <div class="page_numbers" id="nodes_page_numbers">
+                                        <!-- 页码按钮将动态生成 -->
+                                    </div>
+                                    <button class="nav_button" id="nodes_next_page" title="Next page">›</button>
+                                    <button class="nav_button" id="nodes_last_page" title="Last page">»</button>
+                                </div>
+                                <div class="page_jump_container">
+                                    <label for="nodes_page_jump">Go to page:</label>
+                                    <input type="number" id="nodes_page_jump" class="page_jump_input" min="1">
+                                    <button class="jump_button" id="nodes_jump_btn">Go</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             
             <div class="network_visualization_container" style="display: none;">
@@ -558,6 +752,7 @@
 
     <script type="module" src="../js/basic.js"></script>
     <script type="module" src="../js/functionalAnnotationModule.js"></script>
+    <script type="module" src="../js/moduleNodesModule.js"></script>
     <script type="module" src="../js/mainTfRegulatoryNetwork.js"></script>
 
 

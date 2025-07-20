@@ -857,6 +857,20 @@
     color: #4fb479;
 }
 
+.annotation_table th.sort_asc,
+.annotation_table th.sort_desc {
+    background: linear-gradient(135deg, #eaf7ea, #d4f1db);
+    color: #1e4a2a;
+    font-weight: 600;
+}
+
+.annotation_table th.sort_asc .sort_indicator,
+.annotation_table th.sort_desc .sort_indicator {
+    opacity: 1;
+    color: #2e8b57;
+    font-weight: bold;
+}
+
 .annotation_table th.no_sort {
     position: sticky;
     top: 0;
@@ -1412,5 +1426,372 @@
     
     .modal_content {
         padding: 20px;
+    }
+}
+
+/* ==================== 模块中的节点ID板块样式 ==================== */
+.module_nodes_container {
+    background-color: hsla(0, 0%, 100%, 0.95);
+    border: 2px solid #4fb479;
+    border-radius: 15px;
+    padding: 0;
+    margin-bottom: 30px;
+    position: relative;
+    box-shadow: 0 4px 15px rgba(79, 180, 121, 0.1);
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.module_nodes_container:hover {
+    border-color: #3a9b63;
+    box-shadow: 0 6px 20px rgba(79, 180, 121, 0.15);
+}
+
+/* 节点信息内容区域 */
+.module_nodes_content {
+    padding: 30px;
+    transition: all 0.3s ease;
+    max-height: 2000px;
+    overflow: hidden;
+}
+
+.module_nodes_content.collapsed {
+    max-height: 0;
+    padding: 0 30px;
+}
+
+/* 节点信息头部 */
+.nodes_info_header {
+    margin-bottom: 25px;
+}
+
+.nodes_description {
+    color: #666;
+    font-size: 16px;
+    line-height: 1.6;
+    margin: 0 0 20px 0;
+    padding: 20px;
+    background-color: #fafff2;
+    border-radius: 10px;
+    border-left: 4px solid #4fb479;
+}
+
+.nodes_description strong {
+    color: #4fb479;
+    font-weight: 600;
+}
+
+.nodes_stats {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+/* 节点表格容器样式 */
+.nodes_table_container {
+    background-color: white;
+    border-radius: 12px;
+    border: 1px solid #e0f4e8;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+/* 节点工具栏样式 */
+.nodes_toolbar {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-bottom: 1px solid #e0e0e0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.nodes_search_input {
+    width: 100%;
+    padding: 12px 40px 12px 16px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.nodes_search_input:focus {
+    border-color: #4fb479;
+    outline: none;
+    box-shadow: 0 0 10px rgba(79, 180, 121, 0.2);
+}
+
+.nodes_controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.nodes_sort_select {
+    padding: 8px 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+/* 节点表格样式 */
+.nodes_table_scroll_container {
+    max-height: 600px;
+    overflow-y: auto;
+    overflow-x: auto;
+}
+
+.nodes_table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.nodes_table th {
+    background: linear-gradient(135deg, #f8fff2, #eaf7ea);
+    color: #2d5a3d;
+    padding: 15px 12px;
+    text-align: left;
+    font-weight: 600;
+    border-bottom: 2px solid #e0f4e8;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.nodes_table th.sortable {
+    cursor: pointer;
+    user-select: none;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    transition: all 0.3s ease;
+}
+
+.nodes_table th.sortable:hover {
+    background: linear-gradient(135deg, #eaf7ea, #d4f1db);
+    color: #1e4a2a;
+}
+
+.nodes_table th.sorted .sort_indicator {
+    opacity: 1;
+    color: #4fb479;
+}
+
+.nodes_table th.no_sort {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.nodes_table td {
+    padding: 12px;
+    border-bottom: 1px solid #f0f0f0;
+    vertical-align: top;
+}
+
+.nodes_table tr:hover {
+    background-color: #fafff2;
+}
+
+/* 节点ID样式 */
+.node_id_link {
+    color: #4fb479;
+    text-decoration: none;
+    font-weight: 500;
+    font-family: 'Courier New', monospace;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+}
+
+.node_id_link:hover {
+    color: #3a9b63;
+    text-decoration: underline;
+}
+
+.node_id_link::after {
+    content: " 🕸️";
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    margin-left: 5px;
+}
+
+.node_id_link:hover::after {
+    opacity: 1;
+}
+
+/* 节点类型徽章 */
+.node_type_badge {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.node_type_badge.tf {
+    background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+    color: white;
+}
+
+.node_type_badge.gene {
+    background: linear-gradient(135deg, #74b9ff, #0984e3);
+    color: white;
+}
+
+/* GO注释缩略展示 */
+.go_annotation_summary {
+    color: #666;
+    font-size: 13px;
+    line-height: 1.4;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.go_annotation_summary:hover {
+    color: #4fb479;
+    background-color: rgba(79, 180, 121, 0.1);
+    padding: 4px 8px;
+    border-radius: 6px;
+    margin: -4px -8px;
+}
+
+.go_annotation_summary::after {
+    content: " 🔍";
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    margin-left: 5px;
+}
+
+.go_annotation_summary:hover::after {
+    opacity: 1;
+}
+
+/* 节点分页控件样式 */
+.nodes_pagination_container {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-top: 1px solid #e0e0e0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+/* ==================== GO注释详情弹窗样式 ==================== */
+.go_annotation_modal {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    max-width: 700px;
+    width: 90%;
+    max-height: 80vh;
+    overflow: hidden;
+    transform: translateY(-20px);
+    transition: all 0.3s ease;
+}
+
+.node_info_section {
+    background: linear-gradient(135deg, #fafff2, #f0f8f3);
+    border: 1px solid #e0f4e8;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.node_id_info,
+.node_type_info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.node_id_value {
+    font-family: 'Courier New', monospace;
+    font-weight: 600;
+    color: #4fb479;
+    font-size: 16px;
+}
+
+.go_annotations_container {
+    max-height: 400px;
+    overflow-y: auto;
+    margin-bottom: 25px;
+}
+
+.annotations_section {
+    margin-bottom: 20px;
+}
+
+.annotation_category_title {
+    color: #2d5a3d;
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 15px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 0;
+    border-bottom: 2px solid #e0f4e8;
+}
+
+.annotation_list {
+    display: grid;
+    gap: 8px;
+}
+
+.modal_actions {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid #e0f4e8;
+}
+
+/* 响应式设计 - 节点板块 */
+@media (max-width: 768px) {
+    .module_nodes_content {
+        padding: 20px;
+    }
+    
+    .nodes_toolbar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 15px;
+    }
+    
+    .nodes_controls {
+        justify-content: space-between;
+    }
+    
+    .nodes_pagination_container {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 15px;
+    }
+    
+    .node_info_section {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+    
+    .go_annotation_modal {
+        width: 95%;
+        max-height: 90vh;
     }
 }

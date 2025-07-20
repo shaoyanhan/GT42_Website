@@ -26,6 +26,11 @@ document.addEventListener('DOMContentLoaded', function() {
     if (typeof window.FunctionalAnnotationModule !== 'undefined') {
         window.FunctionalAnnotationModule.init();
     }
+    
+    // 初始化模块节点信息板块
+    if (typeof window.ModuleNodesModule !== 'undefined') {
+        window.ModuleNodesModule.init();
+    }
 });
 
 // ==================== 模块选择板块功能 ====================
@@ -440,12 +445,15 @@ function scrollToSelectedModule(moduleId) {
 function notifyModuleSelectionChanged(moduleId) {
     console.log('Module selection changed to:', moduleId);
     
-    // 这里将来会触发其他板块的更新
-    // 例如：功能注释信息板块、模块中的节点ID板块
+    // 查找对应的模块数据
+    const moduleData = TfNetworkState.allModules.find(module => module.module_id === moduleId);
     
     // 发送自定义事件
     const event = new CustomEvent('moduleSelected', {
-        detail: { moduleId: moduleId }
+        detail: { 
+            moduleId: moduleId,
+            moduleData: moduleData
+        }
     });
     document.dispatchEvent(event);
 }
