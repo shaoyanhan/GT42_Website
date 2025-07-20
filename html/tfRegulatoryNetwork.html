@@ -706,8 +706,204 @@
                 </div>
             </div>
             
+            <!-- 网络图绘制板块 -->
             <div class="network_visualization_container" style="display: none;">
-                <!-- 网络图绘制板块 - 待实现 -->
+                <div class="section_header">
+                    <h3 class="section_title">
+                        <span class="section_icon">🕸️</span>
+                        Network Visualization
+                    </h3>
+                    <button class="collapse_button" data-collapsed="false">
+                        <span class="collapse_icon">▼</span>
+                        <span class="collapse_text">Collapse</span>
+                    </button>
+                </div>
+                
+                <div class="network_visualization_content">
+                    <div class="network_info_header">
+                        <p class="network_description">
+                            Interactive regulatory network visualization centered on the selected node. 
+                            <strong>TF nodes</strong> are shown in red, <strong>Gene nodes</strong> in blue, with the core node highlighted for focus.
+                        </p>
+                        <div class="network_stats">
+                            <div class="stat_item">
+                                <span class="stat_label">Core Node:</span>
+                                <span class="stat_value" id="network_core_node_id">None</span>
+                            </div>
+                            <div class="stat_item" id="network_node_count_container" style="display: none;">
+                                <span class="stat_label">Nodes:</span>
+                                <span class="stat_value" id="network_node_count">-</span>
+                            </div>
+                            <div class="stat_item" id="network_edge_count_container" style="display: none;">
+                                <span class="stat_label">Edges:</span>
+                                <span class="stat_value" id="network_edge_count">-</span>
+                            </div>
+                            <div class="stat_item" id="network_module_container" style="display: none;">
+                                <span class="stat_label">Module:</span>
+                                <span class="stat_value" id="network_module_id">-</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 网络图容器 -->
+                    <div class="network_chart_container">
+                        <!-- 网络图控制工具栏 -->
+                        <div class="network_controls_toolbar">
+                            <div class="network_controls_left">
+                                <div class="filter_control_container">
+                                    <label for="network_edge_filter" class="filter_label">
+                                        <span class="filter_icon">🔧</span>
+                                        Filter Top Edges:
+                                    </label>
+                                    <input type="range" id="network_edge_filter" class="edge_filter_slider" 
+                                           min="1" max="500" value="100" step="1">
+                                    <span class="filter_value" id="filter_value_display">100</span>
+                                </div>
+                            </div>
+                            <div class="network_controls_right">
+                                <button class="download_chart_button" id="download_network_chart">
+                                    <span class="download_icon">📥</span>
+                                    Download Chart
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- ECharts图表容器 -->
+                        <div class="network_chart_wrapper">
+                            <div id="network_chart" class="network_chart">
+                                <!-- ECharts网络图将在这里渲染 -->
+                                <div class="chart_loading_placeholder">
+                                    <div class="loading_spinner"></div>
+                                    <p>Click "Draw Core Network" to visualize regulatory relationships...</p>
+                                </div>
+                            </div>
+                            
+                            <!-- 节点详情弹窗 - 位于ECharts绘制区域内 -->
+                            <div class="network_node_popup" id="network_node_popup" style="display: none;">
+                                <div class="popup_header">
+                                    <h4 class="popup_title">
+                                        <span class="popup_icon">🔍</span>
+                                        Node Details
+                                    </h4>
+                                    <button class="popup_close_button" id="popup_close_btn">✕</button>
+                                </div>
+                                <div class="popup_content" id="popup_content">
+                                    <!-- 节点详情内容将动态生成 -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 网络边信息表格 -->
+                    <div class="network_edges_table_container">
+                        <div class="table_section_header">
+                            <h4 class="table_section_title">
+                                <span class="table_icon">📊</span>
+                                Network Edges Information
+                            </h4>
+                        </div>
+
+                        <!-- 表格工具栏 -->
+                        <div class="edges_toolbar">
+                            <div class="search_filter_container">
+                                <input type="text" id="edges_search_input" class="edges_search_input" 
+                                       placeholder="Search in sources, targets, or types...">
+                                <button class="clear_search_button" id="clear_edges_search">✕</button>
+                            </div>
+                            <div class="edges_controls">
+                                <div class="sort_container">
+                                    <label for="edges_sort_select">Sort by:</label>
+                                    <select id="edges_sort_select" class="edges_sort_select">
+                                        <option value="weight">Weight</option>
+                                        <option value="source">Source</option>
+                                        <option value="target">Target</option>
+                                        <option value="source_type">Source Type</option>
+                                        <option value="target_type">Target Type</option>
+                                    </select>
+                                    <button class="sort_order_button" id="edges_sort_order" data-order="desc">↑</button>
+                                </div>
+                                <button class="download_button" id="edges_download_btn">
+                                    <span class="download_icon">📥</span>
+                                    Download
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- 表格 -->
+                        <div class="edges_table_scroll_container">
+                            <table class="edges_table" id="edges_table">
+                                <thead>
+                                    <tr>
+                                        <th class="sortable" data-sort="source">
+                                            Source
+                                            <span class="sort_indicator"></span>
+                                        </th>
+                                        <th class="sortable" data-sort="source_type">
+                                            Source Type
+                                            <span class="sort_indicator"></span>
+                                        </th>
+                                        <th class="sortable" data-sort="target">
+                                            Target
+                                            <span class="sort_indicator"></span>
+                                        </th>
+                                        <th class="sortable" data-sort="target_type">
+                                            Target Type
+                                            <span class="sort_indicator"></span>
+                                        </th>
+                                        <th class="sortable" data-sort="weight">
+                                            Weight
+                                            <span class="sort_indicator"></span>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="edges_table_body">
+                                    <!-- 表格内容将通过JavaScript动态生成 -->
+                                    <tr class="loading_row">
+                                        <td colspan="5">
+                                            <div class="loading_placeholder">
+                                                <div class="loading_spinner"></div>
+                                                <p>Draw a network to view edge information...</p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- 分页控件 -->
+                        <div class="edges_pagination_container">
+                            <div class="pagination_info">
+                                <span>Showing <span id="edges_page_start">0</span>-<span id="edges_page_end">0</span> of <span id="edges_total_records">0</span> records</span>
+                            </div>
+                            <div class="pagination_controls">
+                                <div class="page_size_container">
+                                    <label for="edges_page_size">Show:</label>
+                                    <select id="edges_page_size" class="page_size_select">
+                                        <option value="10" selected>10</option>
+                                        <option value="25">25</option>
+                                        <option value="50">50</option>
+                                        <option value="100">100</option>
+                                    </select>
+                                    <span>per page</span>
+                                </div>
+                                <div class="page_navigation">
+                                    <button class="nav_button" id="edges_first_page" title="First page">«</button>
+                                    <button class="nav_button" id="edges_prev_page" title="Previous page">‹</button>
+                                    <div class="page_numbers" id="edges_page_numbers">
+                                        <!-- 页码按钮将动态生成 -->
+                                    </div>
+                                    <button class="nav_button" id="edges_next_page" title="Next page">›</button>
+                                    <button class="nav_button" id="edges_last_page" title="Last page">»</button>
+                                </div>
+                                <div class="page_jump_container">
+                                    <label for="edges_page_jump">Go to page:</label>
+                                    <input type="number" id="edges_page_jump" class="page_jump_input" min="1">
+                                    <button class="jump_button" id="edges_jump_btn">Go</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -753,6 +949,7 @@
     <script type="module" src="../js/basic.js"></script>
     <script type="module" src="../js/functionalAnnotationModule.js"></script>
     <script type="module" src="../js/moduleNodesModule.js"></script>
+    <script type="module" src="../js/networkVisualizationModule.js"></script>
     <script type="module" src="../js/mainTfRegulatoryNetwork.js"></script>
 
 

@@ -31,6 +31,11 @@ document.addEventListener('DOMContentLoaded', function() {
     if (typeof window.ModuleNodesModule !== 'undefined') {
         window.ModuleNodesModule.init();
     }
+    
+    // 初始化网络图绘制板块
+    if (typeof window.NetworkVisualizationModule !== 'undefined') {
+        window.NetworkVisualizationModule.init();
+    }
 });
 
 // ==================== 模块选择板块功能 ====================

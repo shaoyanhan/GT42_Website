@@ -1795,3 +1795,698 @@
         max-height: 90vh;
     }
 }
+
+/* ==================== 网络图绘制板块样式 ==================== */
+.network_visualization_container {
+    background-color: hsla(0, 0%, 100%, 0.95);
+    border: 2px solid #4fb479;
+    border-radius: 15px;
+    padding: 0;
+    margin-bottom: 30px;
+    position: relative;
+    box-shadow: 0 4px 15px rgba(79, 180, 121, 0.1);
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.network_visualization_container:hover {
+    border-color: #3a9b63;
+    box-shadow: 0 6px 20px rgba(79, 180, 121, 0.15);
+}
+
+/* 网络图内容区域 */
+.network_visualization_content {
+    padding: 30px;
+    transition: all 0.3s ease;
+    max-height: 2000px;
+    overflow: hidden;
+}
+
+.network_visualization_content.collapsed {
+    max-height: 0;
+    padding: 0 30px;
+}
+
+/* 网络图信息头部 */
+.network_info_header {
+    margin-bottom: 25px;
+}
+
+.network_description {
+    color: #2d7a4f;
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: linear-gradient(135deg, rgba(79, 180, 121, 0.05), rgba(58, 155, 99, 0.05));
+    border-left: 4px solid #4fb479;
+    border-radius: 8px;
+}
+
+.network_stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    background: rgba(79, 180, 121, 0.05);
+    border-radius: 12px;
+    border: 1px solid rgba(79, 180, 121, 0.1);
+}
+
+/* 网络图容器 */
+.network_chart_container {
+    background: white;
+    border: 2px solid #e8f5ee;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(79, 180, 121, 0.08);
+}
+
+/* 网络图控制工具栏 */
+.network_controls_toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background: linear-gradient(135deg, #f8fbfa, #e8f5ee);
+    border-bottom: 1px solid #e8f5ee;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.network_controls_left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.network_controls_right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+/* 过滤控制 */
+.filter_control_container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 15px;
+    background: white;
+    border-radius: 8px;
+    border: 1px solid #d1e7dd;
+}
+
+.filter_label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 500;
+    color: #2d7a4f;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.filter_icon {
+    font-size: 16px;
+}
+
+.edge_filter_slider {
+    width: 120px;
+    height: 6px;
+    background: #e8f5ee;
+    border-radius: 3px;
+    outline: none;
+    -webkit-appearance: none;
+}
+
+.edge_filter_slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    background: #4fb479;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(79, 180, 121, 0.3);
+    transition: all 0.2s ease;
+}
+
+.edge_filter_slider::-webkit-slider-thumb:hover {
+    background: #3a9b63;
+    transform: scale(1.1);
+}
+
+.edge_filter_slider::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    background: #4fb479;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 2px 4px rgba(79, 180, 121, 0.3);
+}
+
+.filter_value {
+    font-weight: 600;
+    color: #2d7a4f;
+    min-width: 30px;
+    text-align: center;
+    font-size: 14px;
+}
+
+/* 下载图表按钮 */
+.download_chart_button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: linear-gradient(135deg, #4fb479, #3a9b63);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.download_chart_button:hover {
+    background: linear-gradient(135deg, #3a9b63, #2d7a4f);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(79, 180, 121, 0.3);
+}
+
+.download_icon {
+    font-size: 16px;
+}
+
+/* 图表包装器 */
+.network_chart_wrapper {
+    position: relative;
+    background: white;
+    width: 100%;
+    overflow: hidden;
+}
+
+.network_chart {
+    width: 100%;
+    height: 600px;
+    min-height: 400px;
+    background: white;
+    display: block;
+}
+
+/* 图表加载占位符 */
+.chart_loading_placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 600px;
+    color: #6c757d;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+}
+
+.chart_loading_placeholder p {
+    margin-top: 15px;
+    font-size: 16px;
+    color: #6c757d;
+    text-align: center;
+}
+
+/* 节点详情弹窗 */
+.network_node_popup {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 300px;
+    max-height: 300px;
+    background: white;
+    border: 2px solid #4fb479;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(79, 180, 121, 0.2);
+    z-index: 1000;
+    overflow: hidden;
+}
+
+.popup_header {
+    background: linear-gradient(135deg, #4fb479, #3a9b63);
+    color: white;
+    padding: 12px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.popup_title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.popup_icon {
+    font-size: 18px;
+}
+
+.popup_close_button {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.popup_close_button:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
+}
+
+.popup_content {
+    padding: 15px;
+    max-height: 220px;
+    overflow-y: auto;
+}
+
+/* 弹窗中的绘制核心网络按钮 */
+.draw_core_network_button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: linear-gradient(135deg, #4fb479, #3a9b63);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    width: 100%;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.draw_core_network_button:hover {
+    background: linear-gradient(135deg, #3a9b63, #2d7a4f);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(79, 180, 121, 0.3);
+}
+
+.draw_core_network_button:disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+    opacity: 0.6;
+    transform: none;
+    box-shadow: none;
+}
+
+.draw_core_network_button .network_icon {
+    font-size: 16px;
+}
+
+/* 弹窗内容样式 */
+.node_basic_info {
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e8f5ee;
+}
+
+.node_id_section, .node_type_section {
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.node_annotations_section h5 {
+    margin: 0 0 10px 0;
+    color: #2d7a4f;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.annotations_list {
+    /* 移除内部滚动，使用弹窗的外部滚动 */
+}
+
+.annotation_item {
+    margin-bottom: 8px;
+    padding: 8px;
+    background: rgba(79, 180, 121, 0.05);
+    border-radius: 6px;
+    border-left: 3px solid #4fb479;
+}
+
+.annotation_accession {
+    margin-bottom: 4px;
+}
+
+.annotation_accession .go_link {
+    color: #4fb479;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+.annotation_accession .go_link:hover {
+    text-decoration: underline;
+    color: #3a9b63;
+}
+
+.annotation_description {
+    font-size: 13px;
+    color: #2d7a4f;
+    margin-bottom: 4px;
+    line-height: 1.3;
+}
+
+.annotation_ontology {
+    text-align: right;
+}
+
+.ontology_badge {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.ontology_badge.bp {
+    background: rgba(255, 193, 7, 0.2);
+    color: #856404;
+    border: 1px solid rgba(255, 193, 7, 0.3);
+}
+
+.ontology_badge.mf {
+    background: rgba(220, 53, 69, 0.2);
+    color: #721c24;
+    border: 1px solid rgba(220, 53, 69, 0.3);
+}
+
+.ontology_badge.cc {
+    background: rgba(13, 110, 253, 0.2);
+    color: #0a3d91;
+    border: 1px solid rgba(13, 110, 253, 0.3);
+}
+
+.no_annotations {
+    color: #6c757d;
+    font-style: italic;
+    text-align: center;
+    margin: 15px 0;
+}
+
+.popup_actions {
+    margin: 15px 0;
+    padding: 10px 0;
+    border-top: 1px solid #e8f5ee;
+    border-bottom: 1px solid #e8f5ee;
+}
+
+/* 网络边信息表格容器 */
+.network_edges_table_container {
+    background: white;
+    border: 2px solid #e8f5ee;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(79, 180, 121, 0.08);
+}
+
+.table_section_header {
+    background: linear-gradient(135deg, #f8fbfa, #e8f5ee);
+    padding: 15px 20px;
+    border-bottom: 1px solid #e8f5ee;
+}
+
+.table_section_title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #2d7a4f;
+}
+
+.table_icon {
+    font-size: 20px;
+}
+
+/* 边表格工具栏 */
+.edges_toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background: #f8fbfa;
+    border-bottom: 1px solid #e8f5ee;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.edges_controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.edges_search_input {
+    padding: 8px 12px;
+    border: 1px solid #d1e7dd;
+    border-radius: 6px;
+    font-size: 14px;
+    width: 250px;
+    transition: all 0.3s ease;
+}
+
+.edges_search_input:focus {
+    outline: none;
+    border-color: #4fb479;
+    box-shadow: 0 0 0 2px rgba(79, 180, 121, 0.1);
+}
+
+.edges_sort_select {
+    padding: 6px 10px;
+    border: 1px solid #d1e7dd;
+    border-radius: 6px;
+    font-size: 14px;
+    background: white;
+    cursor: pointer;
+}
+
+/* 边表格样式 */
+.edges_table_scroll_container {
+    max-height: 500px;
+    overflow-y: auto;
+    overflow-x: auto;
+}
+
+.edges_table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.edges_table thead {
+    background: linear-gradient(135deg, #4fb479, #3a9b63);
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.edges_table th {
+    padding: 12px 15px;
+    text-align: left;
+    font-weight: 600;
+    white-space: nowrap;
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.edges_table th:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.edges_table th.sortable {
+    cursor: pointer;
+}
+
+.edges_table th.no_sort {
+    cursor: default;
+}
+
+.edges_table td {
+    padding: 10px 15px;
+    border-bottom: 1px solid #e8f5ee;
+    vertical-align: middle;
+}
+
+.edges_table tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+.edges_table tbody tr:hover {
+    background: rgba(79, 180, 121, 0.05);
+}
+
+.edges_table tbody tr:nth-child(even) {
+    background: rgba(79, 180, 121, 0.02);
+}
+
+.edges_table tbody tr:nth-child(even):hover {
+    background: rgba(79, 180, 121, 0.08);
+}
+
+/* 节点类型徽章 */
+.node_type_badge {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.node_type_badge.tf {
+    background: rgba(220, 53, 69, 0.1);
+    color: #dc3545;
+    border: 1px solid rgba(220, 53, 69, 0.2);
+}
+
+.node_type_badge.gene {
+    background: rgba(13, 110, 253, 0.1);
+    color: #0d6efd;
+    border: 1px solid rgba(13, 110, 253, 0.2);
+}
+
+/* 权重值样式 */
+.weight_value {
+    font-family: 'Courier New', monospace;
+    font-weight: 600;
+    color: #2d7a4f;
+}
+
+/* 边分页容器 */
+.edges_pagination_container {
+    padding: 15px 20px;
+    background: #f8fbfa;
+    border-top: 1px solid #e8f5ee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+/* 响应式设计 */
+@media (max-width: 1200px) {
+    .network_controls_toolbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .network_controls_left {
+        justify-content: center;
+    }
+    
+    .network_controls_right {
+        align-self: center;
+    }
+    
+    .network_node_popup {
+        width: 280px;
+        max-height: 250px;
+    }
+}
+
+@media (max-width: 768px) {
+    .network_visualization_content {
+        padding: 20px;
+    }
+    
+    .network_chart {
+        height: 400px;
+    }
+    
+    .chart_loading_placeholder {
+        height: 400px;
+    }
+    
+    .filter_control_container {
+        flex-direction: column;
+        gap: 8px;
+        text-align: center;
+    }
+    
+    .edge_filter_slider {
+        width: 150px;
+    }
+    
+    .network_node_popup {
+        position: relative;
+        width: 100%;
+        top: 0;
+        right: 0;
+        margin-top: 15px;
+    }
+    
+    .edges_toolbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .edges_controls {
+        justify-content: center;
+    }
+    
+    .edges_search_input {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .edges_pagination_container {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .network_stats {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .network_controls_left {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .filter_control_container {
+        padding: 12px;
+    }
+    
+    .download_chart_button {
+        width: 100%;
+        justify-content: center;
+    }
+}
