@@ -21,6 +21,11 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 初始化模块选择板块
     initModuleSelection();
+    
+    // 初始化功能注释信息板块
+    if (typeof window.FunctionalAnnotationModule !== 'undefined') {
+        window.FunctionalAnnotationModule.init();
+    }
 });
 
 // ==================== 模块选择板块功能 ====================

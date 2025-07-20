@@ -57,6 +57,72 @@
             430070, China
         </p>
     </div>
+
+    <!-- ID列表弹窗 -->
+    <div id="id_list_overlay" class="modal_overlay">
+        <div id="id_list_modal" class="id_list_modal">
+            <div class="modal_header">
+                <h3 class="modal_title">
+                    <span class="modal_icon">📋</span>
+                    Gene/TF IDs for GO Term
+                </h3>
+                <button class="modal_close_button" id="id_list_close_btn">✕</button>
+            </div>
+            
+            <div class="modal_content">
+                <div class="go_term_info">
+                    <div class="go_term_accession">
+                        <span class="label">GO Accession:</span>
+                        <a href="#" target="_blank" id="modal_go_accession" class="go_link">-</a>
+                    </div>
+                    <div class="go_term_description">
+                        <span class="label">Description:</span>
+                        <span id="modal_go_description">-</span>
+                    </div>
+                </div>
+
+                <div class="id_lists_container">
+                    <div class="id_list_section" id="tf_ids_section">
+                        <h4 class="list_title">
+                            <span class="list_icon">🧬</span>
+                            Transcription Factors (<span id="tf_count">0</span>)
+                        </h4>
+                        <div class="id_list_scroll" id="tf_ids_list">
+                            <!-- TF IDs 将动态生成 -->
+                        </div>
+                    </div>
+                    
+                    <div class="id_list_section" id="gene_ids_section">
+                        <h4 class="list_title">
+                            <span class="list_icon">🧬</span>
+                            Genes (<span id="gene_count">0</span>)
+                        </h4>
+                        <div class="id_list_scroll" id="gene_ids_list">
+                            <!-- Gene IDs 将动态生成 -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 选中的ID详细信息 -->
+                <div class="selected_id_details" id="selected_id_details" style="display: none;">
+                    <div class="details_header">
+                        <h4 class="details_title">
+                            <span class="details_icon">🔍</span>
+                            Annotation Details for <span id="selected_id_name">-</span>
+                        </h4>
+                        <button class="draw_network_button" id="draw_core_network_btn" style="display: none;">
+                            <span class="network_icon">🕸️</span>
+                            Draw Core Network
+                        </button>
+                    </div>
+                    
+                    <div class="id_annotations" id="id_annotations_content">
+                        <!-- ID的注释信息将动态生成 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="center_container">
         <!-- 返回顶部图标 -->
         <button class="scroll_to_top_button">
@@ -288,9 +354,158 @@
                 </div>
             </div>
 
-            <!-- 后续板块的占位符 -->
+            <!-- 功能注释信息板块 -->
             <div class="functional_annotation_container" style="display: none;">
-                <!-- 功能注释信息板块 - 待实现 -->
+                <div class="section_header">
+                    <h3 class="section_title">
+                        <span class="section_icon">🧬</span>
+                        Functional Annotation Information
+                    </h3>
+                    <button class="collapse_button" data-collapsed="false">
+                        <span class="collapse_icon">▼</span>
+                        <span class="collapse_text">Collapse</span>
+                    </button>
+                </div>
+                
+                <div class="functional_annotation_content">
+                    <div class="annotation_info_header">
+                        <p class="annotation_description">
+                            Explore Gene Ontology (GO) functional annotations for the selected network module. 
+                            View enriched GO terms across <strong>Biological Process</strong>, <strong>Molecular Function</strong>, and <strong>Cellular Component</strong> categories.
+                        </p>
+                        <div class="annotation_stats">
+                            <div class="stat_item">
+                                <span class="stat_label">Selected Module:</span>
+                                <span class="stat_value" id="annotation_module_id">None</span>
+                            </div>
+                            <div class="stat_item" id="annotation_total_terms_container" style="display: none;">
+                                <span class="stat_label">Total GO Terms:</span>
+                                <span class="stat_value" id="annotation_total_terms">-</span>
+                            </div>
+                            <div class="stat_item" id="annotation_total_genes_container" style="display: none;">
+                                <span class="stat_label">Annotated Genes:</span>
+                                <span class="stat_value" id="annotation_total_genes">-</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab导航 -->
+                    <div class="annotation_tabs_container">
+                        <div class="annotation_tabs">
+                            <button class="annotation_tab active" data-ontology="BP">
+                                <span class="tab_icon">🧬</span>
+                                Biological Process
+                                <span class="tab_count" id="bp_count">-</span>
+                            </button>
+                            <button class="annotation_tab" data-ontology="MF">
+                                <span class="tab_icon">⚙️</span>
+                                Molecular Function
+                                <span class="tab_count" id="mf_count">-</span>
+                            </button>
+                            <button class="annotation_tab" data-ontology="CC">
+                                <span class="tab_icon">🏠</span>
+                                Cellular Component
+                                <span class="tab_count" id="cc_count">-</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 表格容器 -->
+                    <div class="annotation_table_container">
+                        <!-- 工具栏 -->
+                        <div class="annotation_toolbar">
+                            <div class="search_filter_container">
+                                <input type="text" id="annotation_search_input" class="annotation_search_input" 
+                                       placeholder="Search in descriptions, GO accessions, or node IDs...">
+                                <button class="clear_search_button" id="clear_annotation_search">✕</button>
+                            </div>
+                            <div class="annotation_controls">
+                                <div class="sort_container">
+                                    <label for="annotation_sort_select">Sort by:</label>
+                                    <select id="annotation_sort_select" class="annotation_sort_select">
+                                        <option value="id_count">ID Count</option>
+                                        <option value="description">Description</option>
+                                        <option value="accession">GO Accession</option>
+                                    </select>
+                                    <button class="sort_order_button" id="annotation_sort_order" data-order="desc">↑</button>
+                                </div>
+                                <button class="download_button" id="annotation_download_btn">
+                                    <span class="download_icon">📥</span>
+                                    Download
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- 表格 -->
+                        <div class="annotation_table_scroll_container">
+                            <table class="annotation_table" id="annotation_table">
+                                <thead>
+                                    <tr>
+                                        <th class="sortable" data-sort="description">
+                                            Description
+                                            <span class="sort_indicator"></span>
+                                        </th>
+                                        <th class="sortable" data-sort="accession">
+                                            GO Accession
+                                            <span class="sort_indicator"></span>
+                                        </th>
+                                        <th class="sortable" data-sort="id_count">
+                                            ID Count
+                                            <span class="sort_indicator"></span>
+                                        </th>
+                                        <th class="no_sort">
+                                            ID List
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="annotation_table_body">
+                                    <!-- 表格内容将通过JavaScript动态生成 -->
+                                    <tr class="loading_row">
+                                        <td colspan="4">
+                                            <div class="loading_placeholder">
+                                                <div class="loading_spinner"></div>
+                                                <p>Select a module to view GO annotations...</p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- 分页控件 -->
+                        <div class="annotation_pagination_container">
+                            <div class="pagination_info">
+                                <span>Showing <span id="annotation_page_start">0</span>-<span id="annotation_page_end">0</span> of <span id="annotation_total_records">0</span> records</span>
+                            </div>
+                            <div class="pagination_controls">
+                                <div class="page_size_container">
+                                    <label for="annotation_page_size">Show:</label>
+                                    <select id="annotation_page_size" class="page_size_select">
+                                        <option value="10" selected>10</option>
+                                        <option value="25">25</option>
+                                        <option value="50">50</option>
+                                        <option value="100">100</option>
+                                    </select>
+                                    <span>per page</span>
+                                </div>
+                                <div class="page_navigation">
+                                    <button class="nav_button" id="annotation_first_page" title="First page">«</button>
+                                    <button class="nav_button" id="annotation_prev_page" title="Previous page">‹</button>
+                                    <div class="page_numbers" id="annotation_page_numbers">
+                                        <!-- 页码按钮将动态生成 -->
+                                    </div>
+                                    <button class="nav_button" id="annotation_next_page" title="Next page">›</button>
+                                    <button class="nav_button" id="annotation_last_page" title="Last page">»</button>
+                                </div>
+                                <div class="page_jump_container">
+                                    <label for="annotation_page_jump">Go to page:</label>
+                                    <input type="number" id="annotation_page_jump" class="page_jump_input" min="1">
+                                    <button class="jump_button" id="annotation_jump_btn">Go</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             
             <div class="module_nodes_container" style="display: none;">
@@ -342,6 +557,7 @@
     </div>
 
     <script type="module" src="../js/basic.js"></script>
+    <script type="module" src="../js/functionalAnnotationModule.js"></script>
     <script type="module" src="../js/mainTfRegulatoryNetwork.js"></script>
 
 
