@@ -36,6 +36,11 @@ document.addEventListener('DOMContentLoaded', function() {
     if (typeof window.NetworkVisualizationModule !== 'undefined') {
         window.NetworkVisualizationModule.init();
     }
+    
+    // 初始化多功能搜索模块
+    if (typeof window.MultiSearchModule !== 'undefined') {
+        window.MultiSearchModule.init();
+    }
 });
 
 // ==================== 模块选择板块功能 ====================

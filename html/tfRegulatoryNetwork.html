@@ -189,6 +189,38 @@
         </div>
     </div>
 
+    <!-- 模块选择弹窗（用于搜索结果） -->
+    <div id="module_selection_overlay" class="modal_overlay">
+        <div id="module_selection_modal" class="module_selection_modal">
+            <div class="modal_header">
+                <h3 class="modal_title">
+                    <span class="modal_icon">📊</span>
+                    Select Module to Explore
+                </h3>
+                <button class="modal_close_button" id="module_selection_close_btn">✕</button>
+            </div>
+            
+            <div class="modal_content">
+                <div class="module_selection_info">
+                    <div class="search_context_info">
+                        <span class="label">Search Context:</span>
+                        <span id="modal_search_context" class="search_context_value">-</span>
+                    </div>
+                    <div class="available_modules_info">
+                        <span class="label">Available Modules:</span>
+                        <span id="modal_module_count" class="module_count_value">-</span>
+                    </div>
+                </div>
+
+                <div class="module_buttons_container">
+                    <div class="module_buttons_grid" id="module_buttons_grid">
+                        <!-- 模块按钮将动态生成 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="center_container">
         <!-- 返回顶部图标 -->
         <button class="scroll_to_top_button">
@@ -348,6 +380,171 @@
 
 
         </header>
+
+        <!-- 多功能搜索区 -->
+        <div class="multi_search_container">
+            <div class="section_header">
+                <h3 class="section_title">
+                    <span class="section_icon">🔍</span>
+                    Multi-Function Search
+                </h3>
+                <button class="collapse_button" data-collapsed="false">
+                    <span class="collapse_icon">▼</span>
+                    <span class="collapse_text">Collapse</span>
+                </button>
+            </div>
+            
+            <div class="multi_search_content">
+                <div class="search_function_selection">
+                    <div class="function_tabs">
+                        <button class="function_tab active" data-function="annotation_text">
+                            <span class="tab_icon">📝</span>
+                            <span class="tab_text">Annotation Text Search</span>
+                        </button>
+                        <button class="function_tab" data-function="node_id">
+                            <span class="tab_icon">🆔</span>
+                            <span class="tab_text">Node ID Search</span>
+                        </button>
+                        <button class="function_tab" data-function="shortest_path">
+                            <span class="tab_icon">🛤️</span>
+                            <span class="tab_text">Shortest Path Search</span>
+                        </button>
+                        <button class="function_tab" data-function="id_set">
+                            <span class="tab_icon">📋</span>
+                            <span class="tab_text">ID Set Search</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="search_input_container">
+                    <!-- 注释文本搜索 -->
+                    <div class="search_input_section" id="annotation_text_search" style="display: block;">
+                        <div class="search_input_header">
+                            <h4 class="input_section_title">
+                                <span class="title_icon">📝</span>
+                                Search GO Annotations by Keywords
+                            </h4>
+                            <p class="input_section_description">
+                                Enter keywords to search in GO annotation descriptions across all network modules.
+                            </p>
+                        </div>
+                        <div class="search_input_group">
+                            <input type="text" id="multi_annotation_search_input" class="search_input" 
+                                   placeholder="Enter annotation keywords (e.g., transcription, binding, transport)...">
+                            <button type="button" id="multi_annotation_search_button" class="search_submit_button">
+                                <span class="search_icon">🔍</span>
+                                Search
+                            </button>
+                            <button type="button" id="multi_annotation_clear_button" class="search_clear_button">
+                                <span class="clear_icon">✕</span>
+                                Clear
+                            </button>
+                        </div>
+                        
+                        <div class="annotation_example_section">
+                            <div class="example_ids">
+                                <span class="example_title">Try examples:</span>
+                                <span class="example_keyword" data-value="protein">protein</span>
+                                <span class="example_keyword" data-value="cell differentiation">cell differentiation</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 节点ID搜索 -->
+                    <div class="search_input_section" id="node_id_search" style="display: none;">
+                        <div class="search_input_header">
+                            <h4 class="input_section_title">
+                                <span class="title_icon">🆔</span>
+                                Search Node by ID
+                            </h4>
+                            <p class="input_section_description">
+                                Enter a single node ID to find which modules contain this node.
+                            </p>
+                        </div>
+                        <div class="search_input_group">
+                            <input type="text" id="node_id_search_input" class="search_input" 
+                                   placeholder="Enter node ID (e.g., SGI000001.SO.001)...">
+                            <button type="button" id="node_id_search_button" class="search_submit_button">
+                                <span class="search_icon">🔍</span>
+                                Search
+                            </button>
+                            <button type="button" id="node_id_clear_button" class="search_clear_button">
+                                <span class="clear_icon">✕</span>
+                                Clear
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 最短路径搜索 -->
+                    <div class="search_input_section" id="shortest_path_search" style="display: none;">
+                        <div class="search_input_header">
+                            <h4 class="input_section_title">
+                                <span class="title_icon">🛤️</span>
+                                Find Shortest Paths Between Two Nodes
+                            </h4>
+                            <p class="input_section_description">
+                                Enter two node IDs to find shortest regulatory paths between them in common modules.
+                            </p>
+                        </div>
+                        <div class="search_input_group two_inputs">
+                            <input type="text" id="source_node_input" class="search_input" 
+                                   placeholder="Source node ID (e.g., SGI000001.SO.001)...">
+                            <input type="text" id="target_node_input" class="search_input" 
+                                   placeholder="Target node ID (e.g., SGI000002.SO.001)...">
+                            <button type="button" id="shortest_path_search_button" class="search_submit_button">
+                                <span class="search_icon">🔍</span>
+                                Search
+                            </button>
+                            <button type="button" id="shortest_path_clear_button" class="search_clear_button">
+                                <span class="clear_icon">✕</span>
+                                Clear
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- ID集合搜索 -->
+                    <div class="search_input_section" id="id_set_search" style="display: none;">
+                        <div class="search_input_header">
+                            <h4 class="input_section_title">
+                                <span class="title_icon">📋</span>
+                                Search Network by ID Set
+                            </h4>
+                            <p class="input_section_description">
+                                Enter multiple node IDs to classify them by modules and visualize their subnetworks.
+                            </p>
+                        </div>
+                        <div class="search_input_group">
+                            <textarea id="id_set_textarea" class="search_textarea" rows="4"
+                                      placeholder="Enter node IDs (one per line or comma-separated)..."></textarea>
+                            <div class="id_set_controls">
+                                <div class="file_upload_section">
+                                    <input type="file" id="id_file_upload" class="file_upload_input" accept=".txt,.csv,.tsv">
+                                    <label for="id_file_upload" class="file_upload_button">
+                                        <span class="upload_icon">📁</span>
+                                        Upload File
+                                    </label>
+                                </div>
+                                <div class="search_controls">
+                                    <button type="button" id="id_set_search_button" class="search_submit_button">
+                                        <span class="search_icon">🔍</span>
+                                        Search
+                                    </button>
+                                    <button type="button" id="id_set_clear_button" class="search_clear_button">
+                                        <span class="clear_icon">✕</span>
+                                        Clear
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 搜索结果区域 -->
+                <div class="search_results_container" id="search_results_container" style="display: none;">
+                    <!-- 搜索结果会动态插入这里 -->
+                </div>
+            </div>
+        </div>
 
         <div class="content_container">
             <!-- 模块选择板块 -->
@@ -952,6 +1149,7 @@
     <script type="module" src="../js/functionalAnnotationModule.js"></script>
     <script type="module" src="../js/moduleNodesModule.js"></script>
     <script type="module" src="../js/networkVisualizationModule.js"></script>
+    <script type="module" src="../js/multiSearchModule.js"></script>
     <script type="module" src="../js/mainTfRegulatoryNetwork.js"></script>
 
 
