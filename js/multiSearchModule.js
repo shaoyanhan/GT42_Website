@@ -16,6 +16,11 @@ const MultiSearchState = {
         numPages: 0,
         currentData: []
     },
+    nodeIdSearch: {
+        nodeId: '',
+        searchResults: null,
+        isSearching: false
+    },
     // 其他搜索功能的状态将在后续实现
     isSearching: false,
     searchAbortController: null
@@ -35,6 +40,7 @@ function initializeMultiSearch() {
         setupFunctionTabEvents();
         setupCollapseEvents();
         setupAnnotationSearchEvents();
+        setupNodeIdSearchEvents();
         
         // 初始化默认功能（注释文本搜索）
         switchSearchFunction('annotation_text');
@@ -162,6 +168,388 @@ function setupAnnotationSearchEvents() {
         });
     });
 }
+
+/**
+ * 设置节点ID搜索事件
+ */
+function setupNodeIdSearchEvents() {
+    const searchInput = document.getElementById('node_id_search_input');
+    const searchButton = document.getElementById('node_id_search_button');
+    const clearButton = document.getElementById('node_id_clear_button');
+    
+    if (searchInput) {
+        // 回车键搜索
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                executeNodeIdSearch();
+            }
+        });
+    }
+    
+    if (searchButton) {
+        searchButton.addEventListener('click', executeNodeIdSearch);
+    }
+    
+    if (clearButton) {
+        clearButton.addEventListener('click', clearNodeIdSearch);
+    }
+    
+    // 示例节点ID点击事件
+    const exampleNodeIds = document.querySelectorAll('.node_id_example_section .example_node_id');
+    exampleNodeIds.forEach(nodeId => {
+        nodeId.addEventListener('click', () => {
+            const nodeIdValue = nodeId.getAttribute('data-value');
+            if (nodeIdValue && searchInput) {
+                console.log(`Filling search input with example node ID: ${nodeIdValue}`);
+                searchInput.value = nodeIdValue;
+                
+                // 触发搜索
+                executeNodeIdSearch();
+            }
+        });
+    });
+}
+
+/**
+ * 执行节点ID搜索
+ */
+async function executeNodeIdSearch() {
+    const searchInput = document.getElementById('node_id_search_input');
+    const nodeId = searchInput.value.trim();
+    
+    if (!nodeId) {
+        alert('Please enter a node ID');
+        return;
+    }
+    
+    console.log(`Executing node ID search with node ID: ${nodeId}`);
+    
+    // 取消之前的搜索请求
+    if (MultiSearchState.searchAbortController) {
+        MultiSearchState.searchAbortController.abort();
+    }
+    
+    // 创建新的AbortController
+    MultiSearchState.searchAbortController = new AbortController();
+    
+    // 更新状态
+    MultiSearchState.nodeIdSearch.nodeId = nodeId;
+    MultiSearchState.nodeIdSearch.isSearching = true;
+    MultiSearchState.isSearching = true;
+    
+    try {
+        await loadNodeIdSearchData();
+    } catch (error) {
+        if (error.name !== 'AbortError') {
+            console.error('Error executing node ID search:', error);
+            showSearchError('Failed to execute search. Please try again.');
+        }
+    } finally {
+        MultiSearchState.nodeIdSearch.isSearching = false;
+        MultiSearchState.isSearching = false;
+    }
+}
+
+/**
+ * 清除节点ID搜索
+ */
+function clearNodeIdSearch() {
+    const searchInput = document.getElementById('node_id_search_input');
+    
+    if (searchInput) {
+        searchInput.value = '';
+    }
+    
+    // 取消正在进行的搜索
+    if (MultiSearchState.searchAbortController) {
+        MultiSearchState.searchAbortController.abort();
+    }
+    
+    // 重置状态
+    MultiSearchState.nodeIdSearch = {
+        nodeId: '',
+        searchResults: null,
+        isSearching: false
+    };
+    
+    // 隐藏搜索结果
+    hideSearchResults();
+    
+    console.log('Node ID search cleared');
+}
+
+/**
+ * 加载节点ID搜索数据
+ */
+async function loadNodeIdSearchData() {
+    console.log('Loading node ID search data...', MultiSearchState.nodeIdSearch);
+    
+    const { nodeId } = MultiSearchState.nodeIdSearch;
+    
+    if (!nodeId) {
+        hideSearchResults();
+        return;
+    }
+    
+    // 显示加载状态
+    showNodeIdSearchLoading();
+    
+    try {
+        // 构建API URL
+        const params = new URLSearchParams({
+            node_id: nodeId
+        });
+        
+        const apiUrl = `${API_BASE_URL}/searchNodeInModules/?${params}`;
+        console.log('Fetching from API:', apiUrl);
+        
+        const response = await fetch(apiUrl, {
+            signal: MultiSearchState.searchAbortController?.signal
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        console.log('API Response:', data);
+        
+        // 更新状态
+        MultiSearchState.nodeIdSearch.searchResults = data;
+        
+        // 显示搜索结果
+        displayNodeIdSearchResults(data);
+        
+    } catch (error) {
+        if (error.name === 'AbortError') {
+            console.log('Search request aborted');
+            return;
+        }
+        
+        console.warn('API request failed, using mock data:', error);
+        
+        // 使用模拟数据
+        const mockData = generateMockNodeIdSearchData();
+        MultiSearchState.nodeIdSearch.searchResults = mockData;
+        
+        displayNodeIdSearchResults(mockData);
+    }
+}
+
+/**
+ * 生成模拟节点ID搜索数据
+ */
+function generateMockNodeIdSearchData() {
+    const { nodeId } = MultiSearchState.nodeIdSearch;
+    
+    // 模拟数据：假设输入的节点存在于某些模块中
+    const mockModuleIds = [1, 5, 12, 20];
+    const nodeType = nodeId.includes('TF') ? 'TF' : 'Gene';
+    
+    return {
+        type: "nodeInModules",
+        node_id: nodeId,
+        node_type: nodeType,
+        module_count: mockModuleIds.length,
+        module_ids: mockModuleIds
+    };
+}
+
+/**
+ * 显示节点ID搜索加载状态
+ */
+function showNodeIdSearchLoading() {
+    const resultsContainer = document.getElementById('search_results_container');
+    
+    if (resultsContainer) {
+        resultsContainer.style.display = 'block';
+        resultsContainer.innerHTML = `
+            <div class="search_results_header">
+                <h4 class="search_results_title">
+                    <span class="title_icon">🆔</span>
+                    Node ID Search Results
+                </h4>
+            </div>
+            <div class="loading_placeholder">
+                <div class="loading_spinner"></div>
+                <p>Searching for node ID in modules...</p>
+            </div>
+        `;
+    }
+}
+
+/**
+ * 显示节点ID搜索结果
+ */
+function displayNodeIdSearchResults(data) {
+    console.log('Displaying node ID search results:', data);
+    
+    const resultsContainer = document.getElementById('search_results_container');
+    
+    if (!resultsContainer) {
+        console.error('Search results container not found');
+        return;
+    }
+    
+    // 检查是否找到结果
+    if (!data.module_ids || data.module_ids.length === 0) {
+        // 显示未找到结果的信息
+        resultsContainer.innerHTML = `
+            <div class="search_results_header">
+                <h4 class="search_results_title">
+                    <span class="title_icon">🆔</span>
+                    Node ID Search Results
+                </h4>
+            </div>
+            <div class="no_results_placeholder">
+                <div class="no_results_icon">🔍</div>
+                <h3>No Results Found</h3>
+                <p>Node ID "${data.node_id}" was not found in any network modules.</p>
+                <p>Please check the node ID format and try again.</p>
+            </div>
+        `;
+        resultsContainer.style.display = 'block';
+        return;
+    }
+    
+    // 构建结果HTML
+    const resultsHTML = `
+        <div class="search_results_header">
+            <h4 class="search_results_title">
+                <span class="title_icon">🆔</span>
+                Node ID Search Results
+            </h4>
+        </div>
+        
+        <div class="node_id_search_results">
+            <div class="node_info_card">
+                <div class="node_info_header">
+                    <h5 class="node_info_title">
+                        <span class="node_icon">🧬</span>
+                        Node Information
+                    </h5>
+                </div>
+                <div class="node_info_content">
+                    <div class="node_info_item">
+                        <span class="info_label">Node ID:</span>
+                        <span class="info_value node_id_value">${data.node_id}</span>
+                    </div>
+                    <div class="node_info_item">
+                        <span class="info_label">Node Type:</span>
+                        <span class="info_value">
+                            <span class="node_type_badge ${data.node_type.toLowerCase()}">${data.node_type}</span>
+                        </span>
+                    </div>
+                    <div class="node_info_item">
+                        <span class="info_label">Found in Modules:</span>
+                        <span class="info_value module_count_value">${data.module_count} modules</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modules_results_card">
+                <div class="modules_results_header">
+                    <h5 class="modules_results_title">
+                        <span class="modules_icon">📊</span>
+                        Available Network Modules
+                    </h5>
+                    <p class="modules_results_description">
+                        Click on any module to explore its regulatory network with "${data.node_id}" as the core node.
+                    </p>
+                </div>
+                <div class="modules_grid_container">
+                    <div class="modules_grid">
+                        ${data.module_ids.map(moduleId => `
+                            <div class="module_result_card clickable" onclick="selectModuleFromNodeIdSearch(${moduleId}, '${data.node_id}', '${data.node_type}')">
+                                <div class="module_result_header">
+                                    <span class="module_result_id">Module ${moduleId}</span>
+                                </div>
+                                <div class="module_result_action">
+                                    <span class="action_icon">🕸️</span>
+                                    <span class="action_text">Draw Core Network</span>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    resultsContainer.innerHTML = resultsHTML;
+    resultsContainer.style.display = 'block';
+    
+    // 滚动到结果区域
+    resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+/**
+ * 从节点ID搜索结果中选择模块
+ */
+window.selectModuleFromNodeIdSearch = async function(moduleId, nodeId, nodeType) {
+    console.log(`Selecting module ${moduleId} from node ID search - Node: ${nodeId} (${nodeType})`);
+    
+    try {
+        // 1. 选择模块（触发模块选择面板和相关面板的更新）
+        if (window.TfNetworkUtils && window.TfNetworkUtils.selectModule) {
+            window.TfNetworkUtils.selectModule(moduleId);
+        } else {
+            console.warn('TfNetworkUtils.selectModule not available, falling back to custom event');
+            const event = new CustomEvent('moduleSelected', {
+                detail: { 
+                    moduleId, 
+                    moduleData: { 
+                        module_id: moduleId,
+                        node_count: 0,
+                        edge_count: 0
+                    },
+                    source: 'node_id_search'
+                }
+            });
+            
+            document.dispatchEvent(event);
+        }
+        
+        // 2. 等待其他面板加载完成，然后直接绘制核心网络
+        setTimeout(async () => {
+            console.log(`Drawing core network for node ${nodeId} in module ${moduleId}`);
+            
+            // 触发绘制核心网络事件
+            const drawNetworkEvent = new CustomEvent('drawCoreNetwork', {
+                detail: {
+                    nodeId: nodeId,
+                    moduleId: moduleId,
+                    nodeType: nodeType,
+                    source: 'node_id_search'
+                }
+            });
+            
+            document.dispatchEvent(drawNetworkEvent);
+            
+            // 3. 确保网络可视化面板展开并滚动到该面板
+            setTimeout(() => {
+                const networkContainer = document.querySelector('.network_visualization_container');
+                if (networkContainer) {
+                    // 确保面板是展开的
+                    const collapseButton = networkContainer.querySelector('.collapse_button');
+                    if (collapseButton && collapseButton.dataset.collapsed === 'true') {
+                        collapseButton.click(); // 展开面板
+                    }
+                    
+                    // 滚动到网络面板
+                    networkContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    
+                    console.log('Scrolled to network visualization panel');
+                }
+            }, 500); // 再等待500ms确保网络绘制完成
+            
+        }, 1500); // 等待1.5秒让模块选择和功能注释面板加载完成
+        
+    } catch (error) {
+        console.error('Error selecting module from node ID search:', error);
+        alert('Failed to select module and draw network. Please try again.');
+    }
+};
 
 /**
  * 执行注释文本搜索

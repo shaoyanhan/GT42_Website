@@ -2855,6 +2855,50 @@
     transform: translateY(0);
 }
 
+/* 节点ID搜索示例功能样式 */
+.node_id_example_section {
+    margin-top: 15px;
+}
+
+.node_id_example_section .example_ids {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.node_id_example_section .example_title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #64748b;
+    margin-right: 8px;
+}
+
+.node_id_example_section .example_node_id {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    font-family: 'Courier New', monospace;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    user-select: none;
+    white-space: nowrap;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.node_id_example_section .example_node_id:hover {
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.node_id_example_section .example_node_id:active {
+    transform: translateY(0);
+}
+
 /* 搜索结果区域 */
 .search_results_container {
     background: #f8fafc;
@@ -3297,5 +3341,349 @@
     .annotation_example_section .example_keyword {
         font-size: 12px;
         padding: 5px 10px;
+    }
+    
+    .node_id_example_section .example_ids {
+        justify-content: center;
+        gap: 8px;
+    }
+    
+    .node_id_example_section .example_title {
+        font-size: 13px;
+        margin-right: 6px;
+    }
+    
+    .node_id_example_section .example_node_id {
+        font-size: 12px;
+        padding: 5px 10px;
+    }
+}
+
+/* ==================== 节点ID搜索结果样式 ==================== */
+
+/* 节点ID搜索结果主容器 */
+.node_id_search_results {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* 节点信息卡片 */
+.node_info_card {
+    background: white;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.node_info_card:hover {
+    border-color: #4fb479;
+    box-shadow: 0 4px 12px rgba(79, 180, 121, 0.1);
+}
+
+.node_info_header {
+    background: linear-gradient(135deg, #4fb479, #3a9b63);
+    color: white;
+    padding: 16px 20px;
+}
+
+.node_info_title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.node_icon {
+    font-size: 18px;
+}
+
+.node_info_content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.node_info_item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    background: #f8fafc;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+.info_label {
+    font-weight: 600;
+    color: #64748b;
+    font-size: 14px;
+    min-width: 120px;
+}
+
+.info_value {
+    color: #2d3748;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.node_id_value {
+    font-family: 'Courier New', monospace;
+    background: #f1f5f9;
+    padding: 4px 8px;
+    border-radius: 4px;
+    border: 1px solid #cbd5e1;
+}
+
+.module_count_value {
+    color: #4fb479;
+    font-weight: 700;
+}
+
+/* 模块结果卡片 */
+.modules_results_card {
+    background: white;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.modules_results_card:hover {
+    border-color: #4fb479;
+    box-shadow: 0 4px 12px rgba(79, 180, 121, 0.1);
+}
+
+.modules_results_header {
+    background: linear-gradient(135deg, #4fb479, #3a9b63);
+    color: white;
+    padding: 16px 20px;
+}
+
+.modules_results_title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 8px 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.modules_icon {
+    font-size: 18px;
+}
+
+.modules_results_description {
+    margin: 0;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.4;
+}
+
+.modules_grid_container {
+    padding: 20px;
+}
+
+.modules_grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+}
+
+/* 单个模块结果项 */
+.module_result_card {
+    background: #f8fafc;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.module_result_card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #4fb479, #3a9b63);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+}
+
+.module_result_card:hover {
+    background: white;
+    border-color: #4fb479;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(79, 180, 121, 0.15);
+}
+
+.module_result_card:hover::before {
+    transform: translateX(0);
+}
+
+.module_result_card:active {
+    transform: translateY(-1px);
+}
+
+.module_result_header {
+    margin-bottom: 12px;
+}
+
+.module_result_id {
+    font-size: 16px;
+    font-weight: 700;
+    color: #2d3748;
+    display: block;
+}
+
+.module_result_action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: #64748b;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.module_result_card:hover .module_result_action {
+    color: #4fb479;
+}
+
+.action_icon {
+    font-size: 16px;
+}
+
+.action_text {
+    font-weight: 600;
+}
+
+/* 无结果占位符 */
+.no_results_placeholder {
+    text-align: center;
+    padding: 40px 20px;
+    color: #64748b;
+}
+
+.no_results_icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    opacity: 0.6;
+}
+
+.no_results_placeholder h3 {
+    margin: 0 0 12px 0;
+    font-size: 20px;
+    font-weight: 600;
+    color: #4a5568;
+}
+
+.no_results_placeholder p {
+    margin: 0 0 8px 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #718096;
+}
+
+.no_results_placeholder p:last-child {
+    margin-bottom: 0;
+}
+
+/* 节点类型徽章 */
+.node_type_badge {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.node_type_badge.tf {
+    background: #fecaca;
+    color: #dc2626;
+    border: 1px solid #fca5a5;
+}
+
+.node_type_badge.gene {
+    background: #bee3f8;
+    color: #2563eb;
+    border: 1px solid #93c5fd;
+}
+
+/* 节点ID搜索响应式设计 */
+@media (max-width: 768px) {
+    .node_info_content {
+        padding: 16px;
+    }
+    
+    .node_info_item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    
+    .info_label {
+        min-width: unset;
+        font-size: 13px;
+    }
+    
+    .info_value {
+        font-size: 13px;
+    }
+    
+    .modules_grid_container {
+        padding: 16px;
+    }
+    
+    .modules_grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 12px;
+    }
+    
+    .module_result_card {
+        padding: 12px;
+    }
+    
+    .module_result_id {
+        font-size: 14px;
+    }
+    
+    .module_result_action {
+        font-size: 12px;
+        gap: 6px;
+    }
+    
+    .action_icon {
+        font-size: 14px;
+    }
+    
+    .no_results_placeholder {
+        padding: 30px 16px;
+    }
+    
+    .no_results_icon {
+        font-size: 36px;
+    }
+    
+    .no_results_placeholder h3 {
+        font-size: 18px;
+    }
+    
+    .no_results_placeholder p {
+        font-size: 13px;
     }
 }
