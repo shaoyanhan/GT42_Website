@@ -89,6 +89,9 @@ window.NetworkVisualizationModule = {
         // 监听绘制核心网络事件
         document.addEventListener('drawCoreNetwork', this.handleDrawCoreNetworkEvent.bind(this));
         
+        // 监听模块选择事件
+        document.addEventListener('moduleSelected', this.handleModuleSelectionChange.bind(this));
+        
         // 绑定折叠/展开按钮
         this.bindCollapseEvents();
         
@@ -113,6 +116,9 @@ window.NetworkVisualizationModule = {
         NetworkVisualizationState.currentCoreNodeId = nodeId;
         NetworkVisualizationState.currentNodeType = nodeType;
         
+        // 展开网络绘制板块（如果已折叠）
+        this.expandNetworkContainer();
+        
         // 显示网络图绘制板块并等待ECharts初始化完成
         await this.showNetworkContainer();
         
@@ -121,6 +127,15 @@ window.NetworkVisualizationModule = {
         
         // 加载网络数据并绘制
         this.loadAndDrawNetwork();
+    },
+    
+    // 处理模块选择变更事件
+    handleModuleSelectionChange: function(event) {
+        const { moduleId } = event.detail;
+        console.log('Module selection changed to:', moduleId);
+        
+        // 清空并隐藏网络绘制板块
+        this.clearAndHideNetworkContainer();
     },
     
     // 显示网络图绘制板块
@@ -347,9 +362,6 @@ window.NetworkVisualizationModule = {
             NetworkVisualizationState.chartInstance.resize();
         }
         
-        // 隐藏加载占位符
-        this.hideChartLoading();
-        
         // 构建节点和边数据
         const { nodes, links } = this.buildNetworkData(networkData.data);
         
@@ -418,6 +430,12 @@ window.NetworkVisualizationModule = {
         }, 100);
         
         console.log(`Network chart drawn with ${nodes.length} nodes and ${links.length} edges`);
+        
+        // 等待2秒后隐藏loading动画
+        setTimeout(() => {
+            this.hideChartLoading();
+            console.log('Loading animation hidden after 2 seconds delay');
+        }, 2000);
     },
     
     // 构建网络数据
@@ -682,12 +700,15 @@ window.NetworkVisualizationModule = {
     // 显示图表加载状态
     showChartLoading: function() {
         const loadingPlaceholder = document.querySelector('.chart_loading_placeholder');
+        console.log('showChartLoading called, placeholder found:', !!loadingPlaceholder);
         if (loadingPlaceholder) {
             loadingPlaceholder.style.display = 'flex';
+            loadingPlaceholder.classList.remove('hidden');
             loadingPlaceholder.innerHTML = `
                 <div class="loading_spinner"></div>
                 <p>Loading network data...</p>
             `;
+            console.log('Loading placeholder displayed');
         }
         
         NetworkVisualizationState.isLoading = true;
@@ -696,8 +717,13 @@ window.NetworkVisualizationModule = {
     // 隐藏图表加载状态
     hideChartLoading: function() {
         const loadingPlaceholder = document.querySelector('.chart_loading_placeholder');
+        console.log('hideChartLoading called, placeholder found:', !!loadingPlaceholder);
         if (loadingPlaceholder) {
-            loadingPlaceholder.style.display = 'none';
+            loadingPlaceholder.classList.add('hidden');
+            setTimeout(() => {
+                loadingPlaceholder.style.display = 'none';
+                console.log('Loading placeholder hidden with fade effect');
+            }, 300); // 等待opacity过渡完成
         }
         
         NetworkVisualizationState.isLoading = false;
@@ -1481,6 +1507,126 @@ window.NetworkVisualizationModule = {
         window.URL.revokeObjectURL(url);
         
         console.log('Edges table downloaded locally');
+    },
+    
+    // 展开网络绘制板块
+    expandNetworkContainer: function() {
+        const container = document.querySelector('.network_visualization_container');
+        if (container) {
+            container.classList.remove('collapsed');
+            const collapseButton = document.querySelector('.network_visualization_container .collapse_button');
+            if (collapseButton) {
+                collapseButton.setAttribute('data-collapsed', 'false');
+                const icon = collapseButton.querySelector('.collapse_icon');
+                const text = collapseButton.querySelector('.collapse_text');
+                if (icon) icon.textContent = '▼';
+                if (text) text.textContent = 'Collapse';
+            }
+        }
+    },
+    
+    // 清空并隐藏网络绘制板块
+    clearAndHideNetworkContainer: function() {
+        const container = document.querySelector('.network_visualization_container');
+        if (container) {
+            console.log('Clearing and hiding network container');
+            
+            // 隐藏容器
+            container.style.display = 'none';
+            NetworkVisualizationState.isVisible = false;
+            
+            // 清空状态数据
+            NetworkVisualizationState.networkData = null;
+            NetworkVisualizationState.currentCoreNodeId = null;
+            NetworkVisualizationState.currentModuleId = null;
+            NetworkVisualizationState.currentNodeType = null;
+            
+            // 重置表格状态
+            NetworkVisualizationState.edgesTableState = {
+                currentPage: 1,
+                pageSize: 10,
+                searchKeyword: '',
+                sortBy: 'weight',
+                sortOrder: 'desc',
+                totalRecords: 0,
+                numPages: 0,
+                currentData: []
+            };
+            
+            // 清空图表
+            if (NetworkVisualizationState.chartInstance) {
+                NetworkVisualizationState.chartInstance.clear();
+            }
+            
+            // 隐藏节点弹窗
+            this.hideNodePopup();
+            
+            // 显示默认的加载占位符
+            const loadingPlaceholder = document.querySelector('.chart_loading_placeholder');
+            if (loadingPlaceholder) {
+                loadingPlaceholder.style.display = 'flex';
+                loadingPlaceholder.classList.remove('hidden');
+                loadingPlaceholder.innerHTML = `
+                    <div class="loading_spinner"></div>
+                    <p>Click "Draw Core Network" to visualize regulatory relationships...</p>
+                `;
+            }
+            
+            // 清空边表格
+            const tbody = document.getElementById('edges_table_body');
+            if (tbody) {
+                tbody.innerHTML = `
+                    <tr class="loading_row">
+                        <td colspan="5">
+                            <div class="loading_placeholder">
+                                <div class="loading_spinner"></div>
+                                <p>Draw a network to view edge information...</p>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }
+            
+            // 重置分页信息
+            this.resetPaginationDisplay();
+            
+            // 更新统计信息
+            this.updateNetworkStats();
+        }
+    },
+    
+    // 重置分页显示
+    resetPaginationDisplay: function() {
+        const startElement = document.getElementById('edges_page_start');
+        const endElement = document.getElementById('edges_page_end');
+        const totalElement = document.getElementById('edges_total_records');
+        
+        if (startElement) startElement.textContent = '0';
+        if (endElement) endElement.textContent = '0';
+        if (totalElement) totalElement.textContent = '0';
+        
+        // 清空页码按钮
+        const pageNumbersContainer = document.getElementById('edges_page_numbers');
+        if (pageNumbersContainer) {
+            pageNumbersContainer.innerHTML = '';
+        }
+        
+        // 禁用导航按钮
+        const navButtons = ['edges_first_page', 'edges_prev_page', 'edges_next_page', 'edges_last_page'];
+        navButtons.forEach(buttonId => {
+            const button = document.getElementById(buttonId);
+            if (button) {
+                button.disabled = true;
+                button.style.opacity = '0.5';
+            }
+        });
+        
+        // 重置页面跳转输入框
+        const pageJumpInput = document.getElementById('edges_page_jump');
+        if (pageJumpInput) {
+            pageJumpInput.value = '';
+            pageJumpInput.setAttribute('max', '1');
+        }
     }
 };
 

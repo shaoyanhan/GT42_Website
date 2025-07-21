@@ -772,10 +772,12 @@
                         <div class="network_chart_wrapper">
                             <div id="network_chart" class="network_chart">
                                 <!-- ECharts网络图将在这里渲染 -->
-                                <div class="chart_loading_placeholder">
-                                    <div class="loading_spinner"></div>
-                                    <p>Click "Draw Core Network" to visualize regulatory relationships...</p>
-                                </div>
+                            </div>
+                            
+                            <!-- Loading占位符移到ECharts容器外部，以便覆盖 -->
+                            <div class="chart_loading_placeholder" id="chart_loading_placeholder">
+                                <div class="loading_spinner"></div>
+                                <p>Click "Draw Core Network" to visualize regulatory relationships...</p>
                             </div>
                             
                             <!-- 节点详情弹窗 - 位于ECharts绘制区域内 -->
