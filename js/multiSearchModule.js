@@ -69,17 +69,21 @@ function setupCollapseEvents() {
     if (collapseButton && searchContent) {
         collapseButton.addEventListener('click', () => {
             const isCollapsed = collapseButton.dataset.collapsed === 'true';
+            const collapseIcon = collapseButton.querySelector('.collapse_icon');
+            const collapseText = collapseButton.querySelector('.collapse_text');
             
             if (isCollapsed) {
                 // 展开
                 searchContent.classList.remove('collapsed');
                 collapseButton.dataset.collapsed = 'false';
-                collapseButton.querySelector('.collapse_text').textContent = 'Collapse';
+                if (collapseIcon) collapseIcon.textContent = '▼';
+                if (collapseText) collapseText.textContent = 'Collapse';
             } else {
                 // 折叠
                 searchContent.classList.add('collapsed');
                 collapseButton.dataset.collapsed = 'true';
-                collapseButton.querySelector('.collapse_text').textContent = 'Expand';
+                if (collapseIcon) collapseIcon.textContent = '▶';
+                if (collapseText) collapseText.textContent = 'Expand';
             }
         });
     }
@@ -580,7 +584,7 @@ function generateAnnotationSearchTableRows(data) {
     }
     
     return data.map(item => {
-        const modulesDisplay = generateModulesDisplay(item.module_ids, item.accession);
+        const modulesDisplay = generateModulesDisplay(item.module_ids, item.accession, item.ontology);
         
         return `
             <tr>
@@ -604,7 +608,7 @@ function generateAnnotationSearchTableRows(data) {
 /**
  * 生成模块显示
  */
-function generateModulesDisplay(moduleIds, accession) {
+function generateModulesDisplay(moduleIds, accession, ontology) {
     if (!moduleIds || moduleIds.length === 0) {
         return '<span style="color: #718096;">-</span>';
     }
@@ -616,11 +620,11 @@ function generateModulesDisplay(moduleIds, accession) {
     let html = `<div class="modules_list">`;
     
     visibleModules.forEach(moduleId => {
-        html += `<span class="module_pill">${moduleId}</span>`;
+        html += `<span class="module_pill clickable" onclick="selectModuleFromSearch(${moduleId}, '${accession}', '${ontology}')" title="Click to select Module ${moduleId}">${moduleId}</span>`;
     });
     
     if (hasMore) {
-        html += `<button class="modules_more_button" onclick="showModuleSelectionModal('${accession}', [${moduleIds.join(',')}])">
+        html += `<button class="modules_more_button" onclick="showModuleSelectionModal('${accession}', [${moduleIds.join(',')}], '${ontology}')">
             +${moduleIds.length - maxVisible} more
         </button>`;
     }
@@ -894,8 +898,8 @@ function handleAnnotationSearchPageChange(page) {
 /**
  * 显示模块选择弹窗
  */
-window.showModuleSelectionModal = function(searchContext, moduleIds) {
-    console.log('Showing module selection modal:', { searchContext, moduleIds });
+window.showModuleSelectionModal = function(searchContext, moduleIds, ontology) {
+    console.log('Showing module selection modal:', { searchContext, moduleIds, ontology });
     
     const overlay = document.getElementById('module_selection_overlay');
     const modal = document.getElementById('module_selection_modal');
@@ -919,7 +923,7 @@ window.showModuleSelectionModal = function(searchContext, moduleIds) {
     
     if (gridContainer) {
         gridContainer.innerHTML = moduleIds.map(moduleId => 
-            `<button class="module_button" onclick="selectModuleFromSearch(${moduleId}, '${searchContext}')">
+            `<button class="module_button" onclick="selectModuleFromSearch(${moduleId}, '${searchContext}', '${ontology}')">
                 Module ${moduleId}
             </button>`
         ).join('');
@@ -947,8 +951,8 @@ window.showModuleSelectionModal = function(searchContext, moduleIds) {
 /**
  * 从搜索结果中选择模块
  */
-window.selectModuleFromSearch = async function(moduleId, searchContext) {
-    console.log(`Selecting module ${moduleId} from search context: ${searchContext}`);
+window.selectModuleFromSearch = async function(moduleId, searchContext, ontology) {
+    console.log(`Selecting module ${moduleId} from search context: ${searchContext}, ontology: ${ontology}`);
     
     // 关闭弹窗
     const overlay = document.getElementById('module_selection_overlay');
@@ -978,20 +982,27 @@ window.selectModuleFromSearch = async function(moduleId, searchContext) {
             document.dispatchEvent(event);
         }
         
-        // 等待功能注释板块加载完成，然后填充搜索关键词
+        // 等待功能注释板块加载完成，然后切换到指定Tab并填充搜索关键词
         setTimeout(() => {
-            const annotationSearchInput = document.querySelector('.functional_annotation_container .annotation_search_input');
-            if (annotationSearchInput && MultiSearchState.annotationSearch.searchKeyword) {
-                annotationSearchInput.value = MultiSearchState.annotationSearch.searchKeyword;
-                
-                // 触发搜索事件
-                const searchEvent = new Event('input', { bubbles: true });
-                annotationSearchInput.dispatchEvent(searchEvent);
-                
-                // 滚动到功能注释板块
-                const annotationContainer = document.querySelector('.functional_annotation_container');
-                if (annotationContainer) {
-                    annotationContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            if (window.FunctionalAnnotationModule && window.FunctionalAnnotationModule.switchToTabAndSearch) {
+                // 使用新的接口切换到指定Tab并执行搜索
+                window.FunctionalAnnotationModule.switchToTabAndSearch(ontology || 'BP', MultiSearchState.annotationSearch.searchKeyword);
+            } else {
+                console.warn('FunctionalAnnotationModule.switchToTabAndSearch not available, falling back to old method');
+                // 备用方案：使用原有的搜索方法（只能搜索默认的BP Tab）
+                const annotationSearchInput = document.querySelector('.functional_annotation_container .annotation_search_input');
+                if (annotationSearchInput && MultiSearchState.annotationSearch.searchKeyword) {
+                    annotationSearchInput.value = MultiSearchState.annotationSearch.searchKeyword;
+                    
+                    // 触发搜索事件
+                    const searchEvent = new Event('input', { bubbles: true });
+                    annotationSearchInput.dispatchEvent(searchEvent);
+                    
+                    // 滚动到功能注释板块
+                    const annotationContainer = document.querySelector('.functional_annotation_container');
+                    if (annotationContainer) {
+                        annotationContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
                 }
             }
         }, 1000); // 等待1秒让其他板块加载完成

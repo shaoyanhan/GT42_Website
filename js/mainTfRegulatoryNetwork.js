@@ -63,7 +63,7 @@ function initModuleSelection() {
  */
 function bindModuleSelectionEvents() {
     // 折叠/展开按钮
-    const collapseButton = document.querySelector('.collapse_button');
+    const collapseButton = document.querySelector('.module_selection_container .collapse_button');
     if (collapseButton) {
         collapseButton.addEventListener('click', toggleModuleSelectionCollapse);
     }
@@ -205,23 +205,26 @@ function updateModuleStats() {
  * 折叠/展开模块选择板块
  */
 function toggleModuleSelectionCollapse() {
-    const collapseButton = document.querySelector('.collapse_button');
+    const collapseButton = document.querySelector('.module_selection_container .collapse_button');
     const content = document.querySelector('.module_selection_content');
-    const collapseText = document.querySelector('.collapse_text');
+    const collapseText = document.querySelector('.module_selection_container .collapse_text');
     
     if (!collapseButton || !content || !collapseText) return;
     
     const isCollapsed = collapseButton.getAttribute('data-collapsed') === 'true';
+    const collapseIcon = collapseButton.querySelector('.collapse_icon');
     
     if (isCollapsed) {
         // 展开
         collapseButton.setAttribute('data-collapsed', 'false');
         content.classList.remove('collapsed');
+        if (collapseIcon) collapseIcon.textContent = '▼';
         collapseText.textContent = 'Collapse';
     } else {
         // 折叠
         collapseButton.setAttribute('data-collapsed', 'true');
         content.classList.add('collapsed');
+        if (collapseIcon) collapseIcon.textContent = '▶';
         collapseText.textContent = 'Expand';
     }
 }

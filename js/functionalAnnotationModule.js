@@ -1463,7 +1463,59 @@ window.goToPage = goToPage;
 window.FunctionalAnnotationModule = {
     init: initFunctionalAnnotation,
     getState: () => FunctionalAnnotationState,
-    loadData: loadAnnotationData
+    loadData: loadAnnotationData,
+    switchToTabAndSearch: switchToTabAndSearch
 };
+
+/**
+ * 切换到指定Tab并执行搜索
+ * @param {string} ontology - 本体类型 (BP/MF/CC)
+ * @param {string} searchKeyword - 搜索关键词
+ */
+function switchToTabAndSearch(ontology, searchKeyword) {
+    console.log(`Switching to ${ontology} tab and searching for: ${searchKeyword}`);
+    
+    if (!['BP', 'MF', 'CC'].includes(ontology)) {
+        console.warn('Invalid ontology type:', ontology);
+        ontology = 'BP'; // 默认使用BP
+    }
+    
+    // 保存当前标签页的UI状态
+    if (FunctionalAnnotationState.isInitialized) {
+        saveCurrentUIState();
+    }
+    
+    // 切换到指定标签页
+    FunctionalAnnotationState.currentOntology = ontology;
+    
+    // 更新Tab显示状态
+    document.querySelectorAll('.annotation_tab').forEach(tab => {
+        tab.classList.remove('active');
+        if (tab.getAttribute('data-ontology') === ontology) {
+            tab.classList.add('active');
+        }
+    });
+    
+    // 设置搜索关键词
+    const currentTab = getCurrentTabState();
+    currentTab.searchKeyword = searchKeyword;
+    currentTab.currentPage = 1; // 重置到第一页
+    
+    // 恢复UI状态（包括搜索框）
+    restoreUIState();
+    
+    // 如果模块已经选择，立即执行搜索
+    if (FunctionalAnnotationState.currentModuleId !== null && FunctionalAnnotationState.currentModuleId !== undefined) {
+        loadAnnotationData();
+        
+        // 滚动到功能注释板块
+        const annotationContainer = document.querySelector('.functional_annotation_container');
+        if (annotationContainer) {
+            setTimeout(() => {
+                annotationContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+        }
+    }
+}
 
 console.log('Functional annotation module loaded'); 

@@ -3066,6 +3066,17 @@
     white-space: nowrap;
 }
 
+.module_pill.clickable {
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.module_pill.clickable:hover {
+    background: #45a069;
+    transform: scale(1.05);
+    box-shadow: 0 2px 4px rgba(79, 180, 121, 0.3);
+}
+
 .modules_more_button {
     background: #f1f5f9;
     color: #64748b;
