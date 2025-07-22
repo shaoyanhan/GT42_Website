@@ -31,7 +31,12 @@ const MultiSearchState = {
         isSearchingModules: false,
         isSearchingPaths: false
     },
-    // 其他搜索功能的状态将在后续实现
+    idSetSearch: {
+        idList: [],
+        searchResults: null,
+        selectedModuleId: null,
+        isSearching: false
+    },
     isSearching: false,
     searchAbortController: null
 };
@@ -52,6 +57,7 @@ function initializeMultiSearch() {
         setupAnnotationSearchEvents();
         setupNodeIdSearchEvents();
         setupShortestPathSearchEvents();
+        setupIdSetSearchEvents();
         
         // 初始化默认功能（注释文本搜索）
         switchSearchFunction('annotation_text');
@@ -2373,6 +2379,528 @@ function clearShortestPathSearch() {
 window.MultiSearchModule = {
     init: initializeMultiSearch
 };
+
+/**
+ * 设置ID集合搜索事件
+ */
+function setupIdSetSearchEvents() {
+    console.log('Setting up ID set search events...');
+    
+    const textarea = document.getElementById('id_set_textarea');
+    const searchButton = document.getElementById('id_set_search_button');
+    const clearButton = document.getElementById('id_set_clear_button');
+    const fileUpload = document.getElementById('id_file_upload');
+    const exampleButton = document.getElementById('id_set_example_button_new');
+    
+    if (searchButton) {
+        searchButton.addEventListener('click', executeIdSetSearch);
+    }
+    
+    if (clearButton) {
+        clearButton.addEventListener('click', clearIdSetSearch);
+    }
+    
+    if (fileUpload) {
+        fileUpload.addEventListener('change', handleIdFileUpload);
+    }
+    
+    if (exampleButton) {
+        exampleButton.addEventListener('click', fillIdSetExample);
+    }
+    
+    if (textarea) {
+        // 回车键搜索（仅在按下Ctrl+Enter时）
+        textarea.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && e.ctrlKey) {
+                e.preventDefault();
+                executeIdSetSearch();
+            }
+        });
+    }
+    
+    console.log('ID set search events set up successfully');
+}
+
+/**
+ * 执行ID集合搜索
+ */
+async function executeIdSetSearch() {
+    const textarea = document.getElementById('id_set_textarea');
+    const searchButton = document.getElementById('id_set_search_button');
+    
+    if (!textarea) {
+        console.error('ID set textarea not found');
+        return;
+    }
+    
+    const inputText = textarea.value.trim();
+    if (!inputText) {
+        alert('Please enter ID list or upload a file');
+        return;
+    }
+    
+    // 解析输入的ID列表
+    const idList = parseIdList(inputText);
+    if (idList.length === 0) {
+        alert('No valid IDs found in the input');
+        return;
+    }
+    
+    console.log('Executing ID set search with:', idList);
+    
+    // 更新状态
+    MultiSearchState.idSetSearch.idList = idList;
+    MultiSearchState.idSetSearch.isSearching = true;
+    
+    // 更新UI
+    if (searchButton) {
+        searchButton.disabled = true;
+        searchButton.innerHTML = '<span class="search_icon">⏳</span> Searching...';
+    }
+    
+    try {
+        // 调用API进行模块分类
+        const results = await classifyNodesByModules(idList);
+        
+        // 更新状态
+        MultiSearchState.idSetSearch.searchResults = results;
+        MultiSearchState.idSetSearch.isSearching = false;
+        
+        // 显示搜索结果
+        displayIdSetSearchResults(results);
+        
+        console.log('ID set search completed successfully');
+        
+    } catch (error) {
+        console.error('Error in ID set search:', error);
+        
+        // 使用模拟数据
+        const mockResults = getMockIdSetResults(idList);
+        MultiSearchState.idSetSearch.searchResults = mockResults;
+        displayIdSetSearchResults(mockResults);
+        
+        // 显示错误提示但继续显示模拟结果
+        showTemporaryMessage('API unavailable, showing example results', 'warning');
+        
+    } finally {
+        // 恢复UI状态
+        MultiSearchState.idSetSearch.isSearching = false;
+        if (searchButton) {
+            searchButton.disabled = false;
+            searchButton.innerHTML = '<span class="search_icon">🔍</span> Search';
+        }
+    }
+}
+
+/**
+ * 解析ID列表输入
+ */
+function parseIdList(inputText) {
+    // 支持换行符、逗号、空格等分隔符
+    const ids = inputText
+        .split(/[\n,\s\t]+/)
+        .map(id => id.trim())
+        .filter(id => id.length > 0)
+        .filter(id => /^SGI\d+\.(SO|SS)\.?\d*/.test(id)); // 简单的ID格式验证
+    
+    // 去重
+    return [...new Set(ids)];
+}
+
+/**
+ * 处理文件上传
+ */
+function handleIdFileUpload(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    
+    console.log('Processing uploaded file:', file.name);
+    
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const content = e.target.result;
+        const textarea = document.getElementById('id_set_textarea');
+        if (textarea) {
+            // 如果已有内容，询问是否替换
+            if (textarea.value.trim()) {
+                if (confirm('Replace existing content with file content?')) {
+                    textarea.value = content;
+                } else {
+                    textarea.value += '\n' + content;
+                }
+            } else {
+                textarea.value = content;
+            }
+        }
+        
+        console.log('File content loaded into textarea');
+    };
+    
+    reader.readAsText(file);
+}
+
+/**
+ * 调用模块分类API
+ */
+async function classifyNodesByModules(nodeIds) {
+    const url = `${API_BASE_URL}/classifyNodesByModules/`;
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ node_ids: nodeIds })
+    });
+    
+    if (!response.ok) {
+        throw new Error(`API request failed: ${response.status}`);
+    }
+    
+    return await response.json();
+}
+
+/**
+ * 显示ID集合搜索结果
+ */
+function displayIdSetSearchResults(results) {
+    console.log('Displaying ID set search results:', results);
+    
+    const resultsContainer = document.getElementById('search_results_container');
+    if (!resultsContainer) {
+        console.error('Search results container not found');
+        return;
+    }
+    
+    const resultHTML = createIdSetResultsHTML(results);
+    resultsContainer.innerHTML = resultHTML;
+    resultsContainer.style.display = 'block';
+    
+    // 设置事件监听器
+    setupIdSetResultsEventListeners();
+}
+
+/**
+ * 创建ID集合搜索结果HTML
+ */
+function createIdSetResultsHTML(results) {
+    if (!results || !results.modules || Object.keys(results.modules).length === 0) {
+        return `
+            <div class="search_results_section">
+                <div class="results_header">
+                    <h4 class="results_title">
+                        <span class="results_icon">❌</span>
+                        No Results Found
+                    </h4>
+                </div>
+                <div class="no_results_content">
+                    <p>No valid IDs found in any modules. Please check your input and try again.</p>
+                </div>
+            </div>
+        `;
+    }
+    
+    const foundCount = results.found_nodes || 0;
+    const totalCount = results.total_input_nodes || 0;
+    const moduleCount = results.module_count || 0;
+    const notFoundNodes = results.not_found_nodes || [];
+    
+    return `
+        <div class="search_results_section">
+            <div class="results_header">
+                <h4 class="results_title">
+                    <span class="results_icon">📊</span>
+                    ID Set Classification Results
+                </h4>
+                <div class="results_summary">
+                    <span class="summary_item">
+                        <strong>Found:</strong> ${foundCount}/${totalCount} IDs
+                    </span>
+                    <span class="summary_item">
+                        <strong>Modules:</strong> ${moduleCount}
+                    </span>
+                </div>
+            </div>
+            
+            ${notFoundNodes.length > 0 ? `
+                <div class="not_found_section">
+                    <h5 class="section_subtitle">
+                        <span class="subtitle_icon">⚠️</span>
+                        Not Found IDs (${notFoundNodes.length})
+                    </h5>
+                    <div class="not_found_ids">
+                        ${notFoundNodes.map(id => `<span class="not_found_id">${id}</span>`).join('')}
+                    </div>
+                </div>
+            ` : ''}
+            
+            <div class="modules_results_section">
+                <h5 class="section_subtitle">
+                    <span class="subtitle_icon">🎯</span>
+                    Available Modules with Matching IDs
+                </h5>
+                <div class="modules_grid_container">
+                    <div class="modules_grid">
+                        ${Object.values(results.modules).map(module => `
+                        <div class="module_result_card" data-module-id="${module.module_id}">
+                            <div class="module_card_header">
+                                <h6 class="module_card_title">Module ${module.module_id}</h6>
+                                <span class="module_card_count">${module.node_count} IDs</span>
+                            </div>
+                            <div class="module_card_content">
+                                <div class="module_nodes_preview_container">
+                                    <div class="module_nodes_preview_scroll">
+                                        ${module.nodes.map(node => `
+                                            <span class="node_preview ${node.node_type === 'TF' ? 'tf_node' : 'gene_node'}" title="${node.node_id}">
+                                                ${node.node_id}
+                                            </span>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="module_card_actions">
+                                <button class="module_select_button" data-module-id="${module.module_id}">
+                                    <span class="action_icon">🕸️</span>
+                                    Draw Subnetwork
+                                </button>
+                            </div>
+                        </div>
+                        `).join('')}
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+/**
+ * 设置ID集合搜索结果事件监听器
+ */
+function setupIdSetResultsEventListeners() {
+    // 模块选择按钮事件
+    document.querySelectorAll('.module_select_button').forEach(button => {
+        button.addEventListener('click', handleModuleSelectionForIdSet);
+    });
+}
+
+/**
+ * 处理模块选择（ID集合搜索）
+ */
+async function handleModuleSelectionForIdSet(event) {
+    const button = event.currentTarget;
+    const moduleId = parseInt(button.dataset.moduleId);
+    
+    if (isNaN(moduleId)) {
+        console.error('Invalid module ID');
+        return;
+    }
+    
+    console.log('Selected module for ID set:', moduleId, 'Type:', typeof moduleId);
+    console.log('Current search results:', MultiSearchState.idSetSearch.searchResults);
+    
+    // 更新状态
+    MultiSearchState.idSetSearch.selectedModuleId = moduleId;
+    
+    // 更新按钮状态
+    button.disabled = true;
+    button.innerHTML = '<span class="action_icon">⏳</span> Processing...';
+    
+    try {
+        // 1. 触发主模块选择板块更新
+        const moduleSelectEvent = new CustomEvent('selectModuleFromSearch', {
+            detail: { moduleId: moduleId }
+        });
+        document.dispatchEvent(moduleSelectEvent);
+        
+        // 2. 等待短暂时间让模块选择完成
+        await new Promise(resolve => setTimeout(resolve, 500));
+        
+        // 3. 绘制子网络
+        await drawSubnetworkForIdSet(moduleId);
+        
+        console.log('Module selection and subnetwork drawing completed');
+        
+    } catch (error) {
+        console.error('Error in module selection for ID set:', error);
+        alert('Error drawing subnetwork. Please try again.');
+        
+    } finally {
+        // 恢复按钮状态
+        button.disabled = false;
+        button.innerHTML = '<span class="action_icon">🕸️</span> Draw Subnetwork';
+    }
+}
+
+/**
+ * 绘制ID集合的子网络
+ */
+async function drawSubnetworkForIdSet(moduleId) {
+    const idList = MultiSearchState.idSetSearch.idList;
+    const results = MultiSearchState.idSetSearch.searchResults;
+    
+    if (!results || !results.modules) {
+        throw new Error('Search results not found');
+    }
+    
+    // 确保moduleId被正确处理（处理字符串键和数字键的情况）
+    const moduleData = results.modules[moduleId] || results.modules[String(moduleId)];
+    
+    if (!moduleData) {
+        console.error('Available modules:', Object.keys(results.modules));
+        throw new Error(`Module data not found for module ID: ${moduleId}`);
+    }
+    const moduleNodeIds = moduleData.nodes.map(node => node.node_id);
+    
+    console.log('Drawing subnetwork for module:', moduleId, 'with IDs:', moduleNodeIds);
+    console.log('Module data used:', moduleData);
+    
+    // 触发绘制子网络事件
+    const drawSubnetworkEvent = new CustomEvent('drawSubnetwork', {
+        detail: {
+            moduleId: moduleId,
+            nodeIds: moduleNodeIds,
+            sourceType: 'idSet' // 标识这是来自ID集合搜索
+        }
+    });
+    
+    console.log('Dispatching drawSubnetwork event with detail:', drawSubnetworkEvent.detail);
+    document.dispatchEvent(drawSubnetworkEvent);
+    console.log('drawSubnetwork event dispatched successfully');
+    
+    // 滚动到网络可视化板块
+    setTimeout(() => {
+        const networkContainer = document.querySelector('.network_visualization_container');
+        if (networkContainer) {
+            networkContainer.scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'start' 
+            });
+        }
+    }, 100);
+}
+
+/**
+ * 填充ID集合示例
+ */
+function fillIdSetExample() {
+    const textarea = document.getElementById('id_set_textarea');
+    if (!textarea) return;
+    
+    const exampleIds = [
+        'SGI001901.SS.006',
+        'SGI000027.SO.008',
+        'SGI000027.SO.010',
+        'SGI000027.SO.011',
+        'SGI000027.SO.012',
+        'SGI000027.SO.013',
+        'SGI000027.SS.002',
+        'SGI000027.SS.003',
+        'SGI000027.SS.004'
+    ];
+    
+    textarea.value = exampleIds.join('\n');
+    console.log('Filled ID set example');
+}
+
+/**
+ * 清除ID集合搜索
+ */
+function clearIdSetSearch() {
+    const textarea = document.getElementById('id_set_textarea');
+    const fileUpload = document.getElementById('id_file_upload');
+    
+    if (textarea) textarea.value = '';
+    if (fileUpload) fileUpload.value = '';
+    
+    // 重置状态
+    MultiSearchState.idSetSearch = {
+        idList: [],
+        searchResults: null,
+        selectedModuleId: null,
+        isSearching: false
+    };
+    
+    // 隐藏搜索结果
+    hideSearchResults();
+    
+    console.log('Cleared ID set search');
+}
+
+/**
+ * 显示临时消息
+ */
+function showTemporaryMessage(message, type = 'info') {
+    console.log(`${type.toUpperCase()}: ${message}`);
+    
+    // 创建临时消息元素
+    const messageElement = document.createElement('div');
+    messageElement.textContent = message;
+    messageElement.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 12px 20px;
+        background: ${type === 'warning' ? '#f59e0b' : '#10b981'};
+        color: white;
+        border-radius: 6px;
+        z-index: 10000;
+        font-size: 14px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        transition: opacity 0.3s ease;
+    `;
+    
+    document.body.appendChild(messageElement);
+    
+    // 3秒后自动移除
+    setTimeout(() => {
+        messageElement.style.opacity = '0';
+        setTimeout(() => {
+            if (messageElement.parentNode) {
+                messageElement.parentNode.removeChild(messageElement);
+            }
+        }, 300);
+    }, 3000);
+}
+
+/**
+ * 获取模拟ID集合搜索结果
+ */
+function getMockIdSetResults(idList) {
+    // 模拟分类结果
+    const mockResults = {
+        type: "nodeModuleClassification",
+        total_input_nodes: idList.length,
+        found_nodes: Math.min(idList.length, idList.length - 1),
+        not_found_nodes: idList.length > 3 ? [idList[idList.length - 1]] : [],
+        module_count: Math.min(3, Math.ceil(idList.length / 2)),
+        modules: {}
+    };
+    
+    // 为前几个ID创建模块（包含module 0以支持测试）
+    const availableModules = [0, 5, 12, 23, 41];
+    let moduleIndex = 0;
+    
+    for (let i = 0; i < Math.min(3, Math.ceil(idList.length / 2)); i++) {
+        const moduleId = availableModules[moduleIndex++];
+        const moduleNodeCount = Math.min(3, idList.length - i);
+        const moduleNodes = [];
+        
+        for (let j = 0; j < moduleNodeCount && (i * 2 + j) < idList.length - 1; j++) {
+            const nodeId = idList[i * 2 + j];
+            moduleNodes.push({
+                node_id: nodeId,
+                node_type: nodeId.includes('.SO.') ? 'Gene' : 'TF'
+            });
+        }
+        
+        mockResults.modules[moduleId] = {
+            module_id: moduleId,
+            node_count: moduleNodes.length,
+            nodes: moduleNodes
+        };
+    }
+    
+    return mockResults;
+}
 
 // 将必要的函数暴露到全局作用域
 window.executeAnnotationSearch = executeAnnotationSearch; 

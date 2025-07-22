@@ -8,6 +8,10 @@ const NetworkVisualizationState = {
     currentModuleId: null,
     currentNodeType: null,
     
+    // 子网络信息（用于ID集合搜索）
+    currentFocusNodeIds: [],     // 当前聚焦的节点ID列表
+    networkType: 'core',         // 'core' 或 'subnetwork'
+    
     // 网络数据
     networkData: null,           // 当前网络的完整数据
     currentFilterTopN: 100,      // 当前过滤的边数
@@ -89,6 +93,9 @@ window.NetworkVisualizationModule = {
         // 监听绘制核心网络事件
         document.addEventListener('drawCoreNetwork', this.handleDrawCoreNetworkEvent.bind(this));
         
+        // 监听绘制子网络事件（用于ID集合搜索）
+        document.addEventListener('drawSubnetwork', this.handleDrawSubnetworkEvent.bind(this));
+        
         // 监听模块选择事件
         document.addEventListener('moduleSelected', this.handleModuleSelectionChange.bind(this));
         
@@ -115,6 +122,8 @@ window.NetworkVisualizationModule = {
         NetworkVisualizationState.currentModuleId = moduleId;
         NetworkVisualizationState.currentCoreNodeId = nodeId;
         NetworkVisualizationState.currentNodeType = nodeType;
+        NetworkVisualizationState.currentFocusNodeIds = [nodeId];
+        NetworkVisualizationState.networkType = 'core';
         
         // 展开网络绘制板块（如果已折叠）
         this.expandNetworkContainer();
@@ -129,10 +138,56 @@ window.NetworkVisualizationModule = {
         this.loadAndDrawNetwork();
     },
     
+    // 处理绘制子网络事件（用于ID集合搜索）
+    handleDrawSubnetworkEvent: async function(event) {
+        const { moduleId, nodeIds, sourceType } = event.detail;
+        console.log('Drawing subnetwork for:', { moduleId, nodeIds, sourceType });
+        console.log('Module ID type and value:', typeof moduleId, moduleId);
+        console.log('NodeIds length:', nodeIds ? nodeIds.length : 0);
+        
+        // 检查moduleId是否有效
+        if (moduleId === null || moduleId === undefined) {
+            console.error('Invalid moduleId received:', moduleId);
+            return;
+        }
+        
+        // 更新状态
+        NetworkVisualizationState.currentModuleId = moduleId;
+        NetworkVisualizationState.currentCoreNodeId = null;
+        NetworkVisualizationState.currentNodeType = null;
+        NetworkVisualizationState.currentFocusNodeIds = nodeIds || [];
+        NetworkVisualizationState.networkType = 'subnetwork';
+        
+        console.log('Updated network state:', {
+            currentModuleId: NetworkVisualizationState.currentModuleId,
+            currentModuleIdType: typeof NetworkVisualizationState.currentModuleId,
+            currentFocusNodeIds: NetworkVisualizationState.currentFocusNodeIds,
+            networkType: NetworkVisualizationState.networkType
+        });
+        
+        // 展开网络绘制板块（如果已折叠）
+        this.expandNetworkContainer();
+        
+        // 显示网络图绘制板块并等待ECharts初始化完成
+        await this.showNetworkContainer();
+        
+        // 滚动到网络图绘制板块
+        this.scrollToNetworkContainer();
+        
+        // 加载子网络数据并绘制
+        this.loadAndDrawSubnetwork();
+    },
+    
     // 处理模块选择变更事件
     handleModuleSelectionChange: function(event) {
         const { moduleId } = event.detail;
         console.log('Module selection changed to:', moduleId);
+        
+        // 重置网络状态
+        NetworkVisualizationState.currentCoreNodeId = null;
+        NetworkVisualizationState.currentNodeType = null;
+        NetworkVisualizationState.currentFocusNodeIds = [];
+        NetworkVisualizationState.networkType = 'core';
         
         // 清空并隐藏网络绘制板块
         this.clearAndHideNetworkContainer();
@@ -332,6 +387,338 @@ window.NetworkVisualizationModule = {
                 }
             ]
         };
+    },
+    
+    // 加载并绘制子网络（用于ID集合搜索）
+    loadAndDrawSubnetwork: async function() {
+        console.log('loadAndDrawSubnetwork called with state:', {
+            currentModuleId: NetworkVisualizationState.currentModuleId,
+            currentFocusNodeIds: NetworkVisualizationState.currentFocusNodeIds,
+            networkType: NetworkVisualizationState.networkType
+        });
+        
+        if (!NetworkVisualizationState.currentFocusNodeIds.length || 
+            NetworkVisualizationState.currentModuleId === null || 
+            NetworkVisualizationState.currentModuleId === undefined) {
+            console.warn('loadAndDrawSubnetwork: Missing required state', {
+                focusNodeIdsLength: NetworkVisualizationState.currentFocusNodeIds.length,
+                currentModuleId: NetworkVisualizationState.currentModuleId
+            });
+            return;
+        }
+        
+        this.showChartLoading();
+        
+        // 确保ECharts实例已初始化
+        await this.ensureChartInitialized();
+        
+        try {
+            // 获取子网络数据（不分页版本，用于绘图）
+            const subnetworkData = await this.fetchSubnetworkData();
+            
+            if (subnetworkData) {
+                NetworkVisualizationState.networkData = subnetworkData;
+                
+                // 绘制子网络图
+                this.drawSubnetworkChart(subnetworkData);
+                
+                // 加载表格数据
+                this.loadSubnetworkEdgesTableData();
+                
+                // 更新统计信息
+                this.updateSubnetworkStats();
+            }
+        } catch (error) {
+            console.error('Error loading subnetwork data:', error);
+            this.showChartError();
+        }
+    },
+    
+    // 获取子网络数据
+    fetchSubnetworkData: async function() {
+        const url = `${API_BASE_URL}/getNetworkSubnetworkTable/`;
+        
+        const requestData = {
+            node_ids: NetworkVisualizationState.currentFocusNodeIds,
+            module_id: NetworkVisualizationState.currentModuleId,
+            filter_top_n: NetworkVisualizationState.currentFilterTopN
+        };
+        
+        console.log('Fetching subnetwork data with request:', requestData);
+        
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(requestData)
+            });
+            
+            if (!response.ok) {
+                console.error(`Subnetwork API request failed: ${response.status} ${response.statusText}`);
+                console.error('Request URL:', url);
+                console.error('Request data:', requestData);
+                
+                // 尝试读取响应内容以获取更详细的错误信息
+                try {
+                    const errorText = await response.text();
+                    console.error('API error response body:', errorText);
+                } catch (e) {
+                    console.error('Could not read error response body:', e);
+                }
+                
+                throw new Error(`Subnetwork API response was not ok: ${response.status} ${response.statusText}`);
+            }
+            
+            const data = await response.json();
+            console.log('Subnetwork data received:', data);
+            
+            return data;
+        } catch (error) {
+            console.error('Error fetching subnetwork data:', error);
+            console.error('Will use mock data as fallback for module:', NetworkVisualizationState.currentModuleId);
+            
+            // 返回模拟数据作为后备
+            const mockData = this.getMockSubnetworkData();
+            console.log('Generated mock subnetwork data:', mockData);
+            return mockData;
+        }
+    },
+    
+    // 获取模拟子网络数据
+    getMockSubnetworkData: function() {
+        const focusNodeIds = NetworkVisualizationState.currentFocusNodeIds;
+        const mockEdges = [];
+        
+        // 为每个聚焦节点创建一些连接
+        focusNodeIds.forEach((nodeId, index) => {
+            const nodeType = nodeId.includes('.SO.') ? 'Gene' : 'TF';
+            const oppositeType = nodeType === 'Gene' ? 'TF' : 'Gene';
+            
+            // 聚焦节点之间的连接
+            if (index < focusNodeIds.length - 1) {
+                mockEdges.push({
+                    source: nodeId,
+                    source_type: nodeType,
+                    target: focusNodeIds[index + 1],
+                    target_type: focusNodeIds[index + 1].includes('.SO.') ? 'Gene' : 'TF',
+                    weight: 0.92 - index * 0.05
+                });
+            }
+            
+            // 每个聚焦节点的一些邻接节点
+            for (let i = 1; i <= 3; i++) {
+                const targetId = `SGI${String(Math.floor(Math.random() * 10000)).padStart(6, '0')}.${nodeType === 'Gene' ? 'SS' : 'SO'}.${String(i).padStart(3, '0')}`;
+                mockEdges.push({
+                    source: nodeId,
+                    source_type: nodeType,
+                    target: targetId,
+                    target_type: oppositeType,
+                    weight: 0.85 - i * 0.1
+                });
+            }
+        });
+        
+        return {
+            type: "networkSubnetworkTable",
+            module_id: NetworkVisualizationState.currentModuleId,
+            input_node_count: focusNodeIds.length,
+            found_node_count: focusNodeIds.length,
+            found_nodes: focusNodeIds,
+            not_found_nodes: [],
+            filter_top_n: NetworkVisualizationState.currentFilterTopN,
+            total_edges: mockEdges.length,
+            data: mockEdges
+        };
+    },
+    
+    // 绘制子网络图
+    drawSubnetworkChart: function(subnetworkData) {
+        console.log('drawSubnetworkChart called with:', {
+            chartInstance: !!NetworkVisualizationState.chartInstance,
+            subnetworkData: !!subnetworkData,
+            focusNodeIds: NetworkVisualizationState.currentFocusNodeIds
+        });
+        
+        if (!NetworkVisualizationState.chartInstance) {
+            console.error('Cannot draw subnetwork chart: missing chart instance');
+            return;
+        }
+        
+        if (!subnetworkData || !subnetworkData.data) {
+            console.error('Cannot draw subnetwork chart: missing subnetwork data');
+            return;
+        }
+        
+        // 构建节点和边数据（使用修改版的buildNetworkData支持多个聚焦节点）
+        const { nodes, links } = this.buildSubnetworkData(subnetworkData.data);
+        
+        // 配置ECharts选项
+        const focusNodesText = NetworkVisualizationState.currentFocusNodeIds.length > 1 
+            ? `${NetworkVisualizationState.currentFocusNodeIds.length} Selected Nodes`
+            : NetworkVisualizationState.currentFocusNodeIds[0];
+            
+        const option = {
+            title: {
+                text: `Subnetwork for ${focusNodesText}`,
+                left: 'center',
+                top: 20,
+                textStyle: {
+                    color: '#2d7a4f',
+                    fontSize: 16,
+                    fontWeight: 'bold'
+                }
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: function(params) {
+                    if (params.dataType === 'node') {
+                        const isFocusNode = NetworkVisualizationState.currentFocusNodeIds.includes(params.data.name);
+                        const focusText = isFocusNode ? '<br/><em style="color: #e67e22;">Focus Node</em>' : '';
+                        return `<strong>${params.data.name}</strong><br/>Type: ${params.data.type}<br/>Connections: ${params.data.connections || 0}${focusText}<br/><em>Click for details</em>`;
+                    } else if (params.dataType === 'edge') {
+                        return `<strong>${params.data.source}</strong> → <strong>${params.data.target}</strong><br/>Weight: ${params.data.weight}`;
+                    }
+                }
+            },
+            series: [{
+                name: 'Subnetwork',
+                type: 'graph',
+                layout: 'force',
+                data: nodes,
+                links: links,
+                roam: true,
+                focusNodeAdjacency: true,
+                itemStyle: {
+                    borderWidth: 2,
+                    borderColor: '#fff'
+                },
+                lineStyle: {
+                    color: '#4fb479',
+                    width: 2,
+                    curveness: 0.1
+                },
+                emphasis: {
+                    focus: 'adjacency',
+                    lineStyle: {
+                        width: 4
+                    }
+                },
+                force: {
+                    repulsion: 1200,
+                    gravity: 0.1,
+                    edgeLength: 180,
+                    layoutAnimation: true
+                }
+            }]
+        };
+        
+        // 设置图表选项
+        NetworkVisualizationState.chartInstance.setOption(option, true);
+        
+        // 确保图表正确调整尺寸
+        setTimeout(() => {
+            if (NetworkVisualizationState.chartInstance) {
+                NetworkVisualizationState.chartInstance.resize();
+            }
+        }, 100);
+        
+        console.log(`Subnetwork chart drawn with ${nodes.length} nodes and ${links.length} edges`);
+        
+        // 等待2秒后隐藏loading动画
+        setTimeout(() => {
+            this.hideChartLoading();
+            console.log('Loading animation hidden after 2 seconds delay');
+        }, 2000);
+    },
+    
+    // 构建子网络数据（支持多个聚焦节点）
+    buildSubnetworkData: function(edgesData) {
+        const nodeMap = new Map();
+        const links = [];
+        const focusNodeIds = NetworkVisualizationState.currentFocusNodeIds;
+        
+        // 构建边数据
+        edgesData.forEach(edge => {
+            // 添加节点到映射
+            if (!nodeMap.has(edge.source)) {
+                nodeMap.set(edge.source, {
+                    id: edge.source,
+                    name: edge.source,
+                    type: edge.source_type,
+                    connections: 0
+                });
+            }
+            
+            if (!nodeMap.has(edge.target)) {
+                nodeMap.set(edge.target, {
+                    id: edge.target,
+                    name: edge.target,
+                    type: edge.target_type,
+                    connections: 0
+                });
+            }
+            
+            // 增加连接计数
+            nodeMap.get(edge.source).connections++;
+            nodeMap.get(edge.target).connections++;
+            
+            // 添加边
+            links.push({
+                source: edge.source,
+                target: edge.target,
+                weight: edge.weight,
+                lineStyle: {
+                    color: '#4fb479',
+                    width: Math.max(1, edge.weight * 3) // 根据权重调整线条粗细
+                }
+            });
+        });
+        
+        // 构建节点数据
+        const nodes = Array.from(nodeMap.values()).map(node => {
+            const isFocusNode = focusNodeIds.includes(node.id);
+            const isTF = node.type === 'TF';
+            
+            // 聚焦节点和普通节点都按类型着色，但聚焦节点有特殊的视觉效果
+            const baseColor = isTF ? '#dc3545' : '#0d6efd'; // TF红色，Gene蓝色
+            
+            return {
+                id: node.id,
+                name: node.name,
+                type: node.type,
+                connections: node.connections,
+                symbolSize: isFocusNode ? 40 : (15 + node.connections * 2), // 聚焦节点更大
+                itemStyle: {
+                    color: baseColor,
+                    borderWidth: isFocusNode ? 6 : 2, // 聚焦节点更粗的边框
+                    borderColor: isFocusNode ? '#e67e22' : '#ffffff', // 聚焦节点橙色边框
+                    shadowBlur: isFocusNode ? 20 : 0, // 聚焦节点添加阴影
+                    shadowColor: isFocusNode ? 'rgba(230, 126, 34, 0.4)' : 'transparent',
+                    shadowOffsetX: isFocusNode ? 3 : 0,
+                    shadowOffsetY: isFocusNode ? 3 : 0,
+                    opacity: isFocusNode ? 1 : 0.85 // 聚焦节点完全不透明
+                },
+                label: {
+                    show: isFocusNode || node.connections > 2, // 显示聚焦节点或高连接节点的标签
+                    fontSize: isFocusNode ? 16 : 10, // 聚焦节点标签更大
+                    fontWeight: isFocusNode ? 'bold' : 'normal',
+                    color: isFocusNode ? '#e67e22' : '#666666', // 聚焦节点标签橙色
+                    fontFamily: isFocusNode ? 'Arial, sans-serif' : 'inherit'
+                },
+                emphasis: {
+                    focus: 'adjacency',
+                    itemStyle: {
+                        borderWidth: isFocusNode ? 8 : 3,
+                        shadowBlur: isFocusNode ? 25 : 10,
+                        shadowColor: isFocusNode ? 'rgba(230, 126, 34, 0.6)' : 'rgba(0, 0, 0, 0.4)'
+                    }
+                }
+            };
+        });
+        
+        return { nodes, links };
     },
     
     // 绘制网络图
@@ -786,6 +1173,57 @@ window.NetworkVisualizationModule = {
         }
     },
     
+    // 更新子网络统计信息
+    updateSubnetworkStats: function() {
+        // 更新核心节点ID为聚焦节点列表
+        const coreNodeElement = document.getElementById('network_core_node_id');
+        if (coreNodeElement) {
+            if (NetworkVisualizationState.currentFocusNodeIds.length === 0) {
+                coreNodeElement.textContent = 'None';
+            } else if (NetworkVisualizationState.currentFocusNodeIds.length === 1) {
+                coreNodeElement.textContent = NetworkVisualizationState.currentFocusNodeIds[0];
+            } else {
+                coreNodeElement.textContent = `${NetworkVisualizationState.currentFocusNodeIds.length} Selected Nodes`;
+            }
+        }
+        
+        // 更新模块ID
+        const moduleElement = document.getElementById('network_module_id');
+        const moduleContainer = document.getElementById('network_module_container');
+        if (moduleElement && moduleContainer) {
+            moduleElement.textContent = NetworkVisualizationState.currentModuleId !== null ? 
+                NetworkVisualizationState.currentModuleId : '-';
+            moduleContainer.style.display = NetworkVisualizationState.currentModuleId !== null ? 'block' : 'none';
+        }
+        
+        // 如果有子网络数据，更新节点和边的数量
+        if (NetworkVisualizationState.networkData) {
+            const data = NetworkVisualizationState.networkData.data || [];
+            const nodeIds = new Set();
+            
+            data.forEach(edge => {
+                nodeIds.add(edge.source);
+                nodeIds.add(edge.target);
+            });
+            
+            // 更新节点数量
+            const nodeCountElement = document.getElementById('network_node_count');
+            const nodeCountContainer = document.getElementById('network_node_count_container');
+            if (nodeCountElement && nodeCountContainer) {
+                nodeCountElement.textContent = nodeIds.size.toLocaleString();
+                nodeCountContainer.style.display = 'block';
+            }
+            
+            // 更新边数量
+            const edgeCountElement = document.getElementById('network_edge_count');
+            const edgeCountContainer = document.getElementById('network_edge_count_container');
+            if (edgeCountElement && edgeCountContainer) {
+                edgeCountElement.textContent = data.length.toLocaleString();
+                edgeCountContainer.style.display = 'block';
+            }
+        }
+    },
+    
     // 绑定折叠/展开事件
     bindCollapseEvents: function() {
         const collapseButton = document.querySelector('.network_visualization_container .collapse_button');
@@ -847,7 +1285,13 @@ window.NetworkVisualizationModule = {
         
         this.filterUpdateTimeout = setTimeout(() => {
             NetworkVisualizationState.currentFilterTopN = value;
-            this.loadAndDrawNetwork();
+            
+            // 根据当前网络类型选择相应的加载函数
+            if (NetworkVisualizationState.networkType === 'subnetwork') {
+                this.loadAndDrawSubnetwork();
+            } else {
+                this.loadAndDrawNetwork();
+            }
         }, 500);
     },
     
@@ -904,8 +1348,17 @@ window.NetworkVisualizationModule = {
         this.bindTableDownloadEvents();
     },
     
-    // 加载边表格数据
+    // 加载边表格数据（通用函数，根据网络类型选择）
     loadEdgesTableData: async function() {
+        if (NetworkVisualizationState.networkType === 'subnetwork') {
+            return this.loadSubnetworkEdgesTableData();
+        } else {
+            return this.loadCoreNetworkEdgesTableData();
+        }
+    },
+    
+    // 加载核心网络边表格数据
+    loadCoreNetworkEdgesTableData: async function() {
         if (!NetworkVisualizationState.currentCoreNodeId || 
             NetworkVisualizationState.currentModuleId === null || 
             NetworkVisualizationState.currentModuleId === undefined) return;
@@ -914,7 +1367,7 @@ window.NetworkVisualizationModule = {
         this.showTableLoading();
         
         try {
-            const tableData = await this.fetchEdgesTableData();
+            const tableData = await this.fetchCoreNetworkEdgesTableData();
             
             if (tableData) {
                 // 更新状态
@@ -934,8 +1387,8 @@ window.NetworkVisualizationModule = {
         }
     },
     
-    // 获取边表格数据
-    fetchEdgesTableData: async function() {
+    // 获取核心网络边表格数据
+    fetchCoreNetworkEdgesTableData: async function() {
         const state = NetworkVisualizationState.edgesTableState;
         const url = `${API_BASE_URL}/getNetworkCoreTableByPage/`;
         const params = new URLSearchParams({
@@ -1025,6 +1478,183 @@ window.NetworkVisualizationModule = {
             totalRecords: filteredData.length,
             module_id: NetworkVisualizationState.currentModuleId,
             node_id: coreNodeId,
+            filter_top_n: NetworkVisualizationState.currentFilterTopN,
+            searchKeyword: state.searchKeyword,
+            sortBy: state.sortBy,
+            sortOrder: state.sortOrder,
+            data: pageData
+        };
+    },
+    
+    // 加载子网络边表格数据
+    loadSubnetworkEdgesTableData: async function() {
+        if (!NetworkVisualizationState.currentFocusNodeIds.length || 
+            NetworkVisualizationState.currentModuleId === null || 
+            NetworkVisualizationState.currentModuleId === undefined) return;
+        
+        const state = NetworkVisualizationState.edgesTableState;
+        this.showTableLoading();
+        
+        try {
+            const tableData = await this.fetchSubnetworkEdgesTableData();
+            
+            if (tableData) {
+                // 更新状态
+                state.currentData = tableData.data || [];
+                state.totalRecords = tableData.totalRecords || 0;
+                state.numPages = tableData.numPages || 0;
+                
+                // 渲染表格
+                this.renderEdgesTable();
+                
+                // 更新分页
+                this.updateEdgesPagination();
+            }
+        } catch (error) {
+            console.error('Error loading subnetwork edges table data:', error);
+            this.showTableError();
+        }
+    },
+    
+    // 获取子网络边表格数据
+    fetchSubnetworkEdgesTableData: async function() {
+        const state = NetworkVisualizationState.edgesTableState;
+        const url = `${API_BASE_URL}/getNetworkSubnetworkTableByPage/`;
+        
+        const requestData = {
+            node_ids: NetworkVisualizationState.currentFocusNodeIds,
+            module_id: NetworkVisualizationState.currentModuleId,
+            filter_top_n: NetworkVisualizationState.currentFilterTopN,
+            page: state.currentPage,
+            pageSize: state.pageSize,
+            searchKeyword: state.searchKeyword,
+            sortBy: state.sortBy,
+            sortOrder: state.sortOrder
+        };
+        
+        console.log('Fetching subnetwork edges table data with request:', requestData);
+        
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(requestData)
+            });
+            
+            if (!response.ok) {
+                console.error(`Subnetwork edges table API request failed: ${response.status} ${response.statusText}`);
+                console.error('Request URL:', url);
+                console.error('Request data:', requestData);
+                
+                // 尝试读取响应内容以获取更详细的错误信息
+                try {
+                    const errorText = await response.text();
+                    console.error('API error response body:', errorText);
+                } catch (e) {
+                    console.error('Could not read error response body:', e);
+                }
+                
+                throw new Error(`Subnetwork edges table API response was not ok: ${response.status} ${response.statusText}`);
+            }
+            
+            const data = await response.json();
+            console.log('Subnetwork edges table data received:', data);
+            
+            return data;
+        } catch (error) {
+            console.error('Error fetching subnetwork edges table data:', error);
+            console.error('Will use mock edges table data as fallback for module:', NetworkVisualizationState.currentModuleId);
+            
+            // 返回模拟数据作为后备
+            const mockData = this.getMockSubnetworkEdgesTableData();
+            console.log('Generated mock subnetwork edges table data:', mockData);
+            return mockData;
+        }
+    },
+    
+    // 获取模拟子网络边表格数据
+    getMockSubnetworkEdgesTableData: function() {
+        const state = NetworkVisualizationState.edgesTableState;
+        const focusNodeIds = NetworkVisualizationState.currentFocusNodeIds;
+        
+        const mockData = [];
+        
+        // 为每个聚焦节点生成边数据
+        focusNodeIds.forEach((nodeId, nodeIndex) => {
+            const nodeType = nodeId.includes('.SO.') ? 'Gene' : 'TF';
+            const oppositeType = nodeType === 'Gene' ? 'TF' : 'Gene';
+            
+            // 聚焦节点之间的连接
+            if (nodeIndex < focusNodeIds.length - 1) {
+                mockData.push({
+                    source: nodeId,
+                    source_type: nodeType,
+                    target: focusNodeIds[nodeIndex + 1],
+                    target_type: focusNodeIds[nodeIndex + 1].includes('.SO.') ? 'Gene' : 'TF',
+                    weight: (0.92 - nodeIndex * 0.05).toFixed(3)
+                });
+            }
+            
+            // 每个聚焦节点的邻接节点
+            for (let i = 1; i <= 10; i++) {
+                const targetId = `SGI${String(Math.floor(Math.random() * 10000)).padStart(6, '0')}.${nodeType === 'Gene' ? 'SS' : 'SO'}.${String(i).padStart(3, '0')}`;
+                mockData.push({
+                    source: nodeId,
+                    source_type: nodeType,
+                    target: targetId,
+                    target_type: oppositeType,
+                    weight: (0.85 - i * 0.05).toFixed(3)
+                });
+            }
+        });
+        
+        // 根据搜索关键词过滤
+        let filteredData = mockData;
+        if (state.searchKeyword) {
+            const keyword = state.searchKeyword.toLowerCase();
+            filteredData = mockData.filter(edge =>
+                edge.source.toLowerCase().includes(keyword) ||
+                edge.target.toLowerCase().includes(keyword) ||
+                edge.source_type.toLowerCase().includes(keyword) ||
+                edge.target_type.toLowerCase().includes(keyword)
+            );
+        }
+        
+        // 排序
+        filteredData.sort((a, b) => {
+            let aVal = a[state.sortBy];
+            let bVal = b[state.sortBy];
+            
+            if (state.sortBy === 'weight') {
+                aVal = parseFloat(aVal);
+                bVal = parseFloat(bVal);
+            }
+            
+            if (state.sortOrder === 'desc') {
+                return bVal > aVal ? 1 : -1;
+            } else {
+                return aVal > bVal ? 1 : -1;
+            }
+        });
+        
+        // 分页
+        const startIndex = (state.currentPage - 1) * state.pageSize;
+        const endIndex = startIndex + state.pageSize;
+        const pageData = filteredData.slice(startIndex, endIndex);
+        
+        return {
+            type: "networkSubnetworkTablePagination",
+            numPages: Math.ceil(filteredData.length / state.pageSize),
+            currentPage: state.currentPage,
+            pageSize: state.pageSize,
+            totalRecords: filteredData.length,
+            module_id: NetworkVisualizationState.currentModuleId,
+            input_node_count: focusNodeIds.length,
+            found_node_count: focusNodeIds.length,
+            found_nodes: focusNodeIds,
+            not_found_nodes: [],
             filter_top_n: NetworkVisualizationState.currentFilterTopN,
             searchKeyword: state.searchKeyword,
             sortBy: state.sortBy,
@@ -1432,7 +2062,11 @@ window.NetworkVisualizationModule = {
     
     // 处理边表格下载
     handleEdgesTableDownload: async function() {
-        if (!NetworkVisualizationState.currentCoreNodeId || 
+        // 检查是否有可下载的网络数据
+        const hasNetworkData = (NetworkVisualizationState.currentCoreNodeId !== null) || 
+                              (NetworkVisualizationState.currentFocusNodeIds.length > 0);
+        
+        if (!hasNetworkData || 
             NetworkVisualizationState.currentModuleId === null || 
             NetworkVisualizationState.currentModuleId === undefined) {
             console.warn('No network data to download');
@@ -1441,6 +2075,16 @@ window.NetworkVisualizationModule = {
         
         const state = NetworkVisualizationState.edgesTableState;
         
+        // 根据网络类型选择不同的下载方法
+        if (NetworkVisualizationState.networkType === 'subnetwork') {
+            await this.downloadSubnetworkTable(state);
+        } else {
+            await this.downloadCoreNetworkTable(state);
+        }
+    },
+    
+    // 下载核心网络表格
+    downloadCoreNetworkTable: async function(state) {
         const requestData = {
             module_id: NetworkVisualizationState.currentModuleId,
             node_id: NetworkVisualizationState.currentCoreNodeId,
@@ -1469,12 +2113,54 @@ window.NetworkVisualizationModule = {
                 link.click();
                 window.URL.revokeObjectURL(url);
                 
-                console.log('Edges table downloaded successfully');
+                console.log('Core network table downloaded successfully');
             } else {
                 throw new Error('Download failed');
             }
         } catch (error) {
-            console.error('Error downloading edges table:', error);
+            console.error('Error downloading core network table:', error);
+            
+            // 后备方案：生成本地CSV
+            this.downloadEdgesTableLocal();
+        }
+    },
+    
+    // 下载子网络表格
+    downloadSubnetworkTable: async function(state) {
+        const requestData = {
+            node_ids: NetworkVisualizationState.currentFocusNodeIds,
+            module_id: NetworkVisualizationState.currentModuleId,
+            filter_top_n: NetworkVisualizationState.currentFilterTopN,
+            searchKeyword: state.searchKeyword,
+            sortBy: state.sortBy,
+            sortOrder: state.sortOrder,
+            format: 'csv'
+        };
+        
+        try {
+            const response = await fetch(`${API_BASE_URL}/downloadNetworkSubnetworkTable/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestData)
+            });
+            
+            if (response.ok) {
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `subnetwork_edges_module_${NetworkVisualizationState.currentModuleId}_nodes_${NetworkVisualizationState.currentFocusNodeIds.length}.csv`;
+                link.click();
+                window.URL.revokeObjectURL(url);
+                
+                console.log('Subnetwork table downloaded successfully');
+            } else {
+                throw new Error('Download failed');
+            }
+        } catch (error) {
+            console.error('Error downloading subnetwork table:', error);
             
             // 后备方案：生成本地CSV
             this.downloadEdgesTableLocal();

@@ -532,29 +532,34 @@
                                 Enter multiple node IDs to classify them by modules and visualize their subnetworks.
                             </p>
                         </div>
-                        <div class="search_input_group">
-                            <textarea id="id_set_textarea" class="search_textarea" rows="4"
-                                      placeholder="Enter node IDs (one per line or comma-separated)..."></textarea>
-                            <div class="id_set_controls">
-                                <div class="file_upload_section">
+                        <div class="search_input_group id_set_centered_layout">
+                            <div class="id_set_input_wrapper">
+                                <textarea id="id_set_textarea" class="search_textarea_centered" rows="5"
+                                          placeholder="Enter node IDs (one per line or comma-separated)..."></textarea>
+                            </div>
+                            <div class="id_set_buttons_row">
+                                <button type="button" id="id_set_example_button_new" class="id_set_button example_button">
+                                    <span class="button_icon">💡</span>
+                                    Example
+                                </button>
+                                <div class="file_upload_section_inline">
                                     <input type="file" id="id_file_upload" class="file_upload_input" accept=".txt,.csv,.tsv">
-                                    <label for="id_file_upload" class="file_upload_button">
-                                        <span class="upload_icon">📁</span>
-                                        Upload File
+                                    <label for="id_file_upload" class="id_set_button upload_button">
+                                        <span class="button_icon">📁</span>
+                                        Upload
                                     </label>
                                 </div>
-                                <div class="search_controls">
-                                    <button type="button" id="id_set_search_button" class="search_submit_button">
-                                        <span class="search_icon">🔍</span>
-                                        Search
-                                    </button>
-                                    <button type="button" id="id_set_clear_button" class="search_clear_button">
-                                        <span class="clear_icon">✕</span>
-                                        Clear
-                                    </button>
-                                </div>
+                                <button type="button" id="id_set_search_button" class="id_set_button search_button">
+                                    <span class="button_icon">🔍</span>
+                                    Search
+                                </button>
+                                <button type="button" id="id_set_clear_button" class="id_set_button clear_button">
+                                    <span class="button_icon">✕</span>
+                                    Clear
+                                </button>
                             </div>
                         </div>
+
                     </div>
                 </div>
 

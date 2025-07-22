@@ -2159,10 +2159,6 @@
     font-weight: 600;
 }
 
-.annotations_list {
-    /* 移除内部滚动，使用弹窗的外部滚动 */
-}
-
 .annotation_item {
     margin-bottom: 8px;
     padding: 8px;
@@ -4524,5 +4520,543 @@
     
     .no_results_placeholder p {
         font-size: 13px;
+    }
+}
+
+/* ===============================
+   ID Set Search Centered Layout
+   =============================== */
+
+/* Centered Layout Container */
+.id_set_centered_layout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Input Wrapper */
+.id_set_input_wrapper {
+    width: 100%;
+    max-width: 480px;
+}
+
+/* Centered Textarea */
+.search_textarea_centered {
+    width: 100%;
+    min-height: 120px;
+    max-height: 160px;
+    padding: 16px;
+    border: 2px solid #e8f5e8;
+    border-radius: 12px;
+    font-size: 14px;
+    font-family: 'Courier New', monospace;
+    line-height: 1.5;
+    resize: vertical;
+    background: #fafffe;
+    color: #2d2d2d;
+    box-shadow: 0 2px 8px rgba(79, 180, 121, 0.1);
+    transition: all 0.3s ease;
+}
+
+.search_textarea_centered:focus {
+    outline: none;
+    border-color: #4fb479;
+    box-shadow: 0 4px 16px rgba(79, 180, 121, 0.2);
+    background: #ffffff;
+}
+
+.search_textarea_centered::placeholder {
+    color: #9ca3af;
+    font-style: italic;
+}
+
+/* Buttons Row */
+.id_set_buttons_row {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 480px;
+}
+
+/* File Upload Section Inline */
+.file_upload_section_inline {
+    display: inline-block;
+}
+
+.file_upload_input {
+    display: none;
+}
+
+/* Unified Button Styles */
+.id_set_button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    min-width: 100px;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.id_set_button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+.button_icon {
+    font-size: 16px;
+}
+
+/* Individual Button Colors */
+.example_button {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    color: white;
+}
+
+.example_button:hover:not(:disabled) {
+    background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
+}
+
+.upload_button {
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    color: white;
+}
+
+.upload_button:hover:not(:disabled) {
+    background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+}
+
+.search_button {
+    background: linear-gradient(135deg, #4fb479 0%, #2d7a4f 100%);
+    color: white;
+}
+
+.search_button:hover:not(:disabled) {
+    background: linear-gradient(135deg, #47a86b 0%, #2d7a4f 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(79, 180, 121, 0.4);
+}
+
+.clear_button {
+    background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+    color: white;
+}
+
+.clear_button:hover:not(:disabled) {
+    background: linear-gradient(135deg, #4b5563 0%, #374151 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(107, 114, 128, 0.4);
+}
+
+/* ===============================
+   ID Set Search Results Styles
+   =============================== */
+
+/* ID Set Search Results Section */
+.search_results_section .modules_results_section {
+    margin-top: 24px;
+}
+
+/* Enlarged title for ID Set Classification Results */
+.search_results_section .results_title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #2d7a4f;
+    margin-bottom: 16px;
+}
+
+.search_results_section .section_subtitle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #2d7a4f;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #e8f5e8;
+}
+
+.search_results_section .subtitle_icon {
+    font-size: 18px;
+}
+
+/* Not Found Section */
+.not_found_section {
+    margin-bottom: 24px;
+    padding: 16px;
+    background: #fff5f5;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+}
+
+.not_found_ids {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.not_found_id {
+    display: inline-block;
+    padding: 4px 8px;
+    background: #fee2e2;
+    color: #dc2626;
+    border-radius: 4px;
+    font-size: 12px;
+    font-family: 'Courier New', monospace;
+    border: 1px solid #fecaca;
+}
+
+/* Modules Grid Container with Scroll */
+.modules_grid_container {
+    max-height: 600px;
+    overflow-y: auto;
+    border: 1px solid #e8f5e8;
+    border-radius: 8px;
+    padding: 16px;
+    margin-top: 16px;
+    background: #fafffe;
+}
+
+/* Modules Grid for ID Set Results */
+.modules_grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+}
+
+/* Module Result Cards */
+.module_result_card {
+    background: white;
+    border: 2px solid #e8f5e8;
+    border-radius: 12px;
+    padding: 20px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.module_result_card:hover {
+    border-color: #4fb479;
+    box-shadow: 0 8px 25px rgba(79, 180, 121, 0.15);
+    transform: translateY(-2px);
+}
+
+.module_card_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #f0f9f0;
+}
+
+.module_card_title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #2d7a4f;
+    margin: 0;
+}
+
+.module_card_count {
+    background: #e8f5e8;
+    color: #2d7a4f;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.module_card_content {
+    margin-bottom: 20px;
+}
+
+.module_nodes_preview_container {
+    max-height: 120px;
+    overflow: hidden;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    background: #f9fafb;
+}
+
+.module_nodes_preview_scroll {
+    max-height: 120px;
+    overflow-y: auto;
+    padding: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: flex-start;
+}
+
+.module_nodes_preview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+}
+
+.node_preview {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-family: 'Courier New', monospace;
+    font-weight: 500;
+    border: 1px solid;
+    white-space: nowrap;
+    flex-shrink: 0;
+    cursor: help;
+}
+
+.node_preview.tf_node {
+    background: #fef2f2;
+    color: #dc2626;
+    border-color: #fecaca;
+}
+
+.node_preview.gene_node {
+    background: #eff6ff;
+    color: #2563eb;
+    border-color: #bfdbfe;
+}
+
+
+
+.module_card_actions {
+    display: flex;
+    justify-content: center;
+}
+
+.module_select_button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #4fb479 0%, #2d7a4f 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 160px;
+    justify-content: center;
+}
+
+.module_select_button:hover {
+    background: linear-gradient(135deg, #47a86b 0%, #2d7a4f 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(79, 180, 121, 0.3);
+}
+
+.module_select_button:active {
+    transform: translateY(0);
+}
+
+.module_select_button:disabled {
+    background: #9ca3af;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.module_select_button .action_icon {
+    font-size: 16px;
+}
+
+/* Results Summary */
+.results_summary {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.summary_item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 12px;
+    background: #f0f9f0;
+    border: 1px solid #d1e7dd;
+    border-radius: 20px;
+    font-size: 13px;
+    color: #2d7a4f;
+}
+
+/* Responsive Design for ID Set Search */
+@media (max-width: 768px) {
+    .id_set_centered_layout {
+        padding: 0 16px;
+        gap: 16px;
+    }
+    
+    .id_set_input_wrapper {
+        max-width: 100%;
+    }
+    
+    .search_textarea_centered {
+        min-height: 100px;
+        max-height: 140px;
+        padding: 12px;
+        font-size: 13px;
+    }
+    
+    .id_set_buttons_row {
+        gap: 8px;
+        max-width: 100%;
+    }
+    
+    .id_set_button {
+        padding: 10px 16px;
+        font-size: 13px;
+        min-width: 80px;
+    }
+    
+    .modules_grid_container {
+        max-height: 400px;
+        padding: 12px;
+    }
+    
+    .modules_grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    
+    .module_result_card {
+        padding: 16px;
+    }
+    
+    .module_card_header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    
+    .module_card_title {
+        font-size: 16px;
+    }
+    
+    .module_nodes_preview_container {
+        max-height: 100px;
+    }
+    
+    .module_nodes_preview_scroll {
+        max-height: 100px;
+        padding: 6px;
+        gap: 4px;
+    }
+    
+    .node_preview {
+        font-size: 9px;
+        padding: 3px 6px;
+    }
+    
+    .module_select_button {
+        width: 100%;
+        padding: 14px 20px;
+    }
+    
+    .results_summary {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+    
+    .search_results_section .results_title {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .id_set_centered_layout {
+        padding: 0 12px;
+        gap: 12px;
+    }
+    
+    .search_textarea_centered {
+        min-height: 80px;
+        max-height: 120px;
+        padding: 10px;
+        font-size: 12px;
+    }
+    
+    .id_set_buttons_row {
+        flex-direction: column;
+        gap: 6px;
+        align-items: center;
+    }
+    
+    .id_set_button {
+        padding: 8px 12px;
+        font-size: 12px;
+        min-width: 70px;
+        width: 180px;
+    }
+    
+    .search_results_section .section_subtitle {
+        font-size: 14px;
+        flex-wrap: wrap;
+    }
+    
+    .search_results_section .results_title {
+        font-size: 16px;
+    }
+    
+    .modules_grid_container {
+        max-height: 300px;
+        padding: 8px;
+    }
+    
+    .module_card_count {
+        font-size: 12px;
+        padding: 3px 8px;
+    }
+    
+    .module_nodes_preview_container {
+        max-height: 80px;
+    }
+    
+    .module_nodes_preview_scroll {
+        max-height: 80px;
+        padding: 4px;
+        gap: 3px;
+    }
+    
+    .node_preview {
+        font-size: 8px;
+        padding: 2px 4px;
+    }
+    
+    .not_found_id {
+        font-size: 11px;
+        padding: 3px 6px;
+    }
+    
+    .summary_item {
+        font-size: 12px;
+        padding: 4px 8px;
     }
 }

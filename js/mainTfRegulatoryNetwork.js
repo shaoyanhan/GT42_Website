@@ -91,6 +91,9 @@ function bindModuleSelectionEvents() {
     if (sortOrderButton) {
         sortOrderButton.addEventListener('click', toggleModuleSortOrder);
     }
+    
+    // 监听来自搜索模块的模块选择事件
+    document.addEventListener('selectModuleFromSearch', handleSelectModuleFromSearch);
 }
 
 /**
@@ -553,6 +556,39 @@ function getSelectedModuleId() {
  */
 function getModuleData(moduleId) {
     return TfNetworkState.allModules.find(module => module.module_id === moduleId);
+}
+
+/**
+ * 处理来自搜索模块的模块选择事件
+ */
+function handleSelectModuleFromSearch(event) {
+    const { moduleId } = event.detail;
+    console.log('Received module selection from search:', moduleId);
+    
+    if (moduleId !== null && moduleId !== undefined) {
+        // 添加短暂延迟确保模块卡片已渲染
+        setTimeout(() => {
+            // 检查模块卡片是否存在
+            const moduleCard = document.querySelector(`[data-module-id="${moduleId}"]`);
+            console.log('Looking for module card:', moduleId, 'Found:', !!moduleCard);
+            
+            if (!moduleCard) {
+                console.warn('Module card not found, ensuring modules are loaded...');
+                // 如果模块卡片不存在，强制重新加载模块数据
+                loadNetworkModules().then(() => {
+                    // 再次尝试选择
+                    setTimeout(() => {
+                        selectModule(moduleId);
+                    }, 100);
+                });
+            } else {
+                // 直接选择模块
+                selectModule(moduleId);
+            }
+            
+            console.log(`Module ${moduleId} selected from search`);
+        }, 200);
+    }
 }
 
 // 导出全局函数供其他模块使用
