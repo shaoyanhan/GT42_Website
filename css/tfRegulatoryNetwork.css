@@ -2665,6 +2665,845 @@
     margin-bottom: 0;
 }
 
+/* 最短路径搜索输入对容器 */
+.input_pair_container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.input_pair_container .search_input {
+    flex: 1;
+    margin-bottom: 0;
+    max-width: 300px;
+}
+
+/* 交换按钮样式 */
+.swap_button {
+    background: linear-gradient(135deg, #4fb479, #3d8b60);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    height: 48px;
+    font-size: 16px;
+}
+
+.swap_button:hover {
+    background: linear-gradient(135deg, #45a66b, #357a56);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(79, 180, 121, 0.3);
+}
+
+.swap_button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(79, 180, 121, 0.2);
+}
+
+.swap_icon {
+    font-size: 18px;
+    transition: transform 0.3s ease;
+}
+
+.swap_button:hover .swap_icon {
+    transform: rotate(180deg);
+}
+
+/* 路径搜索控制按钮容器 */
+.path_search_controls {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 示例填充按钮 */
+.example_fill_button {
+    background: linear-gradient(135deg, #3182ce, #2c5aa0);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.example_fill_button:hover {
+    background: linear-gradient(135deg, #2c5aa0, #285e8a);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(49, 130, 206, 0.3);
+}
+
+/* 最短路径搜索结果样式 */
+.shortest_path_results {
+    margin-top: 20px;
+}
+
+.path_search_info {
+    background: #f8fffe;
+    border: 1px solid #d4edda;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 16px;
+}
+
+.path_search_summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.path_summary_item {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 12px;
+    text-align: center;
+}
+
+.path_summary_label {
+    font-size: 12px;
+    color: #718096;
+    margin-bottom: 4px;
+}
+
+.path_summary_value {
+    font-size: 16px;
+    font-weight: 600;
+    color: #2d3748;
+}
+
+/* 共同模块列表样式 */
+.common_modules_list {
+    margin-top: 16px;
+}
+
+.common_modules_grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.common_module_button {
+    background: linear-gradient(135deg, #4fb479, #3d8b60);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.common_module_button:hover {
+    background: linear-gradient(135deg, #45a66b, #357a56);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(79, 180, 121, 0.3);
+}
+
+/* 最短路径可视化容器 */
+.paths_visualization_container {
+    margin-top: 20px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    background: white;
+}
+
+.paths_viz_header {
+    background: #f8f9fa;
+    border-bottom: 1px solid #e2e8f0;
+    padding: 16px;
+    border-radius: 8px 8px 0 0;
+}
+
+.paths_viz_title {
+    margin: 0;
+    font-size: 18px;
+    color: #2d3748;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.paths_viz_controls {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 12px;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.path_navigation {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.path_nav_button {
+    background: #4fb479;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px;
+}
+
+.path_nav_button:hover:not(:disabled) {
+    background: #45a66b;
+}
+
+.path_nav_button:disabled {
+    background: #cbd5e0;
+    cursor: not-allowed;
+}
+
+.path_info {
+    font-size: 14px;
+    color: #4a5568;
+}
+
+.path_download_button {
+    background: linear-gradient(135deg, #4fb479, #3d8b60);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.path_download_button:hover {
+    background: linear-gradient(135deg, #45a66b, #357a56);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(79, 180, 121, 0.3);
+}
+
+/* 路径概要信息 */
+.paths_summary_info {
+    background: #f8f9fa;
+    border-bottom: 1px solid #e2e8f0;
+    padding: 12px 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.paths_summary_item {
+    text-align: center;
+}
+
+.paths_summary_label {
+    font-size: 12px;
+    color: #718096;
+    margin-bottom: 2px;
+}
+
+.paths_summary_value {
+    font-size: 16px;
+    font-weight: 600;
+    color: #2d3748;
+}
+
+/* 路径可视化画布 */
+.path_canvas_container {
+    padding: 20px;
+    overflow-x: auto;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.path_canvas {
+    min-width: 100%;
+    min-height: 150px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 路径导航控件（在画布下方） */
+.paths_navigation_bottom {
+    background: #f8f9fa;
+    border-top: 1px solid #e2e8f0;
+    padding: 12px 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+}
+
+/* 路径节点样式 */
+.path_node {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.path_node:hover {
+    transform: translateY(-2px);
+}
+
+.path_node_circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.path_node_circle.tf_node {
+    background: linear-gradient(135deg, #e53e3e, #c53030);
+}
+
+.path_node_circle.gene_node {
+    background: linear-gradient(135deg, #3182ce, #2c5aa0);
+}
+
+.path_node:hover .path_node_circle {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    transform: scale(1.1);
+}
+
+.path_node_id {
+    font-size: 12px;
+    color: #4a5568;
+    text-align: center;
+    max-width: 120px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.2;
+}
+
+/* 路径箭头 */
+.path_arrow {
+    display: inline-flex;
+    align-items: center;
+    margin: 0 10px;
+    font-size: 20px;
+    color: #4a5568;
+}
+
+/* 节点详情弹窗（在路径可视化中） */
+.path_node_details {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    min-width: 200px;
+    margin-bottom: 8px;
+}
+
+.path_node_details::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: white;
+}
+
+.path_node_details h5 {
+    margin: 0 0 8px 0;
+    font-size: 14px;
+    color: #2d3748;
+}
+
+.path_node_details p {
+    margin: 4px 0;
+    font-size: 12px;
+    color: #4a5568;
+}
+
+/* GO注释信息优雅风格 */
+.go_annotations_elegant {
+    background: linear-gradient(135deg, #f7fafc, #edf2f7);
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 16px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.go_annotations_header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.go_annotations_title {
+    margin: 0;
+    color: #2d3748;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.go_annotations_badge {
+    background: linear-gradient(135deg, #4fb479, #3d8b60);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.go_annotations_grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+}
+
+.go_annotation_category {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+    transition: all 0.3s ease;
+}
+
+.go_annotation_category:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+.go_category_header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.go_category_icon {
+    font-size: 18px;
+}
+
+.go_category_title {
+    margin: 0;
+    color: #4a5568;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.go_category_count {
+    background: #f1f5f9;
+    color: #4a5568;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.go_annotation_item {
+    margin-bottom: 12px;
+    padding: 10px;
+    background: #f8fafc;
+    border-radius: 6px;
+    border-left: 3px solid #4fb479;
+    transition: all 0.2s ease;
+}
+
+.go_annotation_item:hover {
+    background: #f1f5f9;
+    border-left-color: #3d8b60;
+}
+
+.go_annotation_item:last-child {
+    margin-bottom: 0;
+}
+
+.go_annotation_accession {
+    display: inline-block;
+    color: #4fb479;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 13px;
+    margin-bottom: 4px;
+    transition: color 0.2s ease;
+}
+
+.go_annotation_accession:hover {
+    color: #3d8b60;
+    text-decoration: underline;
+}
+
+.go_annotation_description {
+    color: #718096;
+    font-size: 13px;
+    line-height: 1.4;
+    margin: 0;
+}
+
+.go_no_annotations {
+    text-align: center;
+    color: #a0aec0;
+    font-style: italic;
+    padding: 40px 20px;
+    background: #f9fafb;
+    border-radius: 8px;
+    border: 2px dashed #e2e8f0;
+}
+
+/* 没有路径时的信息显示 */
+.no_paths_info {
+    padding: 30px 20px;
+    text-align: center;
+}
+
+.no_paths_message {
+    margin-bottom: 24px;
+}
+
+.no_paths_icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    opacity: 0.6;
+}
+
+.no_paths_title {
+    margin: 0 0 12px 0;
+    color: #e53e3e;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.no_paths_description {
+    margin: 0;
+    color: #718096;
+    font-size: 14px;
+    line-height: 1.5;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.no_paths_actions {
+    margin-top: 20px;
+}
+
+.swap_and_retry_button {
+    background: linear-gradient(135deg, #3182ce, #2c5aa0);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 2px 8px rgba(49, 130, 206, 0.2);
+}
+
+.swap_and_retry_button:hover:not(:disabled) {
+    background: linear-gradient(135deg, #2c5aa0, #285e8a);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(49, 130, 206, 0.3);
+}
+
+.swap_and_retry_button:disabled {
+    background: #cbd5e0;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.swap_and_retry_button .swap_icon {
+    font-size: 16px;
+    transition: transform 0.3s ease;
+}
+
+.swap_and_retry_button:hover:not(:disabled) .swap_icon {
+    transform: rotate(180deg);
+}
+
+/* 最短路径搜索加载遮罩 */
+.path_search_loading_overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    backdrop-filter: blur(2px);
+}
+
+.path_search_loading_content {
+    background: white;
+    border-radius: 12px;
+    padding: 30px 40px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    max-width: 400px;
+    min-width: 300px;
+}
+
+.path_search_loading_spinner {
+    width: 50px;
+    height: 50px;
+    margin: 0 auto 20px auto;
+    border: 4px solid #e2e8f0;
+    border-top: 4px solid #4fb479;
+    border-radius: 50%;
+    animation: pathSearchSpin 1s linear infinite;
+}
+
+@keyframes pathSearchSpin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.path_search_loading_title {
+    margin: 0 0 10px 0;
+    color: #2d3748;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.path_search_loading_message {
+    margin: 0;
+    color: #718096;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.path_search_loading_details {
+    margin: 15px 0 0 0;
+    padding: 12px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    font-size: 13px;
+    color: #4a5568;
+    border-left: 3px solid #4fb479;
+}
+
+/* 禁用状态的搜索控件 */
+.search_controls_disabled {
+    pointer-events: none;
+    opacity: 0.6;
+    user-select: none;
+}
+
+.search_controls_disabled * {
+    cursor: not-allowed !important;
+}
+
+/* 最短路径搜索响应式设计 */
+@media (max-width: 768px) {
+    .input_pair_container {
+        flex-direction: column;
+        gap: 12px;
+        align-items: stretch;
+    }
+    
+    .input_pair_container .search_input {
+        max-width: none;
+    }
+    
+    .swap_button {
+        align-self: center;
+        transform: rotate(90deg);
+        min-width: 48px;
+        height: 40px;
+    }
+    
+    .path_search_controls {
+        justify-content: center;
+        flex-direction: column;
+    }
+    
+    .path_search_summary {
+        grid-template-columns: 1fr;
+    }
+    
+    .common_modules_grid {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    }
+    
+    .paths_viz_controls {
+        flex-direction: column;
+        gap: 16px;
+        justify-content: center;
+    }
+    
+    .path_navigation {
+        order: 1;
+    }
+    
+    .path_download_button {
+        order: 2;
+        align-self: center;
+    }
+    
+    .path_canvas_container {
+        padding: 12px;
+    }
+    
+    .path_node {
+        margin: 0 10px;
+    }
+    
+    .path_node_circle {
+        width: 40px;
+        height: 40px;
+        font-size: 12px;
+    }
+    
+    .path_node_id {
+        font-size: 10px;
+        max-width: 80px;
+    }
+    
+    .path_arrow {
+        font-size: 16px;
+        margin: 0 5px;
+    }
+}
+
+@media (max-width: 480px) {
+    .example_fill_button {
+        padding: 10px 12px;
+        font-size: 12px;
+    }
+    
+    .path_nav_button {
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+    
+    .path_info {
+        font-size: 12px;
+        text-align: center;
+    }
+    
+    .paths_summary_info {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .paths_navigation_bottom {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .go_annotations_grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .go_annotations_elegant {
+        padding: 16px;
+    }
+    
+    .go_annotations_header {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    
+    .go_annotations_title {
+        font-size: 16px;
+    }
+    
+    .no_paths_info {
+        padding: 20px 16px;
+    }
+    
+    .no_paths_icon {
+        font-size: 36px;
+    }
+    
+    .no_paths_title {
+        font-size: 16px;
+    }
+    
+    .no_paths_description {
+        font-size: 13px;
+    }
+    
+    .swap_and_retry_button {
+        padding: 10px 16px;
+        font-size: 13px;
+    }
+    
+    .path_search_loading_content {
+        margin: 20px;
+        padding: 20px 24px;
+        min-width: 250px;
+        max-width: 320px;
+    }
+    
+    .path_search_loading_spinner {
+        width: 40px;
+        height: 40px;
+        margin: 0 auto 16px auto;
+    }
+    
+    .path_search_loading_title {
+        font-size: 16px;
+    }
+    
+    .path_search_loading_message {
+        font-size: 13px;
+    }
+    
+    .path_search_loading_details {
+        font-size: 12px;
+        padding: 8px;
+    }
+}
+
 .search_input {
     flex: 1;
     padding: 12px 16px;

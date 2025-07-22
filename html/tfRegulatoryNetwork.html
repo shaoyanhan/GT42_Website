@@ -495,18 +495,29 @@
                             </p>
                         </div>
                         <div class="search_input_group two_inputs">
-                            <input type="text" id="source_node_input" class="search_input" 
-                                   placeholder="Source node ID (e.g., SGI000001.SO.001)...">
-                            <input type="text" id="target_node_input" class="search_input" 
-                                   placeholder="Target node ID (e.g., SGI000002.SO.001)...">
-                            <button type="button" id="shortest_path_search_button" class="search_submit_button">
-                                <span class="search_icon">🔍</span>
-                                Search
-                            </button>
-                            <button type="button" id="shortest_path_clear_button" class="search_clear_button">
-                                <span class="clear_icon">✕</span>
-                                Clear
-                            </button>
+                            <div class="input_pair_container">
+                                <input type="text" id="source_node_input" class="search_input" 
+                                       placeholder="Source node ID (e.g., SGI006524.SO.004)...">
+                                <button type="button" id="swap_nodes_button" class="swap_button" title="Swap source and target">
+                                    <span class="swap_icon">⇄</span>
+                                </button>
+                                <input type="text" id="target_node_input" class="search_input" 
+                                       placeholder="Target node ID (e.g., SGI009824.SS.003)...">
+                            </div>
+                            <div class="path_search_controls">
+                                <button type="button" id="path_example_button" class="example_fill_button">
+                                    <span class="example_icon">💡</span>
+                                    Fill Example
+                                </button>
+                                <button type="button" id="shortest_path_search_button" class="search_submit_button">
+                                    <span class="search_icon">🔍</span>
+                                    Search
+                                </button>
+                                <button type="button" id="shortest_path_clear_button" class="search_clear_button">
+                                    <span class="clear_icon">✕</span>
+                                    Clear
+                                </button>
+                            </div>
                         </div>
                     </div>
 

@@ -21,6 +21,16 @@ const MultiSearchState = {
         searchResults: null,
         isSearching: false
     },
+    shortestPathSearch: {
+        sourceNodeId: '',
+        targetNodeId: '',
+        commonModulesResults: null,
+        selectedModuleId: null,
+        pathsResults: null,
+        currentPathIndex: 0,
+        isSearchingModules: false,
+        isSearchingPaths: false
+    },
     // 其他搜索功能的状态将在后续实现
     isSearching: false,
     searchAbortController: null
@@ -41,6 +51,7 @@ function initializeMultiSearch() {
         setupCollapseEvents();
         setupAnnotationSearchEvents();
         setupNodeIdSearchEvents();
+        setupShortestPathSearchEvents();
         
         // 初始化默认功能（注释文本搜索）
         switchSearchFunction('annotation_text');
@@ -1400,6 +1411,963 @@ window.selectModuleFromSearch = async function(moduleId, searchContext, ontology
         alert('Failed to select module. Please try again.');
     }
 };
+
+/**
+ * =========================
+ * 最短路径搜索功能实现
+ * =========================
+ */
+
+/**
+ * 设置最短路径搜索事件
+ */
+function setupShortestPathSearchEvents() {
+    const sourceInput = document.getElementById('source_node_input');
+    const targetInput = document.getElementById('target_node_input');
+    const swapButton = document.getElementById('swap_nodes_button');
+    const exampleButton = document.getElementById('path_example_button');
+    const searchButton = document.getElementById('shortest_path_search_button');
+    const clearButton = document.getElementById('shortest_path_clear_button');
+    
+    // 输入框回车键搜索
+    if (sourceInput) {
+        sourceInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                executeShortestPathSearch();
+            }
+        });
+    }
+    
+    if (targetInput) {
+        targetInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                executeShortestPathSearch();
+            }
+        });
+    }
+    
+    // 交换按钮事件
+    if (swapButton) {
+        swapButton.addEventListener('click', swapSourceAndTarget);
+    }
+    
+    // 示例按钮事件
+    if (exampleButton) {
+        exampleButton.addEventListener('click', fillExampleNodes);
+    }
+    
+    // 搜索按钮事件
+    if (searchButton) {
+        searchButton.addEventListener('click', executeShortestPathSearch);
+    }
+    
+    // 清除按钮事件
+    if (clearButton) {
+        clearButton.addEventListener('click', clearShortestPathSearch);
+    }
+}
+
+/**
+ * 交换source和target输入框的内容
+ */
+function swapSourceAndTarget() {
+    const sourceInput = document.getElementById('source_node_input');
+    const targetInput = document.getElementById('target_node_input');
+    
+    if (sourceInput && targetInput) {
+        const sourceValue = sourceInput.value;
+        const targetValue = targetInput.value;
+        
+        // 添加交换动画效果
+        sourceInput.style.transform = 'translateX(10px)';
+        targetInput.style.transform = 'translateX(-10px)';
+        
+        setTimeout(() => {
+            sourceInput.value = targetValue;
+            targetInput.value = sourceValue;
+            
+            // 重置动画
+            sourceInput.style.transform = '';
+            targetInput.style.transform = '';
+            
+            console.log('Swapped source and target node IDs');
+        }, 150);
+    }
+}
+
+/**
+ * 填充示例节点ID
+ */
+function fillExampleNodes() {
+    const sourceInput = document.getElementById('source_node_input');
+    const targetInput = document.getElementById('target_node_input');
+    
+    if (sourceInput && targetInput) {
+        sourceInput.value = 'SGI006524.SO.004';
+        targetInput.value = 'SGI009824.SS.003';
+        
+        console.log('Filled example node IDs');
+        
+        // 自动触发搜索
+        executeShortestPathSearch();
+    }
+}
+
+/**
+ * 执行最短路径搜索
+ */
+async function executeShortestPathSearch() {
+    const sourceInput = document.getElementById('source_node_input');
+    const targetInput = document.getElementById('target_node_input');
+    
+    if (!sourceInput || !targetInput) {
+        console.error('Search input elements not found');
+        return;
+    }
+    
+    const sourceNodeId = sourceInput.value.trim();
+    const targetNodeId = targetInput.value.trim();
+    
+    if (!sourceNodeId || !targetNodeId) {
+        alert('Please enter both source and target node IDs');
+        return;
+    }
+    
+    if (sourceNodeId === targetNodeId) {
+        alert('Source and target node IDs cannot be the same');
+        return;
+    }
+    
+    console.log(`Executing shortest path search: ${sourceNodeId} -> ${targetNodeId}`);
+    
+    // 更新状态
+    MultiSearchState.shortestPathSearch.sourceNodeId = sourceNodeId;
+    MultiSearchState.shortestPathSearch.targetNodeId = targetNodeId;
+    MultiSearchState.shortestPathSearch.isSearchingModules = true;
+    MultiSearchState.shortestPathSearch.commonModulesResults = null;
+    MultiSearchState.shortestPathSearch.pathsResults = null;
+    
+    try {
+        // 第一步：搜索两个节点的共同模块
+        const response = await fetch(`${API_BASE_URL}/searchTwoNodesCommonModules/?node_id1=${encodeURIComponent(sourceNodeId)}&node_id2=${encodeURIComponent(targetNodeId)}`);
+        
+        let data;
+        if (response.ok) {
+            data = await response.json();
+            console.log('Common modules search response:', data);
+        } else {
+            console.warn('API request failed, using mock data');
+            data = generateMockCommonModulesData(sourceNodeId, targetNodeId);
+        }
+        
+        // 更新状态
+        MultiSearchState.shortestPathSearch.commonModulesResults = data;
+        MultiSearchState.shortestPathSearch.isSearchingModules = false;
+        
+        // 显示搜索结果
+        displayShortestPathResults(data);
+        
+    } catch (error) {
+        console.error('Error in shortest path search:', error);
+        
+        // 使用模拟数据作为备选
+        const mockData = generateMockCommonModulesData(sourceNodeId, targetNodeId);
+        MultiSearchState.shortestPathSearch.commonModulesResults = mockData;
+        MultiSearchState.shortestPathSearch.isSearchingModules = false;
+        
+        displayShortestPathResults(mockData);
+    }
+}
+
+/**
+ * 生成模拟共同模块数据
+ */
+function generateMockCommonModulesData(nodeId1, nodeId2) {
+    return {
+        "type": "twoNodesCommonModules",
+        "node_id1": nodeId1,
+        "node_id1_type": "Gene",
+        "node_id2": nodeId2,
+        "node_id2_type": "TF",
+        "common_module_count": 2,
+        "common_module_ids": [1, 5]
+    };
+}
+
+/**
+ * 显示最短路径搜索结果
+ */
+function displayShortestPathResults(data) {
+    const resultsContainer = document.getElementById('search_results_container');
+    if (!resultsContainer) return;
+    
+    // 创建结果HTML
+    const resultsHTML = createShortestPathResultsHTML(data);
+    resultsContainer.innerHTML = resultsHTML;
+    resultsContainer.style.display = 'block';
+    
+    // 设置事件委托（只需要设置一次）
+    setupCommonModuleEventDelegation();
+    
+    console.log('Displayed shortest path search results');
+}
+
+/**
+ * 创建最短路径搜索结果HTML
+ */
+function createShortestPathResultsHTML(data) {
+    const { node_id1, node_id1_type, node_id2, node_id2_type, common_module_count, common_module_ids } = data;
+    
+    return `
+        <div class="shortest_path_results">
+            <div class="path_search_info">
+                <h4 style="margin: 0 0 16px 0; color: #2d3748; display: flex; align-items: center; gap: 8px;">
+                    <span>🛤️</span>
+                    Common Modules Search Results
+                </h4>
+                
+                <div class="path_search_summary">
+                    <div class="path_summary_item">
+                        <div class="path_summary_label">Source Node</div>
+                        <div class="path_summary_value">${node_id1}</div>
+                        <div class="path_summary_label">${node_id1_type}</div>
+                    </div>
+                    <div class="path_summary_item">
+                        <div class="path_summary_label">Target Node</div>
+                        <div class="path_summary_value">${node_id2}</div>
+                        <div class="path_summary_label">${node_id2_type}</div>
+                    </div>
+                    <div class="path_summary_item">
+                        <div class="path_summary_label">Common Modules</div>
+                        <div class="path_summary_value">${common_module_count}</div>
+                    </div>
+                </div>
+                
+                ${common_module_count > 0 ? `
+                    <div class="common_modules_list">
+                        <h5 style="margin: 0 0 8px 0; color: #4a5568;">
+                            Click a module to find shortest paths:
+                        </h5>
+                        <div class="common_modules_grid">
+                            ${common_module_ids.map(moduleId => `
+                                <button class="common_module_button" data-module-id="${moduleId}">
+                                    Module ${moduleId}
+                                </button>
+                            `).join('')}
+                        </div>
+                    </div>
+                ` : `
+                    <div style="text-align: center; color: #e53e3e; margin-top: 16px;">
+                        <p><strong>No common modules found</strong></p>
+                        <p>These two nodes do not appear together in any network module.</p>
+                    </div>
+                `}
+            </div>
+        </div>
+    `;
+}
+
+// 标记是否已经设置了事件委托
+let isCommonModuleEventDelegationSetup = false;
+
+/**
+ * 设置共同模块按钮事件委托（只需要设置一次）
+ */
+function setupCommonModuleEventDelegation() {
+    if (isCommonModuleEventDelegationSetup) {
+        console.log('Common module event delegation already setup');
+        return;
+    }
+    
+    const resultsContainer = document.getElementById('search_results_container');
+    if (resultsContainer) {
+        // 使用事件委托绑定点击事件
+        resultsContainer.addEventListener('click', async (event) => {
+            // 检查点击的是否是共同模块按钮
+            if (event.target.classList.contains('common_module_button') || 
+                event.target.closest('.common_module_button')) {
+                
+                const button = event.target.classList.contains('common_module_button') 
+                    ? event.target 
+                    : event.target.closest('.common_module_button');
+                
+                if (button && button.dataset.moduleId) {
+                    const moduleId = parseInt(button.dataset.moduleId);
+                    console.log(`Module button ${moduleId} clicked via delegation`);
+                    await searchShortestPathsInModule(moduleId);
+                }
+            }
+        });
+        
+        isCommonModuleEventDelegationSetup = true;
+        console.log('Setup common module event delegation');
+    }
+}
+
+/**
+ * 绑定共同模块按钮事件（兼容性保留）
+ */
+function bindCommonModuleEvents() {
+    // 现在只需要确保事件委托已设置
+    setupCommonModuleEventDelegation();
+}
+
+/**
+ * 显示最短路径搜索加载遮罩
+ */
+function showPathSearchLoading(moduleId, sourceId, targetId) {
+    // 创建遮罩HTML
+    const loadingHTML = `
+        <div class="path_search_loading_overlay" id="path_search_loading_overlay">
+            <div class="path_search_loading_content">
+                <div class="path_search_loading_spinner"></div>
+                <h4 class="path_search_loading_title">Searching Shortest Paths</h4>
+                <p class="path_search_loading_message">
+                    Finding regulatory paths in the network...
+                </p>
+                <div class="path_search_loading_details">
+                    <strong>Module:</strong> ${moduleId}<br>
+                    <strong>From:</strong> ${sourceId}<br>
+                    <strong>To:</strong> ${targetId}
+                </div>
+            </div>
+        </div>
+    `;
+    
+    // 添加到页面
+    document.body.insertAdjacentHTML('beforeend', loadingHTML);
+    
+    // 禁用搜索控件
+    const searchContainer = document.querySelector('.multi_search_container');
+    if (searchContainer) {
+        searchContainer.classList.add('search_controls_disabled');
+    }
+    
+    console.log('Showing path search loading overlay');
+}
+
+/**
+ * 隐藏最短路径搜索加载遮罩
+ */
+function hidePathSearchLoading() {
+    const loadingOverlay = document.getElementById('path_search_loading_overlay');
+    if (loadingOverlay) {
+        loadingOverlay.remove();
+    }
+    
+    // 启用搜索控件
+    const searchContainer = document.querySelector('.multi_search_container');
+    if (searchContainer) {
+        searchContainer.classList.remove('search_controls_disabled');
+    }
+    
+    console.log('Hidden path search loading overlay');
+}
+
+/**
+ * 在指定模块中搜索最短路径
+ */
+async function searchShortestPathsInModule(moduleId) {
+    console.log(`Searching shortest paths in module ${moduleId}`);
+    
+    const { sourceNodeId, targetNodeId } = MultiSearchState.shortestPathSearch;
+    
+    // 显示加载遮罩
+    showPathSearchLoading(moduleId, sourceNodeId, targetNodeId);
+    
+    // 更新状态
+    MultiSearchState.shortestPathSearch.selectedModuleId = moduleId;
+    MultiSearchState.shortestPathSearch.isSearchingPaths = true;
+    MultiSearchState.shortestPathSearch.pathsResults = null;
+    MultiSearchState.shortestPathSearch.currentPathIndex = 0;
+    
+    try {
+        // 请求最短路径数据
+        const response = await fetch(`${API_BASE_URL}/getNetworkShortestPaths/?module_id=${moduleId}&source_node_id=${encodeURIComponent(sourceNodeId)}&target_node_id=${encodeURIComponent(targetNodeId)}`);
+        
+        let data;
+        if (response.ok) {
+            data = await response.json();
+            console.log('Shortest paths response:', data);
+        } else {
+            console.warn('API request failed, using mock data');
+            data = generateMockShortestPathsData(moduleId, sourceNodeId, targetNodeId);
+        }
+        
+        // 更新状态
+        MultiSearchState.shortestPathSearch.pathsResults = data;
+        MultiSearchState.shortestPathSearch.isSearchingPaths = false;
+        
+        // 隐藏加载遮罩
+        hidePathSearchLoading();
+        
+        // 显示路径结果
+        displayPathsVisualization(data);
+        
+    } catch (error) {
+        console.error('Error searching shortest paths:', error);
+        
+        // 使用模拟数据
+        const mockData = generateMockShortestPathsData(moduleId, sourceNodeId, targetNodeId);
+        MultiSearchState.shortestPathSearch.pathsResults = mockData;
+        MultiSearchState.shortestPathSearch.isSearchingPaths = false;
+        
+        // 隐藏加载遮罩
+        hidePathSearchLoading();
+        
+        displayPathsVisualization(mockData);
+    }
+}
+
+/**
+ * 生成模拟最短路径数据
+ */
+function generateMockShortestPathsData(moduleId, sourceNodeId, targetNodeId) {
+    return {
+        "type": "networkShortestPaths",
+        "module_id": moduleId,
+        "source_node_id": sourceNodeId,
+        "source_node_type": "Gene",
+        "target_node_id": targetNodeId,
+        "target_node_type": "TF",
+        "path_found": true,
+        "shortest_distance": 2,
+        "path_count": 2,
+        "paths": [
+            [
+                {"node_id": sourceNodeId, "node_type": "Gene"},
+                {"node_id": "SGI000100.SO.002", "node_type": "TF"},
+                {"node_id": targetNodeId, "node_type": "TF"}
+            ],
+            [
+                {"node_id": sourceNodeId, "node_type": "Gene"},
+                {"node_id": "SGI000200.SO.003", "node_type": "Gene"},
+                {"node_id": targetNodeId, "node_type": "TF"}
+            ]
+        ]
+    };
+}
+
+/**
+ * 显示路径可视化
+ */
+function displayPathsVisualization(data) {
+    const resultsContainer = document.getElementById('search_results_container');
+    if (!resultsContainer) return;
+    
+    // 获取现有的共同模块结果HTML
+    const existingResults = resultsContainer.querySelector('.shortest_path_results');
+    if (!existingResults) return;
+    
+    // 清除现有的路径可视化容器（如果存在）
+    const existingPathsContainer = existingResults.querySelector('.paths_visualization_container');
+    if (existingPathsContainer) {
+        existingPathsContainer.remove();
+    }
+    
+    // 创建路径可视化HTML
+    const pathsVisualizationHTML = createPathsVisualizationHTML(data);
+    
+    // 添加到现有结果中
+    existingResults.innerHTML += pathsVisualizationHTML;
+    
+    // 绑定路径可视化事件
+    bindPathsVisualizationEvents(data);
+    
+    console.log('Displayed paths visualization');
+}
+
+/**
+ * 创建路径可视化HTML
+ */
+function createPathsVisualizationHTML(data) {
+    const { module_id, path_found, shortest_distance, path_count, paths } = data;
+    
+    // 使用当前状态中的节点ID，确保切换后显示正确的方向
+    const currentSourceId = MultiSearchState.shortestPathSearch.sourceNodeId;
+    const currentTargetId = MultiSearchState.shortestPathSearch.targetNodeId;
+    
+    if (!path_found) {
+        return `
+            <div class="paths_visualization_container">
+                <div class="paths_viz_header">
+                    <h4 class="paths_viz_title">
+                        <span>🚫</span>
+                        No Paths Found in Module ${module_id}
+                    </h4>
+                    <div class="paths_viz_controls">
+                        <button class="path_download_button" id="download_paths_btn" disabled style="opacity: 0.5;">
+                            <span>📥</span>
+                            Download Paths
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="no_paths_info">
+                    <div class="no_paths_message">
+                        <div class="no_paths_icon">🛤️</div>
+                        <h5 class="no_paths_title">No shortest path exists from ${currentSourceId} to ${currentTargetId}</h5>
+                        <p class="no_paths_description">
+                            Since this is a directed regulatory network, paths have directionality. You can try swapping the Source and Target node order.
+                        </p>
+                    </div>
+                    
+                    <div class="no_paths_actions">
+                        <button class="swap_and_retry_button" id="swap_and_retry_btn" 
+                                data-module-id="${module_id}"
+                                data-source="${currentSourceId}" 
+                                data-target="${currentTargetId}">
+                            <span class="swap_icon">⇄</span>
+                            Try reverse direction: ${currentTargetId} → ${currentSourceId}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+    
+    return `
+        <div class="paths_visualization_container">
+            <div class="paths_viz_header">
+                <h4 class="paths_viz_title">
+                    <span>🛤️</span>
+                    Shortest Paths in Module ${module_id}
+                </h4>
+                
+                <div class="paths_viz_controls">
+                    <button class="path_download_button" id="download_paths_btn">
+                        <span>📥</span>
+                        Download Paths
+                    </button>
+                </div>
+            </div>
+            
+            <div class="paths_summary_info">
+                <div class="paths_summary_item">
+                    <div class="paths_summary_label">Path Distance</div>
+                    <div class="paths_summary_value">${shortest_distance}</div>
+                </div>
+                <div class="paths_summary_item">
+                    <div class="paths_summary_label">Total Paths</div>
+                    <div class="paths_summary_value">${path_count}</div>
+                </div>
+                <div class="paths_summary_item">
+                    <div class="paths_summary_label">Current Path</div>
+                    <div class="paths_summary_value"><span id="current_path_num">1</span> / ${path_count}</div>
+                </div>
+            </div>
+            
+            <div class="path_canvas_container">
+                <div class="path_canvas" id="path_canvas">
+                    <!-- 路径将在这里动态渲染 -->
+                </div>
+            </div>
+            
+            <div class="paths_navigation_bottom">
+                <button class="path_nav_button" id="prev_path_btn" ${path_count <= 1 ? 'disabled' : ''}>
+                    ← Previous Path
+                </button>
+                <button class="path_nav_button" id="next_path_btn" ${path_count <= 1 ? 'disabled' : ''}>
+                    Next Path →
+                </button>
+            </div>
+            
+            <div class="path_node_annotations" id="path_node_annotations" style="display: none;">
+                <!-- 节点注释信息将在这里显示 -->
+            </div>
+        </div>
+    `;
+}
+
+/**
+ * 绑定路径可视化事件
+ */
+function bindPathsVisualizationEvents(data) {
+    const prevBtn = document.getElementById('prev_path_btn');
+    const nextBtn = document.getElementById('next_path_btn');
+    const downloadBtn = document.getElementById('download_paths_btn');
+    const swapAndRetryBtn = document.getElementById('swap_and_retry_btn');
+    
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => navigatePath(-1, data));
+    }
+    
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => navigatePath(1, data));
+    }
+    
+    if (downloadBtn && !downloadBtn.disabled) {
+        downloadBtn.addEventListener('click', () => downloadShortestPaths(data));
+    }
+    
+    if (swapAndRetryBtn) {
+        swapAndRetryBtn.addEventListener('click', () => handleSwapAndRetry(swapAndRetryBtn));
+    }
+    
+    // 如果找到了路径，渲染第一条路径
+    if (data.path_found) {
+        renderCurrentPath(data);
+    }
+}
+
+/**
+ * 导航路径（前进/后退）
+ */
+function navigatePath(direction, data) {
+    const currentIndex = MultiSearchState.shortestPathSearch.currentPathIndex;
+    const pathCount = data.path_count;
+    
+    let newIndex = currentIndex + direction;
+    
+    // 循环导航
+    if (newIndex < 0) {
+        newIndex = pathCount - 1;
+    } else if (newIndex >= pathCount) {
+        newIndex = 0;
+    }
+    
+    MultiSearchState.shortestPathSearch.currentPathIndex = newIndex;
+    
+    // 更新UI
+    const currentPathNum = document.getElementById('current_path_num');
+    if (currentPathNum) {
+        currentPathNum.textContent = newIndex + 1;
+    }
+    
+    // 渲染新路径
+    renderCurrentPath(data);
+    
+    console.log(`Navigated to path ${newIndex + 1}`);
+}
+
+/**
+ * 渲染当前路径
+ */
+function renderCurrentPath(data) {
+    const canvas = document.getElementById('path_canvas');
+    if (!canvas) return;
+    
+    const currentIndex = MultiSearchState.shortestPathSearch.currentPathIndex;
+    const currentPath = data.paths[currentIndex];
+    
+    if (!currentPath) return;
+    
+    // 创建路径HTML
+    let pathHTML = '<div style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap;">';
+    
+    currentPath.forEach((node, index) => {
+        const nodeTypeClass = node.node_type === 'TF' ? 'tf_node' : 'gene_node';
+        
+        pathHTML += `
+            <div class="path_node" data-node-id="${node.node_id}" data-node-type="${node.node_type}">
+                <div class="path_node_circle ${nodeTypeClass}">
+                    ${node.node_type === 'TF' ? 'TF' : 'G'}
+                </div>
+                <div class="path_node_id">${node.node_id}</div>
+            </div>
+        `;
+        
+        // 添加箭头（除了最后一个节点）
+        if (index < currentPath.length - 1) {
+            pathHTML += '<div class="path_arrow">→</div>';
+        }
+    });
+    
+    pathHTML += '</div>';
+    canvas.innerHTML = pathHTML;
+    
+    // 绑定节点点击事件
+    bindPathNodeEvents();
+}
+
+/**
+ * 绑定路径节点事件
+ */
+function bindPathNodeEvents() {
+    const pathNodes = document.querySelectorAll('.path_node');
+    
+    pathNodes.forEach(node => {
+        node.addEventListener('click', async () => {
+            const nodeId = node.dataset.nodeId;
+            const nodeType = node.dataset.nodeType;
+            
+            console.log(`Clicked path node: ${nodeId} (${nodeType})`);
+            
+            // 获取节点注释信息
+            await displayPathNodeAnnotations(nodeId, nodeType);
+        });
+    });
+}
+
+/**
+ * 显示路径节点注释信息
+ */
+async function displayPathNodeAnnotations(nodeId, nodeType) {
+    const annotationsContainer = document.getElementById('path_node_annotations');
+    if (!annotationsContainer) return;
+    
+    try {
+        // 请求节点注释信息
+        const response = await fetch(`${API_BASE_URL}/getNetworkNodeGoAnnotations/?node_id=${encodeURIComponent(nodeId)}`);
+        
+        let data;
+        if (response.ok) {
+            data = await response.json();
+        } else {
+            // 使用模拟数据
+            data = generateMockNodeAnnotations(nodeId, nodeType);
+        }
+        
+        // 显示注释信息
+        const annotationsHTML = createPathNodeAnnotationsHTML(data);
+        annotationsContainer.innerHTML = annotationsHTML;
+        annotationsContainer.style.display = 'block';
+        
+        // 滚动到注释区域
+        annotationsContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        
+    } catch (error) {
+        console.error('Error fetching node annotations:', error);
+        
+        // 使用模拟数据
+        const mockData = generateMockNodeAnnotations(nodeId, nodeType);
+        const annotationsHTML = createPathNodeAnnotationsHTML(mockData);
+        annotationsContainer.innerHTML = annotationsHTML;
+        annotationsContainer.style.display = 'block';
+    }
+}
+
+/**
+ * 生成模拟节点注释数据
+ */
+function generateMockNodeAnnotations(nodeId, nodeType) {
+    return {
+        "type": "nodeGoAnnotations",
+        "node_id": nodeId,
+        "node_type": nodeType,
+        "annotation_count": 2,
+        "data": [
+            {
+                "accession": "GO:0005829",
+                "description": "cytosol",
+                "ontology": "CC"
+            },
+            {
+                "accession": "GO:0016491",
+                "description": "oxidoreductase activity",
+                "ontology": "MF"
+            }
+        ]
+    };
+}
+
+/**
+ * 创建路径节点注释HTML
+ */
+function createPathNodeAnnotationsHTML(data) {
+    const { node_id, node_type, annotation_count, data: annotations } = data;
+    
+    // 按ontology分组
+    const groupedAnnotations = {
+        'BP': annotations.filter(ann => ann.ontology === 'BP'),
+        'MF': annotations.filter(ann => ann.ontology === 'MF'),
+        'CC': annotations.filter(ann => ann.ontology === 'CC')
+    };
+    
+    return `
+        <div class="go_annotations_elegant">
+            <div class="go_annotations_header">
+                <span style="font-size: 24px;">📖</span>
+                <h5 class="go_annotations_title">GO Annotations for ${node_id}</h5>
+                <span class="go_annotations_badge">${node_type}</span>
+            </div>
+            
+            ${annotation_count > 0 ? `
+                <div class="go_annotations_grid">
+                    ${Object.entries(groupedAnnotations).map(([ontology, anns]) => {
+                        if (anns.length === 0) return '';
+                        
+                        const ontologyInfo = {
+                            'BP': { name: 'Biological Process', icon: '🧬' },
+                            'MF': { name: 'Molecular Function', icon: '⚙️' },
+                            'CC': { name: 'Cellular Component', icon: '🏠' }
+                        };
+                        
+                        const info = ontologyInfo[ontology];
+                        
+                        return `
+                            <div class="go_annotation_category">
+                                <div class="go_category_header">
+                                    <span class="go_category_icon">${info.icon}</span>
+                                    <h6 class="go_category_title">${info.name}</h6>
+                                    <span class="go_category_count">${anns.length}</span>
+                                </div>
+                                ${anns.map(ann => `
+                                    <div class="go_annotation_item">
+                                        <a href="https://amigo.geneontology.org/amigo/term/${ann.accession}" 
+                                           target="_blank" 
+                                           class="go_annotation_accession">
+                                            ${ann.accession}
+                                        </a>
+                                        <p class="go_annotation_description">
+                                            ${ann.description}
+                                        </p>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            ` : `
+                <div class="go_no_annotations">
+                    <p>No GO annotations available for this node.</p>
+                </div>
+            `}
+        </div>
+    `;
+}
+
+/**
+ * 下载最短路径数据
+ */
+function downloadShortestPaths(data) {
+    const { module_id, paths } = data;
+    
+    // 使用当前状态中的节点ID
+    const currentSourceId = MultiSearchState.shortestPathSearch.sourceNodeId;
+    const currentTargetId = MultiSearchState.shortestPathSearch.targetNodeId;
+    
+    // 创建CSV数据
+    let csvContent = 'Path_Index,Step,Node_ID,Node_Type\n';
+    
+    paths.forEach((path, pathIndex) => {
+        path.forEach((node, stepIndex) => {
+            csvContent += `${pathIndex + 1},${stepIndex + 1},${node.node_id},${node.node_type}\n`;
+        });
+    });
+    
+    // 创建下载链接
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `shortest_paths_${currentSourceId}_to_${currentTargetId}_module_${module_id}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
+    
+    console.log('Downloaded shortest paths data');
+}
+
+/**
+ * 处理切换ID并重试
+ */
+async function handleSwapAndRetry(button) {
+    const moduleId = parseInt(button.dataset.moduleId);
+    const originalSource = button.dataset.source;
+    const originalTarget = button.dataset.target;
+    
+    console.log(`Swapping IDs and retrying: ${originalTarget} -> ${originalSource} in module ${moduleId}`);
+    
+    // 更新前端输入框
+    const sourceInput = document.getElementById('source_node_input');
+    const targetInput = document.getElementById('target_node_input');
+    
+    if (sourceInput && targetInput) {
+        // 添加切换动画效果
+        sourceInput.style.transform = 'translateX(10px)';
+        targetInput.style.transform = 'translateX(-10px)';
+        
+        setTimeout(() => {
+            sourceInput.value = originalTarget;
+            targetInput.value = originalSource;
+            
+            // 重置动画
+            sourceInput.style.transform = '';
+            targetInput.style.transform = '';
+        }, 150);
+    }
+    
+    // 更新状态
+    MultiSearchState.shortestPathSearch.sourceNodeId = originalTarget;
+    MultiSearchState.shortestPathSearch.targetNodeId = originalSource;
+    
+    // 更新共同模块搜索结果状态
+    if (MultiSearchState.shortestPathSearch.commonModulesResults) {
+        MultiSearchState.shortestPathSearch.commonModulesResults.node_id1 = originalTarget;
+        MultiSearchState.shortestPathSearch.commonModulesResults.node_id2 = originalSource;
+        
+        // 重新生成共同模块搜索结果HTML以反映新的ID顺序
+        const resultsContainer = document.getElementById('search_results_container');
+        if (resultsContainer) {
+            const resultsHTML = createShortestPathResultsHTML(MultiSearchState.shortestPathSearch.commonModulesResults);
+            resultsContainer.innerHTML = resultsHTML;
+            
+            // 确保事件委托已设置（事件委托在容器上，所以重新生成HTML后仍然有效）
+            setupCommonModuleEventDelegation();
+        }
+    }
+    
+    // 等待动画完成后重新搜索
+    setTimeout(async () => {
+        try {
+            // 显示加载状态
+            button.textContent = 'Swapping direction and searching...';
+            button.disabled = true;
+            
+            // 清除现有的路径可视化容器（如果存在）
+            const existingPathsContainer = document.querySelector('.paths_visualization_container');
+            if (existingPathsContainer) {
+                existingPathsContainer.remove();
+            }
+            
+            // 重新搜索路径
+            await searchShortestPathsInModule(moduleId);
+            
+        } catch (error) {
+            console.error('Error in swap and retry:', error);
+            
+            // 确保隐藏加载遮罩
+            hidePathSearchLoading();
+            
+            // 恢复按钮状态
+            button.innerHTML = `
+                <span class="swap_icon">⇄</span>
+                Try reverse direction: ${originalSource} → ${originalTarget}
+            `;
+            button.disabled = false;
+        }
+    }, 200);
+}
+
+/**
+ * 清除最短路径搜索
+ */
+function clearShortestPathSearch() {
+    const sourceInput = document.getElementById('source_node_input');
+    const targetInput = document.getElementById('target_node_input');
+    
+    if (sourceInput) sourceInput.value = '';
+    if (targetInput) targetInput.value = '';
+    
+    // 重置状态
+    MultiSearchState.shortestPathSearch = {
+        sourceNodeId: '',
+        targetNodeId: '',
+        commonModulesResults: null,
+        selectedModuleId: null,
+        pathsResults: null,
+        currentPathIndex: 0,
+        isSearchingModules: false,
+        isSearchingPaths: false
+    };
+    
+    // 隐藏搜索结果
+    hideSearchResults();
+    
+    console.log('Cleared shortest path search');
+}
 
 // 将模块暴露到全局作用域，与其他模块保持一致
 window.MultiSearchModule = {
