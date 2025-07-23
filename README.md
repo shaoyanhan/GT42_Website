@@ -12,7 +12,8 @@
   - Annotation
   - Transcript factors
   - GO enrichment
-    To provide a better understand of our database，the web was equiped with a series of user friendly UI and powerful visualization tools. Besides， we also welcome any feedback or suggestions for improvements to the website.
+
+### To provide a better understand of our database，the web was equiped with a series of user friendly UI and powerful visualization tools. Besides， we also welcome any feedback or suggestions for improvements to the website.
 
 ## Development process:
 
