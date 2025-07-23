@@ -190,7 +190,7 @@ function getAverageTPMCountOption(data) {
             }
         },
         title: {
-            text: 'Average TPM Count',
+            text: 'Average TPM Count (log2)',
             left: 'center',
             top: 'top',
             textStyle: {
@@ -311,9 +311,13 @@ function getAverageTPMCountOption(data) {
     }
 }
 
-function getEdgeWeightCountOption(data) {
+function getModuleNodeEdgeCountOption(table) {
+    // table: [['node', 'edge'], [3823,147897], ...]
+    const groupCount = table.length - 1;
+    const xAxisData = Array.from({length: groupCount}, (_, i) => i + 1); // [1, 2, ..., 61]
+    const nodeData = table.slice(1).map(row => row[0]);
+    const edgeData = table.slice(1).map(row => row[1]);
     return {
-
         tooltip: {
             trigger: 'axis',
             axisPointer: {
@@ -321,7 +325,7 @@ function getEdgeWeightCountOption(data) {
             }
         },
         title: {
-            text: 'Edge Weight Count',
+            text: 'Module Node Edge Count',
             left: 'center',
             top: 'top',
             textStyle: {
@@ -330,7 +334,7 @@ function getEdgeWeightCountOption(data) {
             }
         },
         legend: {
-            data: data[0],
+            data: ['node', 'edge'],
             top: '20%',
             width: '100%',
         },
@@ -351,8 +355,7 @@ function getEdgeWeightCountOption(data) {
             {
                 type: 'category',
                 axisTick: { show: false },
-                // [1, 2), [2, 3), [3, 4), [4, 11]
-                data: ['(1, 2)', '[2, 3)', '[3, 4)', '[4, 11]']
+                data: xAxisData
             }
         ],
         yAxis: [
@@ -365,37 +368,26 @@ function getEdgeWeightCountOption(data) {
             width: '90%',
             bottom: '10%',
         },
-
         series: [
             {
-                name: data[0][0],
+                name: 'node',
                 type: 'bar',
                 barGap: 0,
                 emphasis: {
                     focus: 'series'
                 },
-                data: data[1]
+                data: nodeData
             },
             {
-                name: data[0][1],
+                name: 'edge',
                 type: 'bar',
                 emphasis: {
                     focus: 'series'
                 },
-                data: data[2]
-            },
-            {
-                name: data[0][2],
-                type: 'bar',
-                emphasis: {
-                    focus: 'series'
-                },
-                data: data[3]
-            },
-
+                data: edgeData
+            }
         ]
     }
-
 }
 
-export { getTranscriptCountOption, getSNPTypeCountOption, getAverageTPMCountOption, getEdgeWeightCountOption };
+export { getTranscriptCountOption, getSNPTypeCountOption, getAverageTPMCountOption, getModuleNodeEdgeCountOption };

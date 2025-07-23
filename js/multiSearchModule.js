@@ -255,6 +255,16 @@ async function executeNodeIdSearch() {
     MultiSearchState.isSearching = true;
     
     try {
+        // 第一步：验证 ID 是否存在
+        const idValidationResult = await validateNodeId(nodeId);
+        
+        if (!idValidationResult.exists) {
+            // ID 不存在，显示错误界面
+            displayNodeIdNotFoundError(nodeId);
+            return;
+        }
+        
+        // ID 存在，继续执行搜索
         await loadNodeIdSearchData();
     } catch (error) {
         if (error.name !== 'AbortError') {
@@ -265,6 +275,107 @@ async function executeNodeIdSearch() {
         MultiSearchState.nodeIdSearch.isSearching = false;
         MultiSearchState.isSearching = false;
     }
+}
+
+/**
+ * 验证节点 ID 是否存在
+ */
+async function validateNodeId(nodeId) {
+    console.log(`Validating node ID: ${nodeId}`);
+    
+    try {
+        const params = new URLSearchParams({
+            node_id: nodeId
+        });
+        
+        const apiUrl = `${API_BASE_URL}/checkNodeInNetwork/?${params}`;
+        console.log('Validating ID with API:', apiUrl);
+        
+        const response = await fetch(apiUrl, {
+            signal: MultiSearchState.searchAbortController?.signal
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        console.log('ID validation response:', data);
+        
+        return data;
+        
+    } catch (error) {
+        if (error.name === 'AbortError') {
+            throw error;
+        }
+        
+        console.error('ID validation failed:', error);
+        // 如果验证 API 失败，假设 ID 存在并继续原有流程
+        return { exists: true, node_type: 'Gene', module_ids: [] };
+    }
+}
+
+/**
+ * 显示节点 ID 不存在的错误界面
+ */
+function displayNodeIdNotFoundError(nodeId) {
+    console.log('Displaying node ID not found error for:', nodeId);
+    
+    const resultsContainer = document.getElementById('search_results_container');
+    
+    if (!resultsContainer) {
+        console.error('Search results container not found');
+        return;
+    }
+    
+    // 构建错误结果HTML
+    const errorHTML = `
+        <div class="search_results_header">
+            <h4 class="search_results_title">
+                <span class="title_icon">🆔</span>
+                Node ID Search Results
+            </h4>
+        </div>
+        
+        <div class="node_id_error_container">
+            <div class="node_id_error_card">
+                <div class="error_icon_container">
+                    <span class="error_icon">❌</span>
+                </div>
+                <div class="error_content">
+                    <h3 class="error_title">Node ID Not Found</h3>
+                    <p class="error_message">
+                        The node ID <strong>"${nodeId}"</strong> does not exist in the regulatory network database.
+                    </p>
+                    <div class="error_suggestions">
+                        <h4 class="suggestions_title">Suggestions:</h4>
+                        <ul class="suggestions_list">
+                            <li>Check the node ID format (e.g., SGI000001.SO.001)</li>
+                            <li>Verify the node ID spelling and try again</li>
+                            <li>Use the example node IDs provided above</li>
+                            <li>Browse available nodes from the "Module Selection" panel</li>
+                        </ul>
+                    </div>
+                    <div class="error_actions">
+                        <button class="error_action_button" onclick="clearNodeIdSearch()">
+                            <span class="action_icon">🔄</span>
+                            Try Another ID
+                        </button>
+                        <button class="error_action_button secondary" onclick="document.querySelector('.module_selection_container').scrollIntoView({ behavior: 'smooth' })">
+                            <span class="action_icon">📊</span>
+                            Browse Modules
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    resultsContainer.innerHTML = errorHTML;
+    resultsContainer.style.display = 'block';
+    
+    // 滚动到结果区域
+    resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 /**
@@ -1546,6 +1657,14 @@ async function executeShortestPathSearch() {
     
     console.log(`Executing shortest path search: ${sourceNodeId} -> ${targetNodeId}`);
     
+    // 取消之前的搜索请求
+    if (MultiSearchState.searchAbortController) {
+        MultiSearchState.searchAbortController.abort();
+    }
+    
+    // 创建新的AbortController
+    MultiSearchState.searchAbortController = new AbortController();
+    
     // 更新状态
     MultiSearchState.shortestPathSearch.sourceNodeId = sourceNodeId;
     MultiSearchState.shortestPathSearch.targetNodeId = targetNodeId;
@@ -1554,8 +1673,52 @@ async function executeShortestPathSearch() {
     MultiSearchState.shortestPathSearch.pathsResults = null;
     
     try {
-        // 第一步：搜索两个节点的共同模块
-        const response = await fetch(`${API_BASE_URL}/searchTwoNodesCommonModules/?node_id1=${encodeURIComponent(sourceNodeId)}&node_id2=${encodeURIComponent(targetNodeId)}`);
+        // 第一步：验证两个 ID 是否都存在
+        const sourceValidation = await validateNodeId(sourceNodeId);
+        const targetValidation = await validateNodeId(targetNodeId);
+        
+        // 检查验证结果
+        const invalidIds = [];
+        if (!sourceValidation.exists) {
+            invalidIds.push({ id: sourceNodeId, type: 'source' });
+        }
+        if (!targetValidation.exists) {
+            invalidIds.push({ id: targetNodeId, type: 'target' });
+        }
+        
+        if (invalidIds.length > 0) {
+            // 有无效 ID，显示错误界面
+            displayShortestPathIdsNotFoundError(sourceNodeId, targetNodeId, invalidIds);
+            return;
+        }
+        
+        // 两个 ID 都存在，继续执行搜索
+        await searchCommonModulesAfterValidation(sourceNodeId, targetNodeId);
+        
+    } catch (error) {
+        if (error.name === 'AbortError') {
+            console.log('Shortest path search request aborted');
+            return;
+        }
+        
+        console.error('Error in shortest path search:', error);
+        
+        // 显示通用错误
+        showShortestPathSearchError('Failed to execute search. Please try again.');
+    } finally {
+        MultiSearchState.shortestPathSearch.isSearchingModules = false;
+    }
+}
+
+/**
+ * 在验证通过后搜索共同模块
+ */
+async function searchCommonModulesAfterValidation(sourceNodeId, targetNodeId) {
+    try {
+        // 第二步：搜索两个节点的共同模块
+        const response = await fetch(`${API_BASE_URL}/searchTwoNodesCommonModules/?node_id1=${encodeURIComponent(sourceNodeId)}&node_id2=${encodeURIComponent(targetNodeId)}`, {
+            signal: MultiSearchState.searchAbortController?.signal
+        });
         
         let data;
         if (response.ok) {
@@ -1574,7 +1737,12 @@ async function executeShortestPathSearch() {
         displayShortestPathResults(data);
         
     } catch (error) {
-        console.error('Error in shortest path search:', error);
+        if (error.name === 'AbortError') {
+            console.log('Common modules search request aborted');
+            return;
+        }
+        
+        console.error('Error in common modules search:', error);
         
         // 使用模拟数据作为备选
         const mockData = generateMockCommonModulesData(sourceNodeId, targetNodeId);
@@ -1582,6 +1750,126 @@ async function executeShortestPathSearch() {
         MultiSearchState.shortestPathSearch.isSearchingModules = false;
         
         displayShortestPathResults(mockData);
+    }
+}
+
+/**
+ * 显示最短路径搜索的 ID 不存在错误界面
+ */
+function displayShortestPathIdsNotFoundError(sourceNodeId, targetNodeId, invalidIds) {
+    console.log('Displaying shortest path IDs not found error:', invalidIds);
+    
+    const resultsContainer = document.getElementById('search_results_container');
+    
+    if (!resultsContainer) {
+        console.error('Search results container not found');
+        return;
+    }
+    
+    // 构建错误信息
+    const errorTitle = invalidIds.length === 1 ? 'Node ID Not Found' : 'Node IDs Not Found';
+    const errorMessage = invalidIds.length === 1 
+        ? `The ${invalidIds[0].type} node ID <strong>"${invalidIds[0].id}"</strong> does not exist in the regulatory network database.`
+        : `The following node IDs do not exist in the regulatory network database:`;
+    
+    const invalidIdsList = invalidIds.length > 1 ? `
+        <ul class="invalid_ids_list">
+            ${invalidIds.map(item => `
+                <li><strong>${item.type.charAt(0).toUpperCase() + item.type.slice(1)} ID:</strong> "${item.id}"</li>
+            `).join('')}
+        </ul>
+    ` : '';
+    
+    // 构建错误结果HTML
+    const errorHTML = `
+        <div class="search_results_header">
+            <h4 class="search_results_title">
+                <span class="title_icon">🛤️</span>
+                Shortest Path Search Results
+            </h4>
+        </div>
+        
+        <div class="shortest_path_error_container">
+            <div class="shortest_path_error_card">
+                <div class="error_icon_container">
+                    <span class="error_icon">❌</span>
+                </div>
+                <div class="error_content">
+                    <h3 class="error_title">${errorTitle}</h3>
+                    <p class="error_message">${errorMessage}</p>
+                    ${invalidIdsList}
+                    
+                    <div class="path_search_summary">
+                        <div class="path_summary_item ${invalidIds.some(item => item.type === 'source') ? 'invalid' : 'valid'}">
+                            <div class="path_summary_label">Source Node</div>
+                            <div class="path_summary_value">${sourceNodeId}</div>
+                            ${invalidIds.some(item => item.type === 'source') ? '<div class="path_summary_status error">❌ Not Found</div>' : '<div class="path_summary_status valid">✅ Found</div>'}
+                        </div>
+                        <div class="path_summary_item ${invalidIds.some(item => item.type === 'target') ? 'invalid' : 'valid'}">
+                            <div class="path_summary_label">Target Node</div>
+                            <div class="path_summary_value">${targetNodeId}</div>
+                            ${invalidIds.some(item => item.type === 'target') ? '<div class="path_summary_status error">❌ Not Found</div>' : '<div class="path_summary_status valid">✅ Found</div>'}
+                        </div>
+                    </div>
+                    
+                    <div class="error_suggestions">
+                        <h4 class="suggestions_title">Suggestions:</h4>
+                        <ul class="suggestions_list">
+                            <li>Check the node ID format (e.g., SGI000001.SO.001)</li>
+                            <li>Verify the node ID spelling and try again</li>
+                            <li>Use the example button to fill valid node IDs</li>
+                            <li>Browse available nodes from the "Module Selection" panel</li>
+                        </ul>
+                    </div>
+                    <div class="error_actions">
+                        <button class="error_action_button" onclick="clearShortestPathSearch()">
+                            <span class="action_icon">🔄</span>
+                            Try Other IDs
+                        </button>
+                        <button class="error_action_button" onclick="fillExampleNodes()">
+                            <span class="action_icon">💡</span>
+                            Use Example
+                        </button>
+                        <button class="error_action_button secondary" onclick="document.querySelector('.module_selection_container').scrollIntoView({ behavior: 'smooth' })">
+                            <span class="action_icon">📊</span>
+                            Browse Modules
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    resultsContainer.innerHTML = errorHTML;
+    resultsContainer.style.display = 'block';
+    
+    // 滚动到结果区域
+    resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+/**
+ * 显示最短路径搜索错误
+ */
+function showShortestPathSearchError(message) {
+    const resultsContainer = document.getElementById('search_results_container');
+    
+    if (resultsContainer) {
+        resultsContainer.style.display = 'block';
+        resultsContainer.innerHTML = `
+            <div class="search_results_header">
+                <h4 class="search_results_title">
+                    <span class="title_icon">❌</span>
+                    Search Error
+                </h4>
+            </div>
+            <div class="error_placeholder">
+                <p>${message}</p>
+                <button class="search_submit_button" onclick="executeShortestPathSearch()">
+                    <span class="search_icon">🔄</span>
+                    Retry Search
+                </button>
+            </div>
+        `;
     }
 }
 
@@ -1789,7 +2077,9 @@ async function searchShortestPathsInModule(moduleId) {
     
     try {
         // 请求最短路径数据
-        const response = await fetch(`${API_BASE_URL}/getNetworkShortestPaths/?module_id=${moduleId}&source_node_id=${encodeURIComponent(sourceNodeId)}&target_node_id=${encodeURIComponent(targetNodeId)}`);
+        const response = await fetch(`${API_BASE_URL}/getNetworkShortestPaths/?module_id=${moduleId}&source_node_id=${encodeURIComponent(sourceNodeId)}&target_node_id=${encodeURIComponent(targetNodeId)}`, {
+            signal: MultiSearchState.searchAbortController?.signal
+        });
         
         let data;
         if (response.ok) {
@@ -1811,6 +2101,13 @@ async function searchShortestPathsInModule(moduleId) {
         displayPathsVisualization(data);
         
     } catch (error) {
+        if (error.name === 'AbortError') {
+            console.log('Shortest paths search request aborted');
+            // 隐藏加载遮罩
+            hidePathSearchLoading();
+            return;
+        }
+        
         console.error('Error searching shortest paths:', error);
         
         // 使用模拟数据
@@ -2356,6 +2653,11 @@ function clearShortestPathSearch() {
     
     if (sourceInput) sourceInput.value = '';
     if (targetInput) targetInput.value = '';
+    
+    // 取消正在进行的搜索
+    if (MultiSearchState.searchAbortController) {
+        MultiSearchState.searchAbortController.abort();
+    }
     
     // 重置状态
     MultiSearchState.shortestPathSearch = {
@@ -2903,4 +3205,8 @@ function getMockIdSetResults(idList) {
 }
 
 // 将必要的函数暴露到全局作用域
-window.executeAnnotationSearch = executeAnnotationSearch; 
+window.executeAnnotationSearch = executeAnnotationSearch;
+window.clearShortestPathSearch = clearShortestPathSearch;
+window.fillExampleNodes = fillExampleNodes;
+window.clearNodeIdSearch = clearNodeIdSearch;
+window.executeShortestPathSearch = executeShortestPathSearch; 

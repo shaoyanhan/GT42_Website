@@ -28,7 +28,10 @@ async function initialContentArea(searchKeyword) {
 
         // 最后为不同关键词类型打开页面跳转功能
         const isDisabled = (keywordType === 'xenologous' && pageName === 'fullLengthTranscriptome' ||
-            (keywordType === 'transcript' && pageName === 'singleCoExpressionNetwork'));
+            (keywordType === 'mosaic' && pageName === 'tfRegulatoryNetwork') ||
+            (keywordType === 'xenologous' && pageName === 'tfRegulatoryNetwork') ||
+            (keywordType === 'transcript' && pageName === 'tfRegulatoryNetwork')
+        );
 
         if (!isDisabled) {
             container.classList.remove('disabled');

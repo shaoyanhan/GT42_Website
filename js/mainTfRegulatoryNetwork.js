@@ -41,6 +41,9 @@ document.addEventListener('DOMContentLoaded', function() {
     if (typeof window.MultiSearchModule !== 'undefined') {
         window.MultiSearchModule.init();
     }
+    
+    // 检查URL参数并处理自动搜索
+    handleUrlParameters();
 });
 
 // ==================== 模块选择板块功能 ====================
@@ -505,6 +508,219 @@ function showErrorMessage(message) {
     `;
 }
 
+// ==================== URL参数处理 ====================
+// 支持通过URL参数自动触发搜索功能
+// 使用方法：tfRegulatoryNetwork.html?searchKeyword=SGI000001.SO.001
+
+/**
+ * 处理URL参数
+ */
+function handleUrlParameters() {
+    console.log('Checking URL parameters...');
+    
+    // 获取URL参数
+    const urlParams = new URLSearchParams(window.location.search);
+    const searchKeyword = urlParams.get('searchKeyword');
+    
+    if (searchKeyword && searchKeyword.trim()) {
+        console.log('Found searchKeyword parameter:', searchKeyword);
+        
+        // 验证搜索关键词格式（基本验证）
+        const trimmedKeyword = searchKeyword.trim();
+        if (trimmedKeyword.length > 0) {
+            // 更新页面标题以反映搜索状态
+            const originalTitle = document.title;
+            document.title = `GT42 - Searching for ${trimmedKeyword}`;
+            
+            // 等待多功能搜索模块完全加载后再执行
+            setTimeout(() => {
+                triggerNodeIdSearchFromUrl(trimmedKeyword);
+                
+                // 搜索完成后恢复原标题
+                setTimeout(() => {
+                    document.title = originalTitle;
+                }, 3000);
+            }, 500);
+        } else {
+            console.warn('Empty searchKeyword parameter, using default initialization');
+        }
+    } else {
+        console.log('No valid searchKeyword parameter found, using default initialization');
+    }
+}
+
+/**
+ * 获取当前URL参数
+ */
+function getCurrentUrlParameters() {
+    return new URLSearchParams(window.location.search);
+}
+
+/**
+ * 更新URL参数而不刷新页面
+ */
+function updateUrlParameter(key, value) {
+    const url = new URL(window.location);
+    if (value) {
+        url.searchParams.set(key, value);
+    } else {
+        url.searchParams.delete(key);
+    }
+    window.history.replaceState({}, '', url);
+}
+
+/**
+ * 从URL参数触发节点ID搜索
+ */
+function triggerNodeIdSearchFromUrl(nodeId) {
+    console.log('Triggering node ID search from URL parameter:', nodeId);
+    
+    try {
+        // 检查多功能搜索模块是否已加载
+        if (typeof window.MultiSearchModule === 'undefined') {
+            console.error('MultiSearchModule not loaded yet, retrying...');
+            setTimeout(() => triggerNodeIdSearchFromUrl(nodeId), 500);
+            return;
+        }
+        
+        // 1. 切换到节点ID搜索标签页
+        const nodeIdTab = document.querySelector('[data-function="node_id"]');
+        if (nodeIdTab) {
+            nodeIdTab.click();
+            console.log('Switched to node ID search tab');
+        } else {
+            console.error('Node ID search tab not found, retrying...');
+            setTimeout(() => triggerNodeIdSearchFromUrl(nodeId), 300);
+            return;
+        }
+        
+        // 2. 填入搜索关键词
+        const searchInput = document.getElementById('node_id_search_input');
+        if (searchInput) {
+            searchInput.value = nodeId;
+            console.log('Filled search input with:', nodeId);
+            
+            // 触发input事件以确保任何监听器被调用
+            searchInput.dispatchEvent(new Event('input', { bubbles: true }));
+        } else {
+            console.error('Node ID search input not found, retrying...');
+            setTimeout(() => triggerNodeIdSearchFromUrl(nodeId), 300);
+            return;
+        }
+        
+        // 3. 等待一小段时间确保UI更新完成，然后触发搜索
+        setTimeout(() => {
+            const searchButton = document.getElementById('node_id_search_button');
+            if (searchButton) {
+                searchButton.click();
+                console.log('Triggered node ID search');
+                
+                // 显示用户提示
+                showAutoSearchNotification(nodeId);
+                
+                // 可选：自动滚动到搜索结果区域
+                setTimeout(() => {
+                    const searchResultsContainer = document.getElementById('search_results_container');
+                    if (searchResultsContainer && searchResultsContainer.style.display !== 'none') {
+                        searchResultsContainer.scrollIntoView({ 
+                            behavior: 'smooth', 
+                            block: 'start' 
+                        });
+                    }
+                }, 1000);
+                
+            } else {
+                console.error('Node ID search button not found');
+            }
+        }, 200);
+        
+    } catch (error) {
+        console.error('Error triggering node ID search from URL:', error);
+    }
+}
+
+/**
+ * 显示自动搜索通知
+ */
+function showAutoSearchNotification(nodeId) {
+    // 创建一个简单的通知提示
+    const notification = document.createElement('div');
+    notification.className = 'auto_search_notification';
+    notification.innerHTML = `
+        <div class="notification_content">
+            <span class="notification_icon">🔍</span>
+            <span class="notification_text">Automatically searching for node: <strong>${nodeId}</strong></span>
+        </div>
+    `;
+    
+    // 添加样式
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: linear-gradient(135deg, #4CAF50, #45a049);
+        color: white;
+        padding: 12px 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        z-index: 10000;
+        font-family: 'Poppins', sans-serif;
+        font-size: 14px;
+        max-width: 300px;
+        animation: slideInRight 0.3s ease-out;
+    `;
+    
+    // 添加动画样式
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideOutRight {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+        
+        .auto_search_notification .notification_content {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .auto_search_notification .notification_icon {
+            font-size: 16px;
+        }
+    `;
+    document.head.appendChild(style);
+    
+    // 添加到页面
+    document.body.appendChild(notification);
+    
+    // 3秒后自动移除
+    setTimeout(() => {
+        notification.style.animation = 'slideOutRight 0.3s ease-out';
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.parentNode.removeChild(notification);
+            }
+        }, 300);
+    }, 3000);
+}
+
 // ==================== 工具函数 ====================
 
 /**
@@ -595,7 +811,39 @@ function handleSelectModuleFromSearch(event) {
 window.TfNetworkUtils = {
     getSelectedModuleId,
     getModuleData,
-    selectModule
+    selectModule,
+    triggerNodeIdSearchFromUrl,
+    handleUrlParameters,
+    getCurrentUrlParameters,
+    updateUrlParameter
 };
 
 console.log('TF Regulatory Network main module loaded');
+
+// ==================== 使用示例 ====================
+/*
+URL参数搜索功能使用示例：
+
+1. 基本用法：
+   tfRegulatoryNetwork.html?searchKeyword=SGI000001.SO.001
+
+2. 程序化调用：
+   // 手动触发节点ID搜索
+   window.TfNetworkUtils.triggerNodeIdSearchFromUrl('SGI000001.SO.001');
+   
+   // 更新URL参数
+   window.TfNetworkUtils.updateUrlParameter('searchKeyword', 'SGI000001.SO.001');
+   
+   // 获取当前URL参数
+   const params = window.TfNetworkUtils.getCurrentUrlParameters();
+   console.log('Current searchKeyword:', params.get('searchKeyword'));
+
+3. 清除URL参数：
+   window.TfNetworkUtils.updateUrlParameter('searchKeyword', null);
+
+注意：
+- 搜索功能会自动切换到"节点ID搜索"标签页
+- 搜索结果会显示在页面的搜索结果区域
+- 会显示友好的搜索通知提示
+- 支持自动滚动到搜索结果区域
+*/

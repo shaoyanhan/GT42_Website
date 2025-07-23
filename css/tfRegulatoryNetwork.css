@@ -2,7 +2,7 @@
 
 /* 主容器样式 */
 .content_container {
-    padding: 140px 20px 20px 20px;
+    padding: 20px 20px 20px 20px;
     min-height: calc(100vh - 160px);
 }
 
@@ -478,7 +478,7 @@
 /* 响应式设计 */
 @media (max-width: 768px) {
     .content_container {
-        padding: 120px 10px 10px 10px;
+        padding: 20px 10px 10px 10px;
     }
     
     .module_selection_container {
@@ -5058,5 +5058,270 @@
     .summary_item {
         font-size: 12px;
         padding: 4px 8px;
+    }
+}
+
+/* ==================== 错误界面样式 ==================== */
+
+/* 节点ID搜索错误界面 */
+.node_id_error_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+    min-height: 300px;
+}
+
+.node_id_error_card {
+    background: linear-gradient(135deg, #fff5f5, #fef2f2);
+    border: 2px solid #fecaca;
+    border-radius: 20px;
+    padding: 40px;
+    text-align: center;
+    max-width: 600px;
+    width: 100%;
+    box-shadow: 0 10px 30px rgba(252, 165, 165, 0.2);
+    transition: all 0.3s ease;
+}
+
+.node_id_error_card:hover {
+    box-shadow: 0 15px 40px rgba(252, 165, 165, 0.3);
+    transform: translateY(-2px);
+}
+
+.error_icon_container {
+    margin-bottom: 20px;
+}
+
+.error_icon {
+    font-size: 64px;
+    color: #ef4444;
+    filter: drop-shadow(0 4px 8px rgba(239, 68, 68, 0.3));
+}
+
+.error_content h3.error_title {
+    font-size: 28px;
+    color: #dc2626;
+    margin: 0 0 16px 0;
+    font-weight: 700;
+}
+
+.error_content p.error_message {
+    font-size: 16px;
+    color: #7f1d1d;
+    margin: 0 0 24px 0;
+    line-height: 1.6;
+}
+
+.error_suggestions {
+    background: #fefefe;
+    border: 1px solid #fecaca;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 24px 0;
+    text-align: left;
+}
+
+.suggestions_title {
+    font-size: 18px;
+    color: #dc2626;
+    margin: 0 0 12px 0;
+    font-weight: 600;
+}
+
+.suggestions_list {
+    margin: 0;
+    padding-left: 20px;
+    color: #7f1d1d;
+}
+
+.suggestions_list li {
+    margin-bottom: 8px;
+    line-height: 1.5;
+}
+
+.error_actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 24px;
+}
+
+.error_action_button {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    min-width: 140px;
+    justify-content: center;
+}
+
+.error_action_button:hover {
+    background: linear-gradient(135deg, #dc2626, #b91c1c);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(239, 68, 68, 0.3);
+}
+
+.error_action_button.secondary {
+    background: linear-gradient(135deg, #6b7280, #4b5563);
+}
+
+.error_action_button.secondary:hover {
+    background: linear-gradient(135deg, #4b5563, #374151);
+    box-shadow: 0 6px 16px rgba(107, 114, 128, 0.3);
+}
+
+.action_icon {
+    font-size: 16px;
+}
+
+/* 最短路径搜索错误界面 */
+.shortest_path_error_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+    min-height: 400px;
+}
+
+.shortest_path_error_card {
+    background: linear-gradient(135deg, #fff5f5, #fef2f2);
+    border: 2px solid #fecaca;
+    border-radius: 20px;
+    padding: 40px;
+    text-align: center;
+    max-width: 700px;
+    width: 100%;
+    box-shadow: 0 10px 30px rgba(252, 165, 165, 0.2);
+    transition: all 0.3s ease;
+}
+
+.shortest_path_error_card:hover {
+    box-shadow: 0 15px 40px rgba(252, 165, 165, 0.3);
+    transform: translateY(-2px);
+}
+
+.invalid_ids_list {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 16px 0;
+    text-align: left;
+    list-style: none;
+}
+
+.invalid_ids_list li {
+    color: #7f1d1d;
+    margin-bottom: 8px;
+    padding: 4px 0;
+}
+
+.path_search_summary {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 24px 0;
+    text-align: left;
+}
+
+.path_summary_item {
+    background: #fefefe;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 16px;
+    transition: all 0.3s ease;
+}
+
+.path_summary_item.invalid {
+    border-color: #fecaca;
+    background: #fef2f2;
+}
+
+.path_summary_item.valid {
+    border-color: #bbf7d0;
+    background: #f0fdf4;
+}
+
+.path_summary_label {
+    font-size: 12px;
+    color: #6b7280;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+
+.path_summary_value {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 8px;
+    word-break: break-all;
+}
+
+.path_summary_status {
+    font-size: 12px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.path_summary_status.error {
+    color: #dc2626;
+}
+
+.path_summary_status.valid {
+    color: #059669;
+}
+
+/* 响应式设计 - 错误界面 */
+@media (max-width: 768px) {
+    .node_id_error_card,
+    .shortest_path_error_card {
+        padding: 24px;
+        margin: 20px;
+    }
+    
+    .error_icon {
+        font-size: 48px;
+    }
+    
+    .error_content h3.error_title {
+        font-size: 22px;
+    }
+    
+    .error_content p.error_message {
+        font-size: 14px;
+    }
+    
+    .error_actions {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .error_action_button {
+        width: 100%;
+        max-width: 200px;
+    }
+    
+    .path_search_summary {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    
+    .path_summary_item {
+        padding: 12px;
     }
 }

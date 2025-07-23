@@ -198,8 +198,8 @@
     content: url('../../img/GEP_intro.gif');
 }
 
-.content_container .page_image_container .image_container:hover .static_image.singleCoExpressionNetwork {
-    content: url('../../img/single_net_intro.gif');
+.content_container .page_image_container .image_container:hover .static_image.tfRegulatoryNetwork {
+    content: url('../../img/tfRegulatoryNetwork_intro.gif');
 }
 
 .content_container .page_image_container .image_container:hover .static_image.annotation {

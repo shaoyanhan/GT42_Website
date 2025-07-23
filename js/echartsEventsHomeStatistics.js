@@ -1,5 +1,5 @@
 import { transcriptCountChart, snpTypeCountChart, averageTPMCountChart, edgeWeightCountChart } from "./mainIndex.js";
-import { getTranscriptCountOption, getSNPTypeCountOption, getAverageTPMCountOption, getEdgeWeightCountOption } from "./echartsOptionHomeStatistics.js";
+import { getTranscriptCountOption, getSNPTypeCountOption, getAverageTPMCountOption, getModuleNodeEdgeCountOption } from "./echartsOptionHomeStatistics.js";
 
 function drawTranscriptCount(transcriptCount) {
     transcriptCountChart.setOption(getTranscriptCountOption(transcriptCount));
@@ -13,8 +13,8 @@ function drawAverageTPMCount(averageTPMTable) {
     averageTPMCountChart.setOption(getAverageTPMCountOption(averageTPMTable));
 }
 
-function drawEdgeWeightCount(edgeWeightTable) {
-    edgeWeightCountChart.setOption(getEdgeWeightCountOption(edgeWeightTable));
+function drawModuleNodeEdgeCount(moduleNodeEdgeTable) {
+    edgeWeightCountChart.setOption(getModuleNodeEdgeCountOption(moduleNodeEdgeTable));
 }
 
-export { drawTranscriptCount, drawSNPTypeCount, drawAverageTPMCount, drawEdgeWeightCount };
+export { drawTranscriptCount, drawSNPTypeCount, drawAverageTPMCount, drawModuleNodeEdgeCount };

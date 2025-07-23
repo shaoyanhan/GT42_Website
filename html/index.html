@@ -96,12 +96,8 @@
                                     <li class="second_level_link"><a href="./geneExpressionProfile.html"
                                             target="_blank">Gene
                                             Expression Profile</a></li>
-                                    <li class="second_level_link"><a href="./singleCoExpressionNetwork.html"
-                                            target="_blank">Single Co-expression
-                                            Network</a></li>
-                                    <li class="second_level_link"><a href="./hubCoExpressionNetwork.html"
-                                            target="_blank">Hub
-                                            Co-expression Network</a></li>
+                                    <li class="second_level_link"><a href="./tfRegulatoryNetwork.html"
+                                            target="_blank">TF Regulatory Network</a></li>
                                 </ul>
                             </li>
                             <li class="first_level_link dropdown"><a>Tools<span class="arrow">&#9660;</span></a>
@@ -113,6 +109,8 @@
                                     <li class="second_level_link"><a href="./transcriptFactors.html"
                                             target="_blank">Transcript
                                             Factors</a></li>
+                                    <li class="second_level_link"><a href="./goEnrichment.html" target="_blank">GO
+                                            Enrichment</a></li>
                                 </ul>
                             </li>
                             <li class="first_level_link"><a href="./download.html" target="_blank">Download</a></li>
@@ -136,7 +134,7 @@
 
                             <div class="example_ids">
                                 <span class="example_title">e.g.</span>
-                                <span class="example_id">SGI000001.SO.001</span>
+                                <span class="example_id">SGI000003.SO.006</span>
                             </div>
 
                             <button class="download_button">download full available ID list</button>
@@ -162,7 +160,7 @@
 
                             <div class="example_ids">
                                 <span class="example_title">e.g.</span>
-                                <span class="example_id">SGI000001.SO.001</span>
+                                <span class="example_id">SGI000003.SO.006</span>
                             </div>
 
                             <button class="download_button">download full available ID list</button>
@@ -183,12 +181,8 @@
                                     <li class="second_level_link"><a href="./geneExpressionProfile.html"
                                             target="_blank">Gene
                                             Expression Profile</a></li>
-                                    <li class="second_level_link"><a href="./singleCoExpressionNetwork.html"
-                                            target="_blank">Single Co-expression
-                                            Network</a></li>
-                                    <li class="second_level_link"><a href="./hubCoExpressionNetwork.html"
-                                            target="_blank">Hub
-                                            Co-expression Network</a></li>
+                                    <li class="second_level_link"><a href="./tfRegulatoryNetwork.html"
+                                            target="_blank">TF Regulatory Network</a></li>
                                 </ul>
                             </li>
                             <li class="first_level_link accordion"><a>Tools<span class="arrow">&#9660;</span></a>
@@ -200,6 +194,8 @@
                                     <li class="second_level_link"><a href="./transcriptFactors.html"
                                             target="_blank">Transcript
                                             Factors</a></li>
+                                    <li class="second_level_link"><a href="./goEnrichment.html" target="_blank">GO
+                                            Enrichment</a></li>
                                 </ul>
                             </li>
                             <li class="first_level_link"><a href="./download.html" target="_blank">Download</a></li>
@@ -239,8 +235,8 @@
                         set of sugarcane gene
                         expression. By integrating these transcriptome datasets, we constructed an Isoform-level and
                         haplotype-resolved
-                        full-length transcriptome of sugarcane cultivars, identifying 315,030 unique isoforms from
-                        126,406 haplotype-resolved
+                        full-length transcriptome of sugarcane cultivars, identifying 305,500 unique isoforms from
+                        166,593 haplotype-resolved
                         genes. Systematic homology inference allowed us to assign isoforms and genes to the two
                         recognized ancestral species of
                         sugarcane cultivars, <span style="font-style: italic;">Saccharum officinarum</span> and
@@ -291,9 +287,9 @@
                             <ul>
                                 <li>Number of Genome: 1</li>
                                 <li>Number of Species: 4</li>
-                                <li>Number of Mosaic: 29931</li>
-                                <li>Number of Haplotype: 123465</li>
-                                <li>Number of Transcript: 314805</li>
+                                <li>Number of Mosaic: 28163</li>
+                                <li>Number of Haplotype: 166593</li>
+                                <li>Number of Transcript: 305500</li>
                             </ul>
                         </div>
                         <div class="statistic_img" id="transcript_count" style="width: 280px;height: 200px;">
@@ -310,10 +306,10 @@
 
                             <ul>
                                 <li>SNP Type: 11</li>
-                                <li>Number of SNPs: 1293235</li>
-                                <li>ISO-Seq Evidence: 483993</li>
-                                <li>RNA-Seq Evidence: 1253950</li>
-                                <li>ISO-Seq && RNA-Seq Evidence: 444708</li>
+                                <li>Number of SNPs: 1310895</li>
+                                <li>ISO-Seq Evidence: 487234</li>
+                                <li>RNA-Seq Evidence: 3682156</li>
+                                <li>ISO-Seq && RNA-Seq Evidence: 442737</li>
                             </ul>
                         </div>
                         <div class="statistic_img" id="SNP_type_count" style="width: 250px;height: 200px;">
@@ -343,14 +339,13 @@
                         <div class="statistic_text">
                             <div class="statistic_title">
                                 <img src="../img/statistic_icon_network.png" alt="SNP">
-                                <h1>Co-expression Network</h1>
+                                <h1>TF Regulatory Network</h1>
                             </div>
                             <!-- <h1><i class="iconfont icon-liebiao"> </i>Gene Expression Profile</h1> -->
                             <ul>
-                                <li>Number of Resolutions: 3</li>
-                                <li>Number of Hubs: 7410</li>
-                                <li>Number of Nodes: 192893</li>
-                                <li>Number of Edges: 1064084</li>
+                                <li>Number of Modules: 61</li>
+                                <li>Number of Nodes: 85137</li>
+                                <li>Number of Edges: 4906837</li>
                             </ul>
                         </div>
                         <div class="statistic_img" id="edge_weight_count" style="width: 250px;height: 200px;">
@@ -380,15 +375,11 @@
                         <img src="../img/GEP_intro.gif" alt="image">
                         <h1>Gene Expression Profile</h1>
                     </div>
-                    <div class="database_container click_to_open_new_url" new-url="./singleCoExpressionNetwork.html">
-                        <img src="../img/single_net_intro.gif" alt="image">
-                        <h1>Single Co-expression Network</h1>
+                    <div class="database_container click_to_open_new_url" new-url="./tfRegulatoryNetwork.html">
+                        <img src="../img/tfRegulatoryNetwork_intro.gif" alt="image">
+                        <h1>TF Regulatory Network</h1>
                     </div>
 
-                    <div class="database_container click_to_open_new_url" new-url="./hubCoExpressionNetwork.html">
-                        <img src="../img/CoNET_intro.gif" alt="image">
-                        <h1>Hub Co-expression Network</h1>
-                    </div>
 
                     <div class="database_container click_to_open_new_url" new-url="./blast.html">
                         <img src="../img/blast_intro.gif" alt="image">
@@ -401,6 +392,11 @@
                     <div class="database_container click_to_open_new_url" new-url="./transcriptFactors.html">
                         <img src="../img/tf.gif" alt="image">
                         <h1>Transcript Factors</h1>
+                    </div>
+                    
+                    <div class="database_container click_to_open_new_url" new-url="./goEnrichment.html">
+                        <img src="../img/goEnrichment_intro.gif" alt="image">
+                        <h1>GO Enrichment</h1>
                     </div>
 
                 </div>
@@ -415,6 +411,7 @@
                 <div class="news_container">
                     <div class="date_container">
                         <ul>
+                            <li>[2025/07/23]</li>
                             <li>[2025/01/14]</li>
                             <li>[2024/09/21]</li>
                             <li>[2024/06/05]</li>
@@ -425,6 +422,10 @@
                     </div>
                     <div class="text_container">
                         <ul>
+                            <li><span>New release of
+                                    GT42_web project <a
+                                        href="https://github.com/shaoyanhan/GT42_Website/releases/tag/v3.0.0"
+                                        target="_blank">(v3.0.0: Infinite City)</a> was successfully published.</span></li>
                             <li><span>New release of
                                     GT42_web project <a
                                         href="https://github.com/shaoyanhan/GT42_Website/releases/tag/v2.1.0"
