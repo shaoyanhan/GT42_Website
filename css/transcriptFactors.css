@@ -124,15 +124,15 @@
 }
 
 .expandable_box.tf_box .header_box {
-    background-image: url(../../img/TF_box_header.png);
+    background-image: url(../img/TF_box_header.png);
 }
 
 .expandable_box.tr_box .header_box {
-    background-image: url(../../img/TR_box_header.png);
+    background-image: url(../img/TR_box_header.png);
 }
 
 .expandable_box.pk_box .header_box {
-    background-image: url(../../img/PK_box_header.png);
+    background-image: url(../img/PK_box_header.png);
 }
 
 .expandable_box .header_box .header {

@@ -52,14 +52,19 @@ async function initialHaplotypeSNP(haplotypeArrayData, SNPArrayData) {
     });
 }
 
-// ["GT42G000827","SNP",18,"G/T","none","G/T : 43/18","GT42G000827.SO.1:G; ...","#8e43e7",60114] -> [["G", 18], ["T", 18]]
-function SNPDataToScatter(data) {
+// (18,"G/T") -> [["G", 18], ["T", 18]]
+function SNPDataToScatter(SNPSite, SNPType) {
+    let bases = SNPType.split('/');
     let scatterData = [];
-    let base = data[3].split('/');
-    base.forEach(function (element) {
-        scatterData.push([element, data[2]]);
+    bases.forEach(function (base) {
+        scatterData.push([base, SNPSite]);
     });
     return scatterData;
+}
+
+// "G/T : 43/18" -> "G/T"
+function SNPEvidenceSplit(evidence) {
+    return evidence.split(' : ')[0];
 }
 
 async function initialThreeSNP(haplotypeArrayData, SNPArrayData) {
@@ -77,23 +82,27 @@ async function initialThreeSNP(haplotypeArrayData, SNPArrayData) {
     // 遍历SNPArrayData，判断第五列和第六列的值是否为'none'，如果第五列为'none'，则将数据存入SNPDataRNA，如果第六列为'none'，则将数据存入SNPDataISO，如果都不为'none'，则存入SNPDataAll
     for (let i = 0; i < SNPArrayData.length; i++) {
         let item = SNPArrayData[i];
-        // let SNPSite = item[2];
-        // let SNPType = item[3];
+        let SNPSite = item[2];
+        let SNPType = item[3];
         let IsoSeqEvidence = item[4];
         let RNASeqEvidence = item[5];
+
         // let siteBasePair = [SNPSite, SNPType];
         if (IsoSeqEvidence !== 'none') {
-            SNPDataToScatter(item).forEach(function (element) {
+            let IsoSeqSNPType = SNPEvidenceSplit(IsoSeqEvidence);
+            SNPDataToScatter(SNPSite, IsoSeqSNPType).forEach(function (element) {
                 SNPDataISO.push(element);
             });
         }
         if (RNASeqEvidence !== 'none') {
-            SNPDataToScatter(item).forEach(function (element) {
+            let RNASeqSNPType = SNPEvidenceSplit(RNASeqEvidence);
+            SNPDataToScatter(SNPSite, RNASeqSNPType).forEach(function (element) {
                 SNPDataRNA.push(element);
             });
         }
         if (IsoSeqEvidence !== 'none' && RNASeqEvidence !== 'none') {
-            SNPDataToScatter(item).forEach(function (element) {
+            let BothSNPType = SNPEvidenceSplit(SNPType);
+            SNPDataToScatter(SNPSite, BothSNPType).forEach(function (element) {
                 SNPDataBoth.push(element);
             });
         }

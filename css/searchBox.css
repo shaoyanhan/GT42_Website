@@ -187,27 +187,27 @@
 
 /* 切换为GIF图像 */
 .content_container .page_image_container .image_container:hover .static_image.fullLengthTranscriptome {
-    content: url('../../img/transcript_intro.gif');
+    content: url('../img/transcript_intro.gif');
 }
 
 .content_container .page_image_container .image_container:hover .static_image.haplotypeSNP {
-    content: url('../../img/haplotype_intro.gif');
+    content: url('../img/haplotype_intro.gif');
 }
 
 .content_container .page_image_container .image_container:hover .static_image.geneExpressionProfile {
-    content: url('../../img/GEP_intro.gif');
+    content: url('../img/GEP_intro.gif');
 }
 
 .content_container .page_image_container .image_container:hover .static_image.tfRegulatoryNetwork {
-    content: url('../../img/tfRegulatoryNetwork_intro.gif');
+    content: url('../img/tfRegulatoryNetwork_intro.gif');
 }
 
 .content_container .page_image_container .image_container:hover .static_image.annotation {
-    content: url('../../img/annotation.gif');
+    content: url('../img/annotation.gif');
 }
 
 .content_container .page_image_container .image_container:hover .static_image.transcriptFactor {
-    content: url('../../img/tf.gif');
+    content: url('../img/tf.gif');
 }
 
 .content_container .page_image_container .image_container:hover .page_title {
