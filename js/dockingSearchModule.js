@@ -369,60 +369,9 @@ async function handleSubmit() {
 
     const searchParams = getSearchParams();
 
-    /* ====================================================================
-     * [TEST CODE - Section 2 Integration Point]
-     *
-     * The code below directly calls the backend API for testing purposes.
-     * When implementing Section 2 (table display panel), replace this
-     * block with an event dispatch:
-     *
-     *   document.dispatchEvent(new CustomEvent('dockingSearchTriggered', {
-     *       detail: searchParams
-     *   }));
-     *
-     * Section 2 should:
-     *   1. Listen for the 'dockingSearchTriggered' event
-     *   2. Use searchParams from event.detail to fetch table data
-     *   3. Dispatch 'dockingSearchCompleted' when done to dismiss
-     *      the loading overlay on Section 1
-     * ==================================================================== */
-    try {
-        const requestBody = { page: 1, page_size: 10 };
-        if (searchParams.protein_id) {
-            requestBody.protein_id = searchParams.protein_id;
-        }
-        if (searchParams.phytohormone.length > 0) {
-            requestBody.phytohormone = searchParams.phytohormone;
-        }
-        if (searchParams.tf_family.length > 0) {
-            requestBody.tf_family = searchParams.tf_family;
-        }
-
-        console.log('[Docking Search] Request body:', JSON.stringify(requestBody, null, 2));
-
-        const response = await fetch(
-            'http://localhost:30004/searchDatabase/getDockingSummaryTableByPage/',
-            {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(requestBody)
-            }
-        );
-        const data = await response.json();
-
-        console.log('[Docking Search] Response:', data);
-
-        showSearchLoading(false);
-        setSubmitLoading(false);
-        showCustomAlert('Search completed successfully!', 'normal');
-
-    } catch (err) {
-        console.error('[Docking Search] Request failed:', err);
-        showSearchLoading(false);
-        setSubmitLoading(false);
-        showCustomAlert('Search request failed. Please check your network.', 'error');
-    }
-    /* ==== [END TEST CODE] ==== */
+    document.dispatchEvent(new CustomEvent('dockingSearchTriggered', {
+        detail: searchParams
+    }));
 }
 
 // ==================== Search Params ====================

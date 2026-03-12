@@ -503,6 +503,527 @@
     transform: translateX(3px);
 }
 
+/* ====================================================================
+   Section 2: Docking Table Panel
+   ==================================================================== */
+
+/* ==================== Table Panel Container ==================== */
+
+.docking_table_panel {
+    position: relative;
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    padding: 28px 32px;
+    margin: 0 0 25px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
+    border: 1px solid rgba(72, 138, 99, 0.12);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.docking_table_panel.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ==================== Table Loading Overlay ==================== */
+
+.table_loading_overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border-radius: 12px;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    transition: opacity 0.3s ease;
+}
+
+.table_loading_overlay.active {
+    display: flex;
+}
+
+.table_loading_content {
+    text-align: center;
+}
+
+.table_loading_spinner {
+    width: 44px;
+    height: 44px;
+    border: 4px solid #e0f4e8;
+    border-top-color: #4fb479;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto 14px;
+}
+
+.table_loading_content p {
+    font-size: 16px;
+    font-weight: 600;
+    color: #488a63;
+    margin: 0;
+}
+
+.table_loading_content .table_loading_subtitle {
+    font-size: 13px;
+    font-weight: 400;
+    color: #888;
+    margin-top: 5px;
+}
+
+/* ==================== Table Panel Header ==================== */
+
+.table_panel_header {
+    margin-bottom: 18px;
+    border-bottom: 2px solid #e0f4e8;
+    padding-bottom: 14px;
+}
+
+.table_panel_title_row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.table_panel_title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #2d5a3e;
+    font-family: 'Poppins', sans-serif;
+}
+
+.table_download_btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 18px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #488a63;
+    background: #fff;
+    border: 1.5px solid #c0dcc8;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    font-family: 'Poppins', sans-serif;
+}
+
+.table_download_btn:hover {
+    background: #f0faf4;
+    border-color: #4fb479;
+    color: #2d8050;
+    box-shadow: 0 2px 8px rgba(79, 180, 121, 0.15);
+    transform: translateY(-1px);
+}
+
+.table_download_btn.downloading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.download_icon {
+    font-size: 14px;
+}
+
+/* ==================== Table Scroll Wrapper ==================== */
+
+.docking_table_scroll_wrapper {
+    overflow-x: auto;
+    border: 1px solid #d0e8d9;
+    border-radius: 8px;
+}
+
+.docking_table_scroll_wrapper.scrollable {
+    max-height: 520px;
+    overflow-y: auto;
+}
+
+.docking_table_scroll_wrapper::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+.docking_table_scroll_wrapper::-webkit-scrollbar-track {
+    background: #f0f7f2;
+}
+
+.docking_table_scroll_wrapper::-webkit-scrollbar-thumb {
+    background: #c0dcc8;
+    border-radius: 3px;
+}
+
+.docking_table_scroll_wrapper::-webkit-scrollbar-thumb:hover {
+    background: #4fb479;
+}
+
+/* ==================== Table ==================== */
+
+.docking_table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    table-layout: auto;
+    min-width: 1400px;
+}
+
+.docking_table thead {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.docking_table th {
+    background: linear-gradient(135deg, #488a63, #3a7554);
+    color: #fff;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    border-right: 1px solid rgba(255, 255, 255, 0.15);
+    transition: background 0.2s ease;
+}
+
+.docking_table th:last-child {
+    border-right: none;
+}
+
+.docking_table th:hover {
+    background: linear-gradient(135deg, #3a7554, #2d5a3e);
+}
+
+.docking_table td {
+    padding: 9px 12px;
+    color: #444;
+    border-bottom: 1px solid #e8f0eb;
+    white-space: nowrap;
+    font-size: 13px;
+}
+
+.docking_table tbody tr:nth-child(even) {
+    background-color: #f5faf7;
+}
+
+.docking_table tbody tr:hover {
+    background-color: #e0f4e8;
+}
+
+.table_empty_msg {
+    text-align: center;
+    padding: 40px 16px !important;
+    color: #999;
+    font-size: 14px;
+    font-style: italic;
+}
+
+/* ==================== Sort Indicator ==================== */
+
+.sort_indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    margin-left: 4px;
+    vertical-align: middle;
+}
+
+.sort_arrows {
+    display: inline-flex;
+    flex-direction: column;
+    line-height: 1;
+    font-size: 8px;
+    gap: 0;
+}
+
+.sort_arrows::before {
+    content: '▲';
+    opacity: 0.35;
+    transition: opacity 0.2s;
+}
+
+.sort_arrows::after {
+    content: '▼';
+    opacity: 0.35;
+    transition: opacity 0.2s;
+}
+
+.sort_indicator.asc .sort_arrows::before {
+    opacity: 1;
+}
+
+.sort_indicator.desc .sort_arrows::after {
+    opacity: 1;
+}
+
+.sort_priority {
+    font-size: 9px;
+    font-weight: 700;
+    min-width: 10px;
+    text-align: center;
+    opacity: 0.85;
+}
+
+/* ==================== Protein ID Link ==================== */
+
+.protein_id_link {
+    color: #3a7554;
+    cursor: pointer;
+    font-family: 'Courier New', Consolas, monospace;
+    font-weight: 500;
+    position: relative;
+    transition: color 0.2s ease;
+}
+
+.protein_id_link:hover {
+    color: #2d5a3e;
+    text-decoration: underline;
+}
+
+/* ==================== Confidence Badge ==================== */
+
+.confidence_badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    text-align: center;
+    letter-spacing: 0.3px;
+}
+
+.confidence_high {
+    background: rgba(79, 180, 121, 0.15);
+    color: #2d8050;
+}
+
+.confidence_medium {
+    background: rgba(240, 173, 78, 0.15);
+    color: #b8860b;
+}
+
+.confidence_low {
+    background: rgba(233, 106, 106, 0.15);
+    color: #c0392b;
+}
+
+/* ==================== Confidence Tooltip ==================== */
+
+.confidence_tooltip {
+    display: none;
+    position: absolute;
+    z-index: 200;
+    background: #fff;
+    border: 1px solid #d0e8d9;
+    border-radius: 8px;
+    padding: 14px 16px;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
+    min-width: 420px;
+    cursor: default;
+    user-select: text;
+}
+
+.confidence_tooltip.visible {
+    display: block;
+}
+
+.conf_tooltip_row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12.5px;
+    color: #444;
+    line-height: 1.8;
+    white-space: nowrap;
+}
+
+.conf_color_block {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+    flex-shrink: 0;
+}
+
+.conf_tooltip_note {
+    margin-top: 6px;
+    padding-top: 6px;
+    border-top: 1px solid #eee;
+    font-size: 11.5px;
+    color: #888;
+    font-style: italic;
+}
+
+/* ==================== Pagination ==================== */
+
+.table_pagination_container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 16px;
+    padding: 0 4px;
+}
+
+.table_pagination_info {
+    font-size: 13px;
+    color: #666;
+    font-family: 'Poppins', sans-serif;
+}
+
+.table_pagination_controls {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.table_pagination_nav {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.page_btn,
+.page_nav_btn {
+    min-width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 8px;
+    border: 1px solid #d0e8d9;
+    border-radius: 6px;
+    background: #fff;
+    color: #555;
+    font-size: 13px;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.page_btn:hover,
+.page_nav_btn:hover:not(:disabled) {
+    border-color: #4fb479;
+    color: #2d8050;
+    background: #f0faf4;
+}
+
+.page_btn.active {
+    background: linear-gradient(135deg, #4fb479, #3a9b63);
+    color: #fff;
+    border-color: transparent;
+    font-weight: 600;
+    box-shadow: 0 2px 6px rgba(79, 180, 121, 0.3);
+}
+
+.page_nav_btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    background: #f9f9f9;
+}
+
+.page_ellipsis {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 28px;
+    height: 32px;
+    color: #999;
+    font-size: 14px;
+    letter-spacing: 2px;
+}
+
+/* Page input & size select */
+
+.table_page_input_group,
+.table_page_size_group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.table_page_input_group label,
+.table_page_size_group label {
+    font-size: 12px;
+    color: #888;
+    font-family: 'Poppins', sans-serif;
+    white-space: nowrap;
+}
+
+.table_page_input {
+    width: 56px;
+    height: 32px;
+    text-align: center;
+    border: 1px solid #d0e8d9;
+    border-radius: 6px;
+    font-size: 13px;
+    font-family: 'Poppins', sans-serif;
+    color: #444;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.table_page_input:focus {
+    border-color: #4fb479;
+    box-shadow: 0 0 0 3px rgba(79, 180, 121, 0.12);
+}
+
+.page_go_btn {
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #d0e8d9;
+    border-radius: 6px;
+    background: #fff;
+    color: #555;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 0;
+    line-height: 1;
+}
+
+.page_go_btn:hover {
+    border-color: #4fb479;
+    color: #2d8050;
+    background: #f0faf4;
+}
+
+.page_go_btn:active {
+    transform: scale(0.95);
+}
+
+.table_page_size_select {
+    height: 32px;
+    padding: 0 8px;
+    border: 1px solid #d0e8d9;
+    border-radius: 6px;
+    font-size: 13px;
+    font-family: 'Poppins', sans-serif;
+    color: #444;
+    background: #fff;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+.table_page_size_select:focus {
+    border-color: #4fb479;
+    box-shadow: 0 0 0 3px rgba(79, 180, 121, 0.12);
+}
+
 /* ==================== Responsive ==================== */
 
 @media screen and (max-width: 768px) {
@@ -536,5 +1057,35 @@
     .selection_btn {
         font-size: 12px;
         padding: 5px 10px;
+    }
+
+    /* Section 2 responsive */
+    .docking_table_panel {
+        padding: 18px 14px;
+    }
+
+    .table_panel_title {
+        font-size: 17px;
+    }
+
+    .table_panel_title_row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .table_pagination_container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .table_pagination_controls {
+        flex-wrap: wrap;
+    }
+
+    .confidence_tooltip {
+        min-width: 300px;
+        right: auto;
+        left: 0;
     }
 }

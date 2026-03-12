@@ -286,6 +286,135 @@
 
             </div>
 
+            <!-- Section 2: Table Display Panel -->
+            <div class="docking_table_panel" id="docking_table_panel" style="display:none">
+
+                <!-- Confidence tooltip (panel-level to avoid overflow clipping) -->
+                <div class="confidence_tooltip" id="confidence_tooltip">
+                    <div class="conf_tooltip_row"><span class="conf_color_block" style="background:#4fb479;"></span><strong>High:</strong> ipTM [0.8,&nbsp;1), pLDDT Ligand [90,&nbsp;100], pLDDT Pocket [90,&nbsp;100], PAE [0,&nbsp;5]</div>
+                    <div class="conf_tooltip_row"><span class="conf_color_block" style="background:#f0ad4e;"></span><strong>Medium:</strong> ipTM [0.6,&nbsp;0.8), pLDDT Ligand [70,&nbsp;90), pLDDT Pocket [70,&nbsp;90), PAE [0,&nbsp;5]</div>
+                    <div class="conf_tooltip_row"><span class="conf_color_block" style="background:#e96a6a;"></span><strong>Low:</strong> Otherwise</div>
+                    <div class="conf_tooltip_note">* Has Clash = 0</div>
+                </div>
+
+                <!-- Loading overlay (glassmorphism) -->
+                <div class="table_loading_overlay" id="table_loading_overlay">
+                    <div class="table_loading_content">
+                        <div class="table_loading_spinner"></div>
+                        <p>Loading...</p>
+                        <p class="table_loading_subtitle">Fetching table data</p>
+                    </div>
+                </div>
+
+                <!-- Panel header -->
+                <div class="table_panel_header">
+                    <div class="table_panel_title_row">
+                        <h2 class="table_panel_title">Docking Summary</h2>
+                        <button class="table_download_btn" id="table_download_btn" title="Download CSV">
+                            <span class="download_icon">&#11015;</span>
+                            <span class="download_text">Download CSV</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Table area -->
+                <div class="docking_table_scroll_wrapper" id="docking_table_scroll_wrapper">
+                    <table class="docking_table" id="docking_table">
+                        <thead id="docking_table_head">
+                            <tr>
+                                <th data-field="phytohormone">
+                                    <span class="th_label">Phytohormone</span>
+                                    <span class="sort_indicator"><span class="sort_arrows"></span><span class="sort_priority"></span></span>
+                                </th>
+                                <th data-field="tf_family">
+                                    <span class="th_label">TF Family</span>
+                                    <span class="sort_indicator"><span class="sort_arrows"></span><span class="sort_priority"></span></span>
+                                </th>
+                                <th data-field="protein_id">
+                                    <span class="th_label">Protein ID</span>
+                                    <span class="sort_indicator"><span class="sort_arrows"></span><span class="sort_priority"></span></span>
+                                </th>
+                                <th data-field="confidence_level" class="confidence_th">
+                                    <span class="th_label">Confidence Level</span>
+                                    <span class="sort_indicator"><span class="sort_arrows"></span><span class="sort_priority"></span></span>
+                                </th>
+                                <th data-field="iptm">
+                                    <span class="th_label">ipTM</span>
+                                    <span class="sort_indicator"><span class="sort_arrows"></span><span class="sort_priority"></span></span>
+                                </th>
+                                <th data-field="ptm_all">
+                                    <span class="th_label">pTM All</span>
+                                    <span class="sort_indicator"><span class="sort_arrows"></span><span class="sort_priority"></span></span>
+                                </th>
+                                <th data-field="ptm_protein">
+                                    <span class="th_label">pTM Protein</span>
+                                    <span class="sort_indicator"><span class="sort_arrows"></span><span class="sort_priority"></span></span>
+                                </th>
+                                <th data-field="ptm_ligand">
+                                    <span class="th_label">pTM Ligand</span>
+                                    <span class="sort_indicator"><span class="sort_arrows"></span><span class="sort_priority"></span></span>
+                                </th>
+                                <th data-field="fraction_disordered">
+                                    <span class="th_label">Frac. Disordered</span>
+                                    <span class="sort_indicator"><span class="sort_arrows"></span><span class="sort_priority"></span></span>
+                                </th>
+                                <th data-field="has_clash">
+                                    <span class="th_label">Has Clash</span>
+                                    <span class="sort_indicator"><span class="sort_arrows"></span><span class="sort_priority"></span></span>
+                                </th>
+                                <th data-field="ranking_score">
+                                    <span class="th_label">Ranking Score</span>
+                                    <span class="sort_indicator"><span class="sort_arrows"></span><span class="sort_priority"></span></span>
+                                </th>
+                                <th data-field="plddt_ligand_avg">
+                                    <span class="th_label">pLDDT Ligand</span>
+                                    <span class="sort_indicator"><span class="sort_arrows"></span><span class="sort_priority"></span></span>
+                                </th>
+                                <th data-field="plddt_protein_avg">
+                                    <span class="th_label">pLDDT Protein</span>
+                                    <span class="sort_indicator"><span class="sort_arrows"></span><span class="sort_priority"></span></span>
+                                </th>
+                                <th data-field="plddt_pocket_protein_avg">
+                                    <span class="th_label">pLDDT Pocket</span>
+                                    <span class="sort_indicator"><span class="sort_arrows"></span><span class="sort_priority"></span></span>
+                                </th>
+                                <th data-field="pae_protein_base_min">
+                                    <span class="th_label">PAE Protein Min</span>
+                                    <span class="sort_indicator"><span class="sort_arrows"></span><span class="sort_priority"></span></span>
+                                </th>
+                                <th data-field="pae_pocket_min_avg">
+                                    <span class="th_label">PAE Pocket Avg</span>
+                                    <span class="sort_indicator"><span class="sort_arrows"></span><span class="sort_priority"></span></span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="docking_table_body"></tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination area -->
+                <div class="table_pagination_container">
+                    <span class="table_pagination_info" id="table_pagination_info">Showing 0-0 of 0 records</span>
+                    <div class="table_pagination_controls">
+                        <div class="table_pagination_nav" id="table_pagination_nav"></div>
+                        <div class="table_page_input_group">
+                            <label for="table_page_input">Go to</label>
+                            <input type="number" id="table_page_input" class="table_page_input" min="1" value="1">
+                            <button type="button" class="page_go_btn" id="page_go_btn" title="Go">&#8629;</button>
+                        </div>
+                        <div class="table_page_size_group">
+                            <label for="table_page_size_select">Rows</label>
+                            <select id="table_page_size_select" class="table_page_size_select">
+                                <option value="10" selected>10</option>
+                                <option value="20">20</option>
+                                <option value="50">50</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
         </div>
 
         <div class="footer_container">
