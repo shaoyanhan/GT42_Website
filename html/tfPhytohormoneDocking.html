@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="../css/reset.css">
     <link rel="stylesheet" href="../css/basicPage.css">
     <link rel="stylesheet" href="../css/tfPhytohormoneDocking.css">
+    <!-- Molstar Viewer -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/molstar@latest/build/viewer/molstar.css">
     <!-- 引入字体库 -->
     <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
 
@@ -415,6 +417,106 @@
 
             </div>
 
+            <!-- Section 3: 3D Structure Viewer Panel -->
+            <div class="structure_panel" id="structure_panel" style="display:none">
+
+                <!-- Loading overlay (glassmorphism) -->
+                <div class="structure_loading_overlay" id="structure_loading_overlay">
+                    <div class="structure_loading_content">
+                        <div class="structure_loading_spinner"></div>
+                        <p>Loading...</p>
+                        <p class="structure_loading_subtitle">Fetching docking structure</p>
+                    </div>
+                </div>
+
+                <!-- Panel header -->
+                <div class="structure_panel_header">
+                    <h2 class="structure_panel_title">Docking Structure Viewer</h2>
+                    <span class="structure_panel_subtitle" id="structure_panel_subtitle"></span>
+                </div>
+
+                <!-- Top row: Molstar (left) + PAE & Detail (right) -->
+                <div class="structure_top_row">
+
+                    <!-- Left: pLDDT legend + Molstar 3D Viewer -->
+                    <div class="structure_left_col">
+                        <!-- pLDDT Help Icon (centered above viewer) -->
+                        <div class="plddt_help_row">
+                            <span class="plddt_help_icon" id="plddt_help_icon">?</span>
+                            <span class="plddt_help_label">pLDDT Color Legend</span>
+                            <div class="plddt_tooltip" id="plddt_tooltip">
+                                <div class="plddt_tooltip_title">pLDDT Confidence Level</div>
+                                <div class="plddt_tooltip_row"><span class="plddt_color_block" style="background:#0053D6;"></span>Very high (pLDDT &gt; 90)</div>
+                                <div class="plddt_tooltip_row"><span class="plddt_color_block" style="background:#65CBF3;"></span>High (90 &gt; pLDDT &gt; 70)</div>
+                                <div class="plddt_tooltip_row"><span class="plddt_color_block" style="background:#FFDB13;"></span>Low (70 &gt; pLDDT &gt; 50)</div>
+                                <div class="plddt_tooltip_row"><span class="plddt_color_block" style="background:#FF7D45;"></span>Very low (pLDDT &lt; 50)</div>
+                            </div>
+                        </div>
+                        <div class="structure_viewer_wrapper">
+                            <div class="molstar_container" id="molstar_container"></div>
+                        </div>
+                    </div>
+
+                    <!-- Right: PAE + Detail Info -->
+                    <div class="structure_right_col">
+
+                        <!-- PAE Heatmap -->
+                        <div class="pae_section">
+                            <h3 class="pae_section_title">PAE (Predicted Aligned Error)</h3>
+                            <div class="pae_image_wrapper" id="pae_image_wrapper">
+                                <img class="pae_image" id="pae_image" alt="PAE Heatmap" title="Click to enlarge">
+                                <div class="pae_placeholder" id="pae_placeholder">Loading PAE heatmap...</div>
+                            </div>
+                        </div>
+
+                        <!-- Detail Info -->
+                        <div class="detail_section">
+                            <h3 class="detail_section_title">Docking Metrics</h3>
+                            <div class="detail_table_wrapper" id="detail_table_wrapper">
+                                <table class="detail_table" id="detail_table">
+                                    <tbody id="detail_table_body"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom row: Raw File Downloads -->
+                <div class="structure_download_row">
+                    <h3 class="download_row_title">Raw Result Files</h3>
+                    <div class="download_links_group" id="download_links_group">
+                        <a class="raw_download_link" id="dl_model_cif" href="#" target="_blank" download>
+                            <span class="raw_dl_icon">&#128196;</span>
+                            <span class="raw_dl_name">model.cif</span>
+                        </a>
+                        <a class="raw_download_link" id="dl_confidences" href="#" target="_blank" download>
+                            <span class="raw_dl_icon">&#128196;</span>
+                            <span class="raw_dl_name">confidences.json</span>
+                        </a>
+                        <a class="raw_download_link" id="dl_summary_confidences" href="#" target="_blank" download>
+                            <span class="raw_dl_icon">&#128196;</span>
+                            <span class="raw_dl_name">summary_confidences.json</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAE Fullscreen Modal (global) -->
+            <div class="pae_modal_overlay" id="pae_modal_overlay">
+                <div class="pae_modal_container">
+                    <div class="pae_modal_toolbar">
+                        <button class="pae_modal_btn" id="pae_zoom_in" title="Zoom In">&#43;</button>
+                        <button class="pae_modal_btn" id="pae_zoom_out" title="Zoom Out">&#8722;</button>
+                        <button class="pae_modal_btn" id="pae_zoom_reset" title="Reset Zoom">&#8634;</button>
+                        <button class="pae_modal_btn" id="pae_modal_download" title="Download Image">&#11015;</button>
+                        <button class="pae_modal_close" id="pae_modal_close" title="Close">&times;</button>
+                    </div>
+                    <div class="pae_modal_image_wrapper" id="pae_modal_image_wrapper">
+                        <img class="pae_modal_image" id="pae_modal_image" alt="PAE Heatmap Full">
+                    </div>
+                </div>
+            </div>
+
         </div>
 
         <div class="footer_container">
@@ -454,6 +556,7 @@
     </div>
 
 
+    <script src="https://cdn.jsdelivr.net/npm/molstar@latest/build/viewer/molstar.js"></script>
     <script type="module" src="../js/basic.js"></script>
     <script type="module" src="../js/mainTfPhytohormoneDocking.js"></script>
 
