@@ -213,6 +213,79 @@
 
         <div class="content_container">
 
+            <!-- Section 1: Search Panel -->
+            <div class="search_panel" id="docking_search_panel">
+
+                <!-- Loading overlay (glassmorphism) -->
+                <div class="search_loading_overlay" id="search_loading_overlay">
+                    <div class="search_loading_content">
+                        <div class="search_loading_spinner"></div>
+                        <p>Loading...</p>
+                        <p class="search_loading_subtitle">Fetching docking results</p>
+                    </div>
+                </div>
+
+                <!-- Panel header -->
+                <div class="search_panel_header">
+                    <h2 class="search_panel_title">TF-Phytohormone Docking Search</h2>
+                    <p class="search_panel_description">
+                        Search molecular docking results between transcription factors and phytohormones.
+                        Filter by protein ID, phytohormone type, or TF family. Multiple filters can be combined.
+                    </p>
+                </div>
+
+                <!-- Protein ID search -->
+                <div class="id_search_group">
+                    <label class="search_group_label">Protein ID</label>
+                    <div class="id_input_wrapper">
+                        <input type="text" id="docking_protein_id_input" class="docking_search_input"
+                            placeholder="e.g. SGI006510.SO.003.01" autocomplete="off">
+                        <span class="id_validation_icon" id="id_validation_icon"></span>
+                        <button type="button" class="id_clear_btn" id="id_clear_btn" title="Clear">&times;</button>
+                    </div>
+                    <div class="id_search_hint">
+                        <span class="hint_text">Enter a valid transcription factor ID to search</span>
+                        <span class="example_ids">
+                            <span class="example_title">e.g.</span>
+                            <span class="example_id" data-id="SGI006510.SO.003.01">SGI006510.SO.003.01</span>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Phytohormone selection -->
+                <div class="select_group phytohormone_select_group">
+                    <div class="select_group_header">
+                        <label class="search_group_label">Phytohormones</label>
+                        <div class="select_group_actions">
+                            <button class="select_action_btn select_all_btn" data-target="phytohormone">Select All</button>
+                            <button class="select_action_btn deselect_all_btn" data-target="phytohormone">Deselect All</button>
+                        </div>
+                    </div>
+                    <div class="button_grid" id="phytohormone_button_grid"></div>
+                </div>
+
+                <!-- TF Family selection -->
+                <div class="select_group tf_family_select_group">
+                    <div class="select_group_header">
+                        <label class="search_group_label">Transcription Factor Families</label>
+                        <div class="select_group_actions">
+                            <button class="select_action_btn select_all_btn" data-target="tf_family">Select All</button>
+                            <button class="select_action_btn deselect_all_btn" data-target="tf_family">Deselect All</button>
+                        </div>
+                    </div>
+                    <div class="button_grid scrollable" id="tf_family_button_grid"></div>
+                </div>
+
+                <!-- Submit button -->
+                <div class="submit_group">
+                    <button class="docking_submit_btn" id="docking_submit_btn">
+                        <span class="submit_btn_text">Search</span>
+                        <span class="submit_btn_icon">&#10132;</span>
+                    </button>
+                </div>
+
+            </div>
+
         </div>
 
         <div class="footer_container">
