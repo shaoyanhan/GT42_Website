@@ -210,6 +210,10 @@
     content: url('../img/tf.gif');
 }
 
+.content_container .page_image_container .image_container:hover .static_image.tfPhytohormoneDocking {
+    content: url('../img/tfPhytohormoneDocking_intro.gif');
+}
+
 .content_container .page_image_container .image_container:hover .page_title {
     transform: translateY(-100%);
     /* 标题向上滑出容器 */

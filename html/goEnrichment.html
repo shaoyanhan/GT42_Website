@@ -69,56 +69,77 @@
                 <nav class="nav_bar">
                     <div class="logo_container">
                         <div class="logo_box">
-                            <a href="./index.html"><img src="../img/sugarcane-logo.jpeg" alt="logo"></a>
-
+                            <a href="./index.html"><img src="../img/sugarcane-logo.jpeg" alt="logo" /></a>
                         </div>
                         <div class="title_box">
                             <a href="./index.html">
                                 <h1>SRNDB</h1>
                             </a>
-
                         </div>
-
                     </div>
 
                     <!-- 导航栏菜单 -->
                     <div class="menu_container">
                         <ul class="menu_links">
-                            <li class="first_level_link"><a href="./index.html">Home</a></li>
-                            <li class="first_level_link dropdown"><a>Data <span class="arrow">&#9660;</span></a>
+                            <li class="first_level_link">
+                                <a href="./index.html">Home</a>
+                            </li>
+                            <li class="first_level_link dropdown">
+                                <a>Data <span class="arrow">&#9660;</span></a>
                                 <ul class="dropdown_content">
-                                    <li class="second_level_link"><a href="./fullLengthTranscriptome.html"
-                                            target="_blank">Full-length Transcriptome</a>
+                                    <li class="second_level_link">
+                                        <a href="./fullLengthTranscriptome.html" target="_blank">Full-length
+                                            Transcriptome</a>
                                     </li>
-                                    <li class="second_level_link"><a href="./haplotypeSNP.html"
-                                            target="_blank">Haplotype &&
-                                            SNP</a></li>
-                                    <li class="second_level_link"><a href="./geneExpressionProfile.html"
-                                            target="_blank">Gene
-                                            Expression Profile</a></li>
-                                    <li class="second_level_link"><a href="./tfRegulatoryNetwork.html"
-                                            target="_blank">TF Regulatory Network</a></li>
+                                    <li class="second_level_link">
+                                        <a href="./haplotypeSNP.html" target="_blank">Haplotype && SNP</a>
+                                    </li>
+                                    <li class="second_level_link">
+                                        <a href="./geneExpressionProfile.html" target="_blank">Gene Expression
+                                            Profile</a>
+                                    </li>
+                                    <li class="second_level_link">
+                                        <a href="./annotation.html" target="_blank">Transcript Annotation</a>
+                                    </li>
+                                    <li class="second_level_link">
+                                        <a href="./transcriptFactors.html" target="_blank">TF/TR/PK Annotation</a>
+                                    </li>
+
+                                    <li class="second_level_link">
+                                        <a href="./tfRegulatoryNetwork.html" target="_blank">TF Regulatory Network</a>
+                                    </li>
+                                    <li class="second_level_link">
+                                        <a href="./tfPhytohormoneDocking.html" target="_blank">TF-phytohormone
+                                            Docking</a>
+                                    </li>
                                 </ul>
                             </li>
-                            <li class="first_level_link dropdown"><a>Tools<span class="arrow">&#9660;</span></a>
+                            <li class="first_level_link dropdown">
+                                <a>Tools<span class="arrow">&#9660;</span></a>
                                 <ul class="dropdown_content">
-                                    <li class="second_level_link"><a href="./blast.html" target="_blank">BLAST</a></li>
-                                    <li class="second_level_link"><a href="./annotation.html"
-                                            target="_blank">Annotation</a>
+
+
+                                    <li class="second_level_link">
+                                        <a href="./blast.html" target="_blank">BLAST</a>
                                     </li>
-                                    <li class="second_level_link"><a href="./transcriptFactors.html"
-                                            target="_blank">Transcript
-                                            Factors</a></li>
-                                    <li class="second_level_link"><a href="./goEnrichment.html" target="_blank">GO
-                                            Enrichment</a></li>
+
+                                    <li class="second_level_link">
+                                        <a href="./goEnrichment.html" target="_blank">Gene GO Enrichment</a>
+                                    </li>
                                 </ul>
                             </li>
-                            <li class="first_level_link"><a href="./download.html" target="_blank">Download</a></li>
-                            <li class="first_level_link dropdown"><a>About<span class="arrow">&#9660;</span></a>
+                            <li class="first_level_link">
+                                <a href="./download.html" target="_blank">Download</a>
+                            </li>
+                            <li class="first_level_link dropdown">
+                                <a>About<span class="arrow">&#9660;</span></a>
                                 <ul class="dropdown_content">
-                                    <li class="second_level_link"><a href="./tutorial.html" target="_blank">Tutorial</a>
+                                    <li class="second_level_link">
+                                        <a href="./tutorial.html" target="_blank">Tutorial</a>
                                     </li>
-                                    <li class="second_level_link"><a class="contact_button">Contact</a></li>
+                                    <li class="second_level_link">
+                                        <a class="contact_button">Contact</a>
+                                    </li>
                                 </ul>
                             </li>
                         </ul>
@@ -126,95 +147,123 @@
 
                     <!-- 导航栏搜索框 -->
                     <div class="search_box_container">
-                        <input type="text" placeholder="Search...">
-                        <button type="submit" class="search_button"><span class="search_icon">&#128269;</span></button>
+                        <input type="text" placeholder="Search..." />
+                        <button type="submit" class="search_button">
+                            <span class="search_icon">&#128269;</span>
+                        </button>
 
                         <div class="search_box_tooltip">
-                            <span class="tooltip_text">Show the avaliable resources of specific ID been inputted.</span>
+                            <span class="tooltip_text">Show the avaliable resources of specific ID been
+                                inputted.</span>
 
                             <div class="example_ids">
                                 <span class="example_title">e.g.</span>
                                 <span class="example_id">SGI000003.SO.006</span>
                             </div>
 
-                            <button class="download_button">download full available ID list</button>
+                            <button class="download_button">
+                                download full available ID list
+                            </button>
                         </div>
                     </div>
 
-                    <button class="menu_toggle"><i class="iconfont icon-liebiao"></i></button>
-                    <button class="menu_close"><i class="iconfont icon-31guanbi"></i></button>
-
-
-
+                    <button class="menu_toggle">
+                        <i class="iconfont icon-liebiao"></i>
+                    </button>
+                    <button class="menu_close">
+                        <i class="iconfont icon-31guanbi"></i>
+                    </button>
                 </nav>
 
                 <!-- 响应式布局情况下的导航栏 -->
                 <div class="expanded_nav">
                     <!-- 搜索框 -->
                     <div class="search_box_container">
-                        <input type="text" placeholder="Search...">
-                        <button type="submit" class="search_button"><span class="search_icon">&#128269;</span></button>
+                        <input type="text" placeholder="Search..." />
+                        <button type="submit" class="search_button">
+                            <span class="search_icon">&#128269;</span>
+                        </button>
 
                         <div class="search_box_tooltip">
-                            <span class="tooltip_text">Show the avaliable resources of specific ID been inputted.</span>
+                            <span class="tooltip_text">Show the avaliable resources of specific ID been
+                                inputted.</span>
 
                             <div class="example_ids">
                                 <span class="example_title">e.g.</span>
                                 <span class="example_id">SGI000003.SO.006</span>
                             </div>
 
-                            <button class="download_button">download full available ID list</button>
+                            <button class="download_button">
+                                download full available ID list
+                            </button>
                         </div>
                     </div>
                     <!-- 手风琴导航栏菜单 -->
                     <div class="menu_container">
                         <ul class="menu_links">
-                            <li class="first_level_link"><a href="./index.html">Home</a></li>
-                            <li class="first_level_link accordion"><a>Data <span class="arrow">&#9660;</span></a>
+                            <li class="first_level_link">
+                                <a href="./index.html">Home</a>
+                            </li>
+                            <li class="first_level_link accordion">
+                                <a>Data <span class="arrow">&#9660;</span></a>
                                 <ul class="accordion_content">
-                                    <li class="second_level_link"><a href="./fullLengthTranscriptome.html"
-                                            target="_blank">Full-length Transcriptome</a>
+                                    <li class="second_level_link">
+                                        <a href="./fullLengthTranscriptome.html" target="_blank">Full-length
+                                            Transcriptome</a>
                                     </li>
-                                    <li class="second_level_link"><a href="./haplotypeSNP.html"
-                                            target="_blank">Haplotype &&
-                                            SNP</a></li>
-                                    <li class="second_level_link"><a href="./geneExpressionProfile.html"
-                                            target="_blank">Gene
-                                            Expression Profile</a></li>
-                                    <li class="second_level_link"><a href="./tfRegulatoryNetwork.html"
-                                            target="_blank">TF Regulatory Network</a></li>
+                                    <li class="second_level_link">
+                                        <a href="./haplotypeSNP.html" target="_blank">Haplotype && SNP</a>
+                                    </li>
+                                    <li class="second_level_link">
+                                        <a href="./geneExpressionProfile.html" target="_blank">Gene Expression
+                                            Profile</a>
+                                    </li>
+                                    <li class="second_level_link">
+                                        <a href="./annotation.html" target="_blank">Transcript Annotation</a>
+                                    </li>
+                                    <li class="second_level_link">
+                                        <a href="./transcriptFactors.html" target="_blank">TF/TR/PK Annotation</a>
+                                    </li>
+                                    <li class="second_level_link">
+                                        <a href="./tfRegulatoryNetwork.html" target="_blank">TF Regulatory Network</a>
+                                    </li>
+                                    <li class="second_level_link">
+                                        <a href="./tfPhytohormoneDocking.html" target="_blank">TF-phytohormone
+                                            Docking</a>
+                                    </li>
+
                                 </ul>
                             </li>
-                            <li class="first_level_link accordion"><a>Tools<span class="arrow">&#9660;</span></a>
+                            <li class="first_level_link accordion">
+                                <a>Tools<span class="arrow">&#9660;</span></a>
                                 <ul class="accordion_content">
-                                    <li class="second_level_link"><a href="./blast.html" target="_blank">BLAST</a></li>
-                                    <li class="second_level_link"><a href="./annotation.html"
-                                            target="_blank">Annotation</a>
+
+                                    <li class="second_level_link">
+                                        <a href="./blast.html" target="_blank">BLAST</a>
                                     </li>
-                                    <li class="second_level_link"><a href="./transcriptFactors.html"
-                                            target="_blank">Transcript
-                                            Factors</a></li>
-                                    <li class="second_level_link"><a href="./goEnrichment.html" target="_blank">GO
-                                            Enrichment</a></li>
+                                    <li class="second_level_link">
+                                        <a href="./goEnrichment.html" target="_blank">Gene GO Enrichment</a>
+                                    </li>
                                 </ul>
                             </li>
-                            <li class="first_level_link"><a href="./download.html" target="_blank">Download</a></li>
-                            <li class="first_level_link accordion"><a>About<span class="arrow">&#9660;</span></a>
+                            <li class="first_level_link">
+                                <a href="./download.html" target="_blank">Download</a>
+                            </li>
+                            <li class="first_level_link accordion">
+                                <a>About<span class="arrow">&#9660;</span></a>
                                 <ul class="accordion_content">
-                                    <li class="second_level_link"><a href="./tutorial.html" target="_blank">Tutorial</a>
+                                    <li class="second_level_link">
+                                        <a href="./tutorial.html" target="_blank">Tutorial</a>
                                     </li>
-                                    <li class="second_level_link"><a class="contact_button">Contact</a></li>
+                                    <li class="second_level_link">
+                                        <a class="contact_button">Contact</a>
+                                    </li>
                                 </ul>
                             </li>
                         </ul>
                     </div>
-
-
                 </div>
             </div>
-
-
-
         </header>
 
 
@@ -231,11 +280,9 @@
                         </div>
                     </div>
                     <div class="input_wrapper">
-                        <textarea 
-                            id="gene_list_input" 
+                        <textarea id="gene_list_input"
                             placeholder="Enter gene IDs (one per line) or drag & drop a file here..."
-                            rows="10"
-                        ></textarea>
+                            rows="10"></textarea>
                         <input type="file" id="file_input" accept=".txt,.csv" style="display: none;">
                         <button id="clear_gene_list" class="clear_button" title="Clear gene list">
                             <span>✕</span>
@@ -257,14 +304,15 @@
                 <!-- 参数设置区域 -->
                 <div class="parameters_container">
                     <div class="section_header">Analysis Parameters</div>
-                    
+
                     <div class="parameter_grid">
                         <!-- pvalue cutoff -->
                         <div class="parameter_item">
                             <label for="pvalue_cutoff">P-value Cutoff</label>
                             <div class="input_with_tooltip">
                                 <input type="number" id="pvalue_cutoff" value="0.05" step="0.01" min="0" max="1">
-                                <div class="tooltip_icon" data-tooltip="Significance threshold for enrichment p-values. Default: 0.05">?</div>
+                                <div class="tooltip_icon"
+                                    data-tooltip="Significance threshold for enrichment p-values. Default: 0.05">?</div>
                             </div>
                         </div>
 
@@ -273,7 +321,9 @@
                             <label for="qvalue_cutoff">Q-value Cutoff</label>
                             <div class="input_with_tooltip">
                                 <input type="number" id="qvalue_cutoff" value="0.2" step="0.01" min="0" max="1">
-                                <div class="tooltip_icon" data-tooltip="False discovery rate threshold after multiple testing correction. Default: 0.2">?</div>
+                                <div class="tooltip_icon"
+                                    data-tooltip="False discovery rate threshold after multiple testing correction. Default: 0.2">
+                                    ?</div>
                             </div>
                         </div>
 
@@ -291,7 +341,9 @@
                                     <option value="fdr">fdr</option>
                                     <option value="none">none</option>
                                 </select>
-                                <div class="tooltip_icon" data-tooltip="Multiple testing correction method. BH (Benjamini-Hochberg) is recommended. Default: BH">?</div>
+                                <div class="tooltip_icon"
+                                    data-tooltip="Multiple testing correction method. BH (Benjamini-Hochberg) is recommended. Default: BH">
+                                    ?</div>
                             </div>
                         </div>
 
@@ -300,7 +352,8 @@
                             <label for="min_gs_size">Min GS Size</label>
                             <div class="input_with_tooltip">
                                 <input type="number" id="min_gs_size" value="5" step="1" min="1">
-                                <div class="tooltip_icon" data-tooltip="Minimum number of genes in a gene set for testing. Default: 5">?</div>
+                                <div class="tooltip_icon"
+                                    data-tooltip="Minimum number of genes in a gene set for testing. Default: 5">?</div>
                             </div>
                         </div>
 
@@ -309,7 +362,9 @@
                             <label for="max_gs_size">Max GS Size</label>
                             <div class="input_with_tooltip">
                                 <input type="number" id="max_gs_size" value="500" step="1" min="1">
-                                <div class="tooltip_icon" data-tooltip="Maximum number of genes in a gene set for testing. Default: 500">?</div>
+                                <div class="tooltip_icon"
+                                    data-tooltip="Maximum number of genes in a gene set for testing. Default: 500">?
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -371,7 +426,8 @@
                             <!-- 表格工具栏 -->
                             <div class="table_toolbar">
                                 <div class="table_toolbar_left">
-                                    <input type="text" class="search_input" id="bp_search" placeholder="Search in table...">
+                                    <input type="text" class="search_input" id="bp_search"
+                                        placeholder="Search in table...">
                                     <div class="page_size_selector">
                                         <span>Show</span>
                                         <select id="bp_page_size">
@@ -462,7 +518,8 @@
                             <!-- 表格工具栏 -->
                             <div class="table_toolbar">
                                 <div class="table_toolbar_left">
-                                    <input type="text" class="search_input" id="mf_search" placeholder="Search in table...">
+                                    <input type="text" class="search_input" id="mf_search"
+                                        placeholder="Search in table...">
                                     <div class="page_size_selector">
                                         <span>Show</span>
                                         <select id="mf_page_size">
@@ -553,7 +610,8 @@
                             <!-- 表格工具栏 -->
                             <div class="table_toolbar">
                                 <div class="table_toolbar_left">
-                                    <input type="text" class="search_input" id="cc_search" placeholder="Search in table...">
+                                    <input type="text" class="search_input" id="cc_search"
+                                        placeholder="Search in table...">
                                     <div class="page_size_selector">
                                         <span>Show</span>
                                         <select id="cc_page_size">

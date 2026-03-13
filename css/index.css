@@ -194,7 +194,7 @@
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    width: 20%;
+    width: 27%;
     height: 25%;
     margin: 20px 15px;
     padding: 15px;
@@ -205,8 +205,8 @@
 
 .content_container .databases_box .database_container img {
     /* 保持正方形的比例 */
-    width: 260px;
-    height: 260px;
+    width: 330px;
+    height: 270px;
     margin: 10px;
     border-radius: 20px;
     object-fit: cover;
