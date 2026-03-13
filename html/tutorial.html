@@ -422,7 +422,7 @@
                     </div>
                 </ul>
 
-                <h2 id="graph_summary">
+                <!-- <h2 id="graph_summary">
                     <div class="title_container">
                         <a href="#graph_summary" class="title_link">Graph Summary</a>
                         <img class="title_link_icon" src="../img/link_icon.png" alt="link">
@@ -448,7 +448,11 @@
                         FLNC sequences were assigned to different haplotype genes, resulting in the Full-length
                         Transcriptome dataset.
                     </li>
-                </ul>
+                </ul> -->
+
+
+
+
 
 
                 <h2 id="data_resources">
@@ -704,7 +708,119 @@
                     </div>
                 </ul>
 
+                <h3 id="transcript_annotation">
+                    <div class="title_container">
+                        <a href="#transcript_annotation" class="title_link">Transcript Annotation</a>
+                        <img class="title_link_icon" src="../img/link_icon.png" alt="link">
+                    </div>
+                </h3>
+                <ul class="h3_p">
+                    <li>
+                        We have performed functional and structural annotations on all sequences corresponding to the
+                        transcripts(isoform). On this page,
+                        you can search for an ID of interest in the search box (Fig 24a) and view its annotation
+                        information. If
+                        the entered ID is not a
+                        transcript(isoform) ID, the system will automatically use the first transcript(isoform) ID
+                        associated with this ID to
+                        search for annotation information.
+                    </li>
+                    <div class="image_container">
+                        <img src="../img/tutorial_annotation.png" alt="Image description" class="clickable_image">
+                        <div class="image_caption">Fig 24. Transcript annotation page</div>
+                    </div>
+                    <li>
+                        The annotation information area is primarily divided into three sections: ID and Description
+                        (Fig 24b), Annotation Information
+                        Download and Resource Page Navigation (Fig 24c), and Annotation Table. The annotation
+                        information table utilizes tabs header (Fig 24d) to display
+                        different sections, allowing you to view data across various categories by clicking on the
+                        horizontal tab bar
+                        corresponding to different annotation types. Each category's data is presented in a table
+                        format, and you can click on
+                        icons (Fig 24e) within the table to navigate to external databases for detailed information on
+                        the currently accession
+                        or subject ID.
+                    </li>
+                </ul>
 
+                <h3 id="tf_tr_pk_annotation">
+                    <div class="title_container">
+                        <a href="#tf_tr_pk_annotation" class="title_link">TF/TR/PK Annotation</a>
+                        <img class="title_link_icon" src="../img/link_icon.png" alt="link">
+                    </div>
+                </h3>
+                <ul class="h3_p">
+                    <li>
+                        On this page, you will encounter the transcription factors, transcription regulators, and
+                        protein kinases annotated from
+                        the entire transcript(isoform) dataset, along with the corresponding ID lists for these factor
+                        types. Naturally, you
+                        also have the option to search for a transcript(isoform) ID or factor type of interest in the
+                        search box to view its
+                        annotation details. If the entered ID not correspond to a transcript(isoform) ID, the
+                        system will automatically
+                        default to the first transcript(isoform) ID associated with this ID to search for
+                        annotation information.
+                    </li>
+                    <div class="image_container">
+                        <img src="../img/tutorial_tf.png" alt="Image description" class="clickable_image">
+                        <div class="image_caption">Fig 25. TF/TR/PK annotation page</div>
+                    </div>
+                    <li>
+                        The three types of factors are displayed using three expandable boxes. After expansion, each box
+                        reveals three sections.
+                        The leftmost section, the factor list, showcases the factors of this type annotated in the
+                        current
+                        database. Each button
+                        within this list displays the factor ID on the left and the number of transcript(isoform) IDs
+                        associated
+                        with that factor in
+                        parentheses on the right. Clicking on a button will display the corresponding
+                        transcript(isoform) IDs in the
+                        second section, the transcript(isoform) ID
+                        list. Selecting a specific transcript(isoform) ID from this list will present detailed
+                        descriptive
+                        information in the third section.
+                        Additionally, you can navigate to the resource page for any ID by clicking on the ID link within
+                        the information list.
+                    </li>
+
+                </ul>
+
+                <h3 id="tf_regulatory_network">
+                    <div class="title_container">
+                        <a href="#tf_regulatory_network" class="title_link">TF Regulatory Network</a>
+                        <img class="title_link_icon" src="../img/link_icon.png" alt="link">
+                    </div>
+                </h3>
+                <ul class="h3_p">
+                    <li>
+                        This page displays the regulatory network of transcription factors (TFs).
+                    </li>
+                    <div class="image_container">
+                        <img src="../img/tutorial_tf_regulatory_network.png" alt="Image description"
+                            class="clickable_image">
+                        <div class="image_caption">Fig 26. TF regulatory network page</div>
+                    </div>
+                </ul>
+
+                <h3 id="tf_phytohormone_docking">
+                    <div class="title_container">
+                        <a href="#tf_phytohormone_docking" class="title_link">TF-phytohormone Docking</a>
+                        <img class="title_link_icon" src="../img/link_icon.png" alt="link">
+                    </div>
+                </h3>
+                <ul class="h3_p">
+                    <li>
+                        This page displays the docking results of transcription factors (TFs) and phytohormones.
+                    </li>
+                    <div class="image_container">
+                        <img src="../img/tutorial_tf_phytohormone_docking.png" alt="Image description"
+                            class="clickable_image">
+                        <div class="image_caption">Fig 27. TF-phytohormone docking page</div>
+                    </div>
+                </ul>
 
                 <h2 id="tools">
                     <div class="title_container">
@@ -964,85 +1080,23 @@
                     </li>
                 </ul>
 
-                <h3 id="annotation">
+                <h3 id="gene_go_enrichment">
                     <div class="title_container">
-                        <a href="#annotation" class="title_link">Annotation</a>
+                        <a href="#gene_go_enrichment" class="title_link">Gene GO Enrichment</a>
                         <img class="title_link_icon" src="../img/link_icon.png" alt="link">
                     </div>
                 </h3>
                 <ul class="h3_p">
                     <li>
-                        We have performed functional and structural annotations on all sequences corresponding to the
-                        transcripts(isoform). On this page,
-                        you can search for an ID of interest in the search box (Fig 24a) and view its annotation
-                        information. If
-                        the entered ID is not a
-                        transcript(isoform) ID, the system will automatically use the first transcript(isoform) ID
-                        associated with this ID to
-                        search for annotation information.
+                        This page displays the GO enrichment results of genes.
                     </li>
                     <div class="image_container">
-                        <img src="../img/tutorial_annotation.png" alt="Image description" class="clickable_image">
-                        <div class="image_caption">Fig 24. Annotation page</div>
+                        <img src="../img/tutorial_gene_go_enrichment.png" alt="Image description"
+                            class="clickable_image">
+                        <div class="image_caption">Fig 28. Gene GO enrichment page</div>
                     </div>
-                    <li>
-                        The annotation information area is primarily divided into three sections: ID and Description
-                        (Fig 24b), Annotation Information
-                        Download and Resource Page Navigation (Fig 24c), and Annotation Table. The annotation
-                        information table utilizes tabs header (Fig 24d) to display
-                        different sections, allowing you to view data across various categories by clicking on the
-                        horizontal tab bar
-                        corresponding to different annotation types. Each category's data is presented in a table
-                        format, and you can click on
-                        icons (Fig 24e) within the table to navigate to external databases for detailed information on
-                        the currently accession
-                        or subject ID.
-                    </li>
                 </ul>
 
-                <h3 id="transcript_factors">
-                    <div class="title_container">
-                        <a href="#transcript_factors" class="title_link">Transcript Factors</a>
-                        <img class="title_link_icon" src="../img/link_icon.png" alt="link">
-                    </div>
-                </h3>
-                <ul class="h3_p">
-                    <li>
-                        On this page, you will encounter the transcription factors, transcription regulators, and
-                        protein kinases annotated from
-                        the entire transcript(isoform) dataset, along with the corresponding ID lists for these factor
-                        types. Naturally, you
-                        also have the option to search for a transcript(isoform) ID or factor type of interest in the
-                        search box to view its
-                        annotation details. If the entered ID not correspond to a transcript(isoform) ID, the
-                        system will automatically
-                        default to the first transcript(isoform) ID associated with this ID to search for
-                        annotation information.
-                    </li>
-                    <div class="image_container">
-                        <img src="../img/tutorial_tf.png" alt="Image description" class="clickable_image">
-                        <div class="image_caption">Fig 25. Transcript factors page</div>
-                    </div>
-                    <li>
-                        The three types of factors are displayed using three expandable boxes. After expansion, each box
-                        reveals three sections.
-                        The leftmost section, the factor list, showcases the factors of this type annotated in the
-                        current
-                        database. Each button
-                        within this list displays the factor ID on the left and the number of transcript(isoform) IDs
-                        associated
-                        with that factor in
-                        parentheses on the right. Clicking on a button will display the corresponding
-                        transcript(isoform) IDs in the
-                        second section, the transcript(isoform) ID
-                        list. Selecting a specific transcript(isoform) ID from this list will present detailed
-                        descriptive
-                        information in the third section.
-                        Additionally, you can navigate to the resource page for any ID by clicking on the ID link within
-                        the information list.
-                    </li>
-
-                </ul>
 
                 <h2 id="download">
                     <div class="title_container">
@@ -1090,6 +1144,23 @@
                         You can also find the source code for the project website here, and we welcome any feedback or
                         suggestions for
                         improvements to the site.
+                    </li>
+                </ul>
+
+                <h2 id="search_box">
+                    <div class="title_container">
+                        <a href="#search_box" class="title_link">Search Box</a>
+                        <img class="title_link_icon" src="../img/link_icon.png" alt="link">
+                    </div>
+                </h2>
+                <div class="image_container">
+                    <img src="../img/tutorial_search_box.png" alt="Image description" class="clickable_image">
+                    <div class="image_caption">Fig 5. The search box page</div>
+                </div>
+                <ul class="h3_p">
+                    <li>
+                        The search box is located in the top right corner of the page. Users can enter a database ID
+                        into the search box to perform a global search.
                     </li>
                 </ul>
 
@@ -1165,7 +1236,7 @@
                     </li>
                     <!-- 继续添加其他一级和二级标题到导航列表 -->
 
-                    <li><a href="#graph_summary" class="nav_link first_level_link">Graph Summary</a></li>
+                    <!-- <li><a href="#graph_summary" class="nav_link first_level_link">Graph Summary</a></li> -->
                     <li><a href="#data_resources" class="nav_link first_level_link">Data Resources</a>
                         <ul>
                             <li><a href="#full_length_transcriptome" class="nav_link second_level_link">Full-length
@@ -1174,15 +1245,27 @@
                             <li><a href="#gene_expression_profile" class="nav_link second_level_link">Gene Expression
                                     Profile</a>
                             </li>
+                            <li><a href="#transcript_annotation" class="nav_link second_level_link">Transcript
+                                    Annotation</a>
+                            </li>
+                            <li><a href="#tf_tr_pk_annotation" class="nav_link second_level_link">TF/TR/PK
+                                    Annotation</a>
+                            </li>
+                            <li><a href="#tf_regulatory_network" class="nav_link second_level_link">TF Regulatory
+                                    Network</a>
+                            </li>
+                            <li><a href="#tf_phytohormone_docking" class="nav_link second_level_link">TF-phytohormone
+                                    Docking</a>
+                            </li>
                         </ul>
                     </li>
 
                     <li><a href="#tools" class="nav_link first_level_link">Tools</a>
                         <ul>
                             <li><a href="#blast" class="nav_link second_level_link">BLAST</a></li>
-                            <li><a href="#annotation" class="nav_link second_level_link">Annotation</a></li>
-                            <li><a href="#transcript_factors" class="nav_link second_level_link">Transcript Factors</a>
+                            <li><a href="#gene_go_enrichment" class="nav_link second_level_link">Gene GO Enrichment</a>
                             </li>
+
                         </ul>
                     </li>
 
@@ -1193,6 +1276,7 @@
                             <li><a href="#contact" class="nav_link second_level_link">Contact</a></li>
                         </ul>
                     </li>
+                    <li><a href="#search_box" class="nav_link first_level_link">Search Box</a></li>
                     <li><a href="#qna" class="nav_link first_level_link">Q & A</a></li>
 
                 </ul>
