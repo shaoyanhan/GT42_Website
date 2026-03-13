@@ -2512,7 +2512,7 @@
     border: 2px solid #4fb479;
     border-radius: 15px;
     padding: 0;
-    margin: 140px 20px 30px 20px;
+    margin: 20px 20px 30px 20px;
     position: relative;
     box-shadow: 0 4px 15px rgba(79, 180, 121, 0.1);
     transition: all 0.3s ease;
@@ -4103,7 +4103,7 @@
 /* 响应式设计 */
 @media (max-width: 768px) {
     .multi_search_container {
-        margin: 140px 10px 20px 10px;
+        margin: 20px 10px 20px 10px;
     }
     
     .multi_search_content {
