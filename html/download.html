@@ -265,9 +265,11 @@
             <div class="page_intro_box">
                 <div class="intro_content">
                     <h2 class="intro_title">Download</h2>
-                    <p>Access and download all raw database files directly or via command-line links for offline analysis.</p>
+                    <p>Access and download all raw database files directly or via command-line links for offline
+                        analysis.</p>
                 </div>
-                <a href="tutorial.html#download" class="intro_tutorial_link" target="_blank" title="Click to view detailed tutorial">↗</a>
+                <a href="tutorial.html#download" class="intro_tutorial_link" target="_blank"
+                    title="Click to view detailed tutorial">↗</a>
             </div>
 
             <div class="download_box_container">
@@ -636,6 +638,51 @@
                                 </div>
                             </div>
                             <button class="download_btn" category="network">Download</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="outer_container" id="docking_download_box">
+                    <div class="inner_container">
+                        <div class="header">
+                            <span class="category">Molecular Docking</span>
+                        </div>
+
+                        <div class="buttons">
+                            <button class="select_all_btn">Select All</button>
+                            <button class="unselect_all_btn" disabled>Unselect All</button>
+                        </div>
+
+                        <div class="file_list">
+                            <label class="file_item">
+                                <input type="checkbox" class="file_checkbox" value="docking_raw_results.tar.zst">
+                                docking_raw_results.tar.zst<span class="file_size">18 GB</span>
+                            </label>
+                            <label class="file_item">
+                                <input type="checkbox" class="file_checkbox" value="docking_summary.csv">
+                                docking_summary.csv<span class="file_size">5.1 MB</span>
+                            </label>
+                            <label class="file_item">
+                                <input type="checkbox" class="file_checkbox" value="phytohormone_informations.csv">
+                                phytohormone_informations.csv<span class="file_size">665 B</span>
+                            </label>
+                        </div>
+
+                        <div class="footer">
+                            <div class="help_container">
+                                <button class="help_btn">?</button>
+                                <div class="help_tooltip">
+                                    <h2>Data details:</h2>
+                                    <p>Molecular docking results between TFs and phytohormones.</p>
+                                    <p><strong>docking_raw_results.tar.zst:</strong> Raw docking output files
+                                        (compressed);</p>
+                                    <p><strong>docking_summary.csv:</strong> Summary of docking scores;</p>
+                                    <p><strong>phytohormone_informations.csv:</strong> Phytohormone metadata;</p>
+                                    <p><strong>Download link:</strong>
+                                        https://cbi.gxu.edu.cn/download/yhshao /GT42_web/docking/filename</p>
+                                </div>
+                            </div>
+                            <button class="download_btn" category="docking">Download</button>
                         </div>
                     </div>
                 </div>

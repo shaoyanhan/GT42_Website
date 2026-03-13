@@ -1,5 +1,11 @@
-import { transcriptCountChart, snpTypeCountChart, averageTPMCountChart, edgeWeightCountChart } from "./mainIndex.js";
-import { getTranscriptCountOption, getSNPTypeCountOption, getAverageTPMCountOption, getModuleNodeEdgeCountOption } from "./echartsOptionHomeStatistics.js";
+import {
+    transcriptCountChart, snpTypeCountChart, averageTPMCountChart,
+    edgeWeightCountChart, annotationTypeCountChart, dockingConfidenceCountChart
+} from "./mainIndex.js";
+import {
+    getTranscriptCountOption, getSNPTypeCountOption, getAverageTPMCountOption,
+    getModuleNodeEdgeCountOption, getAnnotationTypeCountOption, getDockingConfidenceCountOption
+} from "./echartsOptionHomeStatistics.js";
 
 function drawTranscriptCount(transcriptCount) {
     transcriptCountChart.setOption(getTranscriptCountOption(transcriptCount));
@@ -17,4 +23,15 @@ function drawModuleNodeEdgeCount(moduleNodeEdgeTable) {
     edgeWeightCountChart.setOption(getModuleNodeEdgeCountOption(moduleNodeEdgeTable));
 }
 
-export { drawTranscriptCount, drawSNPTypeCount, drawAverageTPMCount, drawModuleNodeEdgeCount };
+function drawAnnotationTypeCount(data) {
+    annotationTypeCountChart.setOption(getAnnotationTypeCountOption(data));
+}
+
+function drawDockingConfidenceCount(data) {
+    dockingConfidenceCountChart.setOption(getDockingConfidenceCountOption(data));
+}
+
+export {
+    drawTranscriptCount, drawSNPTypeCount, drawAverageTPMCount,
+    drawModuleNodeEdgeCount, drawAnnotationTypeCount, drawDockingConfidenceCount
+};

@@ -1,5 +1,8 @@
 import { fetchRawData } from "./data.js";
-import { drawTranscriptCount, drawSNPTypeCount, drawAverageTPMCount, drawModuleNodeEdgeCount } from "./echartsEventsHomeStatistics.js";
+import {
+    drawTranscriptCount, drawSNPTypeCount, drawAverageTPMCount,
+    drawModuleNodeEdgeCount, drawAnnotationTypeCount, drawDockingConfidenceCount
+} from "./echartsEventsHomeStatistics.js";
 
 let SNPTypeCount = [
     { name: 'C/T', value: 421287 },
@@ -26,6 +29,26 @@ let averageTPMTable = [
 // -- mosaic 134706 33896 8569 2460
 // --xenologous 209406 51424 12823 3743
 // --gene 511538 115632 27167 7328
+let annotationTypeCount = [
+    { name: 'description', value: 618303 },
+    { name: 'go', value: 1293031 },
+    { name: 'kegg', value: 74261 },
+    { name: 'kog', value: 2752619 },
+    { name: 'nr', value: 7028221 },
+    { name: 'pfam', value: 1447526 },
+    { name: 'uniprot', value: 213933 },
+];
+
+let dockingConfidenceData = {
+    phytohormones: [
+        'abscisic_acid', 'auxin', 'brassinosteroids', 'ethylene',
+        'gibberellic_acid', 'jasmonic_acid', 'kinetin', 'salicylic_acid', 'strigolactones'
+    ],
+    high:   [55, 138, 87, 209, 167, 57, 104, 216, 40],
+    medium: [2780, 2404, 1361, 1879, 2230, 3042, 2022, 2894, 1966],
+    low:    [2766, 3059, 4153, 3513, 3204, 2502, 3475, 2491, 3595],
+};
+
 let moduleNodeEdgeTable = [
     ['node', 'edge'],
     [3823,147897],
@@ -104,6 +127,8 @@ async function initialContentArea() {
     drawSNPTypeCount(SNPTypeCount);
     drawAverageTPMCount(averageTPMTable);
     drawModuleNodeEdgeCount(moduleNodeEdgeTable);
+    drawAnnotationTypeCount(annotationTypeCount);
+    drawDockingConfidenceCount(dockingConfidenceData);
 }
 
 export { initialContentArea };

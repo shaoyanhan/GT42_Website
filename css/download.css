@@ -215,6 +215,16 @@
     left: 35px;
 }
 
+#others_download_box .help_tooltip {
+    top: 36px;
+    left: 0;
+}
+
+#docking_download_box .help_tooltip {
+    bottom: 36px;
+    left: 0;
+}
+
 .content_container .download_box_container .outer_container .inner_container .footer .help_container .help_tooltip h2 {
     font-size: 15px;
     font-weight: bold;

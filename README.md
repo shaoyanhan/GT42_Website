@@ -6,12 +6,13 @@
   - Full-length transcriptome
   - Haplotype and SNP profile
   - Gene expression profile
+  - Transcript annotation
+  - TF/TR/PK annotation
   - TF regulatory network
+  - TF-phytohormone docking
 - Tools：
   - BLAST
-  - Annotation
-  - Transcript factors
-  - GO enrichment
+  - Gene GO enrichment
 
 ### To provide a better understand of our database，the web was equiped with a series of user friendly UI and powerful visualization tools. Besides， we also welcome any feedback or suggestions for improvements to the website.
 

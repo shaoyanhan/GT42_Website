@@ -390,4 +390,176 @@ function getModuleNodeEdgeCountOption(table) {
     }
 }
 
-export { getTranscriptCountOption, getSNPTypeCountOption, getAverageTPMCountOption, getModuleNodeEdgeCountOption };
+function getAnnotationTypeCountOption(data) {
+    return {
+        tooltip: {
+            trigger: 'item',
+            formatter: function (params) {
+                return [
+                    params.marker + params.name,
+                    'Count: ' + params.value.toLocaleString(),
+                    'Proportion: ' + params.percent + '%',
+                ].join('<br>');
+            }
+        },
+        legend: {
+            type: 'scroll',
+            orient: 'vertical',
+            right: 0,
+            top: 30,
+            bottom: 0,
+        },
+        title: {
+            text: 'Annotation Type',
+            left: 'center',
+            top: 'top',
+            textStyle: {
+                fontSize: 14,
+                fontWeight: 'bold',
+            }
+        },
+        toolbox: {
+            feature: {
+                restore: { show: true },
+                saveAsImage: { show: true },
+            }
+        },
+        series: [
+            {
+                name: 'Annotation Type',
+                type: 'pie',
+                center: ['30%', '50%'],
+                radius: ['40%', '70%'],
+                padAngle: 2,
+                itemStyle: {
+                    borderRadius: 10
+                },
+                label: {
+                    show: false,
+                    position: 'center'
+                },
+                emphasis: {
+                    label: {
+                        show: true,
+                        fontSize: 16,
+                        fontWeight: 'bold',
+                        formatter: '{b} \n {d}%'
+                    }
+                },
+                labelLine: {
+                    show: false
+                },
+                data: data,
+                animationType: 'expansion',
+                animationDuration: 2000,
+                animationEasing: 'quarticInOut',
+            }
+        ]
+    };
+}
+
+function getDockingConfidenceCountOption(data) {
+    return {
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'shadow'
+            },
+            formatter: function (params) {
+                let lines = [params[0].axisValue];
+                params.forEach(function (item) {
+                    let total = 0;
+                    params.forEach(function (p) { total += p.value; });
+                    let pct = ((item.value / total) * 100).toFixed(2);
+                    lines.push(item.marker + item.seriesName + ': ' + item.value + ' (' + pct + '%)');
+                });
+                return lines.join('<br>');
+            }
+        },
+        title: {
+            text: 'Docking Confidence',
+            left: 'center',
+            top: 'top',
+            textStyle: {
+                fontSize: 14,
+                fontWeight: 'bold',
+            }
+        },
+        legend: {
+            data: ['High', 'Medium', 'Low'],
+            top: '13%',
+            textStyle: { fontSize: 10 },
+            itemWidth: 14,
+            itemHeight: 10,
+        },
+        toolbox: {
+            show: true,
+            orient: 'horizontal',
+            right: '0',
+            top: '9%',
+            feature: {
+                restore: { show: true },
+                saveAsImage: { show: true }
+            }
+        },
+        xAxis: [
+            {
+                type: 'category',
+                axisTick: { show: false },
+                axisLabel: {
+                    rotate: 45,
+                    fontSize: 8,
+                    interval: 0,
+                },
+                data: data.phytohormones
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                axisLabel: { fontSize: 9 }
+            }
+        ],
+        grid: {
+            top: '28%',
+            left: '15%',
+            right: '5%',
+            bottom: '28%',
+        },
+        series: [
+            {
+                name: 'High',
+                type: 'bar',
+                stack: 'confidence',
+                emphasis: { focus: 'series' },
+                itemStyle: { color: '#ee6666' },
+                data: data.high
+            },
+            {
+                name: 'Medium',
+                type: 'bar',
+                stack: 'confidence',
+                emphasis: { focus: 'series' },
+                itemStyle: { color: '#fac858' },
+                data: data.medium
+            },
+            {
+                name: 'Low',
+                type: 'bar',
+                stack: 'confidence',
+                emphasis: { focus: 'series' },
+                itemStyle: { color: '#91cc75' },
+                data: data.low
+            }
+        ]
+    };
+}
+
+export {
+    getTranscriptCountOption,
+    getSNPTypeCountOption,
+    getAverageTPMCountOption,
+    getModuleNodeEdgeCountOption,
+    getAnnotationTypeCountOption,
+    getDockingConfidenceCountOption
+};
