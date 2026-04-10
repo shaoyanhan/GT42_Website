@@ -1175,6 +1175,31 @@ body {
     border-radius: 10px;
 }
 
+/* ===== Blind Review Mask (frosted glass) ===== */
+.blind_review_mask {
+    position: relative;
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    padding: 18px 28px;
+    margin: 10px auto;
+    max-width: 90%;
+    text-align: center;
+    font-size: 14px;
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.85);
+    font-style: italic;
+}
+
+.contact_card .blind_review_mask {
+    background: rgba(0, 65, 26, 0.08);
+    border: 1px solid rgba(0, 65, 26, 0.15);
+    color: #555;
+    margin: 20px 0;
+}
+
 .tmp_display_none {
     display: none;
 }
