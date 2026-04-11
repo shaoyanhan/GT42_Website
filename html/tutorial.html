@@ -16,9 +16,7 @@
 
     <!-- 引入 lodash.js 用于 data.js 的数据深拷贝 -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
-
 
 </head>
 
@@ -57,7 +55,8 @@
         </p>
         [/BLIND REVIEW] -->
         <div class="blind_review_mask">
-            <p>Author and supervisor details are temporarily withheld for double-blind peer review. Full information will be restored upon the successful completion of the review process.</p>
+            <p>Author and supervisor details are temporarily withheld for double-blind peer review. Full information
+                will be restored upon the successful completion of the review process.</p>
         </div>
     </div>
 
@@ -274,945 +273,612 @@
 
         <div class="content_container">
 
-
             <!-- 内容部分 -->
             <div class="content">
-                <h2 id="homepage">
+
+                <!-- ==================== Data Pages ==================== -->
+                <h2 id="data_pages">
+                    <div class="title_container">
+                        <a href="#data_pages" class="title_link">Data Pages</a>
+                        <img class="title_link_icon" src="../img/link_icon.png" alt="link">
+                    </div>
+                </h2>
+                <p class="h2_p">The database provides seven data visualization pages covering full-length transcriptome,
+                    SNP, gene expression, annotation, transcription factor regulation, and molecular docking results.
+                </p>
+
+                <!-- Homepage -->
+                <h3 id="homepage">
                     <div class="title_container">
                         <a href="#homepage" class="title_link">Homepage</a>
                         <img class="title_link_icon" src="../img/link_icon.png" alt="link">
                     </div>
-                </h2>
-                <p class="h2_p">This page provides an overview of the research and the database content, along with a
-                    user-friendly and intuitive guide
-                    to the features.</p>
-
-                <h3 id="abstract_citation">
-                    <div class="title_container">
-                        <a href="#abstract_citation" class="title_link">Abstract & Citation</a>
-                        <img class="title_link_icon" src="../img/link_icon.png" alt="link">
-                    </div>
                 </h3>
-                <ul class="h3_p">
-                    <li>Here you can view the detailed article summary and find citation information.</li>
-                </ul>
-
-                <h3 id="statistics">
-                    <div class="title_container">
-                        <a href="#statistics" class="title_link">Statistics</a>
-                        <img class="title_link_icon" src="../img/link_icon.png" alt="link">
-                    </div>
-                </h3>
-                <ul class="h3_p">
-                    <li>Here, a brief statistical overview of the database's data is provided, with all charts
-                        being
-                        interactive.
-                        <div class="image_container">
-                            <img src="../img/tutorial1.png" alt="Image description" class="clickable_image">
-                            <div class="image_caption">Fig 1. The statistics section</div>
-                        </div>
-                        <ul>
-                            <li><strong>Full-length Transcriptome (Fig 1a): </strong>Describes the scale of the
-                                transcriptome
-                                database
-                                constructed in this study and enumerates the number of full-length
-                                transcripts corresponding to different chimeric genes.</li>
-                            <li><strong>Variation (Fig 1b): </strong>Displays information on the number of SNPs in the
-                                transcriptome
-                                database and provides statistics on the proportions of
-                                different types of SNPs.</li>
-                            <li><strong>Gene Expression Profile (Fig 1c): </strong>Details the sample types and
-                                quantities used
-                                in this
-                                study, and presents the average TPM values for each sample at four
-                                resolutions (orthologous/mosaic, xenologous, gene/haplotype, transcript).</li>
-                            <li><strong>Co-expression Network (Fig 1d): </strong>Shows the network scale at three
-                                resolutions
-                                (mosaic,
-                                xenologous, gene/haplotype) and provides a count of edge weights
-                                in four ranges: (1, 2), [2, 3), [3, 4), and [4, 11).</li>
-                        </ul>
-                    </li>
-
-                </ul>
-
-                <h3 id="resources_list">
-                    <div class="title_container">
-                        <a href="#resources_list" class="title_link">Resources List</a>
-                        <img class="title_link_icon" src="../img/link_icon.png" alt="link">
-                    </div>
-                </h3>
-                <ul class="h3_p">
-                    <li>Here, the appearances of five database pages (Fig 2a. Full-length Transcriptome, Haplotype &
-                        SNP, Gene
-                        Expression Profile,
-                        Single Co-expression Network, Hub Co-expression Network) and three online tool pages
-                        (Blast,
-                        Annotation, Transcript
-                        Factors) are dynamically displayed. You can click on the corresponding buttons to access these
-                        pages and explore them
-                        further.
-                    </li>
-                    <div class="image_container">
-                        <img src="../img/tutorial2.png" alt="Image description" class="clickable_image">
-                        <div class="image_caption">Fig 2. The resources section</div>
-                    </div>
-
-                </ul>
-
-                <h3 id="news_list">
-                    <div class="title_container">
-                        <a href="#news_list" class="title_link">News List</a>
-                        <img class="title_link_icon" src="../img/link_icon.png" alt="link">
-                    </div>
-                </h3>
-                <ul class="h3_p">
-                    <li>This section will showcase important updates on website development and data content.
-                    </li>
-                </ul>
-
-
-                <h2 id="navigation_bar">
-                    <div class="title_container">
-                        <a href="#navigation_bar" class="title_link">Navigation Bar</a>
-                        <img class="title_link_icon" src="../img/link_icon.png" alt="link">
-                    </div>
-                </h2>
-
-                <h3 id="responsive_layout">
-                    <div class="title_container">
-                        <a href="#responsive_layout" class="title_link">Responsive Layout</a>
-                        <img class="title_link_icon" src="../img/link_icon.png" alt="link">
-                    </div>
-                </h3>
-                <ul class="h3_p">
-                    <li>The navigation bar will remain fixed at the top of the screen on all pages and
-                        dynamically
-                        adjust its length according
-                        to the user's screen size (Fig 3a). When the screen is narrower, the options and search box will
-                        be
-                        hidden, and users will need
-                        to click the menu button to open the navigation menu (Fig 3b).
-                    </li>
-                    <div class="image_container">
-                        <img src="../img/tutorial3.png" alt="Image description" class="clickable_image">
-                        <div class="image_caption">Fig 3. Responsive navigation bar</div>
-                    </div>
-
-                </ul>
-
-                <h3 id="global_search">
-                    <div class="title_container">
-                        <a href="#global_search" class="title_link">Global Search</a>
-                        <img class="title_link_icon" src="../img/link_icon.png" alt="link">
-                    </div>
-                </h3>
-                <ul class="h3_p">
-                    <li>Users can enter a database ID into the search box in the navigation bar to perform a
-                        global
-                        search (Fig 4a). This will generate a
-                        new navigation page directing users to the resource page associated with that ID (Fig 4c). If
-                        the ID is
-                        invalid for a particular
-                        resource page, the resource button will become non-clickable (Fig 4d). A new ID list has been
-                        created for
-                        the full-length
-                        transcriptome database developed for this research. Users can hover over the search box to
-                        download this list (Fig 4b), which
-                        also indicates the precision levels (orthologous/mosaic, xenologous, gene/haplotype, transcript)
-                        for different IDs.</li>
-                    <div class="image_container">
-                        <img src="../img/tutorial4.png" alt="Image description" class="clickable_image">
-                        <div class="image_caption">Fig 4. Global search box</div>
-                    </div>
-                </ul>
-
-                <!-- <h2 id="graph_summary">
-                    <div class="title_container">
-                        <a href="#graph_summary" class="title_link">Graph Summary</a>
-                        <img class="title_link_icon" src="../img/link_icon.png" alt="link">
-                    </div>
-                </h2>
                 <div class="image_container">
-                    <img src="../img/workflow.jpg" alt="Image description" class="clickable_image">
-                    <div class="image_caption">Fig 5. The workflow of dataset generation</div>
+                    <img class="clickable_image" src="../img/tutorial_homepage_thumbnail.webp"
+                        data-full="../img/tutorial_homepage_full.webp" alt="Fig.1 Homepage" loading="lazy">
+                    <div class="image_caption">Fig.1 Homepage</div>
                 </div>
                 <ul class="h3_p">
-                    <li>
-                        Our research data can be summarized with Fig 5. We conducted RNA-seq and Iso-seq
-                        sequencing on 23 tissues across
-                        five developmental stages of GT42 sugarcane. The RNA-seq results were used to correct the
-                        Full-Length Non Chimeric
-                        (FLNC) sequences. Using the haploid <span class="italic">Erianthus rufipilus</span> genome as a
-                        reference, we successfully
-                        assembled a high-quality
-                        mosaic gene dataset. Next, by performing SNP calling on the FLNC sequences, we clustered the
-                        RNA-seq and Iso-seq reads
-                        based on SNP loci. The clustered reads were then reassembled to obtain a haplotype-resolved gene
-                        dataset. Finally, the
-                        FLNC sequences were assigned to different haplotype genes, resulting in the Full-length
-                        Transcriptome dataset.
-                    </li>
-                </ul> -->
+                    <li>This page provides an overview of the research and database content, allowing users to quickly
+                        browse database information and navigate to functional pages. It contains the following
+                        sections:</li>
+                    <li><strong>Research Introduction and Citation Section (Fig.1a):</strong> Presents the abstract and
+                        citation information of the unpublished article corresponding to the deposited datasets.</li>
+                    <li><strong>Data Statistics Section (Fig.1b):</strong> Lists brief statistical information of the
+                        database, presented using six sub-sections in a 2-2-2 vertical layout. In all sub-sections, the
+                        left side displays text-based statistics and the right side displays interactive charts
+                        implemented with ECharts. The six sub-sections cover: Full-length Transcriptome (scatter plot),
+                        Variation (donut pie chart), Gene Expression Profile (line chart), TF Regulatory Network
+                        (stacked bar chart), Annotation (donut pie chart), and TF Phytohormone Docking (stacked bar
+                        chart).</li>
+                    <li><strong>Resource List Section (Fig.1c):</strong> Displays the appearance of 7 data pages and 2
+                        functional pages in a 3-3-3 vertical layout, using pre-recorded GIF images to demonstrate core
+                        functional operations. Clicking navigates to the corresponding page.</li>
+                    <li><strong>News List Section (Fig.1d):</strong> Displays the update log of website development
+                        content.</li>
+                    <li><strong>Page Architecture Logic:</strong> The purpose of the homepage is to enable first-time
+                        visitors to quickly understand the website's information and functional overview, and provide
+                        intuitive guidance so users can reach target pages with minimal learning cost. The paper
+                        abstract introduces the research background, the statistics overview uses ECharts for animated
+                        visualizations, the resource page list embeds pre-recorded demonstrations, and the news list
+                        provides development feedback.</li>
+                </ul>
 
-
-
-
-
-
-                <h2 id="data_resources">
-                    <div class="title_container">
-                        <a href="#data_resources" class="title_link">Data Resources</a>
-                        <img class="title_link_icon" src="../img/link_icon.png" alt="link">
-                    </div>
-                </h2>
-                <p class="h2_p">To provide a comprehensive view of the database data, we have created five data
-                    visualization pages with a clean and
-                    elegant UI. You can explore the database content through a range of interactive features.</p>
-
+                <!-- Full-length Transcriptome -->
                 <h3 id="full_length_transcriptome">
                     <div class="title_container">
                         <a href="#full_length_transcriptome" class="title_link">Full-length Transcriptome</a>
                         <img class="title_link_icon" src="../img/link_icon.png" alt="link">
                     </div>
                 </h3>
+                <div class="image_container">
+                    <img class="clickable_image" src="../img/tutorial_full_len_trans_thumbnail.webp"
+                        data-full="../img/tutorial_full_len_trans_full.webp" alt="Fig.2 Full-length Transcriptome Page"
+                        loading="lazy">
+                    <div class="image_caption">Fig.2 Full-length Transcriptome Page</div>
+                </div>
                 <ul class="h3_p">
-                    <li>The <strong>"Haplotype Profile"</strong> bar chart displays all haplotype-resolution genes
-                        (referred to as
-                        haplotype genes) derived from
-                        a mosaic gene. The top blue bar represents the mosaic gene (Fig 6a), while all bars below it
-                        represent
-                        the haplotype genes
-                        extracted from this mosaic (Fig 6b). The bars are aligned at the start, but their positions do
-                        not
-                        indicate the actual spatial
-                        alignment of the haplotype genes with the mosaic gene. The length of each bar represents the
-                        length of the gene. There
-                        are five colors used for the bars: blue for the mosaic gene, cyan-green for haplotype genes
-                        highly homologous to <span class="italic">S.
-                            officinarum</span>, dark green for haplotype genes highly homologous to <span
-                            class="italic">S. spontaneum</span>, pink for highly
-                        conserved haplotype
-                        genes, and brown for haplotype genes with unknown homology.</li>
-                    <div class="image_container">
-                        <img src="../img/tutorial6.png" alt="Image description" class="clickable_image">
-                        <div class="image_caption">Fig 6. The haplotype and full-length transcript plot</div>
-                    </div>
-                    <li>The <strong>"Transcripts Profile of Haplotype"</strong> bar chart represents all alternative
-                        splicing events for a mosaic gene or
-                        haplotype gene (Fig 6c). In the chart, exons of all transcripts are shown with light blue bars
-                        (Fig 6d), while
-                        introns are represented by
-                        narrower yellow bars (Fig 6e). The position of each transcript is aligned with the actual
-                        position
-                        of its corresponding
-                        gene. When a mosaic ID is searched in the “search ID” box, the chart will display all
-                        alternative splicing events for
-                        all haplotype genes associated with that mosaic ID. In this case, the chart will show all
-                        haplotype genes and their
-                        corresponding alternative splicing events, with the haplotype genes colored the same as in the
-                        <strong>"Haplotype Profile"</strong>
-                        bar chart.
+                    <li>Displays the decomposition relationships from haplotype mosaic genes to haplotype genes across
+                        multi-resolution levels, as well as the alternative splicing structures of transcripts for each
+                        gene. It mainly contains the following sections:</li>
+                    <li><strong>Search Section (Fig.2a):</strong> The left-side Select Genome component uses a dropdown
+                        to select the genome. The right-side Search ID composite component provides help (valid ID input
+                        types, ID lists), an input box, a submit button, sequential ID switching buttons, and an example
+                        button.</li>
+                    <li><strong>"Haplotype Profile" Section (Fig.2b):</strong> Divided into three sub-sections with a
+                        2-1 vertical layout. The upper-left uses ECharts custom functions to implement horizontal bar
+                        charts showing the correspondence between haplotype mosaic genes, xenologous mosaic genes, and
+                        haplotype genes. The topmost blue bar represents the mosaic gene, and all bars below it
+                        represent haplotype genes separated from this mosaic gene. Colors represent xenologous subtype
+                        classification (teal for <span class="italic">S. officinarum</span>, dark green for <span
+                            class="italic">S. spontaneum</span>, brown for unknown homology). The right side is a
+                        "Result Details" information panel with raw sequence copy function. Below is the corresponding
+                        information table with pagination, download functionality, and inline sequence copy.</li>
+                    <li><strong>"Transcripts Profile of Haplotype" Section (Fig.2c):</strong> Also divided into three
+                        sub-sections with a 2-1 vertical layout. The bar chart shows all alternative splicing patterns
+                        for a given gene. Exons are represented by light blue bars, introns by narrower light yellow
+                        bars, insertions by purple arrows, deletions by narrower black bars, and softClip regions by
+                        green arrows. Transcript positions are aligned with the actual positions of their parent genes.
                     </li>
-                    <li>The page offers a range of interactive features. In the <strong>"search ID"</strong> input box,
-                        users can
-                        enter an ID to display its
-                        visualization results (Fig 7a). You can check the supported ID formats and types via the help
-                        button, or
-                        directly
-                        download the ID list to
-                        view IDs for the four resolution levels (orthologous/mosaic, xenologous, gene/haplotype,
-                        transcript). Additionally, you
-                        can browse the results sequentially for mosaic IDs by clicking the <strong>Previous</strong> and
-                        <strong>Next</strong>
-                        buttons, though this
-                        functionality is only available for mosaic IDs. Furthermore, the search box will recognize the
-                        ID entered by the user
-                        and highlight the corresponding bar in the bar chart. Both bar charts include a <strong>"Result
-                            Details"</strong> card on the right side (Fig 7b, c), which
-                        displays detailed information about the selected bar and
-                        updates in real-time as users click on different bars. Below the bar charts, a hidden section
-                        contains a table (haplotype table / transcript table) with all
-                        the information from the charts and provides a download option.
-                    </li>
-                    <div class="image_container">
-                        <img src="../img/tutorial7.png" alt="Image description" class="clickable_image">
-                        <div class="image_caption">Fig 7. The ID search tool and result details card</div>
-                    </div>
-                    <li>You can hover over different elements in the image to view detailed information about each
-                        element (Fig 8a, b). Additionally, you
-                        can adjust the image range using the zoom tools located on the right and bottom of the image
-                        (Fig 8d).
-                        The functionality buttons
-                        in the top right corner allow for image area selection and image downloading. When you click on
-                        different bars in the
-                        <strong>"Haplotype Profile"</strong> bar chart, the alternative splicing types in
-                        <strong>"Transcripts Profile of
-                            Haplotype"</strong> bar chart, the
-                        <strong>"Result Details"</strong> card, and the information table will update in real-time. If
-                        the table contains many columns, you can use
-                        the horizontal scrollbar at the bottom of the table to view additional columns (Fig 8b).
-                    </li>
-                    <div class="image_container">
-                        <img src="../img/tutorial8.png" alt="Image description" class="clickable_image">
-                        <div class="image_caption">Fig 8. The interactive components</div>
-                    </div>
+                    <li><strong>User Operation Steps:</strong> Users can check supported ID formats from the help
+                        button, enter an ID and submit, or click Previous/Next buttons. The "Haplotype Profile" section
+                        displays the bar chart of haplotype mosaic genes and haplotype genes. The "Transcripts Profile
+                        of Haplotype" section displays corresponding alternative splicing patterns. Users can interact
+                        by clicking on ECharts charts, hover over elements for details, adjust the chart range using
+                        zoom toolbars, and use function buttons for area selection and image download.</li>
                 </ul>
 
+                <!-- Haplotype & SNP -->
                 <h3 id="haplotype_SNP">
                     <div class="title_container">
-                        <a href="#haplotype_SNP" class="title_link">Haplotype & SNP</a>
+                        <a href="#haplotype_SNP" class="title_link">Haplotype &amp; SNP</a>
                         <img class="title_link_icon" src="../img/link_icon.png" alt="link">
                     </div>
                 </h3>
+                <div class="image_container">
+                    <img class="clickable_image" src="../img/tutorial_snp_thumbnail.webp"
+                        data-full="../img/tutorial_snp_full.webp" alt="Fig.3 Haplotype & SNP Page" loading="lazy">
+                    <div class="image_caption">Fig.3 Haplotype &amp; SNP Page</div>
+                </div>
                 <ul class="h3_p">
-                    <li>The <strong>"Haplotype and SNP Profile"</strong> bar chart displays the SNP positions and types
-                        for each haplotype gene corresponding
-                        to a mosaic gene. The color scheme for the bars is consistent with the definitions in the
-                        <strong>Full-length Transcriptome</strong>
-                        page: blue for the mosaic gene, cyan-green for haplotype genes
-                        highly homologous to <span class="italic">S.
-                            officinarum</span>, dark green for haplotype genes highly homologous to <span
-                            class="italic">S. spontaneum</span>,
-                        pink for highly
-                        conserved haplotype
-                        genes, and brown for haplotype genes with unknown homology. SNP sites are shown in five colors:
-                        blue for A, red for C,
-                        yellow for G, green for T, and black for sites without exon reads evidence.
-                    </li>
-                    <li>We performed <strong>SNP calling</strong> on both <strong>ISO-Seq</strong> and
-                        <strong>RNA-Seq</strong> results and clustered reads that remapped to the mosaic gene based on
-                        SNP information. Reads within the same cluster were reassembled, allowing us to map SNP sites to
-                        each haplotype gene.
-                        Consequently, we can associate SNP sites on the mosaic gene with haplotype genes. However,
-                        <strong>the
-                            SNP position number correspond
-                            to the mosaic gene's location, not the haplotype gene's location. To represent the
-                            distribution
-                            of all SNP sites on a mosaic gene
-                            across its haplotype
-                            genes, we set the length of all haplotype gene bars to match the length of the mosaic
-                            gene.</strong>
-                        Therefore, each SNP marked
-                        on a haplotype gene indicates the type of SNP at that position in the mosaic gene. For example,
-                        SNP position 17 for
-                        GT42G000001 is of type A/C because the reads aligned to this mosaic gene at position 17 may show
-                        either A or C. Thus, through
-                        clustering and reassembly of these reads, we can determine whether the SNP at position 17 for
-                        each haplotype gene is A
-                        or C.
-                    </li>
-
-                    <li>In the <strong>"Haplotype and SNP Profile"</strong> bar chart, you can hover over image elements
-                        to view detailed
-                        information about
-                        specific mosaic genes, haplotype genes, and SNPs (Fig 9a-c). You can adjust the image range
-                        using the zoom
-                        tools on the right and
-                        bottom of the image and use the functionality buttons in the top right corner to select image
-                        areas and download the
-                        image (Fig 9d). The results detail card on the right side updates when you click on image
-                        elements. Note
-                        that when you click on a
-                        mosaic gene bar, the green <strong>"haplotype SNP"</strong> table in the <strong>"Result
-                            Details"</strong> will display all SNP
-                        sites and types on that
-                        mosaic gene (Fig 9e). When you click on a haplotype gene bar, the table will show the specific
-                        SNP types
-                        for that haplotype gene (Fig 9f).
-                        Clicking on an SNP site will display the number of ISO-Seq and RNA-Seq read evidences for that
-                        SNP (Fig 9g), and the green table
-                        will show the specific type of that SNP site for each haplotype gene (Fig 9h).</li>
-                    <div class="image_container">
-                        <img src="../img/tutorial9.png" alt="Image description" class="clickable_image">
-                        <div class="image_caption">Fig 9. The interactive components and SNP table</div>
-                    </div>
-                    <li>The <strong>"SNP with xxx Evidence"</strong> bar chart displays the ISO-Seq and RNA-Seq read
-                        evidence statistics for all SNP sites on
-                        each mosaic gene. The top subplot shows SNP sites supported by both ISO-Seq and RNA-Seq reads.
-                        The middle subplot
-                        represents SNP sites supported only by ISO-Seq reads, while the bottom subplot displays SNP
-                        sites supported only by
-                        RNA-Seq reads. You can hover over specific positions to view the SNP types associated with those
-                        sites. The three
-                        subplots are designed to be synchronized, allowing you to control the zoom and pan of all three
-                        subplots simultaneously
-                        by interacting with one of them.</li>
-                    <li>Detailed data corresponding to both bar charts can be viewed and downloaded in the hidden
-                        section below the image. If
-                        the table's width is extensive, you can use the horizontal scrollbar at the bottom of the table
-                        to view additional
-                        columns.</li>
-                    <li>The <strong>"search ID"</strong> box on this page only supports searching with mosaic IDs.
-                        However, you still can
-                        enter
-                        other types of IDs, but
-                        they will be converted to mosaic IDs for the search.</li>
+                    <li>Displays the global distribution of SNP sites on haplotype mosaic genes and their precise
+                        localization on individual haplotype genes, and provides RNA-seq and Iso-seq dual-platform
+                        evidence information for each SNP site. It mainly contains the following sections:</li>
+                    <li><strong>Search Section:</strong> Uses the same search component as the Full-length Transcriptome
+                        page.</li>
+                    <li><strong>"Haplotype SNP Profile" Section (Fig.3a):</strong> Uses a similar layout to the
+                        "Haplotype Profile" section. The ECharts bar chart shows haplotype mosaic genes, xenologous
+                        mosaic genes, and haplotype genes that are full-length aligned. All bars have the same length as
+                        the haplotype mosaic gene to annotate the corresponding SNP type at each lower-resolution level
+                        for unified column-wise display. The "Result Details" panel shows different information
+                        depending on whether the user clicks on a mosaic gene bar, a haplotype gene, or a specific SNP
+                        site. Below are two information tables for haplotype information and SNP site information
+                        respectively.</li>
+                    <li><strong>"SNP Evidence" Section (Fig.3b):</strong> Contains one ECharts custom chart and three
+                        table modules. The chart includes three horizontal bar-scatter combination charts representing
+                        SNP sites supported by both Iso-seq and RNA-seq, only Iso-seq, and only RNA-seq. The zoom
+                        interaction of all three charts is synchronized, and the mouse automatically snaps to the
+                        nearest site.</li>
+                    <li><strong>User Operation Steps:</strong> Users can search for genes of interest at any resolution
+                        level. The "Haplotype SNP Profile" section shows genotype patterns mapped to each haplotype
+                        gene. The "SNP Evidence" section lists sequencing evidence supporting each SNP site. Users can
+                        download charts or table data for further analysis.</li>
                 </ul>
 
+                <!-- Gene Expression Profile -->
                 <h3 id="gene_expression_profile">
                     <div class="title_container">
                         <a href="#gene_expression_profile" class="title_link">Gene Expression Profile</a>
                         <img class="title_link_icon" src="../img/link_icon.png" alt="link">
                     </div>
                 </h3>
+                <div class="image_container">
+                    <img class="clickable_image" src="../img/tutorial_expression_thumbnail.webp"
+                        data-full="../img/tutorial_expression_full.webp" alt="Fig.4 Gene Expression Profile Page"
+                        loading="lazy">
+                    <div class="image_caption">Fig.4 Gene Expression Profile Page</div>
+                </div>
                 <ul class="h3_p">
-                    <li>
-                        The <strong>"development stages"</strong> sunburst chart illustrates all sample information from
-                        the study (Fig 10). We
-                        collected <strong>23 tissues</strong> from
-                        GT42 sugarcane at <strong>five developmental stages</strong> , with each tissue
-                        <strong>sequenced in triplicate</strong>. The
-                        samples in the sunburst chart
-                        are arranged in a clockwise order according to developmental stages and are color-coded by
-                        stage. The innermost ring
-                        represents developmental stages, the middle ring represents tissue numbers, and the outermost
-                        ring represents specific
-                        sample numbers. You can hover over or click on specific segments to view the hierarchical
-                        structure of specific developmental
-                        stages.
-                    </li>
-                    <div class="image_container">
-                        <img src="../img/development_stage.gif" alt="Image description" class="clickable_image">
-                        <div class="image_caption">Fig 10. The interactive development stage plot</div>
-                    </div>
-                    <li>
-                        The <strong>"ID Tree"</strong> dendrogram illustrates the hierarchical structure of IDs across
-                        four levels of resolution (Fig 11). From left to
-                        right, the levels are represents for mosaic/orthologous ID, xenologous ID, haplotype/gene ID,
-                        and transcript ID. Since a mosaic gene
-                        may contain a large number of transcripts, transcript IDs are collapsed by default. However, you
-                        can click on each
-                        ID to expand or collapse the nodes as needed.
-                    </li>
-                    <div class="image_container">
-                        <img src="../img/id_tree.gif" alt="Image description" class="clickable_image">
-                        <div class="image_caption">Fig 11. The interactive ID tree plot</div>
-                    </div>
-                    <li>
-                        The page features four heatmap areas representing TPM levels at four different resolutions
-                        (Fig 12). The
-                        x-axis denotes tissue
-                        numbers (corresponding to the outermost ring in the <strong>"development stages"</strong>
-                        sunburst chart), while the y-axis denotes IDs
-                        (matching the hierarchical structure in the <strong>"ID Tree"</strong> dendrogram). You can
-                        hover over specific heatmap points to see
-                        detailed expression data for the sample. Each heatmap has a horizontal color bar in the
-                        top-right corner for adjusting
-                        the color range of the heatmap data, and you can also use it to view data information by
-                        hovering
-                        over specific values. Additionally, a
-                        color bar tool is available for changing the overall heatmap color scheme by selecting different
-                        color blocks. Detailed data can
-                        also be viewed and downloaded in tabular format from the hidden section below each heatmap
-                        image.
-                    </li>
-                    <div class="image_container">
-                        <img src="../img/tutorial_heatmap.gif" alt="Image description" class="clickable_image">
-                        <div class="image_caption">Fig 12. The interactive heatmap section</div>
-                    </div>
+                    <li>Displays expression distribution profiles of genes across 69 samples from 23 tissues/organs
+                        across 5 developmental stages at four resolution levels. It mainly contains the following
+                        sections:</li>
+                    <li><strong>Search Section:</strong> Uses the same search component as the Full-length Transcriptome
+                        page.</li>
+                    <li><strong>"Development Stages and ID Tree" Section (Fig.4a):</strong> Contains two ECharts
+                        visualization sub-sections side by side. The left side uses a sunburst chart to display the
+                        developmental stage and tissue name information for all samples (three levels: developmental
+                        stages, tissue names, sample IDs). The right side uses a tree diagram to display the
+                        four-resolution ID hierarchy (haplotype mosaic gene &rarr; xenologous mosaic gene &rarr;
+                        haplotype gene &rarr; transcript ID).</li>
+                    <li><strong>Expression Heatmap Section (Fig.4b/c):</strong> Uses four identically structured
+                        containers to sequentially display gene expression at four resolution levels. Each container
+                        includes an ECharts heatmap and its corresponding data table. The horizontal axis represents
+                        tissue IDs and the vertical axis represents gene IDs. Features include crosshair guide lines, a
+                        horizontal color bar for adjusting the data range, and a color palette toolbar with 12 heatmap
+                        color schemes.</li>
+                    <li><strong>User Operation Steps:</strong> Users can search for genes at any resolution level, view
+                        sample information in the sunburst chart, understand ID correspondence in the ID tree, and view
+                        heatmaps for each resolution level with adjustable color schemes. Data can be downloaded from
+                        the tables.</li>
                 </ul>
 
+                <!-- Transcript Annotation -->
                 <h3 id="transcript_annotation">
                     <div class="title_container">
                         <a href="#transcript_annotation" class="title_link">Transcript Annotation</a>
                         <img class="title_link_icon" src="../img/link_icon.png" alt="link">
                     </div>
                 </h3>
+                <div class="image_container">
+                    <img class="clickable_image" src="../img/tutorial_trans_anno_thumbnail.webp"
+                        data-full="../img/tutorial_trans_anno_full.webp" alt="Fig.5 Transcript Annotation Page"
+                        loading="lazy">
+                    <div class="image_caption">Fig.5 Transcript Annotation Page</div>
+                </div>
                 <ul class="h3_p">
-                    <li>
-                        We have performed functional and structural annotations on all sequences corresponding to the
-                        transcripts(isoform). On this page,
-                        you can search for an ID of interest in the search box (Fig 24a) and view its annotation
-                        information. If
-                        the entered ID is not a
-                        transcript(isoform) ID, the system will automatically use the first transcript(isoform) ID
-                        associated with this ID to
-                        search for annotation information.
+                    <li>Presents annotation information of transcripts across three types of databases in tabular form,
+                        and provides hyperlinks to external professional databases. It is divided into two sections:
                     </li>
-                    <div class="image_container">
-                        <img src="../img/tutorial_annotation.png" alt="Image description" class="clickable_image">
-                        <div class="image_caption">Fig 24. Transcript annotation page</div>
-                    </div>
-                    <li>
-                        The annotation information area is primarily divided into three sections: ID and Description
-                        (Fig 24b), Annotation Information
-                        Download and Resource Page Navigation (Fig 24c), and Annotation Table. The annotation
-                        information table utilizes tabs header (Fig 24d) to display
-                        different sections, allowing you to view data across various categories by clicking on the
-                        horizontal tab bar
-                        corresponding to different annotation types. Each category's data is presented in a table
-                        format, and you can click on
-                        icons (Fig 24e) within the table to navigate to external databases for detailed information on
-                        the currently accession
-                        or subject ID.
+                    <li><strong>Search Section:</strong> Supports searching by ID at any resolution level, but since
+                        annotation data originates only from transcripts, only transcript-level annotation information
+                        will be displayed.</li>
+                    <li><strong>Table Section:</strong> Uses a card-style layout to provide three types of annotation
+                        information from six datasets within a single table container. Users can switch between table
+                        results by toggling the tabs. Each column header has a hover tooltip explanation. The second
+                        column contains external database links (GO: QuickGO and AmiGO2; KEGG: KEGG; KOG: NCBI; NR:
+                        NCBI; UniProt: UniProt; Pfam: InterPro). In-table scrolling is used instead of pagination. Above
+                        the table, download functionality and a resource detail page redirect function are provided.
                     </li>
                 </ul>
 
+                <!-- TF/TR/PK Annotation -->
                 <h3 id="tf_tr_pk_annotation">
                     <div class="title_container">
                         <a href="#tf_tr_pk_annotation" class="title_link">TF/TR/PK Annotation</a>
                         <img class="title_link_icon" src="../img/link_icon.png" alt="link">
                     </div>
                 </h3>
+                <div class="image_container">
+                    <img class="clickable_image" src="../img/tutorial_factor_anno_thumbnail.webp"
+                        data-full="../img/tutorial_factor_anno_full.webp" alt="Fig.6 TF/TR/PK Annotation Page"
+                        loading="lazy">
+                    <div class="image_caption">Fig.6 TF/TR/PK Annotation Page</div>
+                </div>
                 <ul class="h3_p">
-                    <li>
-                        On this page, you will encounter the transcription factors, transcription regulators, and
-                        protein kinases annotated from
-                        the entire transcript(isoform) dataset, along with the corresponding ID lists for these factor
-                        types. Naturally, you
-                        also have the option to search for a transcript(isoform) ID or factor type of interest in the
-                        search box to view its
-                        annotation details. If the entered ID not correspond to a transcript(isoform) ID, the
-                        system will automatically
-                        default to the first transcript(isoform) ID associated with this ID to search for
-                        annotation information.
-                    </li>
-                    <div class="image_container">
-                        <img src="../img/tutorial_tf.png" alt="Image description" class="clickable_image">
-                        <div class="image_caption">Fig 25. TF/TR/PK annotation page</div>
-                    </div>
-                    <li>
-                        The three types of factors are displayed using three expandable boxes. After expansion, each box
-                        reveals three sections.
-                        The leftmost section, the factor list, showcases the factors of this type annotated in the
-                        current
-                        database. Each button
-                        within this list displays the factor ID on the left and the number of transcript(isoform) IDs
-                        associated
-                        with that factor in
-                        parentheses on the right. Clicking on a button will display the corresponding
-                        transcript(isoform) IDs in the
-                        second section, the transcript(isoform) ID
-                        list. Selecting a specific transcript(isoform) ID from this list will present detailed
-                        descriptive
-                        information in the third section.
-                        Additionally, you can navigate to the resource page for any ID by clicking on the ID link within
-                        the information list.
-                    </li>
-
+                    <li>Displays all transcription factors, transcriptional regulators, and protein kinases along with
+                        their detailed functional annotations. It is divided into the following sections:</li>
+                    <li><strong>Search Section:</strong> Supports searching by ID at any resolution level as well as by
+                        specific type names. Since annotation data originates only from transcripts, only
+                        transcript-level annotation information will be displayed.</li>
+                    <li><strong>Data Table Section:</strong> Three sections use the same structure, displaying
+                        information lists for transcription factors, transcriptional regulators, and protein kinases
+                        respectively. Each section is divided into a factor category list (button-style with member
+                        counts), a transcript list, and a transcript annotation information list with a redirect
+                        function. All three sections use detail tags for expand/collapse functionality, with only the
+                        transcription factor section expanded by default.</li>
+                    <li><strong>User Operation Steps:</strong> Users can enter an ID or factor family name in the search
+                        box, and the frontend will navigate to the corresponding data section, expand it, and select the
+                        appropriate button. Users can also directly explore the three data sections. Clicking any button
+                        refreshes the annotation information, and the ID redirect function allows navigation to the
+                        resource page.</li>
                 </ul>
 
+                <!-- TF Regulatory Network -->
                 <h3 id="tf_regulatory_network">
                     <div class="title_container">
                         <a href="#tf_regulatory_network" class="title_link">TF Regulatory Network</a>
                         <img class="title_link_icon" src="../img/link_icon.png" alt="link">
                     </div>
                 </h3>
+                <div class="image_container">
+                    <img class="clickable_image" src="../img/tutorial_network_search_thumbnail.webp"
+                        data-full="../img/tutorial_network_search_full.webp"
+                        alt="Fig.7 Search Section of TF Regulatory Network Page" loading="lazy">
+                    <div class="image_caption">Fig.7 Search Section of TF Regulatory Network Page</div>
+                </div>
                 <ul class="h3_p">
-                    <li>
-                        This page displays the regulatory network of transcription factors (TFs).
+                    <li>Displays 61 transcription factor-gene co-expression regulatory networks in a modular format,
+                        with support for multiple search functions. It mainly contains the following sections:</li>
+                    <li><strong>Multi-function Search Section (Fig.7):</strong> Provides 4 search modes:
+                        <ul>
+                            <li><strong>"Annotation Text Search" (Fig.7a):</strong> Searches the user's input text
+                                across GO functional annotations of all modules. Results list matched annotations and
+                                module lists. Clicking a module ID highlights it in the "Module Selection" list.</li>
+                            <li><strong>"ID Search" (Fig.7b):</strong> Checks what attributes the user's input ID has
+                                and which modules it belongs to. After clicking a result, the regulatory network
+                                centered on that ID is drawn.</li>
+                            <li><strong>"Shortest Path Search" (Fig.7c):</strong> After entering two IDs, uses a BFS
+                                algorithm to find all shortest paths between them within qualifying modules. Users can
+                                click nodes along the path to view GO functional annotation information.</li>
+                            <li><strong>"ID Set Search" (Fig.7d):</strong> Supports input of a list, drag-and-drop, or
+                                file upload. The system checks which modules each ID belongs to and provides a "Draw
+                                Subnetwork" button for each result.</li>
+                        </ul>
                     </li>
-                    <div class="image_container">
-                        <img src="../img/tutorial_tf_regulatory_network.png" alt="Image description"
-                            class="clickable_image">
-                        <div class="image_caption">Fig 26. TF regulatory network page</div>
-                    </div>
+                </ul>
+                <div class="image_container">
+                    <img class="clickable_image" src="../img/tutorial_network_results_thumbnail.webp"
+                        data-full="../img/tutorial_network_results_full.webp"
+                        alt="Fig.8 Result Section of TF Regulatory Network Page" loading="lazy">
+                    <div class="image_caption">Fig.8 Result Section of TF Regulatory Network Page</div>
+                </div>
+                <ul class="h3_p">
+                    <li><strong>Main Result Display (Fig.8):</strong> The four result sections are:
+                        <ul>
+                            <li><strong>Module Selection Section (Fig.8a):</strong> Presents overview information for 61
+                                network modules (module ID, node and edge counts) with interactive selection. Supports
+                                sorting and fuzzy search.</li>
+                            <li><strong>Functional Annotation Information Section (Fig.8b):</strong> Card-style tab
+                                switching for BP/MF/CC tables with pagination, sorting, download, and fuzzy search.
+                                Clicking "GO accession" navigates to AmiGO2. Clicking "ID list" displays a popup with TF
+                                and Gene ID lists.</li>
+                            <li><strong>Module Node Information Section (Fig.8c):</strong> Displays all node IDs and GO
+                                annotation information within the selected module. Clicking an ID draws its centered
+                                regulatory network.</li>
+                            <li><strong>Network Visualization Section (Fig.8d):</strong> Uses ECharts to draw regulatory
+                                networks. Provides a network filter slider (1-500) and chart download. TF nodes are red,
+                                Gene nodes are gray. Clicking a node shows GO annotation with a "Draw Core Network"
+                                button.</li>
+                        </ul>
+                    </li>
+                    <li><strong>User Operation Steps:</strong> The page divides into search and main content areas.
+                        Users can use annotation text search, ID search, shortest path search, or ID set search. In the
+                        main content area, users can browse module lists, view GO function lists, and trigger
+                        node-centered regulatory network drawing with unlimited link exploration.</li>
                 </ul>
 
+                <!-- TF-Phytohormone Docking -->
                 <h3 id="tf_phytohormone_docking">
                     <div class="title_container">
-                        <a href="#tf_phytohormone_docking" class="title_link">TF-phytohormone Docking</a>
+                        <a href="#tf_phytohormone_docking" class="title_link">TF-Phytohormone Docking</a>
                         <img class="title_link_icon" src="../img/link_icon.png" alt="link">
                     </div>
                 </h3>
+                <div class="image_container">
+                    <img class="clickable_image" src="../img/tutorial_docking_thumbnail.webp"
+                        data-full="../img/tutorial_docking_full.webp" alt="Fig.9 TF-Phytohormone Docking Page"
+                        loading="lazy">
+                    <div class="image_caption">Fig.9 TF-Phytohormone Docking Page</div>
+                </div>
                 <ul class="h3_p">
-                    <li>
-                        This page displays the docking results of transcription factors (TFs) and phytohormones.
+                    <li>Displays 3D visualization of molecular docking prediction results between 5,601 representative
+                        proteins from 67 transcription factor families and 9 plant hormones. It is mainly divided into
+                        the following sections:</li>
+                    <li><strong>Search Section (Fig.9a):</strong> Contains a transcription factor ID search box, a
+                        hormone selection box, and a transcription factor family selection box. Users can
+                        select/deselect multiple options with select all/deselect all functionality. If the ID search
+                        box is not empty, the family selection box buttons are disabled. At the bottom is a submit
+                        button with input validation.</li>
+                    <li><strong>Statistics Table Section (Fig.9b):</strong> Retrieves data from the backend and displays
+                        filtered results. Every column supports ascending/descending sorting with multi-column
+                        combination sorting. The table provides pagination and CSV download. The protein_id is clickable
+                        to show docking structures in the 3D display section. All column headers include hover tooltips.
                     </li>
-                    <div class="image_container">
-                        <img src="../img/tutorial_tf_phytohormone_docking.png" alt="Image description"
-                            class="clickable_image">
-                        <div class="image_caption">Fig 27. TF-phytohormone docking page</div>
-                    </div>
+                    <li><strong>3D Structure Display Section (Fig.9c):</strong> Divided into four sub-sections. The left
+                        section uses the Molstar frontend library for 3D docking structure display with pLDDT coloring.
+                        The upper-right displays the PAE matrix visualization with a full-screen zoom interface. The
+                        lower-right shows docking parameter details. Below the 3D display, download functionality for
+                        three raw result files is provided.</li>
+                    <li><strong>User Operation Steps:</strong> Users can search by specific transcription factor ID or
+                        select combinations of hormones and transcription factor families. The statistics table supports
+                        combination sorting and term definitions. Users can select an ID to visualize 3D docking
+                        structures using the Molstar plugin, view PAE heatmaps, and download raw files for independent
+                        analysis.</li>
                 </ul>
 
-                <h2 id="tools">
+
+                <!-- ==================== Tool Pages ==================== -->
+                <h2 id="tool_pages">
                     <div class="title_container">
-                        <a href="#tools" class="title_link">Tools</a>
+                        <a href="#tool_pages" class="title_link">Tool Pages</a>
                         <img class="title_link_icon" src="../img/link_icon.png" alt="link">
                     </div>
                 </h2>
+                <p class="h2_p">The database provides two online analysis tool pages for sequence alignment and
+                    functional enrichment analysis.</p>
 
+                <!-- BLAST -->
                 <h3 id="blast">
                     <div class="title_container">
                         <a href="#blast" class="title_link">BLAST</a>
                         <img class="title_link_icon" src="../img/link_icon.png" alt="link">
                     </div>
                 </h3>
+                <div class="image_container">
+                    <img class="clickable_image" src="../img/tutorial_blast_thumbnail.webp"
+                        data-full="../img/tutorial_blast_full.webp" alt="Fig.10 BLAST Page" loading="lazy">
+                    <div class="image_caption">Fig.10 BLAST Page</div>
+                </div>
                 <ul class="h3_p">
-                    <li>
-                        This research has ultimately created four sequence datasets: <strong>nucleotide sequences
-                            dataset of
-                            mosaic genes, haplotype genes, full-length transcripts, and protein sequences dataset of
-                            full-length transcripts</strong>. To enable users to better
-                        explore these datasets, we have developed a powerful and user-friendly BLAST front-end
-                        visualization platform. The
-                        back-end of this platform is based on <strong>NCBI’s BLAST 2.16.0+</strong> localized tool, and
-                        we have
-                        pre-integrated these four
-                        datasets into the front-end search
-                        interface. Compared to most complex BLAST tools, we have significantly simplified the
-                        traditional BLAST functionalities
-                        and created a range of user-friendly interactive features with a clean and streamlined UI.
-                    </li>
-                    <li> <strong>Search steps:</strong>
+                    <li>Provides an online alignment search service based on the sequence sets in this database,
+                        supporting sequence similarity searches across three resolution levels of nucleotide databases
+                        and one protein database, with graphical presentation of alignment results. It is mainly divided
+                        into a search section and a results display section:</li>
+                    <li><strong>Search Section (Fig.10a):</strong> Contains a data input box, example buttons, dataset
+                        checkboxes, and algorithm buttons. The data input box is a resizable rich text box with a clear
+                        function. Users can paste FASTA-formatted query sequences or drag and drop files. After valid
+                        input is detected, the "database" multi-select box automatically opens. The system determines
+                        compatible BLAST functions and enables corresponding buttons.</li>
+                    <li><strong>Results Display Section:</strong> Contains two top tools (query ID switching and raw
+                        result file download in three formats) and three sub-sections:
                         <ul>
-                            <li>Step 1: You can either copy and paste some query sequences in FASTA format into the
-                                input box or
-                                drag and drop a file containing the query
-                                sequence into the input box for automatic filling. Additionally, you could also just
-                                click the
-                                "example" button to automatically
-                                retrieve two nucleotide or protein query sequences (Fig 17).</li>
-                            <div class="image_container">
-                                <img src="../img/tutorial_blast1.gif" alt="Image description" class="clickable_image">
-                                <div class="image_caption">Fig 17. Filling query box</div>
-                            </div>
-                            <li>Step 2: Once the query sequence is detected to be valid, the checkboxes of "database"
-                                will automatically become active (Fig 18). You will need to
-                                select one or more database types for the search. You can only choose either nucleotide
-                                or protein databases at the same time, but you can select multiple databases of the same
-                                type at one time, which allows for more comprehensive BLAST results.</li>
-                            <li>Step 3: Once you have completed entering the query sequence and selecting the database,
-                                the system will automatically determine
-                                which types of BLAST functions are available based on your query sequence type and
-                                database combination, and then enabling the
-                                corresponding buttons (Fig 18). Additionally, you can hover over each BLAST function
-                                button to
-                                view a brief description of its
-                                algorithm in advance.</li>
-                            <div class="image_container">
-                                <img src="../img/tutorial_blast2.gif" alt="Image description" class="clickable_image">
-                                <div class="image_caption">Fig 18. Selecting database and BLAST function</div>
-                            </div>
-                            <li>Step 4: If the user input is valid and the backend software runs successfully, the
-                                server will process your task and return the
-                                results. After the results are loaded, a BLAST result box will appear below the
-                                submission form. <strong></strong>If you submitted
-                                multiple query sequences, there will be multiple result sets, but the BLAST result box
-                                will only display the
-                                visualization for one query at a time. To view the visualization for other query
-                                sequences, you can switch the query ID
-                                using the "Select Result for"</strong> dropdown menu (Fig 19a). You can also
-                                directly
-                                download the result files
-                                for the current query in three
-                                formats from the "Download" dropdown on the right (Fig 19b), which includes:
-
-                                <strong>Pairwise Alignment</strong>: The most common BLAST result, showing alignment
-                                score and
-                                pairwise comparison in text format.
-                                <strong>Detailed Value Table</strong>: A detailed table with comments displaying
-                                alignment score data.
-                                <strong>Comprehensive JSON</strong>: Contains detailed search parameters and result
-                                data, suitable
-                                for custom analysis.
+                            <li><strong>Hit Bar Chart (Fig.10b):</strong> Visualizes alignment results showing all
+                                matching intervals. The x-axis represents query sequence length, the y-axis represents
+                                subject sequence IDs. Each bar indicates a matching region. Users can hover for details,
+                                zoom, and click to navigate to pairwise alignment details.</li>
+                            <li><strong>Hits Table (Fig.10c):</strong> Displays alignment data with abbreviated column
+                                headers (hover for full titles). Subject IDs are hyperlinked to the global search page.
                             </li>
-                            <div class="image_container">
-                                <img src="../img/tutorial_blast3.png" alt="Image description" class="clickable_image">
-                                <div class="image_caption">Fig 19. Switching results between query and download result
-                                    files</div>
-                            </div>
+                            <li><strong>Hits Pairwise Alignment Details (Fig.10d):</strong> Each Hit contains a download
+                                dropdown (6 formats), navigation buttons (Top/Previous/Next/Bottom), a Result Details
+                                Card with HSP switching, a Matching Region Chart showing forward matches as
+                                quadrilaterals and reverse matches as hourglass shapes, and colorful Sequence Alignment
+                                Text Results. Uses lazy loading (10 Hits at a time) for performance.</li>
                         </ul>
                     </li>
-                    <li><strong>All Hits Bar Plot:</strong>
-                        <ul>
-                            <li>
-                                This chart visualizes the results of Detailed Value Table, showing <strong>all matching
-                                    intervals</strong>. The x-axis represents the length
-                                of the query sequence, and the y-axis represents the subject/target sequence ID. Since
-                                all HSPs
-                                (High-scoring Segment Pairs / High Scoring Pairs)
-                                within a single Hit share the same subject ID, <strong>only the first HSP's ID is
-                                    displayed for
-                                    each Hit (Fig 20a)</strong>.
-                            </li>
-                            <div class="image_container">
-                                <img src="../img/tutorial_blast4.png" alt="Image description" class="clickable_image">
-                                <div class="image_caption">Fig 20. All Hits Bar Plot</div>
-                            </div>
-                            <li>
-                                Each bar in the chart indicates a matching region between a section of the query
-                                sequence and a corresponding section of
-                                the subject sequence with the specific ID on the y-axis. The direction of the bar
-                                indicates the
-                                alignment direction of the <strong>query
-                                    sequence</strong>. You can hover over a bar to view detailed matching descriptions
-                                or use your
-                                mouse scroll wheel or the zoom
-                                tool on the right side of the image to zoom in or out (Fig 20b, c).
-                            </li>
-                            <li>
-                                In the result information, <strong>frames</strong> refer to ORFs (Open Reading Frames).
-                                Since blastn and
-                                blastp do not involve ORF
-                                translation, so the number 1 represents a sequence starting from the beginning. For
-                                nucleotide sequences, both strands
-                                (positive:1 and negative:-1) must be considered, whereas protein sequences do not have
-                                this
-                                concept. In blastx, tblastx, and
-                                tblastn, the sequence is translated into six reading frames. However, protein sequences
-                                do not have the concept of reading frames, so
-                                in BLAST functions with ORF translation, protein sequences use 0 to represent a protein
-                                sequence starting from the
-                                beginning, while nucleotide sequences use ±1, ±2, and ±3 to represent different ORF
-                                start points and alignment directions.
-                            </li>
-                            <li>
-                                You can click on a specific bar to jump to the detailed pairwise sequence alignment
-                                visualization result section.
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <strong>All Hits Table:</strong> This table displays the data from the <strong>Detailed Value
-                            Table</strong>. To
-                        make the
-                        table more concise, we have abbreviated the
-                        column headers. You can hover over a specific header or table data item to view the full title.
-                        Additionally, all
-                        Subject IDs in the table are hyperlinked, allowing you to click on them to open the
-                        <strong>global
-                            search</strong> page, which will
-                        display resource page redirect links related to that specific ID (Fig 21).
-                    </li>
-                    <div class="image_container">
-                        <img src="../img/tutorial_blast5.gif" alt="Image description" class="clickable_image">
-                        <div class="image_caption">Fig 21. All Hits Table</div>
-                    </div>
-                    <li><strong>All Hits Alignment Details:</strong>
-                        <ul>
-                            <li>
-                                This area displays the pairwise alignment visualization results for all Hits. Each Hit
-                                is presented in a result section
-                                consisting of four distinct panels.
-                            </li>
-                            <li>
-                                <strong>Result file download:</strong> In the <strong>"Download"</strong> dropdown of
-                                each result
-                                section (Fig 22a), you can
-                                download six types of results:
-                                <strong>Area Picture:</strong> Download the SVG image of the current sequence region
-                                alignment.
-                                <strong>Alignment Sequence Picture:</strong> Download the HTML text result of the
-                                current HSP sequence
-                                alignment result.
-                                <strong>Complete Subject Sequence:</strong> Download the complete nucleotide or protein
-                                sequence of the
-                                subject/target subject.
-                                <strong>Aligned Subject Sequence:</strong> Download the nucleotide or protein sequences
-                                of the subject/target
-                                corresponding to
-                                all HSP regions for the current
-                                Hit, with HSP numbers indicated in the file.
-                                <strong>Pairwise Alignment Result:</strong> Download the pairwise sequence alignment
-                                text results for all
-                                HSP regions in the current Hit.
-                                <strong>Detailed Value Table:</strong> Download the numerical result table for all HSPs
-                                of the current
-                                subject/target sequence.
-                            </li>
-                            <div class="image_container">
-                                <img src="../img/tutorial_blast6.png" alt="Image description" class="clickable_image">
-                                <div class="image_caption">Fig 22. Pairwise alignment visualization section</div>
-                            </div>
-                            <li>
-                                <strong>Jumping buttons:</strong> You can use the four navigation buttons on
-                                the right to jump
-                                between results within the All
-                                Hits Alignment Details section (Fig 22b):
-
-                                <strong>Top:</strong> Return to the All Hits Bar Plot.
-                                <strong>Previous:</strong> Go to the previous hit result.
-                                <strong>Next:</strong> Go to the next hit result.
-                                <strong>Bottom:</strong> Jump to the last hit result.
-                                To improve webpage performance, the All Hits Alignment Details result section uses lazy
-                                loading technology. Only 10 hit
-                                result panels will be loaded at a time. When you scroll to the bottom or click the
-                                "bottom"
-                                button, the next or all batch of result panels will
-                                be loaded. However, if the number of hits exceeds 100, loading all batch
-                                result panels at once can significantly affect
-                                the page's interactivity.
-                            </li>
-                            <li>
-                                <strong>Result Details Card:</strong> This card displays the detailed numerical results
-                                of the
-                                selected HSP within
-                                a Hit. You can click the
-                                <strong>"Previous"</strong> and <strong>"Next"</strong> buttons in the HSP Index section
-                                to switch between HSP regions (Fig 22c).
-                                The HSP focus area in the matching
-                                region chart of left and the sequence alignment text result below will also update in
-                                real-time.
-                            </li>
-                            <li>
-                                <strong>Matching Region Chart:</strong> This chart shows the alignment between the
-                                subject sequence and
-                                the query sequence. All HSPs that are
-                                visualized on this chart—forward matches are shown as quadrilateral regions, while
-                                reverse matches are displayed as
-                                funnel-shaped regions. You can zoom in and out of x-axises by scrolling the
-                                mouse wheel on the top or bottom half area of the plot area, and you can also move the
-                                x-axises by
-                                dragging them left or right (Fig 23). When you click on a specific HSP, it will be
-                                highlighted,
-                                and the results detail card on
-                                the left, as well as the sequence alignment text below, will update in real-time.
-                                However, if a Hit contains many HSP
-                                regions, it may be more convenient to use the "Previous" and "Next" buttons in the HSP
-                                Index section of the result
-                                details card to switch between HSPs.
-                            </li>
-                            <div class="image_container">
-                                <img src="../img/tutorial_blast7.gif" alt="Image description" class="clickable_image">
-                                <div class="image_caption">Fig 23. Matching region chart</div>
-                            </div>
-                            <li>
-                                <strong>Sequence Alignment Text Result:</strong> We've added vibrant color effects to
-                                the otherwise
-                                monotonous nucleotide/peptide alignment
-                                results (Fig 22d). The numbers at both ends of the sequence represent the position of
-                                the first
-                                and last base between this region. The sequence
-                                numbering starts at 1, and since gaps are not counted in the total sequence length, the
-                                difference between the numbers
-                                of the first and last base might be smaller than the actual number of elements
-                                displayed.
-                            </li>
-                        </ul>
-                    </li>
+                    <li><strong>User Operation Steps:</strong> Users enter sequences, select target datasets, choose a
+                        BLAST algorithm, and submit. After completion, they can view the full-dataset matching bar
+                        chart, click bars to navigate to pairwise alignment details, view base/residue-level matching,
+                        and download raw data. Multiple query sequences can be switched via the top button.</li>
                 </ul>
 
+                <!-- Gene GO Enrichment -->
                 <h3 id="gene_go_enrichment">
                     <div class="title_container">
                         <a href="#gene_go_enrichment" class="title_link">Gene GO Enrichment</a>
                         <img class="title_link_icon" src="../img/link_icon.png" alt="link">
                     </div>
                 </h3>
-                <ul class="h3_p">
-                    <li>
-                        This page displays the GO enrichment results of genes.
-                    </li>
-                    <div class="image_container">
-                        <img src="../img/tutorial_gene_go_enrichment.png" alt="Image description"
-                            class="clickable_image">
-                        <div class="image_caption">Fig 28. Gene GO enrichment page</div>
-                    </div>
-                </ul>
-
-
-                <h2 id="download">
-                    <div class="title_container">
-                        <a href="#download" class="title_link">Download</a>
-                        <img class="title_link_icon" src="../img/link_icon.png" alt="link">
-                    </div>
-                </h2>
-                <ul class="h3_p">
-                    <li>
-                        We provide all the original sequence data and downstream analysis data generated from this
-                        study. You can view detailed
-                        descriptions of these files by clicking the help button on each download card. Both single and
-                        multiple file downloads
-                        are supported.
-                    </li>
-                </ul>
-
-                <h2 id="about">
-                    <div class="title_container">
-                        <a href="#about" class="title_link">About</a>
-                        <img class="title_link_icon" src="../img/link_icon.png" alt="link">
-                    </div>
-                </h2>
-
-                <h3 id="tutorial">
-                    <div class="title_container">
-                        <a href="#tutorial" class="title_link">Tutorial</a>
-                        <img class="title_link_icon" src="../img/link_icon.png" alt="link">
-                    </div>
-                </h3>
-                <ul class="h3_p">
-                    <li>The tutorial page you're currently viewing.</li>
-                </ul>
-
-                <h3 id="contact">
-                    <div class="title_container">
-                        <a href="#contact" class="title_link">Contact</a>
-                        <img class="title_link_icon" src="../img/link_icon.png" alt="link">
-                    </div>
-                </h3>
-                <ul class="h3_p">
-                    <li>
-                        This section lists the contributors and supervisors of the project, along with their contact
-                        information and addresses.
-                        You can also find the source code for the project website here, and we welcome any feedback or
-                        suggestions for
-                        improvements to the site.
-                    </li>
-                </ul>
-
-                <h2 id="search_box">
-                    <div class="title_container">
-                        <a href="#search_box" class="title_link">Search Box</a>
-                        <img class="title_link_icon" src="../img/link_icon.png" alt="link">
-                    </div>
-                </h2>
                 <div class="image_container">
-                    <img src="../img/tutorial_search_box.png" alt="Image description" class="clickable_image">
-                    <div class="image_caption">Fig 5. The search box page</div>
+                    <img class="clickable_image" src="../img/tutorial_go_thumbnail.webp"
+                        data-full="../img/tutorial_go_full.webp" alt="Fig.11 Gene GO Enrichment Page" loading="lazy">
+                    <div class="image_caption">Fig.11 Gene GO Enrichment Page</div>
                 </div>
                 <ul class="h3_p">
-                    <li>
-                        The search box is located in the top right corner of the page. Users can enter a database ID
-                        into the search box to perform a global search.
+                    <li>Provides a gene set functional enrichment analysis service based on GO functional annotation
+                        datasets at the haplotype gene resolution across the whole genome. It supports user-customized
+                        gene lists and test parameters:</li>
+                    <li><strong>Search Section (Fig.11a):</strong> Contains an input box (resizable rich text with clear
+                        function, file drag-and-drop), example buttons, and a parameter configuration area with five
+                        adjustable parameters: pvalueCutoff, qvalueCutoff, adjustMethod, minGSSize, and maxGSSize.
+                        Default values are provided. A task submit button and reset button are included.</li>
+                    <li><strong>Results Display Section (Fig.11b):</strong> Contains:
+                        <ul>
+                            <li><strong>Statistics Table Section:</strong> Card-style layout for BP/MF/CC GO functional
+                                levels. Features frontend pagination, horizontal scrolling, GO accession hyperlinks to
+                                AmiGO2, interactive gene ID popups with copy function, TSV download, search filtering,
+                                and sortable numerical columns.</li>
+                            <li><strong>Chart Visualization Section:</strong> ECharts horizontal bar charts and bubble
+                                charts implementing the two most common GO enrichment visualization methods. Bar charts
+                                use gene Count on the x-axis, bubble charts use GeneRatio. VisualMap maps p.adjust
+                                values to colors with negative log transformation. DataZoom allows mouse wheel
+                                interaction. Statistics table and charts are linked: switching table types redraws the
+                                corresponding charts.</li>
+                        </ul>
                     </li>
+                    <li><strong>User Operation Steps:</strong> Users enter a gene ID set, optionally adjust parameters,
+                        and submit. Results include MF/BP/CC level enrichment in switchable tabs with fuzzy search,
+                        sorting, and download. GO terms link to AmiGO2, and the ECharts section updates with
+                        corresponding data when switching table types.</li>
                 </ul>
 
+
+                <!-- ==================== Auxiliary Features ==================== -->
+                <h2 id="auxiliary_features">
+                    <div class="title_container">
+                        <a href="#auxiliary_features" class="title_link">Auxiliary Features</a>
+                        <img class="title_link_icon" src="../img/link_icon.png" alt="link">
+                    </div>
+                </h2>
+                <p class="h2_p">The database includes several auxiliary features that enhance user experience, including
+                    global search, download, navigation, and various interaction aids.</p>
+
+                <!-- Auxiliary Pages -->
+                <h3 id="auxiliary_pages">
+                    <div class="title_container">
+                        <a href="#auxiliary_pages" class="title_link">Auxiliary Pages</a>
+                        <img class="title_link_icon" src="../img/link_icon.png" alt="link">
+                    </div>
+                </h3>
+                <div class="image_container">
+                    <img class="clickable_image" src="../img/tutorial_aux_page_thumbnail.webp"
+                        data-full="../img/tutorial_aux_page_full.webp" alt="Fig.12 Auxiliary Pages" loading="lazy">
+                    <div class="image_caption">Fig.12 Auxiliary Pages</div>
+                </div>
+                <ul class="h3_p">
+                    <li><strong>Global Search Page (Fig.12a):</strong> Provides a "resource hub" function for
+                        redirecting genome IDs to other pages. Displays redirect link containers for 7 data
+                        visualization pages. If the entered ID format is supported by a particular page, that container
+                        becomes clickable. Every functional page can redirect to this global search page with automatic
+                        ID filling.</li>
+                    <li><strong>Download Page (Fig.12b):</strong> Provides online download functionality for all raw
+                        datasets. Each container represents one type of dataset with multi-select download functionality
+                        and descriptions with command-line download links.</li>
+                    <li><strong>Tutorial Page (Fig.12c):</strong> This page provides the most detailed website usage
+                        tutorial, introducing page features and user operation steps in page order, with an appended
+                        Q&amp;A section. A floating navigation table of contents component on the right side is linked
+                        to the current tutorial position for quick navigation.</li>
+                </ul>
+
+                <!-- Navigation Bar and Common Features -->
+                <h3 id="nav_bar_features">
+                    <div class="title_container">
+                        <a href="#nav_bar_features" class="title_link">Navigation Bar &amp; Common Features</a>
+                        <img class="title_link_icon" src="../img/link_icon.png" alt="link">
+                    </div>
+                </h3>
+                <div class="image_container">
+                    <img class="clickable_image" src="../img/tutorial_aux_func_thumbnail.webp"
+                        data-full="../img/tutorial_aux_func_full.webp" alt="Fig.13 Navigation Bar and Common Features"
+                        loading="lazy">
+                    <div class="image_caption">Fig.13 Navigation Bar &amp; Common Features</div>
+                </div>
+                <ul class="h3_p">
+                    <li><strong>Navigation Bar (Fig.13a):</strong> All pages have a floating, centered, fixed navigation
+                        bar at the top. The far left contains the website name and icon, the center features an
+                        accordion-style menu bar, and the right side contains a global search box. The navigation bar
+                        uses responsive design; when zoomed to a certain level, the menu bar and search box collapse
+                        with an expand button.</li>
+                    <li><strong>Per-page Top Introduction (Fig.13b):</strong> Every functional page except the tutorial
+                        page has an introduction container at the top with the page name and a brief introductory
+                        sentence, plus a redirect icon to the corresponding section in the tutorial page.</li>
+                    <li><strong>Help Information (Fig.13c):</strong> The website extensively uses help information
+                        popups (both active and passive types) to provide supplementary explanations while maintaining
+                        the overall design style of simplicity and elegance. State changes are communicated through
+                        temporary floating notification messages.</li>
+                    <li><strong>Example Functionality:</strong> All input components are equipped with one-click example
+                        filling. Some complex search components implement logical masking of associated components to
+                        intuitively demonstrate valid data input formats.</li>
+                    <li><strong>Input Validation:</strong> All input components have frontend validation mechanisms. API
+                        assembly and backend data requests are initiated only after frontend validation succeeds,
+                        reducing invalid backend requests.</li>
+                    <li><strong>Page Scrolling:</strong> Multiple pages implement dynamic page scrolling to ensure the
+                        latest data results remain at the center of the screen. A floating "back to top" button enables
+                        quick return to the search component at the top.</li>
+                    <li><strong>Statistical Visualization:</strong> The website extensively uses the ECharts library for
+                        diverse data visualization, combined with custom function capabilities for bioinformatics
+                        visualization approaches.</li>
+                    <li><strong>Download Functionality:</strong> Nearly all visualization interfaces and data containers
+                        provide download functionality, with a dedicated download page for all raw data.</li>
+                    <li><strong>Traffic Statistics:</strong> A ClustrMaps traffic statistics component is configured at
+                        the bottom to track visit traffic and regional origins.</li>
+                </ul>
+
+
+                <!-- ==================== Interface Style ==================== -->
+                <h2 id="interface_style">
+                    <div class="title_container">
+                        <a href="#interface_style" class="title_link">Interface Style</a>
+                        <img class="title_link_icon" src="../img/link_icon.png" alt="link">
+                    </div>
+                </h2>
+                <p class="h2_p">The database's interface design follows consistent principles across color, layout, and
+                    animation to deliver a professional and aesthetically pleasing user experience.</p>
+
+                <h3 id="color_scheme">
+                    <div class="title_container">
+                        <a href="#color_scheme" class="title_link">Color Scheme</a>
+                        <img class="title_link_icon" src="../img/link_icon.png" alt="link">
+                    </div>
+                </h3>
+                <ul class="h3_p">
+                    <li>The database's color scheme follows the common three-color principle. To highlight the
+                        characteristics of the sugarcane dataset, green, blue, and yellow are used as primary colors,
+                        with gradient colors as the blending method. Morandi tones lower the overall color saturation to
+                        emphasize academic rigor. This systematic color scheme ensures style consistency across all
+                        pages while maintaining color diversity.</li>
+                </ul>
+
+                <h3 id="layout_style">
+                    <div class="title_container">
+                        <a href="#layout_style" class="title_link">Layout</a>
+                        <img class="title_link_icon" src="../img/link_icon.png" alt="link">
+                    </div>
+                </h3>
+                <ul class="h3_p">
+                    <li>The database uses a fixed layout, abandoning responsive layout since bioinformatics databases
+                        are generally not viewed on narrow-screen devices. A fixed content area width ensures layout
+                        consistency. Nearly all rectangular containers use rounded corners with shadows for softness and
+                        three-dimensionality. Content elements use symmetrical layouts with core functional sections
+                        enlarged to highlight key elements.</li>
+                </ul>
+
+                <h3 id="animation_style">
+                    <div class="title_container">
+                        <a href="#animation_style" class="title_link">Animation</a>
+                        <img class="title_link_icon" src="../img/link_icon.png" alt="link">
+                    </div>
+                </h3>
+                <ul class="h3_p">
+                    <li>Most components implement interactive animation effects. Every hover, click, and loading wait
+                        provides smooth animation feedback. All animation designs follow the principles of elegance,
+                        simplicity, and aesthetics. The ECharts library maximizes both rigor and aesthetic appeal of
+                        visualizations, providing powerful custom function capabilities and rich community support.</li>
+                </ul>
+
+
+                <!-- ==================== Q & A ==================== -->
                 <h2 id="qna">
                     <div class="title_container">
-                        <a href="#qna" class="title_link">Q & A</a>
+                        <a href="#qna" class="title_link">Q &amp; A</a>
                         <img class="title_link_icon" src="../img/link_icon.png" alt="link">
                     </div>
                 </h2>
                 <ul class="h3_p">
                     <li class="qna_question">Why is the website layout wider than usual? How can I adjust the browser's
-                        width
-                        settings?</li>
+                        width settings?</li>
                     <li class="qna_answer">
                         Our website features rich visual elements designed to provide the best experience on screens
-                        with a normal desktop
-                        width. While the site is accessible on mobile devices, the browsing performance on mobile may
-                        not deliver the optimal
-                        visual experience. Therefore, we recommend using a computer display with a width greater than
-                        1400px for the best
-                        results visualization.
-
+                        with a normal desktop width. While the site is accessible on mobile devices, the browsing
+                        performance on mobile may not deliver the optimal visual experience. Therefore, we recommend
+                        using a computer display with a width greater than 1400px for the best results visualization.
                         If the website appears too wide in your browser, you can adjust the browser's zoom settings to
                         resize the layout:
                         <ul>
                             <li>For Windows: Use <span class="code_span">"Ctrl" + "+"</span> to zoom in or <span
-                                    class="code_span">"Ctrl" + "-"</span> to zoom out. You can also use
-                                <span class="code_span">"Ctrl" + mouse wheel up/down</span>.
-                            </li>
+                                    class="code_span">"Ctrl" + "-"</span> to zoom out. You can also use <span
+                                    class="code_span">"Ctrl" + mouse wheel up/down</span>.</li>
                             <li>For MacOS: Use <span class="code_span">"Command (⌘)" + "+"</span> to zoom in or <span
-                                    class="code_span">"Command (⌘)" + "-"</span> to zoom out.
-                                Alternatively, use <span class="code_span">"Command (⌘)" + mouse wheel up/down</span> .
-                            </li>
+                                    class="code_span">"Command (⌘)" + "-"</span> to zoom out. Alternatively, use <span
+                                    class="code_span">"Command (⌘)" + mouse wheel up/down</span>.</li>
                         </ul>
                     </li>
                 </ul>
 
 
-
-
-
-                <!-- 隐藏的放大图片容器 -->
-                <div class="image_modal">
-                    <div class="close_button">&times;</div>
-                    <div class="image_modal_content">
-                        <img src="#" alt="Zoomed Image" class="zoomed_image" title="Use mouse wheel to zoom in/out">
-                        <div class="zoomed_caption">Fig 1. This is the title and description of the image</div>
+                <!-- 图片查看器遮罩层 -->
+                <div class="image_modal" id="image_modal">
+                    <button class="modal_close_btn" title="Close">&times;</button>
+                    <div class="modal_image_wrapper">
+                        <img class="modal_image" src="" alt="Zoomed Image" draggable="false">
+                    </div>
+                    <div class="modal_caption"></div>
+                    <div class="modal_toolbar">
+                        <button class="modal_btn" id="modal_zoom_in" title="Zoom In">&#43;</button>
+                        <button class="modal_btn" id="modal_zoom_out" title="Zoom Out">&#8722;</button>
+                        <button class="modal_btn" id="modal_reset" title="Reset">&#8634;</button>
+                        <button class="modal_btn" id="modal_download" title="Download">&#8615;</button>
                     </div>
                 </div>
 
@@ -1223,82 +889,57 @@
             <!-- 导航列表 -->
             <div id="nav_list" class="nav_list">
                 <ul>
-                    <li><a href="#homepage" class="nav_link first_level_link active">Homepage</a>
+                    <li><a href="#data_pages" class="nav_link first_level_link active">Data Pages</a>
                         <ul>
-                            <li><a href="#abstract_citation" class="nav_link second_level_link">Abstract & Citation</a>
-                            </li>
-                            <li><a href="#statistics" class="nav_link second_level_link">Statistics</a></li>
-                            <li><a href="#resources_list" class="nav_link second_level_link">Resources List</a></li>
-                            <li><a href="#news_list" class="nav_link second_level_link">News List</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#navigation_bar" class="nav_link first_level_link">Navigation Bar</a>
-                        <ul>
-                            <li><a href="#responsive_layout" class="nav_link second_level_link">Responsive Layout</a>
-                            </li>
-                            <li><a href="#global_search" class="nav_link second_level_link">Global Search</a></li>
-                        </ul>
-                    </li>
-                    <!-- 继续添加其他一级和二级标题到导航列表 -->
-
-                    <!-- <li><a href="#graph_summary" class="nav_link first_level_link">Graph Summary</a></li> -->
-                    <li><a href="#data_resources" class="nav_link first_level_link">Data Resources</a>
-                        <ul>
+                            <li><a href="#homepage" class="nav_link second_level_link">Homepage</a></li>
                             <li><a href="#full_length_transcriptome" class="nav_link second_level_link">Full-length
                                     Transcriptome</a></li>
-                            <li><a href="#haplotype_SNP" class="nav_link second_level_link">Haplotype && SNP</a></li>
+                            <li><a href="#haplotype_SNP" class="nav_link second_level_link">Haplotype &amp; SNP</a></li>
                             <li><a href="#gene_expression_profile" class="nav_link second_level_link">Gene Expression
-                                    Profile</a>
-                            </li>
+                                    Profile</a></li>
                             <li><a href="#transcript_annotation" class="nav_link second_level_link">Transcript
-                                    Annotation</a>
-                            </li>
+                                    Annotation</a></li>
                             <li><a href="#tf_tr_pk_annotation" class="nav_link second_level_link">TF/TR/PK
-                                    Annotation</a>
-                            </li>
+                                    Annotation</a></li>
                             <li><a href="#tf_regulatory_network" class="nav_link second_level_link">TF Regulatory
-                                    Network</a>
-                            </li>
-                            <li><a href="#tf_phytohormone_docking" class="nav_link second_level_link">TF-phytohormone
-                                    Docking</a>
-                            </li>
+                                    Network</a></li>
+                            <li><a href="#tf_phytohormone_docking" class="nav_link second_level_link">TF-Phytohormone
+                                    Docking</a></li>
                         </ul>
                     </li>
-
-                    <li><a href="#tools" class="nav_link first_level_link">Tools</a>
+                    <li><a href="#tool_pages" class="nav_link first_level_link">Tool Pages</a>
                         <ul>
                             <li><a href="#blast" class="nav_link second_level_link">BLAST</a></li>
                             <li><a href="#gene_go_enrichment" class="nav_link second_level_link">Gene GO Enrichment</a>
                             </li>
-
                         </ul>
                     </li>
-
-                    <li><a href="#download" class="nav_link first_level_link">Download</a></li>
-                    <li><a href="#about" class="nav_link first_level_link">About</a>
+                    <li><a href="#auxiliary_features" class="nav_link first_level_link">Auxiliary Features</a>
                         <ul>
-                            <li><a href="#tutorial" class="nav_link second_level_link">Tutorial</a></li>
-                            <li><a href="#contact" class="nav_link second_level_link">Contact</a></li>
+                            <li><a href="#auxiliary_pages" class="nav_link second_level_link">Auxiliary Pages</a></li>
+                            <li><a href="#nav_bar_features" class="nav_link second_level_link">Nav Bar &amp; Common
+                                    Features</a></li>
                         </ul>
                     </li>
-                    <li><a href="#search_box" class="nav_link first_level_link">Search Box</a></li>
-                    <li><a href="#qna" class="nav_link first_level_link">Q & A</a></li>
-
+                    <li><a href="#interface_style" class="nav_link first_level_link">Interface Style</a>
+                        <ul>
+                            <li><a href="#color_scheme" class="nav_link second_level_link">Color Scheme</a></li>
+                            <li><a href="#layout_style" class="nav_link second_level_link">Layout</a></li>
+                            <li><a href="#animation_style" class="nav_link second_level_link">Animation</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#qna" class="nav_link first_level_link">Q &amp; A</a></li>
                 </ul>
             </div>
 
             <!-- 导航列表图标 -->
-
             <button class="expand_list_button" id="expand_list_button">
                 <img src="../img/menu_icon.png" alt="menu">
             </button>
 
-
             <button class="click_to_close2" close-target-id="nav_list">
                 <img src="../img/close_icon.png" class="close_icon" alt="close">
             </button>
-
-
 
 
         </div>
@@ -1322,12 +963,13 @@
             </div>
 
             <!-- [BLIND REVIEW] Original development_info commented out for double-blind peer review. Restore after review completion.
-            <h1 class="development_info">Developed by the Chen LL’s Lab at GuangXi University and Xie WB’s Lab at
+            <h1 class="development_info">Developed by the Chen LL's Lab at GuangXi University and Xie WB's Lab at
                 HuaZhong
                 Agricultural University</h1>
             [/BLIND REVIEW] -->
             <div class="blind_review_mask">
-                <p>Author and supervisor details are temporarily withheld for double-blind peer review. Full information will be restored upon the successful completion of the review process.</p>
+                <p>Author and supervisor details are temporarily withheld for double-blind peer review. Full information
+                    will be restored upon the successful completion of the review process.</p>
             </div>
 
             <div class="copyright_revolvermap_container">
