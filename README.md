@@ -23,6 +23,6 @@
      - https://cbi.gxu.edu.cn/SRNDB
      - https://cbi.gxu.edu.cn/GT42_web
    - Latest version:
-     - https://github.com/shaoyanhan/GT42_Website/releases/tag/v3.0.0
+     - https://github.com/shaoyanhan/GT42_Website/releases/tag/v3.1.0
 2. Database: All data table construction of GT42_web finished.
 3. Author and supervisor details are temporarily withheld for double-blind peer review. Full information will be restored upon the successful completion of the review process.
