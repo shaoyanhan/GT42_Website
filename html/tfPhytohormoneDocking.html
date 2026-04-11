@@ -355,18 +355,8 @@
             <!-- Section 2: Table Display Panel -->
             <div class="docking_table_panel" id="docking_table_panel" style="display:none">
 
-                <!-- Confidence tooltip (panel-level to avoid overflow clipping) -->
-                <div class="confidence_tooltip" id="confidence_tooltip">
-                    <div class="conf_tooltip_row"><span class="conf_color_block"
-                            style="background:#4fb479;"></span><strong>High:</strong> ipTM [0.8,&nbsp;1), pLDDT Ligand
-                        [90,&nbsp;100], pLDDT Pocket [90,&nbsp;100], PAE [0,&nbsp;5]</div>
-                    <div class="conf_tooltip_row"><span class="conf_color_block"
-                            style="background:#f0ad4e;"></span><strong>Medium:</strong> ipTM [0.6,&nbsp;0.8), pLDDT
-                        Ligand [70,&nbsp;90), pLDDT Pocket [70,&nbsp;90), PAE [0,&nbsp;5]</div>
-                    <div class="conf_tooltip_row"><span class="conf_color_block"
-                            style="background:#e96a6a;"></span><strong>Low:</strong> Otherwise</div>
-                    <div class="conf_tooltip_note">* Has Clash = 0</div>
-                </div>
+                <!-- Column header tooltip (panel-level to avoid overflow clipping) -->
+                <div class="th_tooltip" id="th_tooltip"></div>
 
                 <!-- Loading overlay (glassmorphism) -->
                 <div class="table_loading_overlay" id="table_loading_overlay">
@@ -408,7 +398,7 @@
                                     <span class="sort_indicator"><span class="sort_arrows"></span><span
                                             class="sort_priority"></span></span>
                                 </th>
-                                <th data-field="confidence_level" class="confidence_th">
+                                <th data-field="confidence_level">
                                     <span class="th_label">Confidence Level</span>
                                     <span class="sort_indicator"><span class="sort_arrows"></span><span
                                             class="sort_priority"></span></span>

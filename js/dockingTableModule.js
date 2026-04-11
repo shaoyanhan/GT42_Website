@@ -31,11 +31,114 @@ const DEFAULT_SORT_RULES = [
 
 const PAGE_SIZE_OPTIONS = [10, 20, 50];
 
-const CONFIDENCE_TOOLTIP_HTML =
-    '<div class="conf_tooltip_row"><span class="conf_color_block" style="background:#4fb479;"></span><strong>High:</strong> ipTM [0.8,&nbsp;1), pLDDT Ligand [90,&nbsp;100], pLDDT Pocket [90,&nbsp;100], PAE [0,&nbsp;5]</div>' +
-    '<div class="conf_tooltip_row"><span class="conf_color_block" style="background:#f0ad4e;"></span><strong>Medium:</strong> ipTM [0.6,&nbsp;0.8), pLDDT Ligand [70,&nbsp;90), pLDDT Pocket [70,&nbsp;90), PAE [0,&nbsp;5]</div>' +
-    '<div class="conf_tooltip_row"><span class="conf_color_block" style="background:#e96a6a;"></span><strong>Low:</strong> Otherwise</div>' +
-    '<div class="conf_tooltip_note">* Has Clash = 0</div>';
+const COLUMN_TOOLTIPS = {
+    phytohormone:
+        '<p class="th_tooltip_desc">Name of the small-molecule phytohormone used as the ligand in this molecular docking analysis.</p>',
+
+    tf_family:
+        '<p class="th_tooltip_desc">Family classification of the transcription factor employed as the receptor protein in this molecular docking analysis.</p>',
+
+    protein_id:
+        '<p class="th_tooltip_desc">Unique identifier of the transcription factor protein used as the receptor in this molecular docking analysis.</p>',
+
+    confidence_level:
+        '<div class="conf_tooltip_row"><span class="conf_color_block" style="background:#4fb479;"></span><strong>High:</strong> ipTM [0.8,&nbsp;1), pLDDT Ligand [90,&nbsp;100], pLDDT Pocket [90,&nbsp;100], PAE [0,&nbsp;5]</div>' +
+        '<div class="conf_tooltip_row"><span class="conf_color_block" style="background:#f0ad4e;"></span><strong>Medium:</strong> ipTM [0.6,&nbsp;0.8), pLDDT Ligand [70,&nbsp;90), pLDDT Pocket [70,&nbsp;90), PAE [0,&nbsp;5]</div>' +
+        '<div class="conf_tooltip_row"><span class="conf_color_block" style="background:#e96a6a;"></span><strong>Low:</strong> Otherwise</div>' +
+        '<div class="conf_tooltip_note">* Has Clash = 0</div>',
+
+    iptm:
+        '<p class="th_tooltip_desc">' +
+        '<strong>ipTM</strong> (Interface Predicted Template Modeling Score) measures the structural prediction accuracy of the contact interface between the protein and the ligand. ' +
+        'Range: 0 to 1. ' +
+        'A value &gt; 0.8 indicates high confidence in the predicted interface; ' +
+        'a value &lt; 0.6 suggests the interface prediction may be unreliable; ' +
+        'values between 0.6 and 0.8 fall in an ambiguous zone and should be interpreted in conjunction with other metrics.' +
+        '</p>',
+
+    ptm_all:
+        '<p class="th_tooltip_desc">' +
+        'Global <strong>pTM</strong> (Predicted Template Modeling score), sourced from the &ldquo;ptm&rdquo; field in summary_confidences.json. ' +
+        'Range: 0 to 1. ' +
+        'This metric evaluates the degree of overall topological similarity between the predicted structure and the true structure, ' +
+        'and is primarily used to assess whether the protein&rsquo;s own folding conformation is reasonable. ' +
+        'A value &gt; 0.5 generally indicates high structural similarity.' +
+        '</p>',
+
+    ptm_protein:
+        '<p class="th_tooltip_desc">' +
+        'Chain-level pTM for the protein chain, sourced from chain_ptm[0] in summary_confidences.json. ' +
+        'Reflects the template-modeling confidence specific to the protein receptor chain.' +
+        '</p>',
+
+    ptm_ligand:
+        '<p class="th_tooltip_desc">' +
+        'Chain-level pTM for the phytohormone ligand, sourced from chain_ptm[1] in summary_confidences.json. ' +
+        '<strong>Note:</strong> For small-molecule ligands with very few atoms (e.g., ethylene contains only 2 carbon atoms), ' +
+        'the TM-score calculation is inherently stringent for extremely small molecules, ' +
+        'which may result in anomalously low or even missing ipTM and pTM values. ' +
+        'In such cases, local metrics such as PAE and pLDDT should be used for a comprehensive assessment.' +
+        '</p>',
+
+    ranking_score:
+        '<p class="th_tooltip_desc">' +
+        'Composite ranking score assigned by AlphaFold&nbsp;3 for each individual docking result. Calculated as:<br>' +
+        '<code>ranking_score = 0.8 &times; ipTM + 0.2 &times; pTM + 0.5 &times; fraction_disordered &minus; 100 &times; has_clash</code>' +
+        '</p>',
+
+    has_clash:
+        '<p class="th_tooltip_desc">' +
+        'Indicates whether a significant number of atoms in the predicted structure are sterically clashing ' +
+        '(i.e., overlapping in physical space). ' +
+        'If steric clashes are present (value&nbsp;=&nbsp;1), the reliability of this docking result is considered very low.' +
+        '</p>',
+
+    fraction_disordered:
+        '<p class="th_tooltip_desc">' +
+        'Represents the proportion of the predicted structure that is disordered, ' +
+        'i.e., regions lacking a fixed three-dimensional conformation.' +
+        '</p>',
+
+    plddt_ligand_avg:
+        '<p class="th_tooltip_desc">' +
+        'Arithmetic mean of the pLDDT values for all atoms of the phytohormone ligand, ' +
+        'reflecting the model&rsquo;s confidence in predicting the ligand&rsquo;s own structure. ' +
+        'Computed by extracting all atomic B-factor parameters of the ligand chain from the model.cif file. ' +
+        '<strong>pLDDT</strong> (Predicted Local Distance Difference Test) ranges from 0 to 100 and indicates the local accuracy of each residue or atom position: ' +
+        '&gt;&nbsp;90 = very high confidence; 70&ndash;90 = high confidence; 50&ndash;70 = low confidence; &lt;&nbsp;50 = very low confidence.' +
+        '</p>',
+
+    plddt_protein_avg:
+        '<p class="th_tooltip_desc">' +
+        'Arithmetic mean of the pLDDT values for all residues of the protein, ' +
+        'reflecting the model&rsquo;s confidence in predicting the protein&rsquo;s own structure. ' +
+        'Computed by extracting all atomic B-factor parameters of the protein chain from the model.cif file.' +
+        '</p>',
+
+    plddt_pocket_protein_avg:
+        '<p class="th_tooltip_desc">' +
+        'Mean pLDDT of the protein residues located within a 5&nbsp;&Aring; radius of the phytohormone ligand, ' +
+        'representing the binding pocket region. ' +
+        'This value is computed algorithmically from the model.cif file. ' +
+        'When no binding pocket structure is detected, this value is 0.' +
+        '</p>',
+
+    pae_protein_base_min:
+        '<p class="th_tooltip_desc">' +
+        'Minimum PAE value with the protein as the reference frame, sourced from chain_pair_pae_min[0][1] in summary_confidences.json. ' +
+        '<strong>PAE</strong> (Predicted Aligned Error) records the predicted error in relative positioning between any two residues/atoms (in &Aring;). ' +
+        'Lower values indicate more accurate relative positioning; ' +
+        'a value &lt;&nbsp;5&nbsp;&Aring; is generally considered to reflect a small prediction error.' +
+        '</p>',
+
+    pae_pocket_min_avg:
+        '<p class="th_tooltip_desc">' +
+        'For each protein residue within the 5&nbsp;&Aring; binding pocket, ' +
+        'the minimum PAE value between that residue and all ligand atoms is computed; ' +
+        'this metric is the average of those per-residue minimum PAE values. ' +
+        'When no binding pocket structure is detected, this value defaults to 35 (the theoretical maximum of the PAE scale).' +
+        '</p>'
+};
 
 // ==================== State ====================
 
@@ -54,7 +157,7 @@ const TableState = {
 // ==================== DOM References ====================
 
 let panelEl, overlayEl, tbodyEl, paginationInfoEl, paginationNavEl,
-    pageSizeSelectEl, pageInputEl, confidenceTooltipEl;
+    pageSizeSelectEl, pageInputEl, thTooltipEl;
 
 function cacheDom() {
     panelEl           = document.getElementById('docking_table_panel');
@@ -64,7 +167,7 @@ function cacheDom() {
     paginationNavEl   = document.getElementById('table_pagination_nav');
     pageSizeSelectEl  = document.getElementById('table_page_size_select');
     pageInputEl       = document.getElementById('table_page_input');
-    confidenceTooltipEl = document.getElementById('confidence_tooltip');
+    thTooltipEl       = document.getElementById('th_tooltip');
 }
 
 // ==================== Visibility & Loading ====================
@@ -403,35 +506,44 @@ async function handleDownload() {
     }
 }
 
-// ==================== Confidence Tooltip ====================
+// ==================== Column Header Tooltip ====================
 
 let tooltipHideTimer = null;
+let activeTooltipTh = null;
 
-function positionConfidenceTooltip() {
-    const confTh = document.querySelector('th[data-field="confidence_level"]');
-    if (!confTh) return;
-
-    const thRect = confTh.getBoundingClientRect();
+function positionThTooltip(th) {
+    const thRect = th.getBoundingClientRect();
     const panelRect = panelEl.getBoundingClientRect();
 
-    confidenceTooltipEl.style.left = `${thRect.left - panelRect.left}px`;
-    confidenceTooltipEl.style.top  = 'auto';
-    confidenceTooltipEl.style.bottom = `${panelRect.bottom - thRect.top + 6}px`;
+    const leftOffset = thRect.left - panelRect.left;
+    const rightOverflow = leftOffset + thTooltipEl.offsetWidth - panelRect.width;
+    const adjustedLeft = rightOverflow > 0 ? Math.max(0, leftOffset - rightOverflow - 8) : leftOffset;
+
+    thTooltipEl.style.left   = `${adjustedLeft}px`;
+    thTooltipEl.style.top    = 'auto';
+    thTooltipEl.style.bottom = `${panelRect.bottom - thRect.top + 6}px`;
 }
 
-function showConfidenceTooltip() {
+function showThTooltip(th) {
+    const field = th.dataset.field;
+    if (!field || !COLUMN_TOOLTIPS[field]) return;
+
     clearTimeout(tooltipHideTimer);
-    positionConfidenceTooltip();
-    confidenceTooltipEl.classList.add('visible');
+    activeTooltipTh = th;
+
+    thTooltipEl.innerHTML = COLUMN_TOOLTIPS[field];
+    thTooltipEl.classList.add('visible');
+    positionThTooltip(th);
 }
 
-function scheduleHideConfidenceTooltip() {
+function scheduleHideThTooltip() {
     tooltipHideTimer = setTimeout(() => {
-        confidenceTooltipEl.classList.remove('visible');
+        thTooltipEl.classList.remove('visible');
+        activeTooltipTh = null;
     }, 150);
 }
 
-function cancelHideConfidenceTooltip() {
+function cancelHideThTooltip() {
     clearTimeout(tooltipHideTimer);
 }
 
@@ -471,7 +583,7 @@ function bindEvents() {
     });
 
     document.getElementById('docking_table_head').addEventListener('click', (e) => {
-        if (e.target.closest('.confidence_tooltip')) return;
+        if (e.target.closest('.th_tooltip')) return;
         const th = e.target.closest('th[data-field]');
         if (!th) return;
         handleSortClick(th.dataset.field);
@@ -491,11 +603,12 @@ function bindEvents() {
     document.getElementById('page_go_btn')
         .addEventListener('click', submitPageInput);
 
-    const confTh = document.querySelector('th[data-field="confidence_level"]');
-    confTh.addEventListener('mouseenter', showConfidenceTooltip);
-    confTh.addEventListener('mouseleave', scheduleHideConfidenceTooltip);
-    confidenceTooltipEl.addEventListener('mouseenter', cancelHideConfidenceTooltip);
-    confidenceTooltipEl.addEventListener('mouseleave', scheduleHideConfidenceTooltip);
+    document.querySelectorAll('#docking_table_head th[data-field]').forEach(th => {
+        th.addEventListener('mouseenter', () => showThTooltip(th));
+        th.addEventListener('mouseleave', scheduleHideThTooltip);
+    });
+    thTooltipEl.addEventListener('mouseenter', cancelHideThTooltip);
+    thTooltipEl.addEventListener('mouseleave', scheduleHideThTooltip);
 }
 
 // ==================== Init ====================

@@ -816,9 +816,9 @@
     color: #c0392b;
 }
 
-/* ==================== Confidence Tooltip ==================== */
+/* ==================== Column Header Tooltip ==================== */
 
-.confidence_tooltip {
+.th_tooltip {
     display: none;
     position: absolute;
     z-index: 200;
@@ -827,13 +827,21 @@
     border-radius: 8px;
     padding: 14px 16px;
     box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
-    min-width: 420px;
+    max-width: 520px;
     cursor: default;
     user-select: text;
 }
 
-.confidence_tooltip.visible {
+.th_tooltip.visible {
     display: block;
+}
+
+.th_tooltip_desc {
+    font-size: 12.5px;
+    color: #444;
+    line-height: 1.75;
+    white-space: normal;
+    word-break: break-word;
 }
 
 .conf_tooltip_row {
@@ -1580,8 +1588,8 @@
         flex-wrap: wrap;
     }
 
-    .confidence_tooltip {
-        min-width: 300px;
+    .th_tooltip {
+        max-width: 300px;
         right: auto;
         left: 0;
     }

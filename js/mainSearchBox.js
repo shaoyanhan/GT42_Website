@@ -30,7 +30,10 @@ async function initialContentArea(searchKeyword) {
         const isDisabled = (keywordType === 'xenologous' && pageName === 'fullLengthTranscriptome' ||
             (keywordType === 'mosaic' && pageName === 'tfRegulatoryNetwork') ||
             (keywordType === 'xenologous' && pageName === 'tfRegulatoryNetwork') ||
-            (keywordType === 'transcript' && pageName === 'tfRegulatoryNetwork')
+            (keywordType === 'transcript' && pageName === 'tfRegulatoryNetwork') ||
+            (keywordType === 'mosaic' && pageName === 'tfPhytohormoneDocking') ||
+            (keywordType === 'xenologous' && pageName === 'tfPhytohormoneDocking') ||
+            (keywordType === 'gene' && pageName === 'tfPhytohormoneDocking')
         );
 
         if (!isDisabled) {
